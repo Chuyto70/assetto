@@ -8,7 +8,16 @@ const nextConfig = {
   swcMinify: true,
 
   experimental: {
-    appDir: true
+    appDir: true,
+  },
+
+  env: {
+    strapiURL: process.env.STRAPI_URL,
+  },
+
+  // Domain whitelist
+  images: {
+    domains: process.env.IMAGES_DOMAINS.split(', '),
   },
 
   // Uncoment to add domain whitelist
