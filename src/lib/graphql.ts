@@ -9,4 +9,5 @@ export const StrapiClient = new GraphQLClient(`${API_URL}/graphql` as string, {
   headers: {
     authorization: STRAPI_TOKEN ? `Bearer ${STRAPI_TOKEN}` : '',
   },
+  fetch: fetch,
 });

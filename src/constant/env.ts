@@ -6,7 +6,9 @@ export const showLogger = isLocal
   : process.env.NEXT_PUBLIC_SHOW_LOGGER === 'true' ?? false;
 
 export const deploymentURL = process.env.NEXT_PUBLIC_DEPLOYMENT_URL
-? `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`
-: process.env.NEXT_PUBLIC_VERCEL_URL
-? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-: 'http://localhost:3000';
+  ? `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}`
+  : process.env.NEXT_PUBLIC_VERCEL_URL
+  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  : 'http://localhost:3000';
+
+export const defaultLocale = process.env.DEFAULT_LOCALE ?? 'fr';

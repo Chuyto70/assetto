@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { gql, StrapiClient } from '@/lib/graphql';
 
-export type graphQLPageProps = {
+type graphQLPageProps = {
   pages: {
     data: [
       {
