@@ -5,8 +5,6 @@ import ArrowLink from '@/components/links/ArrowLink';
 export default function NotFound() {
   return (
     <>
-      {/* <Seo templateTitle='Not Found' /> */}
-
       <main>
         <section className='bg-white'>
           <div className='layout flex min-h-screen flex-col items-center justify-center text-center text-black'>
@@ -24,3 +22,5 @@ export default function NotFound() {
     </>
   );
 }
+
+//! Le liens vers l'accueil de la 404 ne change pas la vue et laisse afficher le contenue de cette page même si l'url a changé

@@ -34,28 +34,35 @@ async function GetStaticPaths() {
   const paths = pages.data.map((page) => {
     const { slug, locale } = page.attributes;
     // Decompose the slug that was saved in Strapi
-    const slugArray = !slug ? false : slug.split('/');
+    const slugArray = !slug ? false : slug.split('/').filter((s) => s !== '');
     return {
-      params: { slug: slugArray },
-      locale,
+      lang: locale,
+      slug: slugArray,
     };
   });
 
-  return { paths };
-}
-
-export async function generateStaticParams() {
-  const { paths } = await GetStaticPaths();
   return paths;
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
+export async function generateStaticParams() {
+  const params = await GetStaticPaths();
+  return params;
+}
+
+export default function Page({
+  params: { lang, slug },
+}: {
+  params: { slug: string; lang: string };
+}) {
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div>
         <Link href='/'>Homepage</Link>
-        <p>{params.slug}</p>
+        <p>Langue : {lang}</p>
+        <p>slugs : {slug}</p>
       </div>
     </main>
   );
 }
+
+export const dynamicParams = false; //! Temporary to test existing pages, should be dynamic in production in case a page is added after server render
