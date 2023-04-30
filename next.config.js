@@ -17,7 +17,7 @@ const nextConfig = {
 
   // Domain whitelist
   images: {
-    domains: process.env.IMAGES_DOMAINS.split(', '),
+    domains: process.env.IMAGES_DOMAINS?.split(', '),
   },
 
   // Uncoment to add domain whitelist

@@ -23,4 +23,4 @@ export default function NotFound() {
   );
 }
 
-//! Le liens vers l'accueil de la 404 ne change pas la vue et laisse afficher le contenue de cette page même si l'url a changé
+//! Le lien vers l'accueil ne garde pas en mémoire la langue et il n'y a pas de params ici (cookie ?)

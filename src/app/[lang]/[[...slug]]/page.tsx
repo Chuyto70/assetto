@@ -1,37 +1,12 @@
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
-import { gql, StrapiClient } from '@/lib/graphql';
+import { graphQLPageProps, QueryAllPagesPaths, QueryPage } from '@/lib/graphql';
 
-type graphQLPageProps = {
-  pages: {
-    data: [
-      {
-        attributes: {
-          slug: string;
-          locale: string;
-        };
-      }
-    ];
-  };
-};
+export async function generateStaticParams() {
+  const pages = await QueryAllPagesPaths();
 
-async function GetStaticPaths() {
-  const { pages } = await StrapiClient.request<graphQLPageProps>(
-    gql`
-      query {
-        pages(publicationState: LIVE, locale: "all") {
-          data {
-            attributes {
-              locale
-              slug
-            }
-          }
-        }
-      }
-    `
-  );
-
-  const paths = pages.data.map((page) => {
+  const params = pages.data.map((page) => {
     const { slug, locale } = page.attributes;
     // Decompose the slug that was saved in Strapi
     const slugArray = !slug ? false : slug.split('/').filter((s) => s !== '');
@@ -41,28 +16,26 @@ async function GetStaticPaths() {
     };
   });
 
-  return paths;
-}
-
-export async function generateStaticParams() {
-  const params = await GetStaticPaths();
   return params;
 }
 
-export default function Page({
+export default async function Page({
   params: { lang, slug },
 }: {
-  params: { slug: string; lang: string };
+  params: { slug: string[]; lang: string };
 }) {
+  type PageData = Pick<graphQLPageProps['pages'], 'data'>;
+  const { data }: PageData = await QueryPage(lang, slug);
+
+  if (data.length <= 0) return notFound();
+
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div>
-        <Link href='/'>Homepage</Link>
-        <p>Langue : {lang}</p>
-        <p>slugs : {slug}</p>
+        <Link href='/en'>{data[0].attributes.title}</Link>
       </div>
     </main>
   );
 }
 
-export const dynamicParams = false; //! Temporary to test existing pages, should be dynamic in production in case a page is added after server render
+// export const dynamicParams = false; //! Temporary to test existing pages, should be dynamic in production in case a page is added after server render
