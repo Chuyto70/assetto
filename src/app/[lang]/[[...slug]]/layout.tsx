@@ -3,7 +3,6 @@ import localFont from 'next/font/local';
 
 import '@/assets/styles/globals.css';
 
-// eslint-disable-next-line unused-imports/no-unused-vars
 const rachana = localFont({
   variable: '--font-rachana',
   src: [
@@ -26,7 +25,6 @@ const rachana = localFont({
   ],
 });
 
-// eslint-disable-next-line unused-imports/no-unused-vars
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
