@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { graphQLPageProps, QueryAllPagesPaths, QueryPage } from '@/lib/graphql';
@@ -32,7 +31,9 @@ export default async function Page({
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div>
-        <Link href='/en'>{data[0].attributes.title}</Link>
+        <h1 className='text-5xl font-bold uppercase '>
+          {data[0].attributes.title}
+        </h1>
       </div>
     </main>
   );

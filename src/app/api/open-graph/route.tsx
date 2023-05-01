@@ -5,17 +5,16 @@ import { ImageResponse } from 'next/server';
 import { deploymentURL } from '@/constant/env';
 
 export const GET = async (req: NextApiRequest) => {
+  const rachana400 = fetch(
+    new URL('../../../assets/fonts/Rachana-Regular.ttf', import.meta.url)
+  ).then((res) => res.arrayBuffer());
 
-  const inter400 = fetch(
-    new URL('../../../assets/fonts/Inter-Regular.ttf', import.meta.url)
+  const rachana700 = fetch(
+    new URL('../../../assets/fonts/Rachana-Bold.ttf', import.meta.url)
   ).then((res) => res.arrayBuffer());
-  
-  const inter700 = fetch(
-    new URL('../../../assets/fonts/Inter-Bold.ttf', import.meta.url)
-  ).then((res) => res.arrayBuffer());
-  
-  const interRegular = await inter400;
-  const interBold = await inter700;
+
+  const rachanaRegular = await rachana400;
+  const rachanaBold = await rachana700;
 
   const { searchParams } = new URL(req.url ? req.url : 'locahost');
 
@@ -43,7 +42,7 @@ export const GET = async (req: NextApiRequest) => {
         style={{
           height: '100%',
           width: '100%',
-          fontFamily: 'Inter',
+          fontFamily: 'Rachana',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -53,14 +52,16 @@ export const GET = async (req: NextApiRequest) => {
           backgroundColor: clsx(query.theme === 'dark' ? '#222' : '#fff'),
         }}
       >
-        <picture><img
-          style={{
-            width: query.logoWidth,
-            ...(query.logoHeight && { height: query.logoHeight }),
-          }}
-          src={query.logo}
-          alt='Favicon'
-        /></picture>
+        <picture>
+          <img
+            style={{
+              width: query.logoWidth,
+              ...(query.logoHeight && { height: query.logoHeight }),
+            }}
+            src={query.logo}
+            alt='Favicon'
+          />
+        </picture>
         {query.templateTitle ? (
           <div
             style={{
@@ -115,18 +116,18 @@ export const GET = async (req: NextApiRequest) => {
       emoji: 'twemoji',
       fonts: [
         {
-          name: 'Inter',
-          data: interRegular,
+          name: 'Rachana',
+          data: rachanaRegular,
           weight: 400,
         },
         {
-          name: 'Inter',
-          data: interBold,
+          name: 'Rachana',
+          data: rachanaBold,
           weight: 700,
         },
       ],
     }
   );
-}
+};
 
 export const runtime = 'edge';

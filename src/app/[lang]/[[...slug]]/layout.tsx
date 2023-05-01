@@ -1,4 +1,37 @@
+import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
+
 import '@/assets/styles/globals.css';
+
+// eslint-disable-next-line unused-imports/no-unused-vars
+const rachana = localFont({
+  variable: '--font-rachana',
+  src: [
+    {
+      path: '../../../assets/fonts/Rachana-Regular.ttf',
+      weight: '400',
+    },
+    {
+      path: '../../../assets/fonts/Rachana-Regular.woff2',
+      weight: '400',
+    },
+    {
+      path: '../../../assets/fonts/Rachana-Bold.ttf',
+      weight: '700',
+    },
+    {
+      path: '../../../assets/fonts/Rachana-Bold.woff2',
+      weight: '700',
+    },
+  ],
+});
+
+// eslint-disable-next-line unused-imports/no-unused-vars
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 export default function RootLayout({
   children,
@@ -8,7 +41,7 @@ export default function RootLayout({
   params: { lang: string };
 }) {
   return (
-    <html lang={lang ?? ''}>
+    <html lang={lang ?? ''} className={`${rachana.variable} ${inter.variable}`}>
       <body>{children}</body>
     </html>
   );
