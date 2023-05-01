@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation';
 
 import { graphQLPageProps, QueryAllPagesPaths, QueryPage } from '@/lib/graphql';
 
+import Sections from '@/components/sections';
+
 export async function generateStaticParams() {
   const pages = await QueryAllPagesPaths();
 
@@ -28,12 +30,14 @@ export default async function Page({
 
   if (data.length <= 0) return notFound();
 
+  const pageID = data[0].id;
+  const { title, content } = data[0].attributes;
+
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div>
-        <h1 className='text-5xl font-bold uppercase '>
-          {data[0].attributes.title}
-        </h1>
+        <h1 className='text-5xl font-bold uppercase '>{title}</h1>
+        <Sections sections={content} pageID={pageID} locale={lang} />
       </div>
     </main>
   );

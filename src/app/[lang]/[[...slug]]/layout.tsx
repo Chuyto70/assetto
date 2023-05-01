@@ -31,6 +31,8 @@ const inter = Inter({
   display: 'swap',
 });
 
+// TODO: Add SEO generation from slug
+
 export default function RootLayout({
   children,
   params: { lang },
@@ -39,7 +41,10 @@ export default function RootLayout({
   params: { lang: string };
 }) {
   return (
-    <html lang={lang ?? ''} className={`${rachana.variable} ${inter.variable}`}>
+    <html
+      lang={lang ?? 'fr'}
+      className={`${rachana.variable} ${inter.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

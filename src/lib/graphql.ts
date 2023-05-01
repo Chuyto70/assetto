@@ -56,9 +56,7 @@ export type graphQLPageProps = {
         attributes: {
           title: string;
           slug: string;
-          content: {
-            __typename: string;
-          };
+          content: [];
           metadata: {
             template_title?: string;
             title_suffix?: string;
@@ -144,26 +142,74 @@ export const QueryPage = async (locale: string, slug: string[] | undefined) => {
   return pages;
 };
 
-// QUERY POUR LA SECTION PRODUCT SELECTED LIST
-// query ProductSelectedList {
-//   page(id: 1, locale: "fr") {
-//     data {
-//       attributes {
-//         content {
-//           ...sectionsProductSelectedList
-//         }
-//       }
-//     }
-//   }
-// }
+export type graphQLProductProps = {
+  product: {
+    data: {
+      attributes: {
+        title: string;
+        slug: string;
+        price: string;
+        sale_price?: number;
+        date_on_sale_from?: string;
+        date_on_sale_to?: string;
+        images: {
+          data: [
+            {
+              attributes: {
+                alternativeText: string;
+                url: string;
+                width: number;
+                height: number;
+              };
+            }
+          ];
+        };
+      };
+    };
+  };
+};
 
-// fragment sectionsProductSelectedList on ComponentSectionsProductSelectedList {
-//   Filters
-//   products {
-//     data {
-//       attributes {
-//         title
-//       }
-//     }
-//   }
-// }
+/**
+ * Query a single product from Strapi
+ * @param locale language of the requested page
+ * @param id id of the product
+ * @returns data of a product
+ */
+export const QueryProduct = async (locale: string, id: number) => {
+  const queryVariables = {
+    locale: locale,
+    id: id,
+  };
+
+  const { product } = await StrapiClient.request<graphQLProductProps>(
+    gql`
+      query Product($id: ID!, $locale: I18NLocaleCode) {
+        product(id: $id, locale: $locale) {
+          data {
+            attributes {
+              title
+              slug
+              price
+              sale_price
+              date_on_sale_from
+              date_on_sale_to
+              images {
+                data {
+                  attributes {
+                    alternativeText
+                    url
+                    width
+                    height
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return product.data.attributes;
+};
