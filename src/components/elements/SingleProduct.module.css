@@ -1,0 +1,19 @@
+.product {
+  @apply flex flex-col gap-4;
+}
+
+.product__carousel {
+  @apply aspect-[2/3] rounded-lg;
+}
+
+.product__title {
+  @apply flex items-center justify-between gap-2 whitespace-nowrap font-bold;
+}
+
+.product__title h4 {
+  @apply truncate;
+}
+
+.product__title p {
+  @apply text-dark_pink max-w-full text-lg;
+}

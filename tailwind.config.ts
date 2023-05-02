@@ -27,7 +27,8 @@ export default {
           900: 'rgb(var(--tw-color-primary-900) / <alpha-value>)',
           950: 'rgb(var(--tw-color-primary-950) / <alpha-value>)',
         },
-        dark: '#222222',
+        dark_pink: '#E6C2BF',
+        dark: '#1E1E1E',
       },
       keyframes: {
         flicker: {
@@ -53,6 +54,9 @@ export default {
       animation: {
         flicker: 'flicker 3s linear infinite',
         shimmer: 'shimmer 1.3s linear infinite',
+      },
+      maxWidth: {
+        'screen-3xl': '1920px',
       },
     },
   },

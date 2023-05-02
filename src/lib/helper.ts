@@ -85,3 +85,7 @@ export function deepEqual(obj1: any, obj2: any): boolean {
 
   return obj1 === obj2;
 }
+
+export const MediaUrl = (url: string) => {
+  return `${url.startsWith('/') ? process.env.strapiURL : ''}${url}`;
+};

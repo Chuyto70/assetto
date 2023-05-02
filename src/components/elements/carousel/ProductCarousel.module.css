@@ -1,0 +1,10 @@
+.embla {
+  @apply overflow-hidden;
+}
+.embla__container {
+  @apply flex h-full;
+}
+.embla__slide {
+  flex: 0 0 100%;
+  @apply mr-1 min-w-0;
+}

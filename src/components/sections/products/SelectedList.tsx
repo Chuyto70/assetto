@@ -1,6 +1,8 @@
+import style from './SelectedList.module.css';
+
 import { gql, StrapiClient } from '@/lib/graphql';
 
-import SingleProduct from '@/components/sections/products/SingleProduct';
+import SingleProduct from '@/components/elements/SingleProduct';
 
 type ComponentSectionsProductSelectedList = {
   page: {
@@ -70,10 +72,10 @@ export default (async function SelectedList({
   const content = page.data.attributes.content[index];
 
   return (
-    <ul>
+    <ul className={style.products}>
       {content.products.data.map((product, index) => (
         <li key={index}>
-          <SingleProduct locale={locale} productID={product.id}></SingleProduct>
+          <SingleProduct locale={locale} productID={product.id} />
         </li>
       ))}
     </ul>

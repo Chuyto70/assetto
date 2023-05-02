@@ -34,7 +34,7 @@ export default async function Page({
   const { title, content } = data[0].attributes;
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+    <main className='flex min-h-screen flex-col items-center justify-between p-8'>
       <div>
         <h1 className='text-5xl font-bold uppercase '>{title}</h1>
         <Sections sections={content} pageID={pageID} locale={lang} />

@@ -1,0 +1,3 @@
+.products {
+  @apply max-w-screen-3xl grid w-full grid-cols-5 gap-8;
+}

@@ -152,7 +152,7 @@ export type graphQLProductProps = {
         sale_price?: number;
         date_on_sale_from?: string;
         date_on_sale_to?: string;
-        images: {
+        medias: {
           data: [
             {
               attributes: {
@@ -160,6 +160,7 @@ export type graphQLProductProps = {
                 url: string;
                 width: number;
                 height: number;
+                mime: string;
               };
             }
           ];
@@ -193,13 +194,14 @@ export const QueryProduct = async (locale: string, id: number) => {
               sale_price
               date_on_sale_from
               date_on_sale_to
-              images {
+              medias {
                 data {
                   attributes {
                     alternativeText
                     url
                     width
                     height
+                    mime
                   }
                 }
               }

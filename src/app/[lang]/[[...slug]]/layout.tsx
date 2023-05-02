@@ -45,7 +45,7 @@ export default function RootLayout({
       lang={lang ?? 'fr'}
       className={`${rachana.variable} ${inter.variable}`}
     >
-      <body>{children}</body>
+      <body className='text-dark'>{children}</body>
     </html>
   );
 }

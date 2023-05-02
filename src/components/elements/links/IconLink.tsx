@@ -5,7 +5,7 @@ import clsxm from '@/lib/clsxm';
 
 import UnstyledLink, {
   UnstyledLinkProps,
-} from '@/components/links/UnstyledLink';
+} from '@/components/elements/links/UnstyledLink';
 
 const IconLinkVariant = [
   'primary',

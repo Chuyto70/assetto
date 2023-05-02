@@ -2,7 +2,11 @@ import { isBefore, parseISO } from 'date-fns';
 import isAfter from 'date-fns/isAfter';
 import Link from 'next/link';
 
+import style from './SingleProduct.module.css';
+
 import { QueryProduct } from '@/lib/graphql';
+
+import ProductCarousel from '@/components/elements/carousel/ProductCarousel';
 
 const isOnSale = (
   date_on_sale_from: string | Date | undefined,
@@ -32,19 +36,29 @@ export default (async function SingleProduct({
   locale: string;
   productID: number;
 }) {
-  const { title, slug, price, sale_price, date_on_sale_from, date_on_sale_to } =
-    await QueryProduct(locale, productID);
+  const {
+    title,
+    slug,
+    price,
+    sale_price,
+    date_on_sale_from,
+    date_on_sale_to,
+    medias,
+  } = await QueryProduct(locale, productID);
 
   return (
     <Link href={`/${slug}`}>
-      <div>
-        <h4>{title}</h4>
-        <p>
-          {sale_price && isOnSale(date_on_sale_from, date_on_sale_to) && (
-            <span>{sale_price}</span>
-          )}
-          {price}€
-        </p>
+      <div className={style.product}>
+        <ProductCarousel medias={medias} className={style.product__carousel} />
+        <div className={style.product__title}>
+          <h4>{title}</h4>
+          {(sale_price && isOnSale(date_on_sale_from, date_on_sale_to) && (
+            <p>
+              <span>{sale_price} | </span>
+              <s>{price}</s> €
+            </p>
+          )) || <p>{price} €</p>}
+        </div>
       </div>
     </Link>
   );
