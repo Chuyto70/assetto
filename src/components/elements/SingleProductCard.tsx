@@ -77,7 +77,7 @@ export default (async function SingleProductCard({
               style={{ backgroundColor: color.color }}
             ></span>
           ))}
-          {colors.length} coloris{' '}
+          {colors.length} coloris
           {/* Texte à traduire plus lien pour switch ce composant a l'autre version */}
         </p>
       )}
