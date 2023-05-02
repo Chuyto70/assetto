@@ -2,7 +2,7 @@ import style from './SelectedList.module.css';
 
 import { gql, StrapiClient } from '@/lib/graphql';
 
-import SingleProduct from '@/components/elements/SingleProduct';
+import SingleProductCard from '@/components/elements/SingleProductCard';
 
 type ComponentSectionsProductSelectedList = {
   page: {
@@ -75,7 +75,11 @@ export default (async function SelectedList({
     <ul className={style.products}>
       {content.products.data.map((product, index) => (
         <li key={index}>
-          <SingleProduct locale={locale} productID={product.id} />
+          <SingleProductCard
+            locale={locale}
+            productID={product.id}
+            options={{ colors: true, short_description: true }}
+          />
         </li>
       ))}
     </ul>

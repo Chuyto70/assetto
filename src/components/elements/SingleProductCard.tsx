@@ -2,7 +2,7 @@ import { isBefore, parseISO } from 'date-fns';
 import isAfter from 'date-fns/isAfter';
 import Link from 'next/link';
 
-import style from './SingleProduct.module.css';
+import style from './SingleProductCard.module.css';
 
 import { QueryProduct } from '@/lib/graphql';
 
@@ -29,12 +29,14 @@ const isOnSale = (
   return false;
 };
 
-export default (async function SingleProduct({
+export default (async function SingleProductCard({
   locale,
   productID,
+  options,
 }: {
   locale: string;
   productID: number;
+  options?: { colors: boolean; short_description: boolean };
 }) {
   const {
     title,
@@ -44,11 +46,13 @@ export default (async function SingleProduct({
     date_on_sale_from,
     date_on_sale_to,
     medias,
-  } = await QueryProduct(locale, productID);
+    short_description,
+    colors,
+  } = await QueryProduct(locale, productID, options);
 
   return (
-    <Link href={`/${slug}`}>
-      <div className={style.product}>
+    <div className={style.product}>
+      <Link href={`/${slug}`} className={style.product}>
         <ProductCarousel medias={medias} className={style.product__carousel} />
         <div className={style.product__title}>
           <h4>{title}</h4>
@@ -59,8 +63,25 @@ export default (async function SingleProduct({
             </p>
           )) || <p>{price} €</p>}
         </div>
-      </div>
-    </Link>
+        {short_description && (
+          <p className={style.product__short_description}>
+            {short_description}
+          </p>
+        )}
+      </Link>
+      {colors && colors.length > 0 && (
+        <p className={style.product__colors}>
+          {colors.map((color) => (
+            <span
+              key={color.product.data.id}
+              style={{ backgroundColor: color.color }}
+            ></span>
+          ))}
+          {colors.length} coloris{' '}
+          {/* Texte à traduire plus lien pour switch ce composant a l'autre version */}
+        </p>
+      )}
+    </div>
   );
 } as unknown as ({
   locale,
@@ -68,4 +89,5 @@ export default (async function SingleProduct({
 }: {
   locale: string;
   productID: number;
+  options: { colors: boolean; short_description: boolean };
 }) => JSX.Element);

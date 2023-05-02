@@ -165,6 +165,17 @@ export type graphQLProductProps = {
             }
           ];
         };
+        short_description?: string;
+        colors?: [
+          {
+            color: string;
+            product: {
+              data: {
+                id: number;
+              };
+            };
+          }
+        ];
       };
     };
   };
@@ -176,11 +187,28 @@ export type graphQLProductProps = {
  * @param id id of the product
  * @returns data of a product
  */
-export const QueryProduct = async (locale: string, id: number) => {
+export const QueryProduct = async (
+  locale: string,
+  id: number,
+  options?: { colors: boolean; short_description: boolean }
+) => {
   const queryVariables = {
     locale: locale,
     id: id,
   };
+
+  const colorsFragment = gql`
+    fragment colors on Product {
+      colors {
+        color
+        product {
+          data {
+            id
+          }
+        }
+      }
+    }
+  `;
 
   const { product } = await StrapiClient.request<graphQLProductProps>(
     gql`
@@ -205,10 +233,14 @@ export const QueryProduct = async (locale: string, id: number) => {
                   }
                 }
               }
+              ${(options?.short_description && 'short_description') || ''}
+              ${(options?.colors && '...colors') || ''}
             }
           }
         }
       }
+
+      ${(options?.colors && colorsFragment) || ''}
     `,
     queryVariables
   );

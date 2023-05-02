@@ -7,7 +7,7 @@ export default {
     extend: {
       fontFamily: {
         primary: [
-          'var(--font-rachana)',
+          'var(--font-noto-sans-display)',
           'var(--font-inter)',
           ...defaultTheme.fontFamily.sans,
         ],

@@ -3,7 +3,7 @@
 }
 
 .product__carousel {
-  @apply aspect-[2/3] rounded-lg;
+  @apply aspect-[2/3] rounded-md;
 }
 
 .product__title {
@@ -16,4 +16,16 @@
 
 .product__title p {
   @apply text-dark_pink max-w-full text-lg;
+}
+
+.product__short_description {
+  @apply text-gray-500;
+}
+
+.product__colors {
+  @apply flex items-center gap-4 font-bold text-gray-500;
+}
+
+.product__colors span {
+  @apply border-dark h-4 w-4 rounded-full border;
 }
