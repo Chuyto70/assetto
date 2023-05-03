@@ -12,6 +12,40 @@ export const StrapiClient = new GraphQLClient(`${API_URL}/graphql` as string, {
   fetch: fetch,
 });
 
+/**
+ * Query icons url from Strapi
+ * @returns list of icons url
+ */
+export const QueryIcons = async () => {
+  const { global } = await StrapiClient.request<{
+    global: {
+      data: {
+        attributes: { favicons: { data: { attributes: { url: string } }[] } };
+      };
+    };
+  }>(
+    gql`
+      query Favicon {
+        global {
+          data {
+            attributes {
+              favicons {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `
+  );
+
+  return global.data.attributes.favicons.data;
+};
+
 type graphQLPathsProps = {
   pages: {
     data: [

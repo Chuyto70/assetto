@@ -1,10 +1,12 @@
 import { formatISO, parseISO } from 'date-fns';
 import { Metadata } from 'next';
+import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
 import { Inter, Noto_Sans_Display } from 'next/font/google';
 
 import '@/assets/styles/globals.css';
 
-import { graphQLSeoPageProps, QueryPageSeo } from '@/lib/graphql';
+import { graphQLSeoPageProps, QueryIcons, QueryPageSeo } from '@/lib/graphql';
+import { MediaUrl } from '@/lib/helper';
 import { seo } from '@/lib/seo';
 
 const noto_sans_display = Noto_Sans_Display({
@@ -29,6 +31,12 @@ export async function generateMetadata({
 
   if (data.length <= 0) return seo();
 
+  const icons = await QueryIcons();
+  const iconList: Icon[] = [];
+  icons.forEach((icon) => {
+    return iconList.push(MediaUrl(icon.attributes.url));
+  });
+
   const {
     metadata: meta,
     slug: path,
@@ -43,6 +51,7 @@ export async function generateMetadata({
     path: path,
     date: formatISO(parseISO(updatedAt)),
     localizations: localizations,
+    icons: iconList,
   });
   return metadata;
 }

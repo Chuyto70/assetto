@@ -3,7 +3,7 @@
  * @see https://github.com/iamvishnusankar/next-sitemap#readme
  */
 module.exports = {
-  siteUrl: 'https://valorant-tools.sygix.fr',
+  siteUrl: `https://${process.env.DEPLOYMENT_URL}`,
   generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [{ userAgent: '*', allow: '/' }],
