@@ -48,6 +48,91 @@ export const QueryAllPagesPaths = async () => {
   return pages;
 };
 
+export type graphQLSeoPageProps = {
+  pages: {
+    data: [
+      {
+        attributes: {
+          slug: string;
+          metadata: {
+            template_title?: string;
+            title_suffix?: string;
+            meta_description?: string;
+          };
+          updatedAt: string;
+          localizations: {
+            data: [
+              {
+                attributes: {
+                  locale: string;
+                  slug: string;
+                };
+              }
+            ];
+          };
+        };
+      }
+    ];
+  };
+};
+
+/**
+ * Query seo of a page from Strapi
+ * @param locale language of the requested page
+ * @param slug array of slugs
+ * @returns seo data of a page with direct content
+ */
+export const QueryPageSeo = async (
+  locale: string,
+  slug: string[] | undefined
+) => {
+  const joinedSlug = !slug
+    ? '/'
+    : slug instanceof Array
+    ? slug.join('/')
+    : Array.of(slug).join('/');
+
+  const queryVariables = {
+    locale: locale,
+    joinedSlug: joinedSlug,
+  };
+
+  const { pages } = await StrapiClient.request<graphQLSeoPageProps>(
+    gql`
+      query PagesSeo($locale: I18NLocaleCode!, $joinedSlug: String!) {
+        pages(
+          filters: { slug: { eq: $joinedSlug } }
+          locale: $locale
+          pagination: { limit: 1 }
+        ) {
+          data {
+            attributes {
+              slug
+              metadata {
+                template_title
+                title_suffix
+                meta_description
+              }
+              updatedAt
+              localizations {
+                data {
+                  attributes {
+                    slug
+                    locale
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return pages;
+};
+
 export type graphQLPageProps = {
   pages: {
     data: [
@@ -57,22 +142,6 @@ export type graphQLPageProps = {
           title: string;
           slug: string;
           content: [];
-          metadata: {
-            template_title?: string;
-            title_suffix?: string;
-            meta_description?: string;
-          };
-          updatedAt: Date;
-          localizations: {
-            data: [
-              {
-                attributes: {
-                  locales: string;
-                  slug: string;
-                };
-              }
-            ];
-          };
         };
       }
     ];
@@ -113,23 +182,6 @@ export const QueryPage = async (locale: string, slug: string[] | undefined) => {
 
               content {
                 __typename
-              }
-
-              metadata {
-                template_title
-                title_suffix
-                meta_description
-              }
-
-              updatedAt
-
-              localizations {
-                data {
-                  attributes {
-                    locale
-                    slug
-                  }
-                }
               }
             }
           }

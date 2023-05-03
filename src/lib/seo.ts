@@ -1,8 +1,8 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
 
-import { openGraph } from "@/lib/helper";
+import { openGraph } from '@/lib/helper';
 
-import { deploymentURL } from "@/constant/env"
+import { deploymentURL } from '@/constant/env';
 
 export const defaultMeta = {
   title: 'Alhéna',
@@ -22,12 +22,22 @@ export const defaultMeta = {
 type SeoProps = {
   date?: string;
   templateTitle?: string;
+  titleSuffix?: string;
   path?: string;
-} & Partial<typeof defaultMeta>
-  & Metadata;
+  localizations?: {
+    data: {
+      attributes: {
+        locale: string;
+        slug: string;
+      };
+    }[];
+  };
+} & Partial<typeof defaultMeta> &
+  Metadata;
 
-export const seo = (props: SeoProps): Metadata => {
+type LanguageIndex = { [key: string]: string };
 
+export const seo = (props?: SeoProps): Metadata => {
   const meta = {
     ...defaultMeta,
     ...props,
@@ -35,22 +45,26 @@ export const seo = (props: SeoProps): Metadata => {
 
   meta['path'] = meta.path ? meta.path : '';
 
-  meta['title'] = props.templateTitle
+  meta['title'] = props?.templateTitle
     ? `${props.templateTitle} • ${meta.siteName}`
     : meta.title;
 
   // ? Uncomment code below if you want to use default open graph
   const ogImage = openGraph({
     description: meta.description ? meta.description : defaultMeta.description,
-    siteName: props.templateTitle ? `${props.templateTitle} • ${meta.siteName}` : meta.title,
-    templateTitle: props.templateTitle,
+    siteName: props?.templateTitle
+      ? `${props.templateTitle} | ${meta.siteName}`
+      : meta.title,
+    templateTitle: props?.templateTitle ? props.templateTitle : meta.title,
   });
+  // ADD LOGO to og
+
   meta['openGraph'] = {
     siteName: meta.siteName,
     description: meta.description,
     title: meta.title,
     images: ogImage,
-    url: meta.url+meta.path
+    url: meta.path,
   };
   meta['twitter'] = {
     card: 'summary_large_image',
@@ -58,12 +72,33 @@ export const seo = (props: SeoProps): Metadata => {
     description: meta.description,
     images: ogImage,
   };
+
   meta['alternates'] = {
-    canonical: meta.url+meta.path
+    canonical:
+      meta.url + (meta.path.startsWith('/') ? meta.path : `/${meta.path}`),
+  };
+
+  if (props?.localizations?.data) {
+    const languages: LanguageIndex = {};
+    props.localizations.data.forEach((localization) => {
+      const lang = localization.attributes.locale;
+      const slug = localization.attributes.slug;
+      languages[lang] = `${meta.url}/${lang}${
+        slug.startsWith('/') ? '' : '/'
+      }${slug}`;
+    });
+    meta['alternates'] = {
+      ...meta['alternates'],
+      languages,
+    };
   }
-  {meta.date && (meta['other'] = {
-    publish_date: meta.date
-  })}
+
+  {
+    meta.date &&
+      (meta['other'] = {
+        publish_date: meta.date,
+      });
+  }
 
   return meta;
 };
