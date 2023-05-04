@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import NotFound from '@/app/[lang]/[[...slug]]/not-found';
+import NotFound from '@/app/[lang]/not-found';
 
 describe('Check for page not found', () => {
   it('renders a heading', () => {

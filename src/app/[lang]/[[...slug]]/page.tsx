@@ -2,7 +2,7 @@ import { graphQLPageProps, QueryAllPagesPaths, QueryPage } from '@/lib/graphql';
 
 import Sections from '@/components/sections';
 
-import notFound from '@/app/[lang]/[[...slug]]/not-found';
+import notFound from '@/app/[lang]/not-found';
 
 export async function generateStaticParams() {
   const pages = await QueryAllPagesPaths();

@@ -11,7 +11,7 @@ export function openGraph({
   siteName,
   templateTitle,
   description,
-  logo = `${deploymentURL}/images/new-tab.png`,
+  logo = `${deploymentURL}/images/favicon.png`,
 }: OpenGraphType): string {
   const ogLogo = encodeURIComponent(logo);
   const ogSiteName = encodeURIComponent(siteName.trim());

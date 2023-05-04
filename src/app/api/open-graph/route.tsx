@@ -30,7 +30,7 @@ export const GET = async (req: NextApiRequest) => {
     siteName: siteName ?? 'Site Name',
     description: description ?? 'Description',
     theme: theme ?? 'dark',
-    logo: logo ?? `${deploymentURL}/images/new-tab.png`,
+    logo: logo ?? `${deploymentURL}/images/favicon.png`,
     templateTitle,
     logoWidth: logoWidth ? +logoWidth : 100,
     logoHeight: logoHeight ? +logoHeight : undefined,

@@ -13,20 +13,33 @@ export const StrapiClient = new GraphQLClient(`${API_URL}/graphql` as string, {
 });
 
 /**
- * Query icons url from Strapi
- * @returns list of icons url
+ * Query settings from Strapi
+ * @returns settings data
  */
-export const QueryIcons = async () => {
-  const { global } = await StrapiClient.request<{
-    global: {
+export const QuerySettings = async (locale: string) => {
+  const queryVariables = {
+    locale: locale,
+  };
+
+  const { setting } = await StrapiClient.request<{
+    setting: {
       data: {
-        attributes: { favicons: { data: { attributes: { url: string } }[] } };
+        attributes: {
+          favicons: {
+            data: { attributes: { url: string } }[];
+          };
+          seo: {
+            title: string;
+            siteName: string;
+            description: string;
+          };
+        };
       };
     };
   }>(
     gql`
-      query Favicon {
-        global {
+      query Settings($locale: I18NLocaleCode!) {
+        setting(locale: $locale) {
           data {
             attributes {
               favicons {
@@ -36,14 +49,20 @@ export const QueryIcons = async () => {
                   }
                 }
               }
+              seo {
+                title
+                siteName
+                description
+              }
             }
           }
         }
       }
-    `
+    `,
+    queryVariables
   );
 
-  return global.data.attributes.favicons.data;
+  return setting.data.attributes;
 };
 
 type graphQLPathsProps = {

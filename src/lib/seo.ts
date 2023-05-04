@@ -46,7 +46,11 @@ export const seo = (props?: SeoProps): Metadata => {
   meta['path'] = meta.path ? meta.path : '';
 
   meta['title'] = props?.templateTitle
-    ? `${props.templateTitle} • ${meta.siteName}`
+    ? props.titleSuffix
+      ? `${props.templateTitle} • ${props.titleSuffix}`
+      : `${props.templateTitle} • ${meta.siteName}`
+    : props?.title && props.siteName
+    ? `${props.title} • ${props.siteName}`
     : meta.title;
 
   // ? Uncomment code below if you want to use default open graph
