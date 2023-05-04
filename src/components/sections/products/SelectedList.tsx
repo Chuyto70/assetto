@@ -78,6 +78,7 @@ export default (async function SelectedList({
           <SingleProductCard
             locale={locale}
             productID={product.id}
+            imgSizes='(max-width: 475px) 100vh, 80vh'
             options={{ colors: true, short_description: true }}
           />
         </li>

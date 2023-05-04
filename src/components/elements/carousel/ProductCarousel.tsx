@@ -18,9 +18,11 @@ type MediaType = Pick<
 export default function ProductCarousel({
   medias,
   className,
+  imgSizes,
 }: {
   medias: MediaType;
   className: string | undefined;
+  imgSizes?: string;
 }) {
   const [emblaRef] = useEmblaCarousel({ loop: true });
 
@@ -39,6 +41,7 @@ export default function ProductCarousel({
                 alt={media.attributes.alternativeText ?? ''}
                 className={clsxm(style.embla__slide, 'w-full')}
                 imgClassName='object-cover w-full h-full'
+                sizes={imgSizes}
               />
             );
           }

@@ -32,10 +32,12 @@ const isOnSale = (
 export default (async function SingleProductCard({
   locale,
   productID,
+  imgSizes,
   options,
 }: {
   locale: string;
   productID: number;
+  imgSizes?: string;
   options?: { colors: boolean; short_description: boolean };
 }) {
   const {
@@ -53,7 +55,11 @@ export default (async function SingleProductCard({
   return (
     <div className={style.product}>
       <Link href={`/${slug}`} className={style.product}>
-        <ProductCarousel medias={medias} className={style.product__carousel} />
+        <ProductCarousel
+          medias={medias}
+          className={style.product__carousel}
+          imgSizes={imgSizes}
+        />
         <div className={style.product__title}>
           <h4>{title}</h4>
           {(sale_price && isOnSale(date_on_sale_from, date_on_sale_to) && (
@@ -86,8 +92,11 @@ export default (async function SingleProductCard({
 } as unknown as ({
   locale,
   productID,
+  imgSizes,
+  options,
 }: {
   locale: string;
   productID: number;
-  options: { colors: boolean; short_description: boolean };
+  imgSizes?: string;
+  options?: { colors: boolean; short_description: boolean };
 }) => JSX.Element);
