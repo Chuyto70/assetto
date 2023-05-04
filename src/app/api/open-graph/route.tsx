@@ -1,10 +1,9 @@
 import { clsx } from 'clsx';
-import { NextApiRequest } from 'next';
-import { ImageResponse } from 'next/server';
+import { ImageResponse, NextRequest } from 'next/server';
 
 import { deploymentURL } from '@/constant/env';
 
-export const GET = async (req: NextApiRequest) => {
+export const GET = async (req: NextRequest) => {
   const rachana400 = fetch(
     new URL('../../../assets/fonts/Rachana-Regular.ttf', import.meta.url)
   ).then((res) => res.arrayBuffer());
