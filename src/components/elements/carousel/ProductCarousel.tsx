@@ -10,10 +10,7 @@ import { MediaUrl } from '@/lib/helper';
 
 import NextImage from '@/components/NextImage';
 
-type MediaType = Pick<
-  graphQLProductProps['product']['data']['attributes']['medias'],
-  'data'
->;
+type MediaType = Pick<graphQLProductProps['attributes']['medias'], 'data'>;
 
 export default function ProductCarousel({
   medias,
@@ -71,5 +68,3 @@ export default function ProductCarousel({
     </div>
   );
 }
-
-// TODO: Optimize NextImage size

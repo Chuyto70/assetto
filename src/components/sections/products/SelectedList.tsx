@@ -1,28 +1,50 @@
 import style from './SelectedList.module.css';
 
-import { gql, StrapiClient } from '@/lib/graphql';
+import {
+  graphQLProductProps,
+  graphQLProductsProps,
+  QueryProduct,
+  QueryProductSelectedList,
+} from '@/lib/graphql';
 
+import MultiProductsCard from '@/components/elements/MultiProductsCard';
 import SingleProductCard from '@/components/elements/SingleProductCard';
 
-type ComponentSectionsProductSelectedList = {
-  page: {
-    data: {
-      attributes: {
-        content: [
-          {
-            Filters: string;
-            products: {
-              data: [
-                {
-                  id: number;
-                }
-              ];
-            };
-          }
-        ];
-      };
+type ColorProducts = {
+  [id: number]: graphQLProductProps[];
+};
+
+const buildColorProducts = async (
+  locale: string,
+  products: graphQLProductsProps
+): Promise<ColorProducts> => {
+  const colorProducts: ColorProducts = {};
+
+  const queries = products.data.flatMap((product) => {
+    if (product.attributes.colors && product.attributes.colors.length > 0) {
+      return product.attributes.colors
+        .filter((color) => color.product.data.id !== product.id)
+        .map((color) =>
+          QueryProduct(locale, color.product.data.id, { colors: true })
+        );
+    }
+    return [];
+  });
+
+  const results = await Promise.all(queries);
+
+  results.forEach((product, index) => {
+    const baseId = products.data[index].id;
+    const colorProduct = {
+      ...product.data,
     };
-  };
+    if (!colorProducts[baseId]) {
+      colorProducts[baseId] = [];
+    }
+    colorProducts[baseId].push(colorProduct);
+  });
+
+  return colorProducts;
 };
 
 export default (async function SelectedList({
@@ -34,55 +56,34 @@ export default (async function SelectedList({
   pageID: number;
   index: number;
 }) {
-  const queryVariables = {
-    pageID: pageID,
-    locale: locale,
-  };
+  const { data } = await QueryProductSelectedList(locale, pageID);
+  const { products } = data.attributes.content[index];
 
-  const fragment = gql`
-    fragment sectionsProductSelectedList on ComponentSectionsProductSelectedList {
-      Filters
-      products {
-        data {
-          id
-        }
-      }
-    }
-  `;
-
-  const { page } =
-    await StrapiClient.request<ComponentSectionsProductSelectedList>(
-      gql`
-        query ProductSelectedList($pageID: ID!, $locale: I18NLocaleCode!) {
-          page(id: $pageID, locale: $locale) {
-            data {
-              attributes {
-                content {
-                  ...sectionsProductSelectedList
-                }
-              }
-            }
-          }
-        }
-        ${fragment}
-      `,
-      queryVariables
-    );
-
-  const content = page.data.attributes.content[index];
+  const productsWithColor = await buildColorProducts(locale, products);
 
   return (
     <ul className={style.products}>
-      {content.products.data.map((product, index) => (
-        <li key={index}>
-          <SingleProductCard
-            locale={locale}
-            productID={product.id}
-            imgSizes='(max-width: 475px) 100vh, 80vh'
-            options={{ colors: true, short_description: true }}
-          />
-        </li>
-      ))}
+      {products.data.map((product, index) => {
+        const colorProducts = productsWithColor[product.id] || [];
+        const productsList = [product, ...colorProducts];
+        return (
+          <li key={index}>
+            {(productsList.length > 1 && (
+              <MultiProductsCard
+                locale={locale}
+                products={productsList}
+                imgSizes='(max-width: 475px) 100vh, 80vh'
+              />
+            )) || (
+              <SingleProductCard
+                locale={locale}
+                product={product}
+                imgSizes='(max-width: 475px) 100vh, 80vh'
+              />
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 } as unknown as ({
@@ -93,4 +94,4 @@ export default (async function SelectedList({
   locale: string;
   pageID: number;
   index: number;
-}) => JSX.Element); //This fix the type error because typescript doesn't understand Promise<JSX>
+}) => JSX.Element);

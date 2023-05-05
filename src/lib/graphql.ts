@@ -248,41 +248,38 @@ export const QueryPage = async (locale: string, slug: string[] | undefined) => {
 };
 
 export type graphQLProductProps = {
-  product: {
-    data: {
-      attributes: {
-        title: string;
-        slug: string;
-        price: string;
-        sale_price?: number;
-        date_on_sale_from?: string;
-        date_on_sale_to?: string;
-        medias: {
-          data: [
-            {
-              attributes: {
-                alternativeText: string;
-                url: string;
-                width: number;
-                height: number;
-                mime: string;
-              };
-            }
-          ];
-        };
-        short_description?: string;
-        colors?: [
-          {
-            color: string;
-            product: {
-              data: {
-                id: number;
-              };
-            };
-          }
-        ];
-      };
+  id: number;
+  attributes: {
+    title: string;
+    slug: string;
+    price: string;
+    sale_price?: number;
+    date_on_sale_from?: string;
+    date_on_sale_to?: string;
+    medias: {
+      data: [
+        {
+          attributes: {
+            alternativeText: string;
+            url: string;
+            width: number;
+            height: number;
+            mime: string;
+          };
+        }
+      ];
     };
+    short_description?: string;
+    colors?: [
+      {
+        color: string;
+        product: {
+          data: {
+            id: number;
+          };
+        };
+      }
+    ];
   };
 };
 
@@ -295,7 +292,7 @@ export type graphQLProductProps = {
 export const QueryProduct = async (
   locale: string,
   id: number,
-  options?: { colors: boolean; short_description: boolean }
+  options?: { colors?: boolean; short_description?: boolean }
 ) => {
   const queryVariables = {
     locale: locale,
@@ -315,11 +312,14 @@ export const QueryProduct = async (
     }
   `;
 
-  const { product } = await StrapiClient.request<graphQLProductProps>(
+  const { product } = await StrapiClient.request<{
+    product: { data: graphQLProductProps };
+  }>(
     gql`
       query Product($id: ID!, $locale: I18NLocaleCode) {
         product(id: $id, locale: $locale) {
           data {
+            id
             attributes {
               title
               slug
@@ -350,5 +350,134 @@ export const QueryProduct = async (
     queryVariables
   );
 
-  return product.data.attributes;
+  return product;
+};
+
+export type graphQLProductsProps = {
+  data: {
+    id: number;
+    attributes: {
+      title: string;
+      slug: string;
+      price: string;
+      sale_price?: number;
+      date_on_sale_from?: string;
+      date_on_sale_to?: string;
+      medias: {
+        data: [
+          {
+            attributes: {
+              alternativeText: string;
+              url: string;
+              width: number;
+              height: number;
+              mime: string;
+            };
+          }
+        ];
+      };
+      short_description?: string;
+      colors?: [
+        {
+          color: string;
+          product: {
+            data: {
+              id: number;
+            };
+          };
+        }
+      ];
+    };
+  }[];
+};
+
+export type ComponentSectionsProductSelectedList = {
+  page: {
+    data: {
+      attributes: {
+        content: [
+          {
+            Filters: string;
+            products: graphQLProductsProps;
+          }
+        ];
+      };
+    };
+  };
+};
+
+/**
+ * Query all products from the component ProductSelectedList from Strapi
+ * @param locale language of the requested page
+ * @param pageID id of the page in wich the section is
+ * @returns data of products
+ */
+export const QueryProductSelectedList = async (
+  locale: string,
+  pageID: number
+) => {
+  const queryVariables = {
+    locale: locale,
+    pageID: pageID,
+  };
+
+  const fragment = gql`
+    fragment sectionsProductSelectedList on ComponentSectionsProductSelectedList {
+      Filters
+      products {
+        data {
+          id
+          attributes {
+            title
+            slug
+            price
+            sale_price
+            date_on_sale_from
+            date_on_sale_to
+            medias {
+              data {
+                attributes {
+                  alternativeText
+                  url
+                  width
+                  height
+                  mime
+                }
+              }
+            }
+
+            colors {
+              color
+              product {
+                data {
+                  id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const { page } =
+    await StrapiClient.request<ComponentSectionsProductSelectedList>(
+      gql`
+        query ProductSelectedList($pageID: ID!, $locale: I18NLocaleCode!) {
+          page(id: $pageID, locale: $locale) {
+            data {
+              attributes {
+                content {
+                  ...sectionsProductSelectedList
+                }
+              }
+            }
+          }
+        }
+        ${fragment}
+      `,
+      queryVariables
+    );
+
+  return page;
 };

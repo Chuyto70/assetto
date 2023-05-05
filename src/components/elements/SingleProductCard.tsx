@@ -1,10 +1,9 @@
-import { isBefore, parseISO } from 'date-fns';
-import isAfter from 'date-fns/isAfter';
+import { isAfter, isBefore, parseISO } from 'date-fns';
 import Link from 'next/link';
 
 import style from './SingleProductCard.module.css';
 
-import { QueryProduct } from '@/lib/graphql';
+import { graphQLProductProps } from '@/lib/graphql';
 
 import ProductCarousel from '@/components/elements/carousel/ProductCarousel';
 
@@ -29,16 +28,14 @@ const isOnSale = (
   return false;
 };
 
-export default (async function SingleProductCard({
+export default function SingleProductCard({
   locale,
-  productID,
+  product,
   imgSizes,
-  options,
 }: {
   locale: string;
-  productID: number;
+  product: graphQLProductProps;
   imgSizes?: string;
-  options?: { colors: boolean; short_description: boolean };
 }) {
   const {
     title,
@@ -50,11 +47,11 @@ export default (async function SingleProductCard({
     medias,
     short_description,
     colors,
-  } = await QueryProduct(locale, productID, options);
+  } = product.attributes;
 
   return (
     <div className={style.product}>
-      <Link href={`/${slug}`} className={style.product}>
+      <Link href={`/${locale}/${slug}`} className={style.product}>
         <ProductCarousel
           medias={medias}
           className={style.product__carousel}
@@ -89,14 +86,4 @@ export default (async function SingleProductCard({
       )}
     </div>
   );
-} as unknown as ({
-  locale,
-  productID,
-  imgSizes,
-  options,
-}: {
-  locale: string;
-  productID: number;
-  imgSizes?: string;
-  options?: { colors: boolean; short_description: boolean };
-}) => JSX.Element);
+}
