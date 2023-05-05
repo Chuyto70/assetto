@@ -26,6 +26,6 @@
   @apply flex items-center gap-4 font-bold text-gray-500;
 }
 
-.product__colors span {
+.product__colors button {
   @apply border-dark h-4 w-4 rounded-full border;
 }

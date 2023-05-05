@@ -28,15 +28,17 @@ const isOnSale = (
   return false;
 };
 
-export default function SingleProductCard({
+const SingleProductCard = ({
   locale,
   product,
   imgSizes,
+  colorSwitch,
 }: {
   locale: string;
   product: graphQLProductProps;
   imgSizes?: string;
-}) {
+  colorSwitch?: (id: number) => void;
+}) => {
   const {
     title,
     slug,
@@ -75,10 +77,11 @@ export default function SingleProductCard({
       {colors && colors.length > 0 && (
         <p className={style.product__colors}>
           {colors.map((color) => (
-            <span
+            <button
               key={color.product.data.id}
               style={{ backgroundColor: color.color }}
-            ></span>
+              onClick={() => colorSwitch && colorSwitch(color.product.data.id)}
+            ></button>
           ))}
           {colors.length} coloris
           {/* Texte à traduire plus lien pour switch ce composant a l'autre version */}
@@ -86,4 +89,6 @@ export default function SingleProductCard({
       )}
     </div>
   );
-}
+};
+
+export default SingleProductCard;

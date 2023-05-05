@@ -12,7 +12,7 @@ import NextImage from '@/components/NextImage';
 
 type MediaType = Pick<graphQLProductProps['attributes']['medias'], 'data'>;
 
-export default function ProductCarousel({
+const ProductCarousel = ({
   medias,
   className,
   imgSizes,
@@ -20,7 +20,7 @@ export default function ProductCarousel({
   medias: MediaType;
   className: string | undefined;
   imgSizes?: string;
-}) {
+}) => {
   const [emblaRef] = useEmblaCarousel({ loop: true });
 
   return (
@@ -67,4 +67,6 @@ export default function ProductCarousel({
       </div>
     </div>
   );
-}
+};
+
+export default ProductCarousel;
