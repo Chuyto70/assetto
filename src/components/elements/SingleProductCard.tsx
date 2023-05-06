@@ -84,7 +84,6 @@ const SingleProductCard = ({
             ></button>
           ))}
           {colors.length} coloris
-          {/* Texte à traduire plus lien pour switch ce composant a l'autre version */}
         </p>
       )}
     </div>
@@ -92,3 +91,8 @@ const SingleProductCard = ({
 };
 
 export default SingleProductCard;
+
+/**
+ * TODO: Ajouter les traductions depuis STRAPI
+ * TODO: Ajouter le bandeau promo ou nouveauté sur le composant
+ */

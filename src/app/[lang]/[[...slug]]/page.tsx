@@ -28,7 +28,7 @@ export default async function Page({
   type PageData = Pick<graphQLPageProps['pages'], 'data'>;
   const { data }: PageData = await QueryPage(lang, slug);
 
-  if (data.length <= 0) return notFound();
+  if (data.length <= 0) return notFound({ lang, slug });
 
   const pageID = data[0].id;
   const { title, content } = data[0].attributes;

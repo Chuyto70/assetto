@@ -21,7 +21,6 @@ export default function MultiProductsCard({
     const newSelectedCard = products.find((product) => product.id === id);
     if (newSelectedCard) setSelectedCard(newSelectedCard);
   };
-
   return (
     <>
       <AnimatePresence mode='wait' initial={false}>

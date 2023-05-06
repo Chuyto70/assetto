@@ -252,7 +252,7 @@ export type graphQLProductProps = {
   attributes: {
     title: string;
     slug: string;
-    price: string;
+    price: number;
     sale_price?: number;
     date_on_sale_from?: string;
     date_on_sale_to?: string;
@@ -359,7 +359,7 @@ export type graphQLProductsProps = {
     attributes: {
       title: string;
       slug: string;
-      price: string;
+      price: number;
       sale_price?: number;
       date_on_sale_from?: string;
       date_on_sale_to?: string;
