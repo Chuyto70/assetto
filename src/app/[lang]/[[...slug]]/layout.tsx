@@ -13,6 +13,24 @@ import { seo } from '@/lib/seo';
 export async function generateStaticParams() {
   const data = await QueryAllPagesPaths();
 
+  const productParams = data.products.data.map((product) => {
+    const { slug, locale } = product.attributes;
+    const slugArray = !slug ? false : slug.split('/').filter((s) => s !== '');
+    return {
+      lang: locale,
+      slug: slugArray,
+    };
+  });
+
+  const categoryParams = data.categories.data.map((category) => {
+    const { slug, locale } = category.attributes;
+    const slugArray = !slug ? false : slug.split('/').filter((s) => s !== '');
+    return {
+      lang: locale,
+      slug: slugArray,
+    };
+  });
+
   const pageParams = data.pages.data.map((page) => {
     const { slug, locale } = page.attributes;
     const slugArray = !slug ? false : slug.split('/').filter((s) => s !== '');
@@ -22,19 +40,11 @@ export async function generateStaticParams() {
     };
   });
 
-  const productParams = data.products.data.map((product) => {
-    const { __typename, slug, locale } = product.attributes;
-    const slugArray = !slug ? false : slug.split('/').filter((s) => s !== '');
-    return {
-      lang: locale,
-      type: __typename,
-      slug: slugArray,
-    };
-  });
-
-  const params = [...pageParams, ...productParams];
+  const params = [...productParams, ...categoryParams, ...pageParams];
   return params;
 }
+
+// TODO: Add metadata for products and categories
 
 export async function generateMetadata({
   params: { lang, slug },

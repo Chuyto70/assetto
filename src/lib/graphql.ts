@@ -166,7 +166,6 @@ type graphQLPathsProps = {
       {
         id: number;
         attributes: {
-          __typename: string;
           slug: string;
           locale: string;
         };
@@ -178,7 +177,17 @@ type graphQLPathsProps = {
       {
         id: number;
         attributes: {
-          __typename: string;
+          slug: string;
+          locale: string;
+        };
+      }
+    ];
+  };
+  categories: {
+    data: [
+      {
+        id: number;
+        attributes: {
           slug: string;
           locale: string;
         };
@@ -199,7 +208,6 @@ export const QueryAllPagesPaths = async () => {
           data {
             id
             attributes {
-              __typename
               locale
               slug
             }
@@ -210,7 +218,16 @@ export const QueryAllPagesPaths = async () => {
           data {
             id
             attributes {
-              __typename
+              locale
+              slug
+            }
+          }
+        }
+
+        categories(locale: "all") {
+          data {
+            id
+            attributes {
               locale
               slug
             }
