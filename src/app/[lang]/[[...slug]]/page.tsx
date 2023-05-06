@@ -1,24 +1,8 @@
-import { graphQLPageProps, QueryAllPagesPaths, QueryPage } from '@/lib/graphql';
+import { graphQLPageProps, QueryPage } from '@/lib/graphql';
 
 import Sections from '@/components/sections';
 
 import notFound from '@/app/[lang]/not-found';
-
-export async function generateStaticParams() {
-  const pages = await QueryAllPagesPaths();
-
-  const params = pages.data.map((page) => {
-    const { slug, locale } = page.attributes;
-    // Decompose the slug that was saved in Strapi
-    const slugArray = !slug ? false : slug.split('/').filter((s) => s !== '');
-    return {
-      lang: locale,
-      slug: slugArray,
-    };
-  });
-
-  return params;
-}
 
 export default async function Page({
   params: { lang, slug },

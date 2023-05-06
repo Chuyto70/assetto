@@ -65,11 +65,120 @@ export const QuerySettings = async (locale: string) => {
   return setting.data.attributes;
 };
 
+/**
+ * Query page or product id from slug
+ * @param locale locale language
+ * @param slug array of slugs
+ * @returns id and slug
+ */
+export const QueryIdFromSlug = async (
+  locale: string,
+  slug: string[] | undefined
+) => {
+  const joinedSlug = !slug
+    ? '/'
+    : slug instanceof Array
+    ? slug.join('/')
+    : Array.of(slug).join('/');
+
+  const queryVariables = {
+    locale: locale,
+    joinedSlug: joinedSlug,
+  };
+
+  const data = await StrapiClient.request<{
+    pages: {
+      data: {
+        id: number;
+        attributes: {
+          slug: string;
+        };
+      }[];
+    };
+    products: {
+      data: {
+        id: number;
+        attributes: {
+          slug: string;
+        };
+      }[];
+    };
+    categories: {
+      data: {
+        id: number;
+        attributes: {
+          slug: string;
+        };
+      }[];
+    };
+  }>(
+    gql`
+      query idFromSlug($locale: I18NLocaleCode!, $joinedSlug: String!) {
+        pages(
+          filters: { slug: { eq: $joinedSlug } }
+          locale: $locale
+          pagination: { limit: 1 }
+        ) {
+          data {
+            id
+            attributes {
+              slug
+            }
+          }
+        }
+
+        products(
+          filters: { slug: { eq: $joinedSlug } }
+          locale: $locale
+          pagination: { limit: 1 }
+        ) {
+          data {
+            id
+            attributes {
+              slug
+            }
+          }
+        }
+
+        categories(
+          filters: { slug: { eq: $joinedSlug } }
+          locale: $locale
+          pagination: { limit: 1 }
+        ) {
+          data {
+            id
+            attributes {
+              slug
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return data;
+};
+
 type graphQLPathsProps = {
   pages: {
     data: [
       {
+        id: number;
         attributes: {
+          __typename: string;
+          slug: string;
+          locale: string;
+        };
+      }
+    ];
+  };
+  products: {
+    data: [
+      {
+        id: number;
+        attributes: {
+          __typename: string;
           slug: string;
           locale: string;
         };
@@ -83,12 +192,25 @@ type graphQLPathsProps = {
  * @returns list of pages including languages and paths
  */
 export const QueryAllPagesPaths = async () => {
-  const { pages } = await StrapiClient.request<graphQLPathsProps>(
+  const data = await StrapiClient.request<graphQLPathsProps>(
     gql`
       query Paths {
         pages(publicationState: LIVE, locale: "all") {
           data {
+            id
             attributes {
+              __typename
+              locale
+              slug
+            }
+          }
+        }
+
+        products(publicationState: LIVE, locale: "all") {
+          data {
+            id
+            attributes {
+              __typename
               locale
               slug
             }
@@ -98,7 +220,7 @@ export const QueryAllPagesPaths = async () => {
     `
   );
 
-  return pages;
+  return data;
 };
 
 export type graphQLSeoPageProps = {
