@@ -419,6 +419,14 @@ export type graphQLProductProps = {
         };
       }
     ];
+    categories?: {
+      data: {
+        attributes: {
+          title: string;
+          slug: string;
+        };
+      }[];
+    };
   };
 };
 
@@ -490,6 +498,91 @@ export const QueryProduct = async (
   );
 
   return product;
+};
+
+/**
+ * Query a single product from Strapi
+ * @param locale language of the requested page
+ * @param slug slug of the product
+ * @returns data of a product
+ */
+export const QueryProductFromSlug = async (
+  locale: string,
+  slug: string[] | undefined
+) => {
+  const joinedSlug = !slug
+    ? '/'
+    : slug instanceof Array
+    ? slug.join('/')
+    : Array.of(slug).join('/');
+
+  const queryVariables = {
+    locale: locale,
+    joinedSlug: joinedSlug,
+  };
+
+  const { products } = await StrapiClient.request<{
+    products: { data: graphQLProductProps[] };
+  }>(
+    gql`
+      query QueryProductFromSlug(
+        $locale: I18NLocaleCode!
+        $joinedSlug: String!
+      ) {
+        products(
+          filters: { slug: { eq: $joinedSlug } }
+          locale: $locale
+          pagination: { limit: 1 }
+        ) {
+          data {
+            id
+            attributes {
+              title
+              slug
+              price
+              sale_price
+              date_on_sale_from
+              date_on_sale_to
+              medias {
+                data {
+                  attributes {
+                    alternativeText
+                    url
+                    width
+                    height
+                    mime
+                  }
+                }
+              }
+              short_description
+              colors {
+                color
+                product {
+                  data {
+                    id
+                    attributes {
+                      slug
+                    }
+                  }
+                }
+              }
+              categories {
+                data {
+                  attributes {
+                    title
+                    slug
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return products;
 };
 
 export type graphQLProductsProps = {
@@ -620,3 +713,5 @@ export const QueryProductSelectedList = async (
 
   return page;
 };
+
+// TODO: optimize interfaces in interfaces file + define types correctly in this file
