@@ -1,22 +1,20 @@
 import style from './SelectedList.module.css';
 
-import {
-  graphQLProductProps,
-  graphQLProductsProps,
-  QueryProduct,
-  QueryProductSelectedList,
-} from '@/lib/graphql';
+import { QueryProduct, QueryProductSelectedList } from '@/lib/graphql';
+import { Product } from '@/lib/interfaces';
 
 import MultiProductsCard from '@/components/elements/MultiProductsCard';
 import SingleProductCard from '@/components/elements/SingleProductCard';
 
 type ColorProducts = {
-  [id: number]: graphQLProductProps[];
+  [id: number]: Product[];
 };
 
 const buildColorProducts = async (
   locale: string,
-  products: graphQLProductsProps
+  products: {
+    data: Product[];
+  }
 ): Promise<ColorProducts> => {
   const colorProducts: ColorProducts = {};
 

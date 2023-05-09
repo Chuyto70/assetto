@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import style from './SingleProductCard.module.css';
 
-import { graphQLProductProps } from '@/lib/graphql';
+import { Product } from '@/lib/interfaces';
 
 import ProductCarousel from '@/components/elements/carousel/ProductCarousel';
 
@@ -35,7 +35,7 @@ const SingleProductCard = ({
   colorSwitch,
 }: {
   locale: string;
-  product: graphQLProductProps;
+  product: Product;
   imgSizes?: string;
   colorSwitch?: (id: number) => void;
 }) => {

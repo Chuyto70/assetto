@@ -5,12 +5,12 @@ import useEmblaCarousel from 'embla-carousel-react';
 import style from './ProductCarousel.module.css';
 
 import clsxm from '@/lib/clsxm';
-import { graphQLProductProps } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
+import { Product } from '@/lib/interfaces';
 
 import NextImage from '@/components/NextImage';
 
-type MediaType = Pick<graphQLProductProps['attributes']['medias'], 'data'>;
+type MediaType = Pick<Product['attributes']['medias'], 'data'>;
 
 const ProductCarousel = ({
   medias,

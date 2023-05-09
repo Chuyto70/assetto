@@ -2,7 +2,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
-import { graphQLProductProps } from '@/lib/graphql';
+import { Product } from '@/lib/interfaces';
 
 import SingleProductCard from '@/components/elements/SingleProductCard';
 
@@ -12,7 +12,7 @@ export default function MultiProductsCard({
   imgSizes,
 }: {
   locale: string;
-  products: graphQLProductProps[];
+  products: Product[];
   imgSizes?: string;
 }) {
   const [selectedCard, setSelectedCard] = useState(products[0]);

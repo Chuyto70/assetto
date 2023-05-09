@@ -1,5 +1,7 @@
 import { gql, GraphQLClient } from 'graphql-request';
 
+import { Category, Page, Product, Setting } from '@/lib/interfaces';
+
 const API_URL = process.env.strapiURL || 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
 
@@ -23,18 +25,7 @@ export const QuerySettings = async (locale: string) => {
 
   const { setting } = await StrapiClient.request<{
     setting: {
-      data: {
-        attributes: {
-          favicons: {
-            data: { attributes: { url: string } }[];
-          };
-          seo: {
-            title: string;
-            siteName: string;
-            description: string;
-          };
-        };
-      };
+      data: Setting;
     };
   }>(
     gql`
@@ -66,7 +57,7 @@ export const QuerySettings = async (locale: string) => {
 };
 
 /**
- * Query page or product id from slug
+ * Query page, product or category id from slug
  * @param locale locale language
  * @param slug array of slugs
  * @returns id and slug
@@ -88,28 +79,13 @@ export const QueryIdFromSlug = async (
 
   const data = await StrapiClient.request<{
     pages: {
-      data: {
-        id: number;
-        attributes: {
-          slug: string;
-        };
-      }[];
+      data: Page[];
     };
     products: {
-      data: {
-        id: number;
-        attributes: {
-          slug: string;
-        };
-      }[];
+      data: Product[];
     };
     categories: {
-      data: {
-        id: number;
-        attributes: {
-          slug: string;
-        };
-      }[];
+      data: Category[];
     };
   }>(
     gql`
@@ -386,50 +362,6 @@ export const QueryPage = async (locale: string, slug: string[] | undefined) => {
   return pages;
 };
 
-export type graphQLProductProps = {
-  id: number;
-  attributes: {
-    title: string;
-    slug: string;
-    price: number;
-    sale_price?: number;
-    date_on_sale_from?: string;
-    date_on_sale_to?: string;
-    medias: {
-      data: [
-        {
-          attributes: {
-            alternativeText: string;
-            url: string;
-            width: number;
-            height: number;
-            mime: string;
-          };
-        }
-      ];
-    };
-    short_description?: string;
-    colors?: [
-      {
-        color: string;
-        product: {
-          data: {
-            id: number;
-          };
-        };
-      }
-    ];
-    categories?: {
-      data: {
-        attributes: {
-          title: string;
-          slug: string;
-        };
-      }[];
-    };
-  };
-};
-
 /**
  * Query a single product from Strapi
  * @param locale language of the requested page
@@ -460,7 +392,7 @@ export const QueryProduct = async (
   `;
 
   const { product } = await StrapiClient.request<{
-    product: { data: graphQLProductProps };
+    product: { data: Product };
   }>(
     gql`
       query Product($id: ID!, $locale: I18NLocaleCode) {
@@ -522,7 +454,7 @@ export const QueryProductFromSlug = async (
   };
 
   const { products } = await StrapiClient.request<{
-    products: { data: graphQLProductProps[] };
+    products: { data: Product[] };
   }>(
     gql`
       query QueryProductFromSlug(
@@ -585,52 +517,16 @@ export const QueryProductFromSlug = async (
   return products;
 };
 
-export type graphQLProductsProps = {
-  data: {
-    id: number;
-    attributes: {
-      title: string;
-      slug: string;
-      price: number;
-      sale_price?: number;
-      date_on_sale_from?: string;
-      date_on_sale_to?: string;
-      medias: {
-        data: [
-          {
-            attributes: {
-              alternativeText: string;
-              url: string;
-              width: number;
-              height: number;
-              mime: string;
-            };
-          }
-        ];
-      };
-      short_description?: string;
-      colors?: [
-        {
-          color: string;
-          product: {
-            data: {
-              id: number;
-            };
-          };
-        }
-      ];
-    };
-  }[];
-};
-
-export type ComponentSectionsProductSelectedList = {
+type ComponentSectionsProductSelectedList = {
   page: {
     data: {
       attributes: {
         content: [
           {
             Filters: string;
-            products: graphQLProductsProps;
+            products: {
+              data: Product[];
+            };
           }
         ];
       };
