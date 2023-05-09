@@ -1,7 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { graphQLProductProps } from '@/lib/graphql';
-import { CartItem } from '@/lib/interfaces';
+import { CartItem, Product } from '@/lib/interfaces';
 
 import { RootState } from '@/store';
 
@@ -18,7 +17,7 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     // Add item to cart
-    increment: (state, action: PayloadAction<graphQLProductProps>) => {
+    increment: (state, action: PayloadAction<Product>) => {
       const item = state.cartItems.find(
         (el) => el.product.id === action.payload.id
       );
@@ -27,12 +26,13 @@ export const cartSlice = createSlice({
         state.cartItems.push({
           product: action.payload,
           qty: 1,
+          // TODO: add selected size of product, size: 'XL'
         });
       }
     },
 
     // Remove item from cart
-    decrement: (state, action: PayloadAction<graphQLProductProps>) => {
+    decrement: (state, action: PayloadAction<Product>) => {
       const item = state.cartItems.find(
         (el) => el.product.id === action.payload.id
       );

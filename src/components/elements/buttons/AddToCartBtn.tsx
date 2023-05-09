@@ -1,6 +1,6 @@
 'use client';
 
-import { graphQLProductProps } from '@/lib/graphql';
+import { Product } from '@/lib/interfaces';
 
 import Button from '@/components/elements/buttons/Button';
 import { QtyBtn } from '@/components/elements/buttons/QtyBtn';
@@ -12,7 +12,7 @@ export const AddToCartBtn = ({
   product,
   displayQty = false,
 }: {
-  product: graphQLProductProps;
+  product: Product;
   displayQty?: boolean;
 }) => {
   const dispatch = useAppDispatch();
