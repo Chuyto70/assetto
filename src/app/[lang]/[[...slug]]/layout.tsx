@@ -2,8 +2,7 @@ import { formatISO, parseISO } from 'date-fns';
 import { Metadata } from 'next';
 
 import {
-  graphQLSeoPageProps,
-  QueryAllPagesPaths,
+  QueryAllPaths,
   QueryIdFromSlug,
   QueryPageSeo,
   QuerySettings,
@@ -11,7 +10,7 @@ import {
 import { seo } from '@/lib/seo';
 
 export async function generateStaticParams() {
-  const data = await QueryAllPagesPaths();
+  const data = await QueryAllPaths();
 
   const productParams = data.products.data.map((product) => {
     const { slug, locale } = product.attributes;
@@ -51,8 +50,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string[]; lang: string };
 }): Promise<Metadata> {
-  type SeoPageData = Pick<graphQLSeoPageProps['pages'], 'data'>;
-  const { data }: SeoPageData = await QueryPageSeo(lang, slug);
+  const { data } = await QueryPageSeo(lang, slug);
 
   if (data.length <= 0) return seo();
 

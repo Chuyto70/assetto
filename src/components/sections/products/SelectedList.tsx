@@ -1,6 +1,6 @@
 import style from './SelectedList.module.css';
 
-import { QueryProduct, QueryProductSelectedList } from '@/lib/graphql';
+import { gql, QueryContentComponent, QueryProduct } from '@/lib/graphql';
 import { Product } from '@/lib/interfaces';
 
 import MultiProductsCard from '@/components/elements/MultiProductsCard';
@@ -45,6 +45,45 @@ const buildColorProducts = async (
   return colorProducts;
 };
 
+const ComponentSectionsProductSelectedList = gql`
+  fragment sectionsProductSelectedList on ComponentSectionsProductSelectedList {
+    filters
+    products {
+      data {
+        id
+        attributes {
+          title
+          slug
+          price
+          sale_price
+          date_on_sale_from
+          date_on_sale_to
+          medias {
+            data {
+              attributes {
+                alternativeText
+                url
+                width
+                height
+                mime
+              }
+            }
+          }
+
+          colors {
+            color
+            product {
+              data {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export default (async function SelectedList({
   locale,
   pageID,
@@ -54,8 +93,28 @@ export default (async function SelectedList({
   pageID: number;
   index: number;
 }) {
-  const { data } = await QueryProductSelectedList(locale, pageID);
-  const { products } = data.attributes.content[index];
+  type dataType = {
+    page: {
+      data: {
+        attributes: {
+          content: {
+            Filters: boolean;
+            products: {
+              data: Product[];
+            };
+          }[];
+        };
+      };
+    };
+  };
+  const { page }: dataType = await QueryContentComponent(
+    locale,
+    pageID,
+    'page',
+    ComponentSectionsProductSelectedList,
+    'sectionsProductSelectedList'
+  );
+  const { products } = page.data.attributes.content[index];
 
   const productsWithColor = await buildColorProducts(locale, products);
 

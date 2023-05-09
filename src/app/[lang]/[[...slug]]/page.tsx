@@ -1,4 +1,4 @@
-import { graphQLPageProps, QueryPage } from '@/lib/graphql';
+import { QueryPageFromSlug } from '@/lib/graphql';
 
 import Sections from '@/components/sections';
 
@@ -9,8 +9,7 @@ export default async function Page({
 }: {
   params: { slug: string[]; lang: string };
 }) {
-  type PageData = Pick<graphQLPageProps['pages'], 'data'>;
-  const { data }: PageData = await QueryPage(lang, slug);
+  const { data } = await QueryPageFromSlug(lang, slug);
 
   if (data.length <= 0) return notFound({ lang, slug });
 
@@ -26,5 +25,3 @@ export default async function Page({
     </main>
   );
 }
-
-// export const dynamicParams = false; //! Temporary to test existing pages, should be dynamic in production in case a page is added after server render

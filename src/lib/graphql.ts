@@ -138,45 +138,21 @@ export const QueryIdFromSlug = async (
 
 type graphQLPathsProps = {
   pages: {
-    data: [
-      {
-        id: number;
-        attributes: {
-          slug: string;
-          locale: string;
-        };
-      }
-    ];
+    data: Page[];
   };
   products: {
-    data: [
-      {
-        id: number;
-        attributes: {
-          slug: string;
-          locale: string;
-        };
-      }
-    ];
+    data: Product[];
   };
   categories: {
-    data: [
-      {
-        id: number;
-        attributes: {
-          slug: string;
-          locale: string;
-        };
-      }
-    ];
+    data: Category[];
   };
 };
 
 /**
- * Query all pages paths from Strapi
- * @returns list of pages including languages and paths
+ * Query all paths from Strapi
+ * @returns list of paths including languages
  */
-export const QueryAllPagesPaths = async () => {
+export const QueryAllPaths = async () => {
   const data = await StrapiClient.request<graphQLPathsProps>(
     gql`
       query Paths {
@@ -216,34 +192,6 @@ export const QueryAllPagesPaths = async () => {
   return data;
 };
 
-export type graphQLSeoPageProps = {
-  pages: {
-    data: [
-      {
-        attributes: {
-          slug: string;
-          metadata: {
-            template_title?: string;
-            title_suffix?: string;
-            meta_description?: string;
-          };
-          updatedAt: string;
-          localizations: {
-            data: [
-              {
-                attributes: {
-                  locale: string;
-                  slug: string;
-                };
-              }
-            ];
-          };
-        };
-      }
-    ];
-  };
-};
-
 /**
  * Query seo of a page from Strapi
  * @param locale language of the requested page
@@ -265,7 +213,11 @@ export const QueryPageSeo = async (
     joinedSlug: joinedSlug,
   };
 
-  const { pages } = await StrapiClient.request<graphQLSeoPageProps>(
+  const { pages } = await StrapiClient.request<{
+    pages: {
+      data: Page[];
+    };
+  }>(
     gql`
       query PagesSeo($locale: I18NLocaleCode!, $joinedSlug: String!) {
         pages(
@@ -301,7 +253,7 @@ export const QueryPageSeo = async (
   return pages;
 };
 
-export type graphQLPageProps = {
+type graphQLPageProps = {
   pages: {
     data: [
       {
@@ -322,7 +274,10 @@ export type graphQLPageProps = {
  * @param slug array of slugs
  * @returns data of a page with direct content
  */
-export const QueryPage = async (locale: string, slug: string[] | undefined) => {
+export const QueryPageFromSlug = async (
+  locale: string,
+  slug: string[] | undefined
+) => {
   const joinedSlug = !slug
     ? '/'
     : slug instanceof Array
@@ -517,86 +472,37 @@ export const QueryProductFromSlug = async (
   return products;
 };
 
-type ComponentSectionsProductSelectedList = {
-  page: {
-    data: {
-      attributes: {
-        content: [
-          {
-            Filters: string;
-            products: {
-              data: Product[];
-            };
-          }
-        ];
-      };
-    };
-  };
-};
-
 /**
- * Query all products from the component ProductSelectedList from Strapi
+ * Query content of a specific component on a page from Strapi
  * @param locale language of the requested page
- * @param pageID id of the page in wich the section is
+ * @param id id of the page or other in wich the section is
+ * @param type type of the query (page, category, product)
+ * @param fragment pass the fragment of the component
+ * @param fragmentSpread the query spread of the fragment without ...
  * @returns data of products
  */
-export const QueryProductSelectedList = async (
+export const QueryContentComponent = async (
   locale: string,
-  pageID: number
+  id: number,
+  type: string,
+  fragment: string,
+  fragmentSpread: string
 ) => {
   const queryVariables = {
     locale: locale,
-    pageID: pageID,
+    id: id,
   };
 
-  const fragment = gql`
-    fragment sectionsProductSelectedList on ComponentSectionsProductSelectedList {
-      Filters
-      products {
-        data {
-          id
-          attributes {
-            title
-            slug
-            price
-            sale_price
-            date_on_sale_from
-            date_on_sale_to
-            medias {
-              data {
-                attributes {
-                  alternativeText
-                  url
-                  width
-                  height
-                  mime
-                }
-              }
-            }
-
-            colors {
-              color
-              product {
-                data {
-                  id
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-
-  const { page } =
-    await StrapiClient.request<ComponentSectionsProductSelectedList>(
+  const response =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await StrapiClient.request<any>(
       gql`
-        query ProductSelectedList($pageID: ID!, $locale: I18NLocaleCode!) {
-          page(id: $pageID, locale: $locale) {
+        query QueryContentComponent($id: ID!, $locale: I18NLocaleCode!) {
+          ${type}(id: $id, locale: $locale) {
             data {
               attributes {
                 content {
-                  ...sectionsProductSelectedList
+                  ...${fragmentSpread}
                 }
               }
             }
@@ -607,7 +513,5 @@ export const QueryProductSelectedList = async (
       queryVariables
     );
 
-  return page;
+  return response;
 };
-
-// TODO: optimize interfaces in interfaces file + define types correctly in this file
