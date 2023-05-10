@@ -36,5 +36,3 @@ export default function NotFound({
     </>
   );
 }
-
-//! Le lien vers l'accueil ne garde pas en mémoire la langue et il n'y a pas de params ici (cookie ?)

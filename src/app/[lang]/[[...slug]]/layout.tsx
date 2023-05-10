@@ -7,39 +7,28 @@ import {
   QuerySeo,
   QuerySettings,
 } from '@/lib/graphql';
+import { Category, Page, Product } from '@/lib/interfaces';
 import { seo } from '@/lib/seo';
 
 export async function generateStaticParams() {
   const data = await QueryAllPaths();
 
-  const productParams = data.products.data.map((product) => {
-    const { slug, locale } = product.attributes;
-    const slugArray = !slug ? false : slug.split('/').filter((s) => s !== '');
-    return {
-      lang: locale,
-      slug: slugArray,
-    };
-  });
+  function mapData(dataArray: (Product | Category | Page)[]) {
+    return dataArray.map(({ attributes: { slug, locale } }) => {
+      const slugArray = slug ? slug.split('/').filter((s) => s !== '') : false;
+      return {
+        lang: locale,
+        slug: slugArray,
+      };
+    });
+  }
 
-  const categoryParams = data.categories.data.map((category) => {
-    const { slug, locale } = category.attributes;
-    const slugArray = !slug ? false : slug.split('/').filter((s) => s !== '');
-    return {
-      lang: locale,
-      slug: slugArray,
-    };
-  });
+  const params = [
+    ...mapData(data.products.data),
+    ...mapData(data.categories.data),
+    ...mapData(data.pages.data),
+  ];
 
-  const pageParams = data.pages.data.map((page) => {
-    const { slug, locale } = page.attributes;
-    const slugArray = !slug ? false : slug.split('/').filter((s) => s !== '');
-    return {
-      lang: locale,
-      slug: slugArray,
-    };
-  });
-
-  const params = [...productParams, ...categoryParams, ...pageParams];
   return params;
 }
 
