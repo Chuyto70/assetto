@@ -36,6 +36,17 @@ export interface Product {
     };
     metadata: SeoMetadata;
     locale: string;
+    updatedAt: string;
+    localizations: {
+      data: [
+        {
+          attributes: {
+            locale: string;
+            slug: string;
+          };
+        }
+      ];
+    };
   };
 }
 
@@ -54,6 +65,17 @@ export interface Category {
     };
     metadata: SeoMetadata;
     locale: string;
+    updatedAt: string;
+    localizations: {
+      data: [
+        {
+          attributes: {
+            locale: string;
+            slug: string;
+          };
+        }
+      ];
+    };
   };
 }
 

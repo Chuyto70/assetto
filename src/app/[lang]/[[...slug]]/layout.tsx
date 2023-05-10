@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import {
   QueryAllPaths,
   QueryIdFromSlug,
-  QueryPageSeo,
+  QuerySeo,
   QuerySettings,
 } from '@/lib/graphql';
 import { seo } from '@/lib/seo';
@@ -43,18 +43,22 @@ export async function generateStaticParams() {
   return params;
 }
 
-// TODO: Add metadata for products and categories
-
 export async function generateMetadata({
   params: { lang, slug },
 }: {
   params: { slug: string[]; lang: string };
 }): Promise<Metadata> {
-  const { data } = await QueryPageSeo(lang, slug);
-
-  if (data.length <= 0) return seo();
-
+  const { pages, products, categories } = await QuerySeo(lang, slug);
   const { seo: defaultSeo } = await QuerySettings(lang);
+
+  if (!pages.data.length && !products.data.length && !categories.data.length)
+    return seo({ ...defaultSeo });
+
+  const data = products.data.length
+    ? products.data
+    : categories.data.length
+    ? categories.data
+    : pages.data;
 
   const {
     metadata: meta,

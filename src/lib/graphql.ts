@@ -193,15 +193,12 @@ export const QueryAllPaths = async () => {
 };
 
 /**
- * Query seo of a page from Strapi
+ * Query seo from Strapi
  * @param locale language of the requested page
  * @param slug array of slugs
- * @returns seo data of a page with direct content
+ * @returns seo data
  */
-export const QueryPageSeo = async (
-  locale: string,
-  slug: string[] | undefined
-) => {
+export const QuerySeo = async (locale: string, slug: string[] | undefined) => {
   const joinedSlug = !slug
     ? '/'
     : slug instanceof Array
@@ -213,14 +210,72 @@ export const QueryPageSeo = async (
     joinedSlug: joinedSlug,
   };
 
-  const { pages } = await StrapiClient.request<{
+  const data = await StrapiClient.request<{
     pages: {
       data: Page[];
     };
+    products: {
+      data: Product[];
+    };
+    categories: {
+      data: Category[];
+    };
   }>(
     gql`
-      query PagesSeo($locale: I18NLocaleCode!, $joinedSlug: String!) {
+      query Seo($locale: I18NLocaleCode!, $joinedSlug: String!) {
         pages(
+          filters: { slug: { eq: $joinedSlug } }
+          locale: $locale
+          pagination: { limit: 1 }
+        ) {
+          data {
+            attributes {
+              slug
+              metadata {
+                template_title
+                title_suffix
+                meta_description
+              }
+              updatedAt
+              localizations {
+                data {
+                  attributes {
+                    slug
+                    locale
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        products(
+          filters: { slug: { eq: $joinedSlug } }
+          locale: $locale
+          pagination: { limit: 1 }
+        ) {
+          data {
+            attributes {
+              slug
+              metadata {
+                template_title
+                title_suffix
+                meta_description
+              }
+              updatedAt
+              localizations {
+                data {
+                  attributes {
+                    slug
+                    locale
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        categories(
           filters: { slug: { eq: $joinedSlug } }
           locale: $locale
           pagination: { limit: 1 }
@@ -250,7 +305,7 @@ export const QueryPageSeo = async (
     queryVariables
   );
 
-  return pages;
+  return data;
 };
 
 type graphQLPageProps = {
