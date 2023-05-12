@@ -3,8 +3,8 @@ import style from './SelectedList.module.css';
 import { gql, QueryContentComponent, QueryProduct } from '@/lib/graphql';
 import { Product } from '@/lib/interfaces';
 
-import MultiProductsCard from '@/components/elements/MultiProductsCard';
-import SingleProductCard from '@/components/elements/SingleProductCard';
+import MultiProductsCard from '@/components/elements/cards/MultiProductsCard';
+import SingleProductCard from '@/components/elements/cards/SingleProductCard';
 
 type ColorProducts = {
   [id: number]: Product[];

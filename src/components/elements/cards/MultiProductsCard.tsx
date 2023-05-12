@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { Product } from '@/lib/interfaces';
 
-import SingleProductCard from '@/components/elements/SingleProductCard';
+import SingleProductCard from '@/components/elements/cards/SingleProductCard';
 
 export default function MultiProductsCard({
   locale,

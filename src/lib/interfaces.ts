@@ -1,11 +1,12 @@
 export interface CartItem {
   product: Product;
-  size?: string;
+  size: string;
   qty: number;
 }
 
 export interface Product {
   id: number;
+  selectedSize?: string;
   attributes: {
     title: string;
     slug: string;

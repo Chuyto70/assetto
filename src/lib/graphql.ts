@@ -497,7 +497,12 @@ export const QueryProductFromSlug = async (
                 }
               }
               short_description
+              sizes {
+                size
+                quantity
+              }
               colors {
+                name
                 color
                 product {
                   data {

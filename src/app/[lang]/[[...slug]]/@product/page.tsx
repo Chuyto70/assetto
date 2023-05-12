@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { QueryProductFromSlug } from '@/lib/graphql';
 
-import { AddToCartBtn } from '@/components/elements/buttons/AddToCartBtn';
+import { CartWrapper } from '@/components/elements/CartWrapper';
 
 const ProductPage = async ({
   params: { lang, slug },
@@ -17,17 +17,17 @@ const ProductPage = async ({
         {categories && (
           <h2>
             {categories.data.map((cat, index) => (
-              <>
+              <span key={`${cat.attributes.slug}-${index}`}>
                 <Link href={`/${lang}/${cat.attributes.slug}`}>
                   {cat.attributes.title}
                 </Link>
                 {index < categories.data.length - 1 && ' - '}
-              </>
+              </span>
             ))}
           </h2>
         )}
         <h1>{title}</h1>
-        <AddToCartBtn product={data[0]} displayQty={true}></AddToCartBtn>
+        <CartWrapper product={data[0]} />
       </div>
     </main>
   );

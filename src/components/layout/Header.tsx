@@ -11,7 +11,9 @@ export default function Header() {
         </UnstyledLink>
         <nav>
           <ul className='flex items-center justify-between space-x-4'>
-            <li>Cart</li>
+            <li>
+              <UnstyledLink href='/panier'>Panier</UnstyledLink>
+            </li>
           </ul>
         </nav>
       </div>

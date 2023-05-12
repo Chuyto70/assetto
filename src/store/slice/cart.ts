@@ -19,28 +19,43 @@ export const cartSlice = createSlice({
     // Add item to cart
     increment: (state, action: PayloadAction<Product>) => {
       const item = state.cartItems.find(
-        (el) => el.product.id === action.payload.id
+        (el) =>
+          el.product.id === action.payload.id &&
+          el.product.selectedSize === action.payload.selectedSize
       );
+
       if (item) item.qty++;
-      else {
-        state.cartItems.push({
-          product: action.payload,
-          qty: 1,
-          // TODO: add selected size of product, size: 'XL'
-        });
+      else if (action.payload.selectedSize) {
+        if (
+          action.payload.attributes.sizes.find(
+            (pSize) =>
+              (pSize.quantity > 0 || pSize.quantity === -1) &&
+              pSize.size === action.payload.selectedSize
+          )
+        ) {
+          state.cartItems.push({
+            product: action.payload,
+            qty: 1,
+            size: action.payload.selectedSize,
+          });
+        }
       }
     },
 
     // Remove item from cart
     decrement: (state, action: PayloadAction<Product>) => {
       const item = state.cartItems.find(
-        (el) => el.product.id === action.payload.id
+        (el) =>
+          el.product.id === action.payload.id &&
+          el.product.selectedSize === action.payload.selectedSize
       );
       if (item) {
         item.qty--;
         if (item.qty <= 0)
           state.cartItems = state.cartItems.filter(
-            (el) => el.product.id !== action.payload.id
+            (el) =>
+              el.product.id !== action.payload.id ||
+              el.product.selectedSize !== action.payload.selectedSize
           );
       }
     },
@@ -62,12 +77,6 @@ export const totalPriceSelector = createSelector([cartItems], (cartItems) =>
       (total += current.qty * current.product.attributes.price),
     0
   )
-);
-
-export const productQtySelector = createSelector(
-  [cartItems, (cartItems, productId: number) => productId],
-  (cartItems, productId) =>
-    cartItems.find((el) => el.product.id === productId)?.qty
 );
 
 export const { increment, decrement } = cartSlice.actions;
