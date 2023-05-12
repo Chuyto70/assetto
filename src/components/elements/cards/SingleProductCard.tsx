@@ -1,32 +1,11 @@
-import { isAfter, isBefore, parseISO } from 'date-fns';
 import Link from 'next/link';
 
 import style from './SingleProductCard.module.css';
 
+import { isOnSale } from '@/lib/helper';
 import { Product } from '@/lib/interfaces';
 
 import ProductCarousel from '@/components/elements/carousel/ProductCarousel';
-
-const isOnSale = (
-  date_on_sale_from: string | Date | undefined,
-  date_on_sale_to: string | Date | undefined
-) => {
-  if (date_on_sale_from && date_on_sale_to) {
-    const currentDate = new Date();
-    const fromDate =
-      typeof date_on_sale_from === 'string'
-        ? parseISO(date_on_sale_from)
-        : date_on_sale_from;
-    const toDate =
-      typeof date_on_sale_to === 'string'
-        ? parseISO(date_on_sale_to)
-        : date_on_sale_to;
-
-    if (isAfter(currentDate, fromDate) && isBefore(currentDate, toDate))
-      return true;
-  }
-  return false;
-};
 
 const SingleProductCard = ({
   locale,

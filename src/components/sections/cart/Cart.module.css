@@ -1,0 +1,7 @@
+.cart {
+  @apply flex flex-col gap-4 md:gap-8;
+}
+
+.cart__total {
+  @apply border-dark flex justify-between border-t-2 pt-4 font-bold md:pt-8;
+}

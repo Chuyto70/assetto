@@ -1,5 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { isOnSale } from '@/lib/helper';
 import { CartItem, Product } from '@/lib/interfaces';
 
 import { RootState } from '@/store';
@@ -33,9 +34,17 @@ export const cartSlice = createSlice({
               pSize.size === action.payload.selectedSize
           )
         ) {
+          const price = isOnSale(
+            action.payload.attributes.date_on_sale_from,
+            action.payload.attributes.date_on_sale_to
+          )
+            ? action.payload.attributes.sale_price ??
+              action.payload.attributes.price
+            : action.payload.attributes.price;
           state.cartItems.push({
             product: action.payload,
             qty: 1,
+            price: price,
             size: action.payload.selectedSize,
           });
         }
@@ -74,7 +83,7 @@ export const totalCartItemSelector = createSelector([cartItems], (cartItems) =>
 export const totalPriceSelector = createSelector([cartItems], (cartItems) =>
   cartItems.reduce(
     (total: number, current: CartItem) =>
-      (total += current.qty * current.product.attributes.price),
+      (total += current.price * current.qty),
     0
   )
 );

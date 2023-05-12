@@ -36,7 +36,7 @@ const ProductCarousel = ({
                 width={media.attributes.width}
                 height={media.attributes.height}
                 alt={media.attributes.alternativeText ?? ''}
-                className={clsxm(style.embla__slide, 'w-full')}
+                className={style.embla__slide}
                 imgClassName='object-cover w-full h-full'
                 sizes={imgSizes}
               />

@@ -1,5 +1,7 @@
 'use client';
 
+import style from './CartItemCard.module.css';
+
 import { MediaUrl } from '@/lib/helper';
 import { CartItem } from '@/lib/interfaces';
 
@@ -12,29 +14,43 @@ import { decrement, increment } from '@/store/slice/cart';
 export const CartItemCard = ({ cartItem }: { cartItem: CartItem }) => {
   const dispatch = useAppDispatch();
   const { title, medias, colors } = cartItem.product.attributes;
+  const totalPrice = cartItem.price * cartItem.qty;
 
   return (
-    <div>
-      <NextImage
-        src={MediaUrl(medias.data[0].attributes.url)}
-        width={150}
-        height={150}
-        alt={medias.data[0].attributes.alternativeText ?? ''}
-      />
-      <p>{title}</p>
-      <p>Taille : {cartItem.size}</p>
-      <p>
-        Colori :{' '}
-        {colors &&
-          colors.find((color) => color.product.data.id === cartItem.product.id)
-            ?.name}
-      </p>
-      <p>Quantité : {cartItem.qty}</p>
-      <QtyBtn
-        onIncrease={() => dispatch(increment(cartItem.product))}
-        onDecrease={() => dispatch(decrement(cartItem.product))}
-        qty={cartItem.qty}
-      />
+    <div className={style.card}>
+      <div className={style.card__img_container}>
+        <NextImage
+          src={MediaUrl(medias.data[0].attributes.url)}
+          useSkeleton
+          width={medias.data[0].attributes.width}
+          height={medias.data[0].attributes.height}
+          alt={medias.data[0].attributes.alternativeText ?? ''}
+          className={style.card__img}
+          imgClassName='object-cover object-center w-full h-full'
+          sizes='50vw'
+        />
+        <span className={style.card__img_qty}>{cartItem.qty}</span>
+      </div>
+      <div className={style.card__content}>
+        <p>{title}</p>
+        <span>
+          {cartItem.size && `${cartItem.size} - `}
+          {colors &&
+            colors.find(
+              (color) => color.product.data.id === cartItem.product.id
+            )?.name}
+        </span>
+      </div>
+      <div className={style.card__price}>
+        <p>{totalPrice} €</p>
+        <div>
+          <QtyBtn
+            onIncrease={() => dispatch(increment(cartItem.product))}
+            onDecrease={() => dispatch(decrement(cartItem.product))}
+            qty={cartItem.qty}
+          />
+        </div>
+      </div>
     </div>
   );
 };

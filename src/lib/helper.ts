@@ -1,3 +1,5 @@
+import { isAfter, isBefore, parseISO } from 'date-fns';
+
 import { deploymentURL } from '@/constant/env';
 
 type OpenGraphType = {
@@ -88,4 +90,25 @@ export function deepEqual(obj1: any, obj2: any): boolean {
 
 export const MediaUrl = (url: string) => {
   return `${url.startsWith('/') ? process.env.strapiURL : ''}${url}`;
+};
+
+export const isOnSale = (
+  date_on_sale_from: string | Date | undefined,
+  date_on_sale_to: string | Date | undefined
+) => {
+  if (date_on_sale_from && date_on_sale_to) {
+    const currentDate = new Date();
+    const fromDate =
+      typeof date_on_sale_from === 'string'
+        ? parseISO(date_on_sale_from)
+        : date_on_sale_from;
+    const toDate =
+      typeof date_on_sale_to === 'string'
+        ? parseISO(date_on_sale_to)
+        : date_on_sale_to;
+
+    if (isAfter(currentDate, fromDate) && isBefore(currentDate, toDate))
+      return true;
+  }
+  return false;
 };

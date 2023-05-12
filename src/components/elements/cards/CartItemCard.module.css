@@ -1,0 +1,31 @@
+.card {
+  @apply grid grid-cols-3 gap-4 md:gap-8;
+}
+
+.card__img_container {
+  @apply relative flex aspect-square;
+}
+
+.card__img {
+  @apply overflow-hidden rounded-full;
+}
+
+.card__img_qty {
+  @apply border-dark absolute right-[8%] top-[8%] flex aspect-square w-8 min-w-fit items-center justify-center rounded-full border-2 font-bold backdrop-blur-sm;
+}
+
+.card__content {
+  @apply flex flex-col justify-center;
+}
+
+.card__content p {
+  @apply text-dark font-bold;
+}
+
+.card__content span {
+  @apply text-gray-400;
+}
+
+.card__price {
+  @apply flex flex-col items-end justify-center gap-4;
+}
