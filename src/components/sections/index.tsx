@@ -1,4 +1,4 @@
-import { Cart } from '@/components/sections/cart/Cart';
+import Cart from '@/components/sections/cart/Cart';
 import SelectedList from '@/components/sections/products/SelectedList';
 
 type sectionTypeProps = {

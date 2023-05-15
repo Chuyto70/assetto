@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { QueryProductFromSlug } from '@/lib/graphql';
 
-import { CartWrapper } from '@/components/elements/CartWrapper';
+import { AddToCartBtn } from '@/components/elements/buttons/AddToCartBtn';
 
 const ProductPage = async ({
   params: { lang, slug },
@@ -27,7 +27,7 @@ const ProductPage = async ({
           </h2>
         )}
         <h1>{title}</h1>
-        <CartWrapper product={data[0]} />
+        <AddToCartBtn product={data[0]} />
       </div>
     </main>
   );

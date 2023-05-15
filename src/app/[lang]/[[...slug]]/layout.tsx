@@ -62,6 +62,7 @@ export async function generateMetadata({
     titleSuffix: meta.title_suffix,
     description: meta.meta_description || defaultSeo.description,
     path: path,
+    lang: lang,
     date: formatISO(parseISO(updatedAt)),
     localizations: localizations,
   });

@@ -24,6 +24,7 @@ type SeoProps = {
   templateTitle?: string;
   titleSuffix?: string;
   path?: string;
+  lang?: string;
   localizations?: {
     data: {
       attributes: {
@@ -53,6 +54,10 @@ export const seo = (props?: SeoProps): Metadata => {
     ? `${props.title} • ${props.siteName}`
     : meta.title;
 
+  meta['metadataBase'] = meta.lang
+    ? new URL(`${meta.url}/${meta.lang}`)
+    : new URL(`${meta.url}`);
+
   // ? Uncomment code below if you want to use default open graph
   const ogImage = openGraph({
     description: meta.description ? meta.description : defaultMeta.description,
@@ -79,7 +84,8 @@ export const seo = (props?: SeoProps): Metadata => {
 
   meta['alternates'] = {
     canonical:
-      meta.url + (meta.path.startsWith('/') ? meta.path : `/${meta.path}`),
+      meta.metadataBase +
+      (meta.path.startsWith('/') ? meta.path : `/${meta.path}`),
   };
 
   if (props?.localizations?.data) {

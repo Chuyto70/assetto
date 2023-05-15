@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig = {
   eslint: {
     dirs: ['src'],
@@ -6,10 +12,6 @@ const nextConfig = {
 
   reactStrictMode: true,
   swcMinify: true,
-
-  experimental: {
-    appDir: true,
-  },
 
   env: {
     strapiURL: process.env.STRAPI_URL,
@@ -48,4 +50,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withBundleAnalyzer(nextConfig);

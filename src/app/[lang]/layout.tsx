@@ -36,6 +36,7 @@ export async function generateMetadata({
 
   const metadata = seo({
     ...defaultSeo,
+    lang: lang,
     icons: iconList,
   });
   return metadata;

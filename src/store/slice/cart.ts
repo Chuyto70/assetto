@@ -68,6 +68,10 @@ export const cartSlice = createSlice({
           );
       }
     },
+
+    emptyCart: (state) => {
+      state.cartItems = [];
+    },
   },
 });
 
@@ -88,5 +92,5 @@ export const totalPriceSelector = createSelector([cartItems], (cartItems) =>
   )
 );
 
-export const { increment, decrement } = cartSlice.actions;
+export const { increment, decrement, emptyCart } = cartSlice.actions;
 export default cartSlice.reducer;
