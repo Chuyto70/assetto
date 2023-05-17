@@ -121,6 +121,7 @@ export interface Setting {
 interface Media {
   attributes: {
     alternativeText?: string;
+    name?: string;
     url: string;
     width: number;
     height: number;

@@ -6,11 +6,10 @@ import { Product } from '@/lib/interfaces';
 
 import Button from '@/components/elements/buttons/Button';
 
-import { useAppDispatch } from '@/store';
-import { increment } from '@/store/slice/cart';
+import { useCart } from '@/store';
 
 export const AddToCartBtn = ({ product }: { product: Product }) => {
-  const dispatch = useAppDispatch();
+  const increment = useCart().increment;
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(product);
 
@@ -31,10 +30,7 @@ export const AddToCartBtn = ({ product }: { product: Product }) => {
           {size.size}
         </Button>
       ))}
-      <Button
-        variant='outline'
-        onClick={() => dispatch(increment(selectedProduct))}
-      >
+      <Button variant='outline' onClick={() => increment(selectedProduct)}>
         Add to cart
       </Button>
     </>

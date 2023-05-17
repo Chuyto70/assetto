@@ -62,6 +62,7 @@ const ComponentSectionsProductSelectedList = gql`
             data {
               attributes {
                 alternativeText
+                name
                 url
                 width
                 height

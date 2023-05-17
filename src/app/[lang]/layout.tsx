@@ -9,7 +9,6 @@ import { MediaUrl } from '@/lib/helper';
 import { seo } from '@/lib/seo';
 
 import Header from '@/components/layout/Header';
-import { ReduxProvider } from '@/components/ReduxProvider';
 
 const noto_sans_display = Noto_Sans_Display({
   subsets: ['latin'],
@@ -55,10 +54,8 @@ export default function RootLayout({
       className={`${noto_sans_display.variable} ${inter.variable}`}
     >
       <body className='text-dark'>
-        <ReduxProvider>
-          <Header />
-          {children}
-        </ReduxProvider>
+        <Header />
+        {children}
       </body>
     </html>
   );

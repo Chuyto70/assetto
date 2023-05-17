@@ -420,6 +420,7 @@ export const QueryProduct = async (
                 data {
                   attributes {
                     alternativeText
+                    name
                     url
                     width
                     height
@@ -489,6 +490,7 @@ export const QueryProductFromSlug = async (
                 data {
                   attributes {
                     alternativeText
+                    name
                     url
                     width
                     height

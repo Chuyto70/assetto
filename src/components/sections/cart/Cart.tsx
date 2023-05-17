@@ -5,13 +5,12 @@ import style from './Cart.module.css';
 import Button from '@/components/elements/buttons/Button';
 import { CartItemCard } from '@/components/elements/cards/CartItemCard';
 
-import { useAppDispatch, useAppSelector } from '@/store';
-import { emptyCart, totalPriceSelector } from '@/store/slice/cart';
+import { useCart } from '@/store';
 
 export default function Cart() {
-  const dispatch = useAppDispatch();
-  const cartItems = useAppSelector((state) => state.cart.cartItems);
-  const cartTotalPrice = useAppSelector(totalPriceSelector);
+  const cartItems = useCart((state) => state.cartItems);
+  const cartTotalPrice = useCart.getState().totalPrice;
+  const emptyCart = useCart((state) => state.emptyCart);
 
   return (
     <div className={style.cart}>
@@ -20,10 +19,10 @@ export default function Cart() {
       ))}
       {!cartItems.length && <p>Empty cart</p>}
       <div className={style.cart__total}>
-        <p>total</p>
+        <p>Total</p>
         <p>{cartTotalPrice} €</p>
       </div>
-      <Button variant='outline' onClick={() => dispatch(emptyCart())}>
+      <Button variant='outline' onClick={emptyCart}>
         Vider le panier
       </Button>
     </div>

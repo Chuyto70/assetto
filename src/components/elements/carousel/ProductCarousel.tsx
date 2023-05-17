@@ -22,7 +22,6 @@ const ProductCarousel = ({
   imgSizes?: string;
 }) => {
   const [emblaRef] = useEmblaCarousel({ loop: true });
-
   return (
     <div className={clsxm(style.embla, className)} ref={emblaRef}>
       <div className={style.embla__container}>
@@ -59,6 +58,11 @@ const ProductCarousel = ({
                 <source
                   src={MediaUrl(media.attributes.url)}
                   type={media.attributes.mime}
+                />
+                <meta itemProp='name' content={media.attributes.name} />
+                <meta
+                  itemProp='description'
+                  content={media.attributes.alternativeText}
                 />
               </video>
             );

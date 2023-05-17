@@ -8,11 +8,13 @@ import { CartItem } from '@/lib/interfaces';
 import { QtyBtn } from '@/components/elements/buttons/QtyBtn';
 import NextImage from '@/components/NextImage';
 
-import { useAppDispatch } from '@/store';
-import { decrement, increment } from '@/store/slice/cart';
+import { useCart } from '@/store';
 
 export const CartItemCard = ({ cartItem }: { cartItem: CartItem }) => {
-  const dispatch = useAppDispatch();
+  const { increment, decrement } = useCart((state) => ({
+    increment: state.increment,
+    decrement: state.decrement,
+  }));
   const { title, medias, colors } = cartItem.product.attributes;
   const totalPrice = cartItem.price * cartItem.qty;
 
@@ -45,8 +47,8 @@ export const CartItemCard = ({ cartItem }: { cartItem: CartItem }) => {
         <p>{totalPrice} €</p>
         <div>
           <QtyBtn
-            onIncrease={() => dispatch(increment(cartItem.product))}
-            onDecrease={() => dispatch(decrement(cartItem.product))}
+            onIncrease={() => increment(cartItem.product)}
+            onDecrease={() => decrement(cartItem.product)}
             qty={cartItem.qty}
           />
         </div>
