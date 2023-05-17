@@ -6,7 +6,7 @@ import { Product } from '@/lib/interfaces';
 
 import Button from '@/components/elements/buttons/Button';
 
-import { useCart } from '@/store';
+import { useCart } from '@/store/cartStore';
 
 export const AddToCartBtn = ({ product }: { product: Product }) => {
   const increment = useCart().increment;

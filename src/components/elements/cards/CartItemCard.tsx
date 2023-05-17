@@ -8,7 +8,7 @@ import { CartItem } from '@/lib/interfaces';
 import { QtyBtn } from '@/components/elements/buttons/QtyBtn';
 import NextImage from '@/components/NextImage';
 
-import { useCart } from '@/store';
+import { useCart } from '@/store/cartStore';
 
 export const CartItemCard = ({ cartItem }: { cartItem: CartItem }) => {
   const { increment, decrement } = useCart((state) => ({
