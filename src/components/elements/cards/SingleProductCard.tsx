@@ -7,13 +7,13 @@ import { Product } from '@/lib/interfaces';
 
 import ProductCarousel from '@/components/elements/carousel/ProductCarousel';
 
+import { useServer } from '@/store/serverStore';
+
 const SingleProductCard = ({
-  locale,
   product,
   imgSizes,
   colorSwitch,
 }: {
-  locale: string;
   product: Product;
   imgSizes?: string;
   colorSwitch?: (id: number) => void;
@@ -29,6 +29,8 @@ const SingleProductCard = ({
     short_description,
     colors,
   } = product.attributes;
+
+  const { locale, translations } = useServer.getState();
 
   return (
     <div className={style.product}>
@@ -62,7 +64,7 @@ const SingleProductCard = ({
               onClick={() => colorSwitch && colorSwitch(color.product.data.id)}
             ></button>
           ))}
-          {colors.length} coloris
+          {colors.length} {translations.colors}
         </p>
       )}
     </div>
@@ -72,6 +74,5 @@ const SingleProductCard = ({
 export default SingleProductCard;
 
 /**
- * TODO: Ajouter les traductions depuis STRAPI
  * TODO: Ajouter le bandeau promo ou nouveauté sur le composant
  */

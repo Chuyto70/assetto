@@ -16,7 +16,6 @@ const Section = (props: {
   sectionType: sectionTypeProps;
   index: number;
   pageID: number;
-  locale: string;
 }) => {
   // Prepare the component
   const SectionComponent = sectionComponents[props.sectionType.__typename];
@@ -26,17 +25,11 @@ const Section = (props: {
   }
 
   // Display the section
-  return (
-    <SectionComponent
-      pageID={props.pageID}
-      index={props.index}
-      locale={props.locale}
-    />
-  );
+  return <SectionComponent pageID={props.pageID} index={props.index} />;
 };
 
 // Display the list of sections
-const Sections = (props: { sections: []; pageID: number; locale: string }) => {
+const Sections = (props: { sections: []; pageID: number }) => {
   return (
     <>
       {/* Show the actual sections */}
@@ -45,7 +38,6 @@ const Sections = (props: { sections: []; pageID: number; locale: string }) => {
           sectionType={section}
           index={index}
           pageID={props.pageID}
-          locale={props.locale}
           key={`${section.__typename}${index}`}
         />
       ))}

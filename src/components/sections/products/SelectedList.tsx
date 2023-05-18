@@ -6,6 +6,8 @@ import { Product } from '@/lib/interfaces';
 import MultiProductsCard from '@/components/elements/cards/MultiProductsCard';
 import SingleProductCard from '@/components/elements/cards/SingleProductCard';
 
+import { useServer } from '@/store/serverStore';
+
 type ColorProducts = {
   [id: number]: Product[];
 };
@@ -86,11 +88,9 @@ const ComponentSectionsProductSelectedList = gql`
 `;
 
 export default (async function SelectedList({
-  locale,
   pageID,
   index,
 }: {
-  locale: string;
   pageID: number;
   index: number;
 }) {
@@ -108,6 +108,7 @@ export default (async function SelectedList({
       };
     };
   };
+  const locale = useServer.getState().locale;
   const { page }: dataType = await QueryContentComponent(
     locale,
     pageID,
@@ -128,13 +129,11 @@ export default (async function SelectedList({
           <li key={index}>
             {(productsList.length > 1 && (
               <MultiProductsCard
-                locale={locale}
                 products={productsList}
                 imgSizes='(max-width: 475px) 100vh, 80vh'
               />
             )) || (
               <SingleProductCard
-                locale={locale}
                 product={product}
                 imgSizes='(max-width: 475px) 100vh, 80vh'
               />
@@ -145,11 +144,9 @@ export default (async function SelectedList({
     </ul>
   );
 } as unknown as ({
-  locale,
   pageID,
   index,
 }: {
-  locale: string;
   pageID: number;
   index: number;
 }) => JSX.Element);

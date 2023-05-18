@@ -7,11 +7,14 @@ import { Product } from '@/lib/interfaces';
 import Button from '@/components/elements/buttons/Button';
 
 import { useCart } from '@/store/cartStore';
+import { useServer } from '@/store/serverStore';
 
 export const AddToCartBtn = ({ product }: { product: Product }) => {
   const increment = useCart().increment;
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(product);
+
+  const translations = useServer.getState().translations;
 
   const handleSizeSelect = (size: string) => {
     setSelectedSize(size);
@@ -31,7 +34,7 @@ export const AddToCartBtn = ({ product }: { product: Product }) => {
         </Button>
       ))}
       <Button variant='outline' onClick={() => increment(selectedProduct)}>
-        Add to cart
+        {translations.add_to_cart_btn}
       </Button>
     </>
   );

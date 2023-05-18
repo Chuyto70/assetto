@@ -7,11 +7,9 @@ import { Product } from '@/lib/interfaces';
 import SingleProductCard from '@/components/elements/cards/SingleProductCard';
 
 export default function MultiProductsCard({
-  locale,
   products,
   imgSizes,
 }: {
-  locale: string;
   products: Product[];
   imgSizes?: string;
 }) {
@@ -32,7 +30,6 @@ export default function MultiProductsCard({
           transition={{ duration: 0.2 }}
         >
           <SingleProductCard
-            locale={locale}
             product={selectedCard}
             imgSizes={imgSizes}
             colorSwitch={changeSelectedCard}

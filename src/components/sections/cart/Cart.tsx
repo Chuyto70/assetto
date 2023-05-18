@@ -7,24 +7,27 @@ import { CartItemCard } from '@/components/elements/cards/CartItemCard';
 
 import useStore from '@/store';
 import { useCart } from '@/store/cartStore';
+import { useServer } from '@/store/serverStore';
 
 export default function Cart() {
   const cartItems = useStore(useCart, (state) => state.cartItems);
   const cartTotalPrice = useStore(useCart, (state) => state.totalPrice) ?? 0;
   const emptyCart = useCart((state) => state.emptyCart);
 
+  const translations = useServer.getState().translations;
+
   return (
     <div className={style.cart}>
       {cartItems?.map((item, index) => (
         <CartItemCard key={index} cartItem={item} />
       ))}
-      {!cartItems?.length && <p>Empty cart</p>}
+      {!cartItems?.length && <p>{translations.cart_empty}</p>}
       <div className={style.cart__total}>
-        <p>Total</p>
+        <p>{translations.total}</p>
         <p>{cartTotalPrice} €</p>
       </div>
       <Button variant='outline' onClick={emptyCart}>
-        Vider le panier
+        {translations.empty_cart_btn}
       </Button>
     </div>
   );

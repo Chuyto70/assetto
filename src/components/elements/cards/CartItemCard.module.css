@@ -11,7 +11,7 @@
 }
 
 .card__img_qty {
-  @apply border-dark absolute right-[8%] top-[8%] flex aspect-square w-8 min-w-fit items-center justify-center rounded-full border-2 font-bold backdrop-blur-sm;
+  @apply border-dark absolute right-0 top-0 flex aspect-square w-8 min-w-fit items-center justify-center rounded-full border-2 font-bold backdrop-blur-sm;
 }
 
 .card__content {

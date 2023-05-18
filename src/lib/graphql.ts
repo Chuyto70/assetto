@@ -57,6 +57,42 @@ export const QuerySettings = async (locale: string) => {
 };
 
 /**
+ * Query static texts from Strapi
+ * @returns translations of static text json format
+ */
+export const QueryStaticTexts = async (locale: string) => {
+  const queryVariables = {
+    locale: locale,
+  };
+
+  const { staticText } = await StrapiClient.request<{
+    staticText: {
+      data: {
+        attributes: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          translations: any;
+        };
+      };
+    };
+  }>(
+    gql`
+      query Settings($locale: I18NLocaleCode!) {
+        staticText(locale: $locale) {
+          data {
+            attributes {
+              translations
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return staticText.data.attributes;
+};
+
+/**
  * Query page, product or category id from slug
  * @param locale locale language
  * @param slug array of slugs

@@ -4,11 +4,14 @@ import { Inter, Noto_Sans_Display } from 'next/font/google';
 
 import '@/assets/styles/globals.css';
 
-import { QuerySettings } from '@/lib/graphql';
+import { QuerySettings, QueryStaticTexts } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
 import { seo } from '@/lib/seo';
 
 import Header from '@/components/layout/Header';
+import { ZustandProvider } from '@/components/ZustandProvider';
+
+import { useServer } from '@/store/serverStore';
 
 const noto_sans_display = Noto_Sans_Display({
   subsets: ['latin'],
@@ -41,19 +44,23 @@ export async function generateMetadata({
   return metadata;
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params: { lang },
 }: {
   children: React.ReactNode;
   params: { lang: string };
 }) {
+  const { translations } = await QueryStaticTexts(lang);
+  useServer.setState({ locale: lang, translations: translations });
+
   return (
     <html
       lang={lang ?? 'fr'}
       className={`${noto_sans_display.variable} ${inter.variable}`}
     >
       <body className='text-dark'>
+        <ZustandProvider serverState={useServer.getState()} />
         <Header />
         {children}
       </body>

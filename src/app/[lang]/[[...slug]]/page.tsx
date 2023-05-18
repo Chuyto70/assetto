@@ -20,7 +20,7 @@ export default async function Page({
     <main className='flex min-h-screen flex-col items-center justify-between p-4 md:p-8'>
       <div>
         <h1 className='text-5xl font-bold uppercase '>{title}</h1>
-        <Sections sections={content} pageID={pageID} locale={lang} />
+        <Sections sections={content} pageID={pageID} />
       </div>
     </main>
   );
