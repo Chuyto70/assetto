@@ -24,9 +24,7 @@ const buildColorProducts = async (
     if (product.attributes.colors && product.attributes.colors.length > 0) {
       return product.attributes.colors
         .filter((color) => color.product.data.id !== product.id)
-        .map((color) =>
-          QueryProduct(locale, color.product.data.id, { colors: true })
-        );
+        .map((color) => QueryProduct(locale, color.product.data.id));
     }
     return [];
   });

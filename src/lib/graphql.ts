@@ -414,28 +414,11 @@ export const QueryPageFromSlug = async (
  * @param id id of the product
  * @returns data of a product
  */
-export const QueryProduct = async (
-  locale: string,
-  id: number,
-  options?: { colors?: boolean; short_description?: boolean }
-) => {
+export const QueryProduct = async (locale: string, id: number) => {
   const queryVariables = {
     locale: locale,
     id: id,
   };
-
-  const colorsFragment = gql`
-    fragment colors on Product {
-      colors {
-        color
-        product {
-          data {
-            id
-          }
-        }
-      }
-    }
-  `;
 
   const { product } = await StrapiClient.request<{
     product: { data: Product };
@@ -464,14 +447,35 @@ export const QueryProduct = async (
                   }
                 }
               }
-              ${(options?.short_description && 'short_description') || ''}
-              ${(options?.colors && '...colors') || ''}
+              short_description
+              sizes {
+                size
+                quantity
+              }
+              colors {
+                name
+                color
+                product {
+                  data {
+                    id
+                    attributes {
+                      slug
+                    }
+                  }
+                }
+              }
+              categories {
+                data {
+                  attributes {
+                    title
+                    slug
+                  }
+                }
+              }
             }
           }
         }
       }
-
-      ${(options?.colors && colorsFragment) || ''}
     `,
     queryVariables
   );

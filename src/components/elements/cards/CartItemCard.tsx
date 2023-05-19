@@ -15,22 +15,24 @@ export const CartItemCard = ({ cartItem }: { cartItem: CartItem }) => {
     increment: state.increment,
     decrement: state.decrement,
   }));
-  const { title, medias, colors } = cartItem.product.attributes;
+  const { title, medias, colors } = cartItem.product.attributes ?? {};
   const totalPrice = cartItem.price * cartItem.qty;
 
   return (
     <div className={style.card}>
       <div className={style.card__img_container}>
-        <NextImage
-          src={MediaUrl(medias.data[0].attributes.url)}
-          useSkeleton
-          width={medias.data[0].attributes.width}
-          height={medias.data[0].attributes.height}
-          alt={medias.data[0].attributes.alternativeText ?? ''}
-          className={style.card__img}
-          imgClassName='object-cover object-center w-full h-full'
-          sizes='50vw'
-        />
+        {medias && (
+          <NextImage
+            src={MediaUrl(medias.data[0].attributes.url)}
+            useSkeleton
+            width={medias.data[0].attributes.width}
+            height={medias.data[0].attributes.height}
+            alt={medias.data[0].attributes.alternativeText ?? ''}
+            className={style.card__img}
+            imgClassName='object-cover object-center w-full h-full'
+            sizes='50vw'
+          />
+        )}
         <span className={style.card__img_qty}>{cartItem.qty}</span>
       </div>
       <div className={style.card__content}>

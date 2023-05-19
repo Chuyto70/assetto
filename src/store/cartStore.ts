@@ -1,8 +1,14 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import { QueryProduct } from '@/lib/graphql';
 import { isOnSale } from '@/lib/helper';
 import { CartItem, Product } from '@/lib/interfaces';
+
+import { useServer } from '@/store/serverStore';
 
 export interface CartState {
   cartItems: CartItem[];
@@ -14,14 +20,19 @@ export interface CartActions {
   increment: (product: Product) => void;
   decrement: (product: Product) => void;
   emptyCart: () => void;
+  refreshCart: () => void;
 }
+
+const initialState: CartState = {
+  cartItems: [],
+  totalItems: 0,
+  totalPrice: 0,
+};
 
 export const useCart = create<CartState & CartActions>()(
   persist(
-    (set) => ({
-      cartItems: [],
-      totalItems: 0,
-      totalPrice: 0,
+    (set, get) => ({
+      ...initialState,
       increment: (product) =>
         set((state) => {
           const item = state.cartItems.find(
@@ -110,11 +121,63 @@ export const useCart = create<CartState & CartActions>()(
             totalPrice: totalPrice,
           };
         }),
-      emptyCart: () =>
-        set(() => ({ cartItems: [], totalItems: 0, totalPrice: 0 })),
+      emptyCart: () => set(initialState),
+      refreshCart: async () => {
+        const updatedCart = await Promise.all(
+          get().cartItems.map(async (item) => {
+            const { data } = await QueryProduct(
+              useServer.getState().locale,
+              item.product.id
+            );
+
+            const price = isOnSale(
+              data.attributes.date_on_sale_from,
+              data.attributes.date_on_sale_to
+            )
+              ? data.attributes.sale_price ?? data.attributes.price
+              : data.attributes.price;
+
+            if (
+              data.attributes.sizes.find(
+                (el) =>
+                  (el.quantity > 0 || el.quantity === -1) &&
+                  el.size === item.size
+              )
+            ) {
+              return {
+                ...item,
+                product: { ...data, selectedSize: item.size },
+                price: price,
+              };
+            }
+          })
+        );
+        const totalItems = get().cartItems.length;
+        const totalPrice = updatedCart.reduce(
+          (total, item) => total + item?.price * item?.qty,
+          0
+        );
+        set({
+          cartItems: updatedCart,
+          totalItems: totalItems,
+          totalPrice: totalPrice,
+        });
+      },
     }),
     {
       name: 'cart',
+      version: 1,
+      partialize: (state) => ({
+        cartItems: state.cartItems.map((item) => ({
+          product: { id: item.product.id },
+          size: item.size,
+          qty: item.qty,
+          price: item.price,
+        })),
+      }),
+      onRehydrateStorage: () => (state) => {
+        state.refreshCart();
+      },
     }
   )
 );
