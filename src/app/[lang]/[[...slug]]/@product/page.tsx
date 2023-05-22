@@ -10,7 +10,7 @@ const ProductPage = async ({
   params: { slug: string[]; lang: string };
 }) => {
   const { data } = await QueryProductFromSlug(lang, slug);
-  const { title, categories } = data[0].attributes;
+  const { title, categories, price } = data[0].attributes;
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-4 md:p-8'>
       <div>
@@ -27,6 +27,7 @@ const ProductPage = async ({
           </h2>
         )}
         <h1>{title}</h1>
+        <p>{price}</p>
         <AddToCartBtn product={data[0]} />
       </div>
     </main>

@@ -3,7 +3,6 @@ import { gql, GraphQLClient } from 'graphql-request';
 import { Category, Page, Product, Setting } from '@/lib/interfaces';
 
 const API_URL = process.env.strapiURL || 'http://localhost:1337';
-const GRAPHQL_URL = `${API_URL}/graphql` as string;
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
 
 export { gql } from 'graphql-request';
@@ -24,12 +23,11 @@ export const QuerySettings = async (locale: string) => {
     locale: locale,
   };
 
-  const queryClient = new GraphQLClient(GRAPHQL_URL, {
-    ...StrapiClient.requestConfig,
-    next: { tags: ['settings'] },
-  });
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: ['settings'] } });
 
-  const { setting } = await queryClient.request<{
+  const { setting } = await StrapiClient.request<{
     setting: {
       data: Setting;
     };
@@ -71,12 +69,11 @@ export const QueryStaticTexts = async (locale: string) => {
     locale: locale,
   };
 
-  const queryClient = new GraphQLClient(GRAPHQL_URL, {
-    ...StrapiClient.requestConfig,
-    next: { tags: ['static_texts'] },
-  });
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: ['static_texts'] } });
 
-  const { staticText } = await queryClient.request<{
+  const { staticText } = await StrapiClient.request<{
     staticText: {
       data: {
         attributes: {
@@ -124,12 +121,14 @@ export const QueryIdFromSlug = async (
     joinedSlug: joinedSlug,
   };
 
-  const queryClient = new GraphQLClient(GRAPHQL_URL, {
-    ...StrapiClient.requestConfig,
-    next: { tags: ['pages', 'products', 'categories'] },
-  });
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, {
+      ...options,
+      next: { tags: ['pages', 'products', 'categories'] },
+    });
 
-  const data = await queryClient.request<{
+  const data = await StrapiClient.request<{
     pages: {
       data: Page[];
     };
@@ -205,12 +204,14 @@ type graphQLPathsProps = {
  * @returns list of paths including languages
  */
 export const QueryAllPaths = async () => {
-  const queryClient = new GraphQLClient(GRAPHQL_URL, {
-    ...StrapiClient.requestConfig,
-    next: { tags: ['pages', 'products', 'categories'] },
-  });
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, {
+      ...options,
+      next: { tags: ['pages', 'products', 'categories'] },
+    });
 
-  const data = await queryClient.request<graphQLPathsProps>(
+  const data = await StrapiClient.request<graphQLPathsProps>(
     gql`
       query Paths {
         pages(publicationState: LIVE, locale: "all") {
@@ -267,12 +268,14 @@ export const QuerySeo = async (locale: string, slug: string[] | undefined) => {
     joinedSlug: joinedSlug,
   };
 
-  const queryClient = new GraphQLClient(GRAPHQL_URL, {
-    ...StrapiClient.requestConfig,
-    next: { tags: ['pages', 'products', 'categories'] },
-  });
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, {
+      ...options,
+      next: { tags: ['pages', 'products', 'categories'] },
+    });
 
-  const data = await queryClient.request<{
+  const data = await StrapiClient.request<{
     pages: {
       data: Page[];
     };
@@ -406,12 +409,11 @@ export const QueryPageFromSlug = async (
     joinedSlug: joinedSlug,
   };
 
-  const queryClient = new GraphQLClient(GRAPHQL_URL, {
-    ...StrapiClient.requestConfig,
-    next: { tags: ['pages'] },
-  });
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: ['pages'] } });
 
-  const { pages } = await queryClient.request<graphQLPageProps>(
+  const { pages } = await StrapiClient.request<graphQLPageProps>(
     gql`
       query Pages($locale: I18NLocaleCode!, $joinedSlug: String!) {
         pages(
@@ -451,12 +453,11 @@ export const QueryProduct = async (locale: string, id: number) => {
     id: id,
   };
 
-  const queryClient = new GraphQLClient(GRAPHQL_URL, {
-    ...StrapiClient.requestConfig,
-    next: { tags: ['products'] },
-  });
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: ['products'] } });
 
-  const { product } = await queryClient.request<{
+  const { product } = await StrapiClient.request<{
     product: { data: Product };
   }>(
     gql`
@@ -540,12 +541,11 @@ export const QueryProductFromSlug = async (
     joinedSlug: joinedSlug,
   };
 
-  const queryClient = new GraphQLClient(GRAPHQL_URL, {
-    ...StrapiClient.requestConfig,
-    next: { tags: ['products'] },
-  });
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: ['products'] } });
 
-  const { products } = await queryClient.request<{
+  const { products } = await StrapiClient.request<{
     products: { data: Product[] };
   }>(
     gql`
@@ -636,14 +636,13 @@ export const QueryContentComponent = async (
     id: id,
   };
 
-  const queryClient = new GraphQLClient(GRAPHQL_URL, {
-    ...StrapiClient.requestConfig,
-    next: { tags: [type] },
-  });
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: [type] } });
 
   const response =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await queryClient.request<any>(
+    await StrapiClient.request<any>(
       gql`
         query QueryContentComponent($id: ID!, $locale: I18NLocaleCode!) {
           ${type}(id: $id, locale: $locale) {

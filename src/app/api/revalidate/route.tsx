@@ -18,16 +18,27 @@ enum Tag {
 }
 
 export const POST = async (req: NextRequest) => {
-  const data = await req.json();
-  const { model } = data;
-  if (model in Model) {
-    const tag = Tag[model as Model] as string;
-    revalidateTag(tag);
+  if (req.headers.get('Authorization')) {
+    const reqToken = req.headers.get('Authorization');
+    const token = `Bearer ${process.env.STRAPI_WEBHOOK_TOKEN}`;
+    if (reqToken === token) {
+      const data = await req.json();
+      const { model } = data;
+      if (model in Model) {
+        const tag = Tag[model as Model] as string;
+        revalidateTag(tag);
+        return NextResponse.json(
+          { revalidated: true, now: Date.now() },
+          { status: 200 }
+        );
+      }
+      return NextResponse.json(
+        { revalidated: false, now: Date.now() },
+        { status: 400 }
+      );
+    }
   }
-  return new NextResponse();
+  return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
 };
 
 export const runtime = 'edge';
-
-// CACHE CERTAINEMENT TOUJOUR HIT CAR LES DONNES NE SONT PAS MISES A JOUR AVEC LE REVALIDATE, certainement car j'utilise une nouvelle instance du client strapi a chaque fois
-// TODO: ajouter un token autorization a verifier
