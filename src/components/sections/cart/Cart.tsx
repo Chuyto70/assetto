@@ -9,13 +9,12 @@ import useStore from '@/store';
 import { useCart } from '@/store/cartStore';
 import { useServer } from '@/store/serverStore';
 
-export default function Cart() {
+const Cart = () => {
   const cartItems = useStore(useCart, (state) => state.cartItems);
   const cartTotalPrice = useStore(useCart, (state) => state.totalPrice) ?? 0;
   const emptyCart = useCart((state) => state.emptyCart);
 
   const translations = useServer.getState().translations;
-
   return (
     <div className={style.cart}>
       {cartItems?.map((item, index) => (
@@ -31,4 +30,6 @@ export default function Cart() {
       </Button>
     </div>
   );
-}
+};
+
+export default Cart;

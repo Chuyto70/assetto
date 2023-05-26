@@ -50,6 +50,7 @@ export const useCart = create<CartState & CartActions>()(
                     pSize.size === product.selectedSize
                 )
               ) {
+                //!AJOUTER VERIF QUANTITE
                 const price = isOnSale(
                   product.attributes.date_on_sale_from,
                   product.attributes.date_on_sale_to
@@ -144,6 +145,7 @@ export const useCart = create<CartState & CartActions>()(
                   el.size === item.size
               )
             ) {
+              //!AJOUTER VERIF QUANTITE
               return {
                 ...item,
                 product: { ...data, selectedSize: item.size },

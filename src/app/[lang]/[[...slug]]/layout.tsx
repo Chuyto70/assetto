@@ -1,36 +1,31 @@
 import { formatISO, parseISO } from 'date-fns';
 import { Metadata } from 'next';
 
-import {
-  QueryAllPaths,
-  QueryIdFromSlug,
-  QuerySeo,
-  QuerySettings,
-} from '@/lib/graphql';
-import { Category, Page, Product } from '@/lib/interfaces';
+import { QueryIdFromSlug, QuerySeo, QuerySettings } from '@/lib/graphql';
 import { seo } from '@/lib/seo';
 
-export async function generateStaticParams() {
-  const data = await QueryAllPaths();
+//! This is commented for serverAction to work https://github.com/vercel/next.js/issues/49408
+// export async function generateStaticParams() {
+//   const data = await QueryAllPaths();
 
-  function mapData(dataArray: (Product | Category | Page)[]) {
-    return dataArray.map(({ attributes: { slug, locale } }) => {
-      const slugArray = slug ? slug.split('/').filter((s) => s !== '') : false;
-      return {
-        lang: locale,
-        slug: slugArray,
-      };
-    });
-  }
+//   function mapData(dataArray: (Product | Category | Page)[]) {
+//     return dataArray.map(({ attributes: { slug, locale } }) => {
+//       const slugArray = slug ? slug.split('/').filter((s) => s !== '') : false;
+//       return {
+//         lang: locale,
+//         slug: slugArray,
+//       };
+//     });
+//   }
 
-  const params = [
-    ...mapData(data.products.data),
-    ...mapData(data.categories.data),
-    ...mapData(data.pages.data),
-  ];
+//   const params = [
+//     ...mapData(data.products.data),
+//     ...mapData(data.categories.data),
+//     ...mapData(data.pages.data),
+//   ];
 
-  return params;
-}
+//   return params;
+// }
 
 export async function generateMetadata({
   params: { lang, slug },

@@ -1,4 +1,4 @@
-import Cart from '@/components/sections/cart/Cart';
+import CartWrapper from '@/components/sections/cart/CartWrapper';
 import SelectedList from '@/components/sections/products/SelectedList';
 
 type sectionTypeProps = {
@@ -8,7 +8,7 @@ type sectionTypeProps = {
 // Map Strapi sections to section components
 const sectionComponents = {
   ComponentSectionsProductSelectedList: SelectedList,
-  ComponentSectionsCart: Cart,
+  ComponentSectionsCart: CartWrapper,
 };
 
 // Display a section individually
