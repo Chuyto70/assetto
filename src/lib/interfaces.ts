@@ -3,6 +3,7 @@ export interface CartItem {
   size: string;
   price: number;
   qty: number;
+  color?: string;
 }
 
 export interface Product {
@@ -118,6 +119,24 @@ export interface Setting {
   };
 }
 
+export interface Order {
+  id: number;
+  attributes: {
+    stripe_tx_id: string;
+    name: string;
+    email: string;
+    city: string;
+    country: string;
+    line1: string;
+    line2: string;
+    postal_code: string;
+    state: string;
+    status: ENUM_ORDER_STATUS;
+    amount: number;
+    products: unknown;
+  };
+}
+
 interface Media {
   attributes: {
     alternativeText?: string;
@@ -139,4 +158,11 @@ interface SeoMetadata {
   template_title?: string;
   title_suffix?: string;
   meta_description?: string;
+}
+
+enum ENUM_ORDER_STATUS {
+  succeeded,
+  pending,
+  checkout,
+  failed,
 }

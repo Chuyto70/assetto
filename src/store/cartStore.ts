@@ -8,12 +8,11 @@ import { QueryProduct } from '@/lib/graphql';
 import { isOnSale } from '@/lib/helper';
 import { CartItem, Product } from '@/lib/interfaces';
 
-import { useServer } from '@/store/serverStore';
-
 export interface CartState {
   cartItems: CartItem[];
   totalItems: number;
   totalPrice: number;
+  clientSecret: string | undefined;
 }
 
 export interface CartActions {
@@ -21,6 +20,7 @@ export interface CartActions {
   decrement: (product: Product) => void;
   emptyCart: () => void;
   refreshCart: () => void;
+  setClientSecret: (clientSecret: string) => void;
 }
 
 const initialState: CartState = {
@@ -43,50 +43,70 @@ export const useCart = create<CartState & CartActions>()(
 
           if (!item) {
             if (product.selectedSize) {
-              if (
-                product.attributes.sizes.find(
-                  (pSize) =>
-                    (pSize.quantity > 0 || pSize.quantity === -1) &&
-                    pSize.size === product.selectedSize
-                )
-              ) {
-                //!AJOUTER VERIF QUANTITE
-                const price = isOnSale(
-                  product.attributes.date_on_sale_from,
-                  product.attributes.date_on_sale_to
-                )
-                  ? product.attributes.sale_price ?? product.attributes.price
-                  : product.attributes.price;
+              // Find the corresponding size in the product attributes
+              const size = product.attributes.sizes.find(
+                (pSize) => pSize.size === product.selectedSize
+              );
 
-                return {
-                  cartItems: [
-                    ...state.cartItems,
-                    {
-                      product: product,
-                      qty: 1,
-                      price: price,
-                      size: product.selectedSize,
-                    },
-                  ],
-                  totalItems: state.totalItems + 1,
-                  totalPrice: state.totalPrice + price,
-                };
+              // Check if the size exists and if the quantity is sufficient or unlimited
+              if (size && (size.quantity > 0 || size.quantity === -1)) {
+                // Check if the requested quantity does not exceed the available quantity
+                if (size.quantity >= 1 || size.quantity === -1) {
+                  const price = isOnSale(
+                    product.attributes.date_on_sale_from,
+                    product.attributes.date_on_sale_to
+                  )
+                    ? product.attributes.sale_price ?? product.attributes.price
+                    : product.attributes.price;
+
+                  const colorName = product.attributes.colors?.find(
+                    (c) => c.product.data.id === product.id
+                  )?.name;
+
+                  return {
+                    cartItems: [
+                      ...state.cartItems,
+                      {
+                        product: product,
+                        qty: 1,
+                        price: price,
+                        size: product.selectedSize,
+                        color: colorName,
+                      },
+                    ],
+                    totalItems: state.totalItems + 1,
+                    totalPrice: state.totalPrice + price,
+                  };
+                }
               }
             }
+          } else {
+            // Find the corresponding size in the product attributes
+            const size = product.attributes.sizes.find(
+              (pSize) => pSize.size === item.product.selectedSize
+            );
+
+            // Check if the quantity is sufficient or unlimited
+            if (
+              size &&
+              (size.quantity > item.qty + 1 || size.quantity === -1)
+            ) {
+              const updatedCart = state.cartItems.map((el) =>
+                el.product.id === product.id &&
+                el.product.selectedSize === product.selectedSize
+                  ? { ...el, qty: el.qty + 1 }
+                  : el
+              );
+
+              return {
+                cartItems: updatedCart,
+                totalItems: state.totalItems + 1,
+                totalPrice: state.totalPrice + (item?.price ?? 0),
+              };
+            }
+
+            return {};
           }
-
-          const updatedCart = state.cartItems.map((el) =>
-            el.product.id === product.id &&
-            el.product.selectedSize === product.selectedSize
-              ? { ...el, qty: el.qty + 1 }
-              : el
-          );
-
-          return {
-            cartItems: updatedCart,
-            totalItems: state.totalItems + 1,
-            totalPrice: state.totalPrice + (item?.price ?? 0),
-          };
         }),
       decrement: (product) =>
         set((state) => {
@@ -126,10 +146,7 @@ export const useCart = create<CartState & CartActions>()(
       refreshCart: async () => {
         const updatedCart = await Promise.all(
           get().cartItems.map(async (item) => {
-            const { data } = await QueryProduct(
-              useServer.getState().locale,
-              item.product.id
-            );
+            const { data } = await QueryProduct(item.product.id);
 
             const price = isOnSale(
               data.attributes.date_on_sale_from,
@@ -138,19 +155,18 @@ export const useCart = create<CartState & CartActions>()(
               ? data.attributes.sale_price ?? data.attributes.price
               : data.attributes.price;
 
-            if (
-              data.attributes.sizes.find(
-                (el) =>
-                  (el.quantity > 0 || el.quantity === -1) &&
-                  el.size === item.size
-              )
-            ) {
-              //!AJOUTER VERIF QUANTITE
-              return {
-                ...item,
-                product: { ...data, selectedSize: item.size },
-                price: price,
-              };
+            const size = data.attributes.sizes.find(
+              (el) => el.size === item.size
+            );
+
+            if (size && (size.quantity > 0 || size.quantity === -1)) {
+              if (size.quantity >= item.qty || size.quantity === -1) {
+                return {
+                  ...item,
+                  product: { ...data, selectedSize: item.size },
+                  price: price,
+                };
+              }
             }
           })
         );
@@ -165,6 +181,7 @@ export const useCart = create<CartState & CartActions>()(
           totalPrice: totalPrice,
         });
       },
+      setClientSecret: (clientSecret: string) => set({ clientSecret }),
     }),
     {
       name: 'cart',
@@ -175,6 +192,7 @@ export const useCart = create<CartState & CartActions>()(
           size: item.size,
           qty: item.qty,
           price: item.price,
+          color: item.color,
         })),
       }),
       onRehydrateStorage: () => (state) => {

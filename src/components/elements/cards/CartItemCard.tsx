@@ -15,7 +15,7 @@ export const CartItemCard = ({ cartItem }: { cartItem: CartItem }) => {
     increment: state.increment,
     decrement: state.decrement,
   }));
-  const { title, medias, colors } = cartItem.product.attributes ?? {};
+  const { title, medias } = cartItem.product.attributes ?? {};
   const totalPrice = cartItem.price * cartItem.qty;
 
   return (
@@ -38,11 +38,8 @@ export const CartItemCard = ({ cartItem }: { cartItem: CartItem }) => {
       <div className={style.card__content}>
         <p>{title}</p>
         <span>
-          {cartItem.size && `${cartItem.size} - `}
-          {colors &&
-            colors.find(
-              (color) => color.product.data.id === cartItem.product.id
-            )?.name}
+          {cartItem.size}
+          {cartItem.color && ` - ${cartItem.color}`}
         </span>
       </div>
       <div className={style.card__price}>

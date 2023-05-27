@@ -1,6 +1,6 @@
 import { gql, GraphQLClient } from 'graphql-request';
 
-import { Category, Page, Product, Setting } from '@/lib/interfaces';
+import { Category, Order, Page, Product, Setting } from '@/lib/interfaces';
 
 const API_URL = process.env.strapiURL || 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
@@ -443,13 +443,11 @@ export const QueryPageFromSlug = async (
 
 /**
  * Query a single product from Strapi
- * @param locale language of the requested page
  * @param id id of the product
  * @returns data of a product
  */
-export const QueryProduct = async (locale: string, id: number) => {
+export const QueryProduct = async (id: number) => {
   const queryVariables = {
-    locale: locale,
     id: id,
   };
 
@@ -461,8 +459,8 @@ export const QueryProduct = async (locale: string, id: number) => {
     product: { data: Product };
   }>(
     gql`
-      query Product($id: ID!, $locale: I18NLocaleCode) {
-        product(id: $id, locale: $locale) {
+      query Product($id: ID!) {
+        product(id: $id) {
           data {
             id
             attributes {
@@ -659,6 +657,51 @@ export const QueryContentComponent = async (
       `,
       queryVariables
     );
+
+  return response;
+};
+
+/**
+ * Query content of a specific component on a page from Strapi
+ * @param input
+ * @returns data of products
+ */
+export const MutationCreateOrder = async (input: unknown) => {
+  const queryVariables = {
+    input,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  const response = await StrapiClient.request<{ createOrder: { data: Order } }>(
+    gql`
+      mutation createOrder($input: OrderInput!) {
+        createOrder(data: $input) {
+          data {
+            id
+            attributes {
+              stripe_tx_id
+              name
+              email
+              city
+              country
+              line1
+              line2
+              postal_code
+              state
+              status
+              amount
+              products
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
 
   return response;
 };

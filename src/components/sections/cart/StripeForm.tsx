@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  AddressElement,
   PaymentElement,
   useElements,
   useStripe,
@@ -8,8 +9,6 @@ import {
 import { FormEvent, useState } from 'react';
 
 import Button from '@/components/elements/buttons/Button';
-
-import { create_strapi_order } from '@/actions/actions';
 
 const StripeForm = () => {
   const stripe = useStripe();
@@ -20,7 +19,13 @@ const StripeForm = () => {
     event.preventDefault();
     if (!stripe || !elements) return;
 
-    create_strapi_order();
+    // const addressElement = elements.getElement('address');
+    // const {complete, value} = await (addressElement ? addressElement.getValue() : {});
+    // if (complete) {
+    //   console.log('complete: ', complete);
+    //   console.log('value: ', value);
+    // }
+
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -34,6 +39,7 @@ const StripeForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <p>{errorMessage}</p>
+      <AddressElement options={{ mode: 'shipping' }} />
       <PaymentElement />
       <Button onClick={handleSubmit}>Submit</Button>
     </form>
@@ -42,7 +48,7 @@ const StripeForm = () => {
 
 export default StripeForm;
 
-//ETAPES : RECAP -> VALIDER PANIER -> ADRESSE -> SERVER ACTION STRIPE INTENT + VERIF PANIER :
+//ETAPES : RECAP -> VALIDER PANIER -> SERVER ACTION STRIPE INTENT + VERIF PANIER :
 //                                                                                    -> VERIF SUCCESS -> AJOUT DANS STRAPI ORDER + FORMULAIRE CARTE -> VALIDATION STRIPE :
 //                                                                                        SUCCESS : -> PAGE SUCESS + CHANGE STATUS STRAPI ORDERS
 //                                                                                        FAIL : -> MESSAGE PAYMENT FAILED + CHANGE STATUS STRAPI ORDERS

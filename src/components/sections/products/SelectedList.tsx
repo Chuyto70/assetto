@@ -12,19 +12,16 @@ type ColorProducts = {
   [id: number]: Product[];
 };
 
-const buildColorProducts = async (
-  locale: string,
-  products: {
-    data: Product[];
-  }
-): Promise<ColorProducts> => {
+const buildColorProducts = async (products: {
+  data: Product[];
+}): Promise<ColorProducts> => {
   const colorProducts: ColorProducts = {};
 
   const queries = products.data.flatMap((product) => {
     if (product.attributes.colors && product.attributes.colors.length > 0) {
       return product.attributes.colors
         .filter((color) => color.product.data.id !== product.id)
-        .map((color) => QueryProduct(locale, color.product.data.id));
+        .map((color) => QueryProduct(color.product.data.id));
     }
     return [];
   });
@@ -116,7 +113,7 @@ export default (async function SelectedList({
   );
   const { products } = page.data.attributes.content[index];
 
-  const productsWithColor = await buildColorProducts(locale, products);
+  const productsWithColor = await buildColorProducts(products);
 
   return (
     <ul className={style.products}>
