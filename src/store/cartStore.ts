@@ -87,10 +87,7 @@ export const useCart = create<CartState & CartActions>()(
             );
 
             // Check if the quantity is sufficient or unlimited
-            if (
-              size &&
-              (size.quantity > item.qty + 1 || size.quantity === -1)
-            ) {
+            if (size && (size.quantity > item.qty || size.quantity === -1)) {
               const updatedCart = state.cartItems.map((el) =>
                 el.product.id === product.id &&
                 el.product.selectedSize === product.selectedSize
@@ -144,7 +141,7 @@ export const useCart = create<CartState & CartActions>()(
         }),
       emptyCart: () => set(initialState),
       refreshCart: async () => {
-        const updatedCart = await Promise.all(
+        let updatedCart = await Promise.all(
           get().cartItems.map(async (item) => {
             const { data } = await QueryProduct(item.product.id);
 
@@ -170,6 +167,8 @@ export const useCart = create<CartState & CartActions>()(
             }
           })
         );
+        updatedCart = updatedCart.filter(Boolean);
+
         const totalItems = get().cartItems.length;
         const totalPrice = updatedCart.reduce(
           (total, item) => total + item?.price * item?.qty,

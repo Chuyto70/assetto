@@ -25,7 +25,17 @@ export default function CartWrapper() {
 
   const validateCart = () => {
     setCartValidated(true);
-    create_strapi_order(cartItems)
+    const itemsToValidate = cartItems.map((item) => {
+      return {
+        id: item.product.id,
+        title: item.product.attributes.title,
+        price: item.price,
+        qty: item.qty,
+        size: item.size,
+        color: item.color,
+      };
+    });
+    create_strapi_order(itemsToValidate)
       .then((res) => {
         if (!res.error && res.data?.total) {
           stripe_payment_intent(res.data.total).then((res) => {

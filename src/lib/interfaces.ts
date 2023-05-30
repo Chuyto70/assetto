@@ -41,14 +41,7 @@ export interface Product {
     locale: string;
     updatedAt: string;
     localizations: {
-      data: [
-        {
-          attributes: {
-            locale: string;
-            slug: string;
-          };
-        }
-      ];
+      data: Localizations[];
     };
   };
 }
@@ -70,14 +63,7 @@ export interface Category {
     locale: string;
     updatedAt: string;
     localizations: {
-      data: [
-        {
-          attributes: {
-            locale: string;
-            slug: string;
-          };
-        }
-      ];
+      data: Localizations[];
     };
   };
 }
@@ -94,14 +80,7 @@ export interface Page {
     locale: string;
     updatedAt: string;
     localizations: {
-      data: [
-        {
-          attributes: {
-            locale: string;
-            slug: string;
-          };
-        }
-      ];
+      data: Localizations[];
     };
   };
 }
@@ -137,6 +116,15 @@ export interface Order {
   };
 }
 
+export interface OrderProducts {
+  id: number;
+  title: string;
+  price: number;
+  qty: number;
+  size: string;
+  color?: string;
+}
+
 interface Media {
   attributes: {
     alternativeText?: string;
@@ -158,6 +146,13 @@ interface SeoMetadata {
   template_title?: string;
   title_suffix?: string;
   meta_description?: string;
+}
+
+interface Localizations {
+  attributes: {
+    locale: string;
+    slug: string;
+  };
 }
 
 enum ENUM_ORDER_STATUS {
