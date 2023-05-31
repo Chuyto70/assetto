@@ -8,6 +8,7 @@ import { CartItemCard } from '@/components/elements/cards/CartItemCard';
 import useStore from '@/store';
 import { useCart } from '@/store/cartStore';
 import { useServer } from '@/store/serverStore';
+import { useToaster } from '@/store/toasterStore';
 
 import { create_strapi_order } from '@/actions/checkoutActions';
 
@@ -19,6 +20,8 @@ const Cart = () => {
   const setOrderId = useCart((state) => state.setOrderId);
   const refreshCart = useCart((state) => state.refreshCart);
   const clientSecret = useCart((state) => state.clientSecret);
+
+  const notify = useToaster((state) => state.notify);
 
   const translations = useServer.getState().translations;
 
@@ -35,28 +38,31 @@ const Cart = () => {
         };
       });
 
-      create_strapi_order(itemsToValidate).then((response) => {
-        if (response.error || !response.data) {
-          if (response.error === 'not-equal') {
-            refreshCart();
-            //trigger toast for refresh cart
-          } else if (response.error === 'insufficient-quantity-available') {
-            //trigger toast for quantity
+      create_strapi_order(itemsToValidate)
+        .then((response) => {
+          if (response.error || !response.data) {
+            if (response.error === 'not-equal') {
+              refreshCart();
+              notify(2, <p>!Panier invalide, il a été mis à jour</p>, 6000);
+            } else if (response.error === 'insufficient-quantity-available') {
+              notify(1, <p>!Quantité disponible insuffisante</p>, 6000);
+            } else {
+              notify(2, <p>!Une erreur s'est produite</p>);
+            }
           } else {
-            //trigger toast for server error
+            const { client_secret, order_id } = response.data;
+            if (client_secret && order_id) {
+              setClientSecret(client_secret);
+              setOrderId(order_id); //Could later improve this by saving orderID in persistedState and clientSecret in backend to restore checkout session
+              //redirect to checkout Page
+            } else {
+              notify(2, <p>!Une erreur s'est produite</p>);
+            }
           }
-        } else {
-          const { client_secret, order_id } = response.data;
-          if (client_secret && order_id) {
-            setClientSecret(client_secret);
-            setOrderId(order_id); //Could later improve this by saving orderID in persistedState and clientSecret in backend to restore checkout session
-            //redirect to checkout Page
-          } else {
-            //trigger toast for server error
-          }
-        }
-      });
-      // .catch(err => console.log(err)); //trigger toast internal error
+        })
+        .catch(() => notify(2, <p>!Une erreur s'est produite</p>));
+    } else {
+      //update stripe intent and redirect
     }
   };
 

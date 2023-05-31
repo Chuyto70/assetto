@@ -62,6 +62,10 @@ export default {
       maxWidth: {
         'screen-3xl': '1920px',
       },
+      transitionProperty: {
+        height: 'height',
+        spacing: 'margin, padding',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms')],

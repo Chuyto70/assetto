@@ -8,6 +8,7 @@ import { QuerySettings, QueryStaticTexts } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
 import { seo } from '@/lib/seo';
 
+import Toasts from '@/components/elements/toast/Toasts';
 import Header from '@/components/layout/Header';
 import { ZustandProvider } from '@/components/ZustandProvider';
 
@@ -62,6 +63,7 @@ export default async function RootLayout({
       <body className='text-dark'>
         <ZustandProvider serverState={useServer.getState()} />
         <Header />
+        <Toasts />
         {children}
       </body>
     </html>

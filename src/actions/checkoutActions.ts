@@ -3,7 +3,7 @@
 import Stripe from 'stripe';
 
 import { MutationCreateOrder, QueryProduct } from '@/lib/graphql';
-import { isOnSale } from '@/lib/helper';
+import { deepEqual, isOnSale } from '@/lib/helper';
 import { OrderProducts } from '@/lib/interfaces';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
@@ -44,7 +44,7 @@ const checkProducts = async (orderProducts: OrderProducts[]) => {
     );
 
     // Check if the checked items are equal to the order products
-    if (checkedItems === orderProducts) {
+    if (deepEqual(orderProducts, checkedItems)) {
       // Return the checked items as data
       return { data: checkedItems };
     }
@@ -94,6 +94,7 @@ export async function create_strapi_order(orderProducts: OrderProducts[]) {
 
       if (total && products) {
         const { createOrder } = await MutationCreateOrder(input);
+        //Attention diminuer la quantité sur le produit mais il faut que le client finisse sont paiement, sinon remettre la quantité disponible setTimeout ?
         const { client_secret } = await stripe_payment_intent(total);
         return { data: { client_secret, order_id: createOrder.data.id } };
       }
