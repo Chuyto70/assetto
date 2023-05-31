@@ -11,7 +11,7 @@ const Toasts = () => {
   const closeToast = useToaster((state) => state.close);
 
   return (
-    <div className='absolute z-50 flex w-full flex-col items-center gap-4'>
+    <div className='fixed z-50 flex w-full flex-col items-center gap-4'>
       <AnimatePresence initial={false}>
         {toasts.map((toast) => (
           <motion.div
