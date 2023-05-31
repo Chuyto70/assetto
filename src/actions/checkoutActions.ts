@@ -56,7 +56,7 @@ const checkProducts = async (orderProducts: OrderProducts[]) => {
   }
 };
 
-export async function stripe_payment_intent(amount: number) {
+async function stripe_payment_intent(amount: number) {
   const paymentIntent = await stripe.paymentIntents.create({
     amount: amount * 100, //stripe wants amount in cent
     currency: 'eur',
@@ -64,7 +64,7 @@ export async function stripe_payment_intent(amount: number) {
       enabled: true,
     },
   });
-  return paymentIntent.client_secret;
+  return paymentIntent;
 }
 
 export async function create_strapi_order(orderProducts: OrderProducts[]) {
@@ -91,10 +91,14 @@ export async function create_strapi_order(orderProducts: OrderProducts[]) {
         amount: total,
         products,
       };
-      const { createOrder } = await MutationCreateOrder(input);
-      return { data: { total, orderID: createOrder.data.id } };
-    }
 
+      if (total && products) {
+        const { createOrder } = await MutationCreateOrder(input);
+        const { client_secret } = await stripe_payment_intent(total);
+        return { data: { client_secret, order_id: createOrder.data.id } };
+      }
+      return { error: 'internal-server-error' };
+    }
     return { error: checkError };
   } catch (error) {
     return { error: 'internal-server-error' };

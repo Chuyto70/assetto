@@ -12,7 +12,8 @@ export interface CartState {
   cartItems: CartItem[];
   totalItems: number;
   totalPrice: number;
-  clientSecret: string | undefined;
+  clientSecret?: string;
+  orderId?: number;
 }
 
 export interface CartActions {
@@ -21,6 +22,7 @@ export interface CartActions {
   emptyCart: () => void;
   refreshCart: () => void;
   setClientSecret: (clientSecret: string) => void;
+  setOrderId: (orderId: number) => void;
 }
 
 const initialState: CartState = {
@@ -181,6 +183,7 @@ export const useCart = create<CartState & CartActions>()(
         });
       },
       setClientSecret: (clientSecret: string) => set({ clientSecret }),
+      setOrderId: (orderId: number) => set({ orderId }),
     }),
     {
       name: 'cart',
