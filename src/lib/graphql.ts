@@ -664,7 +664,7 @@ export const QueryContentComponent = async (
 /**
  * Create an order in Strapi and return Order details
  * @param input
- * @returns data of products
+ * @returns data of order
  */
 export const MutationCreateOrder = async (input: unknown) => {
   const queryVariables = {
@@ -710,7 +710,7 @@ export const MutationCreateOrder = async (input: unknown) => {
  * Update an order in Strapi and return Order details
  * @param id
  * @param input
- * @returns data of products
+ * @returns data of order
  */
 export const MutationUpdateOrder = async (id: string, input: unknown) => {
   const queryVariables = {
@@ -754,10 +754,9 @@ export const MutationUpdateOrder = async (id: string, input: unknown) => {
 };
 
 /**
- * Update an order in Strapi and return Order details
+ * Delete an order in Strapi and return Order details
  * @param id
- * @param input
- * @returns data of products
+ * @returns data of order
  */
 export const MutationDeleteOrder = async (id: string) => {
   const queryVariables = {
