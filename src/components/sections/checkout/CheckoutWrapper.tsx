@@ -1,7 +1,11 @@
 'use client';
 
+import { useCart } from '@/store/cartStore';
+
 const CheckoutWrapper = () => {
-  return <div>CheckoutWrapper</div>;
+  const clientSecret = useCart().clientSecret;
+
+  return <div>client secret : {clientSecret}</div>;
 };
 
 export default CheckoutWrapper;

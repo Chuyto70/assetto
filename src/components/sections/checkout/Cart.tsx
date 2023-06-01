@@ -1,5 +1,8 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
 import style from './Cart.module.css';
 
 import Button from '@/components/elements/buttons/Button';
@@ -13,21 +16,28 @@ import { useToaster } from '@/store/toasterStore';
 import { create_strapi_order } from '@/actions/checkoutActions';
 
 const Cart = () => {
+  const router = useRouter();
+
   const cartItems = useStore(useCart, (state) => state.cartItems);
   const cartTotalPrice = useStore(useCart, (state) => state.totalPrice) ?? 0;
   const emptyCart = useCart((state) => state.emptyCart);
   const setClientSecret = useCart((state) => state.setClientSecret);
-  const setOrderId = useCart((state) => state.setOrderId);
+  const setPaymentIntentId = useCart((state) => state.setPaymentIntentId);
   const refreshCart = useCart((state) => state.refreshCart);
   const clientSecret = useCart((state) => state.clientSecret);
+  const paymentIntentId = useCart((state) => state.paymentIntentId);
 
   const notify = useToaster((state) => state.notify);
 
   const translations = useServer.getState().translations;
 
+  const [validated, setValidated] = useState(false);
+
   const validateCart = () => {
+    if (validated) return;
     if (cartItems && cartItems.length) {
-      if (!clientSecret) {
+      if (!clientSecret || !paymentIntentId) {
+        setValidated(true);
         const itemsToValidate = cartItems.map((item) => {
           return {
             id: item.product.id,
@@ -45,23 +55,30 @@ const Cart = () => {
               if (response.error === 'not-equal') {
                 refreshCart();
                 notify(2, <p>!Panier invalide, il a été mis à jour</p>, 6000);
+                setValidated(false);
               } else if (response.error === 'insufficient-quantity-available') {
                 notify(1, <p>!Quantité disponible insuffisante</p>, 6000);
+                setValidated(false);
               } else {
                 notify(2, <p>!Une erreur s'est produite</p>);
+                setValidated(false);
               }
             } else {
-              const { client_secret, order_id } = response.data;
-              if (client_secret && order_id) {
+              const { id, client_secret } = response.data;
+              if (id && client_secret) {
                 setClientSecret(client_secret);
-                setOrderId(order_id); //Could later improve this by saving orderID in persistedState and clientSecret in backend to restore checkout session
-                //redirect to checkout Page
+                setPaymentIntentId(id);
+                router.push('/paiement'); //redirect to checkout Page //!Changer le lien pour un dynamic
               } else {
                 notify(2, <p>!Une erreur s'est produite</p>);
+                setValidated(false);
               }
             }
           })
-          .catch(() => notify(2, <p>!Une erreur s'est produite</p>));
+          .catch(() => {
+            notify(2, <p>!Une erreur s'est produite</p>);
+            setValidated(false);
+          });
       } else {
         //update stripe intent and redirect
       }
@@ -83,10 +100,9 @@ const Cart = () => {
       <Button variant='outline' onClick={emptyCart}>
         {translations.empty_cart_btn}
       </Button>
-      <Button variant='outline' onClick={validateCart}>
+      <Button isLoading={validated} variant='outline' onClick={validateCart}>
         !Valider mon panier
       </Button>
-      {/* FAIRE CHARGER LE BOUTON UNE FOIS APPUYER POUR EVITER LES CLICS MULTIPLE */}
     </div>
   );
 };

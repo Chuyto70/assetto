@@ -662,7 +662,7 @@ export const QueryContentComponent = async (
 };
 
 /**
- * Query content of a specific component on a page from Strapi
+ * Create an order in Strapi and return Order details
  * @param input
  * @returns data of products
  */
@@ -681,7 +681,100 @@ export const MutationCreateOrder = async (input: unknown) => {
           data {
             id
             attributes {
-              stripe_tx_id
+              payment_intent_id
+              name
+              email
+              city
+              country
+              line1
+              line2
+              postal_code
+              state
+              status
+              amount
+              products
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return response;
+};
+
+/**
+ * Update an order in Strapi and return Order details
+ * @param id
+ * @param input
+ * @returns data of products
+ */
+export const MutationUpdateOrder = async (id: string, input: unknown) => {
+  const queryVariables = {
+    id,
+    input,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  const response = await StrapiClient.request<{ updateOrder: { data: Order } }>(
+    gql`
+      mutation updateOrder($id: ID!, $input: OrderInput!) {
+        updateOrder(id: $id, data: $input) {
+          data {
+            id
+            attributes {
+              payment_intent_id
+              name
+              email
+              city
+              country
+              line1
+              line2
+              postal_code
+              state
+              status
+              amount
+              products
+              createdAt
+              updatedAt
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return response;
+};
+
+/**
+ * Update an order in Strapi and return Order details
+ * @param id
+ * @param input
+ * @returns data of products
+ */
+export const MutationDeleteOrder = async (id: string) => {
+  const queryVariables = {
+    id,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  const response = await StrapiClient.request<{ deleteOrder: { data: Order } }>(
+    gql`
+      mutation deleteOrder($id: ID!) {
+        deleteOrder(id: $id) {
+          data {
+            id
+            attributes {
+              payment_intent_id
               name
               email
               city

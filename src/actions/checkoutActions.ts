@@ -2,7 +2,11 @@
 
 import Stripe from 'stripe';
 
-import { MutationCreateOrder, QueryProduct } from '@/lib/graphql';
+import {
+  MutationCreateOrder,
+  MutationDeleteOrder,
+  QueryProduct,
+} from '@/lib/graphql';
 import { deepEqual, isOnSale } from '@/lib/helper';
 import { OrderProducts } from '@/lib/interfaces';
 
@@ -56,12 +60,15 @@ const checkProducts = async (orderProducts: OrderProducts[]) => {
   }
 };
 
-async function stripe_payment_intent(amount: number) {
+async function stripe_payment_intent(amount: number, orderId: number) {
   const paymentIntent = await stripe.paymentIntents.create({
     amount: amount * 100, //stripe wants amount in cent
     currency: 'eur',
     automatic_payment_methods: {
       enabled: true,
+    },
+    metadata: {
+      order_id: orderId,
     },
   });
   return paymentIntent;
@@ -94,14 +101,27 @@ export async function create_strapi_order(orderProducts: OrderProducts[]) {
 
       if (total && products) {
         const { createOrder } = await MutationCreateOrder(input);
-        //Attention diminuer la quantité sur le produit mais il faut que le client finisse sont paiement, sinon remettre la quantité disponible setTimeout ?
-        const { client_secret } = await stripe_payment_intent(total);
-        return { data: { client_secret, order_id: createOrder.data.id } };
+        const { id, client_secret } = await stripe_payment_intent(
+          total,
+          createOrder.data.id
+        );
+        return { data: { id, client_secret } };
       }
       return { error: 'internal-server-error' };
     }
     return { error: checkError };
   } catch (error) {
     return { error: 'internal-server-error' };
+  }
+}
+
+export async function abandon_payment_intent(paymentIntentId: string) {
+  try {
+    const { metadata } = await stripe.paymentIntents.cancel(paymentIntentId, {
+      cancellation_reason: 'abandoned',
+    });
+    if (metadata) MutationDeleteOrder(metadata.order_id);
+  } catch (err) {
+    return;
   }
 }
