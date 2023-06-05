@@ -1,11 +1,21 @@
 'use client';
 
-import { useCart } from '@/store/cartStore';
+import { useState } from 'react';
 
+import Switch from '@/components/elements/buttons/Switch';
+import AddressForm from '@/components/elements/forms/AddressForm';
+
+//! Penser a proteger cet accès si il n'y a pas de intentId
 const CheckoutWrapper = () => {
-  const clientSecret = useCart().clientSecret;
+  const [shippingDifferent, setShippingDifferent] = useState(false);
 
-  return <div>client secret : {clientSecret}</div>;
+  return (
+    <>
+      <Switch toggle={() => setShippingDifferent(!shippingDifferent)} />
+      <AddressForm />
+      {shippingDifferent && <AddressForm />}
+    </>
+  );
 };
 
 export default CheckoutWrapper;

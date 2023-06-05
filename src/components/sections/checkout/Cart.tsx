@@ -100,7 +100,12 @@ const Cart = () => {
       <Button variant='outline' onClick={emptyCart}>
         {translations.empty_cart_btn}
       </Button>
-      <Button isLoading={validated} variant='outline' onClick={validateCart}>
+      <Button
+        disabled={!cartItems?.length}
+        isLoading={validated}
+        variant='outline'
+        onClick={validateCart}
+      >
         !Valider mon panier
       </Button>
     </div>
