@@ -101,15 +101,22 @@ export interface Setting {
 export interface Order {
   id: number;
   attributes: {
-    stripe_tx_id: string;
-    name: string;
+    payment_intent_id: string;
     email: string;
-    city: string;
-    country: string;
-    line1: string;
-    line2: string;
-    postal_code: string;
-    state: string;
+    billing_name: string;
+    billing_city: string;
+    billing_country: string;
+    billing_line1: string;
+    billing_line2: string;
+    billing_postal_code: string;
+    billing_state: string;
+    shipping_name: string;
+    shipping_city: string;
+    shipping_country: string;
+    shipping_line1: string;
+    shipping_line2: string;
+    shipping_postal_code: string;
+    shipping_state: string;
     status: ENUM_ORDER_STATUS;
     amount: number;
     products: unknown;
@@ -160,4 +167,5 @@ enum ENUM_ORDER_STATUS {
   pending,
   checkout,
   failed,
+  canceled,
 }

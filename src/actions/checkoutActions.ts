@@ -5,10 +5,13 @@ import Stripe from 'stripe';
 import {
   MutationCreateOrder,
   MutationDeleteOrder,
+  MutationUpdateOrder,
   QueryProduct,
 } from '@/lib/graphql';
 import { deepEqual, isOnSale } from '@/lib/helper';
 import { OrderProducts } from '@/lib/interfaces';
+
+import { CheckoutAddressType } from '@/components/sections/checkout/CheckoutAddress';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
   apiVersion: '2022-11-15',
@@ -112,6 +115,74 @@ export async function create_strapi_order(orderProducts: OrderProducts[]) {
     return { error: checkError };
   } catch (error) {
     return { error: 'internal-server-error' };
+  }
+}
+
+export async function add_address_strapi_order(
+  paymentIntentId: string,
+  ckAddress: CheckoutAddressType
+) {
+  try {
+    const { address, shipping, email } = ckAddress;
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    const { name: addressName, ...addressWithoutName } = address;
+
+    const stripeAddress = {
+      shipping: {
+        address: {
+          ...addressWithoutName,
+          line2: address.line2 ?? undefined,
+          state: address.state ?? undefined,
+          ...(ckAddress.shippingDifferent && {
+            city: shipping.city ?? address.city,
+            country: shipping.country ?? address.country,
+            line1: shipping.line1 ?? address.line1,
+            line2: shipping.line2 ?? address.line2 ?? undefined,
+            postal_code: shipping.postal_code ?? address.postal_code,
+            state: shipping.state ?? address.state ?? undefined,
+          }),
+        },
+        name: ckAddress.shippingDifferent
+          ? shipping.name ?? address.name
+          : address.name,
+      },
+      receipt_email: email,
+    };
+
+    const { id, metadata } = await stripe.paymentIntents.update(
+      paymentIntentId,
+      stripeAddress
+    );
+
+    if (metadata) {
+      const input = {
+        payment_intent_id: id,
+        email: ckAddress.email,
+        billing_name: ckAddress.address.name,
+        billing_city: ckAddress.address.city,
+        billing_country: ckAddress.address.country,
+        billing_line1: ckAddress.address.line1,
+        billing_line2: ckAddress.address.line2,
+        billing_postal_code: ckAddress.address.postal_code,
+        billing_state: ckAddress.address.state,
+        shipping_name: ckAddress.shipping.name,
+        shipping_city: ckAddress.shipping.city,
+        shipping_country: ckAddress.shipping.country,
+        shipping_line1: ckAddress.shipping.line1,
+        shipping_line2: ckAddress.shipping.line2,
+        shipping_postal_code: ckAddress.shipping.postal_code,
+        shipping_state: ckAddress.shipping.state,
+      };
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      const { updateOrder } = await MutationUpdateOrder(
+        metadata.order_id,
+        input
+      );
+    } else {
+      return; //Erreur
+    }
+  } catch (err) {
+    return;
   }
 }
 

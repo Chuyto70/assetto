@@ -10,14 +10,14 @@ import clsxm from '@/lib/clsxm';
 type SwitchProps = {
   isDark?: boolean;
   toggleIsOn?: boolean;
-  toggle?: () => void;
+  toggle?: (isOn: boolean) => void;
 } & React.ComponentPropsWithRef<'div'>;
 
 const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
   ({ className, isDark = false, toggleIsOn = false, toggle, ...rest }, ref) => {
     const [isOn, setIsOn] = useState(toggleIsOn);
     const toggleSwitch = () => {
-      if (toggle !== undefined) toggle();
+      if (toggle !== undefined) toggle(!isOn);
       setIsOn(!isOn);
     };
 

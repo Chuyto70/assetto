@@ -682,14 +682,21 @@ export const MutationCreateOrder = async (input: unknown) => {
             id
             attributes {
               payment_intent_id
-              name
               email
-              city
-              country
-              line1
-              line2
-              postal_code
-              state
+              billing_name
+              billing_city
+              billing_country
+              billing_line1
+              billing_line2
+              billing_postal_code
+              billing_state
+              shipping_name
+              shipping_city
+              shipping_country
+              shipping_line1
+              shipping_line2
+              shipping_postal_code
+              shipping_state
               status
               amount
               products
@@ -729,14 +736,21 @@ export const MutationUpdateOrder = async (id: string, input: unknown) => {
             id
             attributes {
               payment_intent_id
-              name
               email
-              city
-              country
-              line1
-              line2
-              postal_code
-              state
+              billing_name
+              billing_city
+              billing_country
+              billing_line1
+              billing_line2
+              billing_postal_code
+              billing_state
+              shipping_name
+              shipping_city
+              shipping_country
+              shipping_line1
+              shipping_line2
+              shipping_postal_code
+              shipping_state
               status
               amount
               products
@@ -774,14 +788,21 @@ export const MutationDeleteOrder = async (id: string) => {
             id
             attributes {
               payment_intent_id
-              name
               email
-              city
-              country
-              line1
-              line2
-              postal_code
-              state
+              billing_name
+              billing_city
+              billing_country
+              billing_line1
+              billing_line2
+              billing_postal_code
+              billing_state
+              shipping_name
+              shipping_city
+              shipping_country
+              shipping_line1
+              shipping_line2
+              shipping_postal_code
+              shipping_state
               status
               amount
               products

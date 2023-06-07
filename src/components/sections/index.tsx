@@ -1,5 +1,5 @@
 import Cart from '@/components/sections/checkout/Cart';
-import CheckoutWrapper from '@/components/sections/checkout/CheckoutWrapper';
+import CheckoutAddress from '@/components/sections/checkout/CheckoutAddress';
 import SelectedList from '@/components/sections/products/SelectedList';
 
 type sectionTypeProps = {
@@ -10,7 +10,7 @@ type sectionTypeProps = {
 const sectionComponents = {
   ComponentSectionsProductSelectedList: SelectedList,
   ComponentSectionsCart: Cart,
-  ComponentSectionsCheckout: CheckoutWrapper,
+  ComponentSectionsCheckoutAddress: CheckoutAddress,
 };
 
 // Display a section individually

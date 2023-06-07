@@ -68,7 +68,7 @@ const Cart = () => {
               if (id && client_secret) {
                 setClientSecret(client_secret);
                 setPaymentIntentId(id);
-                router.push('/paiement'); //redirect to checkout Page //!Changer le lien pour un dynamic
+                router.push('/paiement/adresse'); //redirect to checkout Page //!Changer le lien pour un dynamic
               } else {
                 notify(2, <p>!Une erreur s'est produite</p>);
                 setValidated(false);
