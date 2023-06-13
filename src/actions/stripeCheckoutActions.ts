@@ -77,7 +77,9 @@ async function stripe_payment_intent(amount: number, orderId: number) {
   return paymentIntent;
 }
 
-export async function create_strapi_order(orderProducts: OrderProducts[]) {
+export async function stripe_create_strapi_order(
+  orderProducts: OrderProducts[]
+) {
   try {
     const { data, error: checkError } = await checkProducts(orderProducts);
 
@@ -118,7 +120,7 @@ export async function create_strapi_order(orderProducts: OrderProducts[]) {
   }
 }
 
-export async function add_address_strapi_order(
+export async function stripe_add_address_strapi_order(
   paymentIntentId: string,
   ckAddress: CheckoutAddressType
 ) {
@@ -178,19 +180,25 @@ export async function add_address_strapi_order(
         metadata.order_id,
         input
       );
+      return { success: true };
     } else {
-      return; //Erreur
+      return { error: 'could-not-update-payment' };
     }
   } catch (err) {
-    return;
+    return { error: 'internal-server-error' };
   }
 }
 
-export async function abandon_payment_intent(paymentIntentId: string) {
+export async function stripe_abandon_payment_intent(
+  stripe_paymentIntentId: string
+) {
   try {
-    const { metadata } = await stripe.paymentIntents.cancel(paymentIntentId, {
-      cancellation_reason: 'abandoned',
-    });
+    const { metadata } = await stripe.paymentIntents.cancel(
+      stripe_paymentIntentId,
+      {
+        cancellation_reason: 'abandoned',
+      }
+    );
     if (metadata) MutationDeleteOrder(metadata.order_id);
   } catch (err) {
     return;

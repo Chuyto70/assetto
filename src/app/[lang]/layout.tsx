@@ -6,6 +6,7 @@ import '@/assets/styles/globals.css';
 
 import { QuerySettings, QueryStaticTexts } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
+import { PAYMENT_PROVIDER } from '@/lib/interfaces';
 import { seo } from '@/lib/seo';
 
 import Toasts from '@/components/elements/toast/Toasts';
@@ -32,8 +33,13 @@ export async function generateMetadata({
 }: {
   params: { lang: string };
 }): Promise<Metadata> {
-  const { favicons, seo: defaultSeo } = await QuerySettings(lang);
+  const {
+    favicons,
+    seo: defaultSeo,
+    payment_provider,
+  } = await QuerySettings(lang);
   const iconList: Icon[] = [];
+  useServer.setState({ paymentProvider: payment_provider as PAYMENT_PROVIDER });
   favicons.data.forEach((icon) => {
     return iconList.push(MediaUrl(icon.attributes.url));
   });

@@ -95,6 +95,7 @@ export interface Setting {
       }[];
     };
     seo: DefaultSeoMetadata;
+    payment_provider: string;
   };
 }
 
@@ -168,4 +169,8 @@ enum ENUM_ORDER_STATUS {
   checkout,
   failed,
   canceled,
+}
+
+export enum PAYMENT_PROVIDER {
+  STRIPE = 'STRIPE',
 }

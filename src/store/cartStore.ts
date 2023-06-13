@@ -12,8 +12,8 @@ export interface CartState {
   cartItems: CartItem[];
   totalItems: number;
   totalPrice: number;
-  clientSecret?: string;
-  paymentIntentId?: string;
+  stripeClientSecret?: string;
+  stripePaymentIntentId?: string;
 }
 
 export interface CartActions {
@@ -21,8 +21,8 @@ export interface CartActions {
   decrement: (product: Product) => void;
   emptyCart: () => void;
   refreshCart: () => void;
-  setClientSecret: (clientSecret: string) => void;
-  setPaymentIntentId: (paymentIntentId: string) => void;
+  setStripeClientSecret: (stripeClientSecret: string) => void;
+  setStripePaymentIntentId: (stripePaymentIntentId: string) => void;
 }
 
 const initialState: CartState = {
@@ -182,8 +182,10 @@ export const useCart = create<CartState & CartActions>()(
           totalPrice: totalPrice,
         });
       },
-      setClientSecret: (clientSecret: string) => set({ clientSecret }),
-      setPaymentIntentId: (paymentIntentId: string) => set({ paymentIntentId }),
+      setStripeClientSecret: (stripeClientSecret: string) =>
+        set({ stripeClientSecret }),
+      setStripePaymentIntentId: (stripePaymentIntentId: string) =>
+        set({ stripePaymentIntentId }),
     }),
     {
       name: 'cart',

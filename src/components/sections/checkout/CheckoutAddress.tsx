@@ -6,12 +6,16 @@ import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
+import logger from '@/lib/logger';
+
 import Switch from '@/components/elements/buttons/Switch';
+import FormErrorMessage from '@/components/elements/forms/atoms/FormErrorMessage';
 import FormInput from '@/components/elements/forms/molecules/FormInput';
 
 import { useCart } from '@/store/cartStore';
+import { useToaster } from '@/store/toasterStore';
 
-import { add_address_strapi_order } from '@/actions/checkoutActions';
+import { stripe_add_address_strapi_order } from '@/actions/stripeCheckoutActions';
 
 const schema = yup
   .object({
@@ -153,8 +157,10 @@ const schema = yup
 export type CheckoutAddressType = yup.InferType<typeof schema>;
 
 const CheckoutAddress = () => {
-  const clientSecret = useCart((state) => state.clientSecret);
-  const paymentIntentId = useCart((state) => state.paymentIntentId);
+  const stripeClientSecret = useCart((state) => state.stripeClientSecret);
+  const stripePaymentIntentId = useCart((state) => state.stripePaymentIntentId);
+
+  const notify = useToaster((state) => state.notify);
 
   const {
     control,
@@ -169,12 +175,27 @@ const CheckoutAddress = () => {
   });
 
   const onSubmit = (data: CheckoutAddressType) => {
-    if (clientSecret && paymentIntentId) {
-      add_address_strapi_order(paymentIntentId, data);
+    if (stripeClientSecret && stripePaymentIntentId) {
+      stripe_add_address_strapi_order(stripePaymentIntentId, data)
+        .then(({ error, success }) => {
+          if (!error && success) {
+            logger(success);
+          } else {
+            notify(
+              2,
+              <p>!Une erreur s'est produite, vérifiez votre adresse</p>
+            );
+          }
+        })
+        .catch(() => {
+          notify(2, <p>!Une erreur s'est produite</p>);
+        });
+    } else {
+      return redirect('/'); //!push vers le panier
     }
   };
 
-  if (!clientSecret || !paymentIntentId) {
+  if (!stripeClientSecret || !stripePaymentIntentId) {
     return redirect('/'); //!push vers le panier
   }
 
@@ -236,7 +257,7 @@ const CheckoutAddress = () => {
           )}
           control={control}
         />
-        <p>{errors.address?.country?.message}</p>
+        <FormErrorMessage>{errors.address?.country?.message}</FormErrorMessage>
 
         <FormInput<CheckoutAddressType>
           name='address.line1'
@@ -283,7 +304,9 @@ const CheckoutAddress = () => {
               )}
               control={control}
             />
-            <p>{errors.address?.state?.message}</p>
+            <FormErrorMessage>
+              {errors.address?.state?.message}
+            </FormErrorMessage>
           </>
         )}
 
@@ -323,7 +346,9 @@ const CheckoutAddress = () => {
               )}
               control={control}
             />
-            <p>{errors.shipping?.country?.message}</p>
+            <FormErrorMessage>
+              {errors.shipping?.country?.message}
+            </FormErrorMessage>
 
             <FormInput<CheckoutAddressType>
               name='shipping.line1'
@@ -371,7 +396,9 @@ const CheckoutAddress = () => {
                   )}
                   control={control}
                 />
-                <p>{errors.shipping?.state?.message}</p>
+                <FormErrorMessage>
+                  {errors.shipping?.state?.message}
+                </FormErrorMessage>
               </>
             )}
           </>

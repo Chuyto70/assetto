@@ -3,22 +3,28 @@
 import { useEffect } from 'react';
 
 import { useCart } from '@/store/cartStore';
+import { useServer } from '@/store/serverStore';
 
-import { abandon_payment_intent } from '@/actions/checkoutActions';
+import { stripe_abandon_payment_intent } from '@/actions/stripeCheckoutActions';
 
 const ExitHandle = () => {
-  const paymentIntentId = useCart((state) => state.paymentIntentId);
+  const stripePaymentIntentId = useCart((state) => state.stripePaymentIntentId);
+  const paymentProvider = useServer.getState().paymentProvider;
 
   useEffect(() => {
     const handleWindowClose = () => {
-      if (paymentIntentId) abandon_payment_intent(paymentIntentId);
+      if (stripePaymentIntentId) {
+        if (paymentProvider === 'STRIPE') {
+          stripe_abandon_payment_intent(stripePaymentIntentId);
+        }
+      }
       return;
     };
     window.addEventListener('beforeunload', handleWindowClose);
     return () => {
       window.removeEventListener('beforeunload', handleWindowClose);
     };
-  }, [paymentIntentId]);
+  }, [stripePaymentIntentId, paymentProvider]);
 
   return null;
 };

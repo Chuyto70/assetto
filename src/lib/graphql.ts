@@ -49,6 +49,7 @@ export const QuerySettings = async (locale: string) => {
                 siteName
                 description
               }
+              payment_provider
             }
           }
         }
