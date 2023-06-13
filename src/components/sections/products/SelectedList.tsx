@@ -1,5 +1,3 @@
-import style from './SelectedList.module.css';
-
 import { gql, QueryContentComponent, QueryProduct } from '@/lib/graphql';
 import { Product } from '@/lib/interfaces';
 
@@ -116,7 +114,7 @@ export default (async function SelectedList({
   const productsWithColor = await buildColorProducts(products);
 
   return (
-    <ul className={style.products}>
+    <ul className='max-w-screen-3xl xs:grid-cols-2 grid w-full grid-cols-1 gap-4 md:grid-cols-3 md:gap-8 lg:grid-cols-4 xl:grid-cols-5'>
       {products.data.map((product, index) => {
         const colorProducts = productsWithColor[product.id] || [];
         const productsList = [product, ...colorProducts];

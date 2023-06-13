@@ -3,8 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import style from './Cart.module.css';
-
 import { stripeValidateCart } from '@/lib/payment/stripe';
 
 import Button from '@/components/elements/buttons/Button';
@@ -32,12 +30,12 @@ const Cart = () => {
   };
 
   return (
-    <div className={style.cart}>
+    <div className='flex flex-col gap-4 md:gap-8'>
       {cartItems?.map((item, index) => (
         <CartItemCard key={index} cartItem={item} />
       ))}
       {!cartItems?.length && <p>{translations.cart_empty}</p>}
-      <div className={style.cart__total}>
+      <div className='border-dark flex justify-between border-t-2 pt-4 font-bold md:pt-8'>
         <p>{translations.total}</p>
         <p>{cartTotalPrice} €</p>
       </div>

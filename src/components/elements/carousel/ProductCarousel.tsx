@@ -2,8 +2,6 @@
 
 import useEmblaCarousel from 'embla-carousel-react';
 
-import style from './ProductCarousel.module.css';
-
 import clsxm from '@/lib/clsxm';
 import { MediaUrl } from '@/lib/helper';
 import { Product } from '@/lib/interfaces';
@@ -23,8 +21,8 @@ const ProductCarousel = ({
 }) => {
   const [emblaRef] = useEmblaCarousel({ loop: true });
   return (
-    <div className={clsxm(style.embla, className)} ref={emblaRef}>
-      <div className={style.embla__container}>
+    <div className={clsxm('overflow-hidden', className)} ref={emblaRef}>
+      <div className='flex h-full'>
         {medias.data.map((media, index) => {
           if (media.attributes.mime.startsWith('image/')) {
             return (
@@ -35,7 +33,7 @@ const ProductCarousel = ({
                 width={media.attributes.width}
                 height={media.attributes.height}
                 alt={media.attributes.alternativeText ?? ''}
-                className={style.embla__slide}
+                className='mr-1 w-full min-w-0 flex-[0_0_100%]'
                 imgClassName='object-cover w-full h-full'
                 sizes={imgSizes}
               />
@@ -51,8 +49,8 @@ const ProductCarousel = ({
                 width={media.attributes.width}
                 height={media.attributes.height}
                 className={clsxm(
-                  style.embla__slide,
-                  'h-full w-full object-cover'
+                  (className = 'mr-1 w-full min-w-0 flex-[0_0_100%]'),
+                  'h-full object-cover'
                 )}
               >
                 <source

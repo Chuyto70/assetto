@@ -3,8 +3,6 @@
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 
-import style from './Switch.module.css';
-
 import clsxm from '@/lib/clsxm';
 
 type SwitchProps = {
@@ -35,14 +33,19 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
       <div
         ref={ref}
         className={clsxm(
-          isDark ? style.switchDark : style.switch,
-          isOn && style.switchOn,
+          isDark ? 'bg-dark/40' : 'bg-gray-200/40',
+          isOn && 'justify-end',
+          'flex cursor-pointer justify-start rounded-full p-[0.1em] transition-colors duration-300 w-[2em] h-[1em]',
           className
         )}
         onClick={toggleSwitch}
         {...rest}
       >
-        <motion.div className={style.handle} layout transition={spring} />
+        <motion.div
+          className='rounded-full bg-white w-[0.8em] h-[0.8em]'
+          layout
+          transition={spring}
+        />
       </div>
     );
   }

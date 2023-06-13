@@ -1,7 +1,5 @@
 import Link from 'next/link';
 
-import style from './SingleProductCard.module.css';
-
 import { isOnSale } from '@/lib/helper';
 import { Product } from '@/lib/interfaces';
 
@@ -33,34 +31,33 @@ const SingleProductCard = ({
   const { locale, translations } = useServer.getState();
 
   return (
-    <div className={style.product}>
-      <Link href={`/${locale}/${slug}`} className={style.product}>
+    <div className='flex flex-col gap-4'>
+      <Link href={`/${locale}/${slug}`} className='flex flex-col gap-4'>
         <ProductCarousel
           medias={medias}
-          className={style.product__carousel}
+          className='aspect-[2/3] rounded-md'
           imgSizes={imgSizes}
         />
-        <div className={style.product__title}>
-          <h4>{title}</h4>
+        <div className='flex items-center justify-between gap-2 whitespace-nowrap font-bold'>
+          <h4 className='truncate'>{title}</h4>
           {(sale_price && isOnSale(date_on_sale_from, date_on_sale_to) && (
-            <p>
+            <p className='text-dark_pink max-w-full text-lg'>
               <span>{sale_price} | </span>
               <s>{price}</s> €
             </p>
-          )) || <p>{price} €</p>}
+          )) || <p className='text-dark_pink max-w-full text-lg'>{price} €</p>}
         </div>
         {short_description && (
-          <p className={style.product__short_description}>
-            {short_description}
-          </p>
+          <p className='text-gray-500'>{short_description}</p>
         )}
       </Link>
       {colors && colors.length > 0 && (
-        <p className={style.product__colors}>
+        <p className='flex items-center gap-4 font-bold text-gray-500'>
           {colors.map((color) => (
             <button
               key={color.product.data.id}
               style={{ backgroundColor: color.color }}
+              className='border-dark h-4 w-4 rounded-full border'
               onClick={() => colorSwitch && colorSwitch(color.product.data.id)}
             ></button>
           ))}
