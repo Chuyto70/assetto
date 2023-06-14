@@ -2,7 +2,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE,
+  enabled: process.env.ANALYZE === 'true',
 });
 
 const nextConfig = {
@@ -22,13 +22,6 @@ const nextConfig = {
     domains: process.env.IMAGES_DOMAINS?.split(', '),
     deviceSizes: [475, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
   },
-
-  // Uncoment to add domain whitelist
-  // images: {
-  //   domains: [
-  //     'res.cloudinary.com',
-  //   ],
-  // },
 
   // SVGR
   webpack(config) {

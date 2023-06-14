@@ -2,20 +2,12 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import dynamic from 'next/dynamic';
-import { redirect } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
-
-import logger from '@/lib/logger';
 
 import Switch from '@/components/elements/buttons/Switch';
 import FormErrorMessage from '@/components/elements/forms/atoms/FormErrorMessage';
 import FormInput from '@/components/elements/forms/molecules/FormInput';
-
-import { useCart } from '@/store/cartStore';
-import { useToaster } from '@/store/toasterStore';
-
-import { stripe_add_address_strapi_order } from '@/actions/stripeCheckoutActions';
 
 const CountryDropdown = dynamic(
   () =>
@@ -165,50 +157,24 @@ const schema = yup
       }),
   })
   .required();
-export type CheckoutAddressType = yup.InferType<typeof schema>;
+export type AddressFormType = yup.InferType<typeof schema>;
 
-const CheckoutAddress = () => {
-  const stripeClientSecret = useCart((state) => state.stripeClientSecret);
-  const stripePaymentIntentId = useCart((state) => state.stripePaymentIntentId);
-
-  const notify = useToaster((state) => state.notify);
-
+const AddressForm = ({
+  onSubmit,
+}: {
+  onSubmit: (data: AddressFormType) => void;
+}) => {
   const {
     control,
     register,
     formState: { errors },
     handleSubmit,
     watch,
-  } = useForm<CheckoutAddressType>({
+  } = useForm<AddressFormType>({
     resolver: yupResolver(schema),
     mode: 'onChange',
     shouldUnregister: true,
   });
-
-  const onSubmit = (data: CheckoutAddressType) => {
-    if (stripeClientSecret && stripePaymentIntentId) {
-      stripe_add_address_strapi_order(stripePaymentIntentId, data)
-        .then(({ error, success }) => {
-          if (!error && success) {
-            logger(success);
-          } else {
-            notify(
-              2,
-              <p>!Une erreur s'est produite, vérifiez votre adresse</p>
-            );
-          }
-        })
-        .catch(() => {
-          notify(2, <p>!Une erreur s'est produite</p>);
-        });
-    } else {
-      return redirect('/'); //!push vers le panier
-    }
-  };
-
-  if (!stripeClientSecret || !stripePaymentIntentId) {
-    return redirect('/'); //!push vers le panier
-  }
 
   return (
     <>
@@ -225,7 +191,7 @@ const CheckoutAddress = () => {
           />
         </div>
 
-        <FormInput<CheckoutAddressType>
+        <FormInput<AddressFormType>
           name='email'
           placeholder='!example@proton.me'
           label='Email'
@@ -235,7 +201,7 @@ const CheckoutAddress = () => {
           errors={errors}
         />
 
-        <FormInput<CheckoutAddressType>
+        <FormInput<AddressFormType>
           name='address.name'
           placeholder='!Jean Pierre'
           label='Full name'
@@ -245,7 +211,7 @@ const CheckoutAddress = () => {
           errors={errors}
         />
 
-        <FormInput<CheckoutAddressType>
+        <FormInput<AddressFormType>
           name='address.city'
           placeholder='!Paris'
           label='City'
@@ -270,7 +236,7 @@ const CheckoutAddress = () => {
         />
         <FormErrorMessage>{errors.address?.country?.message}</FormErrorMessage>
 
-        <FormInput<CheckoutAddressType>
+        <FormInput<AddressFormType>
           name='address.line1'
           placeholder='!1 rue de la paix'
           label='line 1'
@@ -280,7 +246,7 @@ const CheckoutAddress = () => {
           errors={errors}
         />
 
-        <FormInput<CheckoutAddressType>
+        <FormInput<AddressFormType>
           name='address.line2'
           label='line 2'
           className='mb-2 border-2'
@@ -289,7 +255,7 @@ const CheckoutAddress = () => {
           errors={errors}
         />
 
-        <FormInput<CheckoutAddressType>
+        <FormInput<AddressFormType>
           name='address.postal_code'
           placeholder='!75000'
           label='Postal code'
@@ -323,7 +289,7 @@ const CheckoutAddress = () => {
 
         {watch('shippingDifferent') && (
           <>
-            <FormInput<CheckoutAddressType>
+            <FormInput<AddressFormType>
               name='shipping.name'
               placeholder='!Jean Pierre'
               label='Full name'
@@ -333,7 +299,7 @@ const CheckoutAddress = () => {
               errors={errors}
             />
 
-            <FormInput<CheckoutAddressType>
+            <FormInput<AddressFormType>
               name='shipping.city'
               placeholder='!Paris'
               label='City'
@@ -361,7 +327,7 @@ const CheckoutAddress = () => {
               {errors.shipping?.country?.message}
             </FormErrorMessage>
 
-            <FormInput<CheckoutAddressType>
+            <FormInput<AddressFormType>
               name='shipping.line1'
               placeholder='!1 rue de la paix'
               label='line 1'
@@ -371,7 +337,7 @@ const CheckoutAddress = () => {
               errors={errors}
             />
 
-            <FormInput<CheckoutAddressType>
+            <FormInput<AddressFormType>
               name='shipping.line2'
               label='line 2'
               className='mb-2 border-2'
@@ -380,7 +346,7 @@ const CheckoutAddress = () => {
               errors={errors}
             />
 
-            <FormInput<CheckoutAddressType>
+            <FormInput<AddressFormType>
               name='shipping.postal_code'
               placeholder='!75000'
               label='Postal code'
@@ -421,6 +387,4 @@ const CheckoutAddress = () => {
   );
 };
 
-export default CheckoutAddress;
-
-// Lazy load le component country et region + il est chargé dans d'autres pages ?
+export default AddressForm;

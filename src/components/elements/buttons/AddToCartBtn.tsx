@@ -27,9 +27,9 @@ export const AddToCartBtn = ({ product }: { product: Product }) => {
   const handleAddToCart = () => {
     if (selectedSize) {
       increment(selectedProduct);
-      notify(0, <p>!Produit ajouté au panier</p>);
+      notify(0, <p>{translations.toast?.product_added}</p>);
     } else {
-      notify(3, <p>!Vous devez d'abord selectionner une taille</p>);
+      notify(3, <p>{translations.toast?.must_select_size}</p>);
     }
   };
 
@@ -46,7 +46,7 @@ export const AddToCartBtn = ({ product }: { product: Product }) => {
         </Button>
       ))}
       <Button variant='outline' onClick={handleAddToCart}>
-        {translations.add_to_cart_btn}
+        {translations.cart?.add_btn}
       </Button>
     </>
   );

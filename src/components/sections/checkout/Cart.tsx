@@ -12,7 +12,7 @@ import useStore from '@/store';
 import { useCart } from '@/store/cartStore';
 import { useServer } from '@/store/serverStore';
 
-const Cart = () => {
+const Cart = ({ checkoutPage }: { checkoutPage?: string }) => {
   const router = useRouter();
 
   const cartItems = useStore(useCart, (state) => state.cartItems);
@@ -26,7 +26,8 @@ const Cart = () => {
 
   const validateCart = () => {
     if (validated) return;
-    if (paymentProvider === 'STRIPE') stripeValidateCart(setValidated, router);
+    if (paymentProvider === 'STRIPE')
+      stripeValidateCart(setValidated, router, checkoutPage ?? '');
   };
 
   return (
@@ -34,13 +35,13 @@ const Cart = () => {
       {cartItems?.map((item, index) => (
         <CartItemCard key={index} cartItem={item} />
       ))}
-      {!cartItems?.length && <p>{translations.cart_empty}</p>}
+      {!cartItems?.length && <p>{translations.cart?.empty}</p>}
       <div className='border-dark flex justify-between border-t-2 pt-4 font-bold md:pt-8'>
         <p>{translations.total}</p>
         <p>{cartTotalPrice} €</p>
       </div>
       <Button variant='outline' onClick={emptyCart}>
-        {translations.empty_cart_btn}
+        {translations.cart?.empty_btn}
       </Button>
       <Button
         disabled={!cartItems?.length}
@@ -48,7 +49,7 @@ const Cart = () => {
         variant='outline'
         onClick={validateCart}
       >
-        !Valider mon panier
+        {translations.cart?.validate_btn}
       </Button>
     </div>
   );

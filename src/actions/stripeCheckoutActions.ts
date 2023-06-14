@@ -10,8 +10,9 @@ import {
 } from '@/lib/graphql';
 import { deepEqual, isOnSale } from '@/lib/helper';
 import { OrderProducts } from '@/lib/interfaces';
+import logger from '@/lib/logger';
 
-import { CheckoutAddressType } from '@/components/sections/checkout/CheckoutAddress';
+import { AddressFormType } from '@/components/sections/checkout/stripe/AddressForm';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
   apiVersion: '2022-11-15',
@@ -63,20 +64,6 @@ const checkProducts = async (orderProducts: OrderProducts[]) => {
   }
 };
 
-async function stripe_payment_intent(amount: number, orderId: number) {
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: amount * 100, //stripe wants amount in cent
-    currency: 'eur',
-    automatic_payment_methods: {
-      enabled: true,
-    },
-    metadata: {
-      order_id: orderId,
-    },
-  });
-  return paymentIntent;
-}
-
 export async function stripe_create_strapi_order(
   orderProducts: OrderProducts[]
 ) {
@@ -99,17 +86,24 @@ export async function stripe_create_strapi_order(
         };
       });
 
-      const input = {
-        amount: total,
-        products,
-      };
-
       if (total && products) {
+        const input = {
+          amount: total,
+          products,
+        };
+
         const { createOrder } = await MutationCreateOrder(input);
-        const { id, client_secret } = await stripe_payment_intent(
-          total,
-          createOrder.data.id
-        );
+        const { id, client_secret } = await stripe.paymentIntents.create({
+          amount: total * 100, //stripe wants amount in cent
+          currency: 'eur',
+          automatic_payment_methods: {
+            enabled: true,
+          },
+          metadata: {
+            order_id: createOrder.data.id,
+            products: JSON.stringify(products),
+          },
+        });
         return { data: { id, client_secret } };
       }
       return { error: 'internal-server-error' };
@@ -120,9 +114,63 @@ export async function stripe_create_strapi_order(
   }
 }
 
+export async function stripe_update_strapi_order(
+  orderProducts: OrderProducts[],
+  paymentIntentId: string
+) {
+  try {
+    const { data, error: checkError } = await checkProducts(orderProducts);
+
+    if (!checkError) {
+      const total = data?.reduce((acc, item) => {
+        return item ? acc + item.price * item.qty : acc;
+      }, 0);
+
+      const products = data?.map((item) => {
+        return {
+          id: item?.id,
+          title: item?.title,
+          price: item?.price,
+          qty: item?.qty,
+          size: item?.size,
+          color: item?.color,
+        };
+      });
+
+      if (total && products) {
+        const input = {
+          amount: total,
+          products,
+        };
+
+        const { metadata } = await stripe.paymentIntents.update(
+          paymentIntentId,
+          {
+            amount: total * 100,
+            metadata: {
+              products: JSON.stringify(products),
+            },
+          }
+        );
+        if (metadata) {
+          await MutationUpdateOrder(metadata.order_id, input);
+          return { success: true };
+        } else {
+          return { error: 'internal-server-error' };
+        }
+      }
+      return { error: 'internal-server-error' };
+    }
+    return { error: checkError };
+  } catch (error) {
+    logger(error);
+    return { error: 'internal-server-error' };
+  }
+}
+
 export async function stripe_add_address_strapi_order(
   paymentIntentId: string,
-  ckAddress: CheckoutAddressType
+  ckAddress: AddressFormType
 ) {
   try {
     const { address, shipping, email } = ckAddress;

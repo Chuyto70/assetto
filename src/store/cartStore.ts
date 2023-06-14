@@ -77,7 +77,7 @@ export const useCart = create<CartState & CartActions>()(
                       },
                     ],
                     totalItems: state.totalItems + 1,
-                    totalPrice: state.totalPrice + price,
+                    totalPrice: Number((state.totalPrice + price).toFixed(2)),
                   };
                 }
               }
@@ -100,7 +100,9 @@ export const useCart = create<CartState & CartActions>()(
               return {
                 cartItems: updatedCart,
                 totalItems: state.totalItems + 1,
-                totalPrice: state.totalPrice + (item?.price ?? 0),
+                totalPrice: Number(
+                  (state.totalPrice + (item?.price ?? 0)).toFixed(2)
+                ),
               };
             }
 
@@ -138,7 +140,7 @@ export const useCart = create<CartState & CartActions>()(
           return {
             cartItems: updatedCart,
             totalItems: totalItems,
-            totalPrice: totalPrice,
+            totalPrice: Number(totalPrice.toFixed(2)),
           };
         }),
       emptyCart: () => set(initialState),
