@@ -10,10 +10,12 @@ const sectionComponents = {
     () => import('@/components/sections/products/SelectedList')
   ),
   ComponentSectionsCart: dynamic(
-    () => import('@/components/sections/checkout/Cart')
+    () => import('@/components/sections/checkout/Cart'),
+    { ssr: false }
   ),
   ComponentSectionsCheckoutAddress: dynamic(
-    () => import('@/components/sections/checkout/CheckoutAddress')
+    () => import('@/components/sections/checkout/CheckoutAddress'),
+    { ssr: false }
   ),
 };
 

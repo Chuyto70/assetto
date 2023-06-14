@@ -93,7 +93,6 @@ export default async function SlugLayout({
 
   // If slug is a category -> @category
   if (!currentProduct && currentCategory) return <>{category}</>;
-
   // else -> page.tsx
-  return <>{children}</>;
+  else return <>{children}</>;
 }

@@ -1,9 +1,13 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 
 import clsxm from '@/lib/clsxm';
+
+const MotionDiv = dynamic(() =>
+  import('framer-motion').then((mod) => mod.motion.div)
+);
 
 type SwitchProps = {
   isDark?: boolean;
@@ -41,7 +45,7 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
         onClick={toggleSwitch}
         {...rest}
       >
-        <motion.div
+        <MotionDiv
           className='rounded-full bg-white w-[0.8em] h-[0.8em]'
           layout
           transition={spring}

@@ -1,8 +1,8 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import dynamic from 'next/dynamic';
 import { redirect } from 'next/navigation';
-import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -16,6 +16,17 @@ import { useCart } from '@/store/cartStore';
 import { useToaster } from '@/store/toasterStore';
 
 import { stripe_add_address_strapi_order } from '@/actions/stripeCheckoutActions';
+
+const CountryDropdown = dynamic(
+  () =>
+    import('react-country-region-selector').then((mod) => mod.CountryDropdown),
+  { ssr: false }
+);
+const RegionDropdown = dynamic(
+  () =>
+    import('react-country-region-selector').then((mod) => mod.RegionDropdown),
+  { ssr: false }
+);
 
 const schema = yup
   .object({
