@@ -411,3 +411,5 @@ const CheckoutAddress = () => {
 };
 
 export default CheckoutAddress;
+
+// Lazy load le component country et region + il est chargé dans d'autres pages ?

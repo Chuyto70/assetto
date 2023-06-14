@@ -23,6 +23,7 @@ export const CartItemCard = ({ cartItem }: { cartItem: CartItem }) => {
           <NextImage
             src={MediaUrl(medias.data[0].attributes.url)}
             useSkeleton
+            priority
             width={medias.data[0].attributes.width}
             height={medias.data[0].attributes.height}
             alt={medias.data[0].attributes.alternativeText ?? ''}
