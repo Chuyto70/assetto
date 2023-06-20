@@ -10,7 +10,6 @@ import {
 } from '@/lib/graphql';
 import { deepEqual, isOnSale } from '@/lib/helper';
 import { OrderProducts } from '@/lib/interfaces';
-import logger from '@/lib/logger';
 
 import { AddressFormType } from '@/components/sections/checkout/stripe/AddressForm';
 
@@ -156,14 +155,13 @@ export async function stripe_update_strapi_order(
           await MutationUpdateOrder(metadata.order_id, input);
           return { success: true };
         } else {
-          return { error: 'internal-server-error' };
+          return { error: 'could-not-update-payment' };
         }
       }
       return { error: 'internal-server-error' };
     }
     return { error: checkError };
   } catch (error) {
-    logger(error);
     return { error: 'internal-server-error' };
   }
 }

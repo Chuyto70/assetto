@@ -1,5 +1,6 @@
 'use client';
 
+import { Elements } from '@stripe/react-stripe-js';
 import dynamic from 'next/dynamic';
 import { redirect, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -7,6 +8,7 @@ import { useState } from 'react';
 import AddressForm, {
   AddressFormType,
 } from '@/components/sections/checkout/stripe/AddressForm';
+import Payment from '@/components/sections/checkout/stripe/Payment';
 
 import { useCart } from '@/store/cartStore';
 import { useToaster } from '@/store/toasterStore';
@@ -20,7 +22,7 @@ const MotionDiv = dynamic(() =>
   import('framer-motion').then((mod) => mod.motion.div)
 );
 
-const Tunnel = () => {
+const Tunnel = async () => {
   const router = useRouter();
   const stripeClientSecret = useCart((state) => state.stripeClientSecret);
   const stripePaymentIntentId = useCart((state) => state.stripePaymentIntentId);
@@ -29,23 +31,14 @@ const Tunnel = () => {
 
   const [step, setStep] = useState(0);
 
-  // useEffect(() => {
-  //   if (stripePaymentIntentId && stripeClientSecret) {
-  //     stripe_retrieve_payment_intent(stripePaymentIntentId, stripeClientSecret).then((res) => {
-  //       console.log(res);
-  //       if (res.status !== 'requires_payment_method' || res.error) {
-  //         // router.push('/panier');
-  //       }
-  //     });
-  //   }
-  // }, [router, stripeClientSecret, stripePaymentIntentId]);
-
   const validateAddressForm = (data: AddressFormType) => {
     if (stripeClientSecret && stripePaymentIntentId) {
       stripe_add_address_strapi_order(stripePaymentIntentId, data)
         .then(({ error, success }) => {
           if (!error && success) {
             setStep(1);
+          } else if (error === 'could-not-update-payment') {
+            notify(2, <p>!Impossible de mettre à jour le payement</p>, 6000);
           } else {
             notify(
               2,
@@ -61,7 +54,12 @@ const Tunnel = () => {
     }
   };
 
-  if (stripePaymentIntentId) {
+  const options = {
+    clientSecret: stripeClientSecret ?? '',
+    theme: 'stripe',
+  };
+
+  if (stripePaymentIntentId && stripeClientSecret) {
     return (
       <AnimatePresence mode='wait' initial={false}>
         <MotionDiv
@@ -72,7 +70,16 @@ const Tunnel = () => {
           transition={{ duration: 0.5 }}
         >
           {step === 0 && <AddressForm onSubmit={validateAddressForm} />}
-          {step === 1 && <p>step 2</p>}
+          {step === 1 && (
+            <Elements
+              options={options}
+              stripe={(await import('@stripe/stripe-js')).loadStripe(
+                process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
+              )}
+            >
+              <Payment />
+            </Elements>
+          )}
         </MotionDiv>
       </AnimatePresence>
     );

@@ -82,6 +82,9 @@ export const stripeValidateCart = (
             } else if (response.error === 'insufficient-quantity-available') {
               notify(1, <p>!Quantité disponible insuffisante</p>, 6000);
               setValidated(false);
+            } else if (response.error === 'could-not-update-payment') {
+              notify(2, <p>!Impossible de mettre à jour le payement</p>, 6000);
+              setValidated(false);
             } else {
               notify(2, <p>!Une erreur s'est produite</p>);
               setValidated(false);
