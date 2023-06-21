@@ -1,3 +1,5 @@
+'use server';
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MutationUpdateOrder } from '@/lib/graphql';
 

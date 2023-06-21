@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useCart } from '@/store/cartStore';
 import { useServer } from '@/store/serverStore';
 
-import { stripe_abandon_payment_intent } from '@/actions/stripeCheckoutActions';
+import { abandonPaymentIntent } from '@/actions/stripe/paymentIntents';
 
 const ExitHandle = () => {
   const stripePaymentIntentId = useCart((state) => state.stripePaymentIntentId);
@@ -14,9 +14,8 @@ const ExitHandle = () => {
   useEffect(() => {
     const handleWindowClose = () => {
       if (stripePaymentIntentId) {
-        if (paymentProvider === 'STRIPE') {
-          stripe_abandon_payment_intent(stripePaymentIntentId);
-        }
+        if (paymentProvider === 'STRIPE')
+          abandonPaymentIntent(stripePaymentIntentId);
       }
       return;
     };

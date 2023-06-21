@@ -6,15 +6,13 @@ import {
   handlePaymentIntentPaymentFailed,
   handlePaymentIntentProcessing,
   handlePaymentIntentSucceeded,
-} from '@/lib/stripe/webhooks';
+} from '@/actions/stripe/webhooks';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
   apiVersion: '2022-11-15',
 });
 
 const endpointSecret = process.env.STRAPI_WEBHOOK_SECRET ?? '';
-
-export const runtime = 'edge';
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -60,3 +58,5 @@ export async function POST(req: Request) {
 
   return NextResponse.json({}, { status: 200 });
 }
+
+export const runtime = 'edge';

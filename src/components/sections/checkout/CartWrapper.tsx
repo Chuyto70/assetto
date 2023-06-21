@@ -33,7 +33,9 @@ const CartWrapper = async ({
     'sectionsCart'
   );
   const { checkout_page } = page.data.attributes.content[index];
-  return <Cart checkoutPage={checkout_page.data.attributes.slug} />;
+  return (
+    <Cart checkoutPage={`/${locale}/${checkout_page.data.attributes.slug}`} />
+  );
 };
 
 export default CartWrapper;
