@@ -1,16 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import logger from '@/lib/logger';
+import { MutationUpdateOrder } from '@/lib/graphql';
 
-export const handlePaymentIntentPaymentFailed = (
+export const handlePaymentIntentPaymentFailed = async (
   paymentIntentPaymentFailed: any
 ) => {
-  logger(paymentIntentPaymentFailed);
+  const { order_id } = paymentIntentPaymentFailed.metadata;
+  if (order_id) {
+    const input = {
+      status: 'failed',
+    };
+    await MutationUpdateOrder(order_id, input);
+  }
 };
 
-export const handlePaymentIntentProcessing = (paymentIntentProcessing: any) => {
-  logger(paymentIntentProcessing);
+export const handlePaymentIntentProcessing = async (
+  paymentIntentProcessing: any
+) => {
+  const { order_id } = paymentIntentProcessing.metadata;
+  if (order_id) {
+    const input = {
+      status: 'pending',
+    };
+    await MutationUpdateOrder(order_id, input);
+  }
 };
 
-export const handlePaymentIntentSucceeded = (paymentIntentSucceeded: any) => {
-  logger(paymentIntentSucceeded);
+export const handlePaymentIntentSucceeded = async (
+  paymentIntentSucceeded: any
+) => {
+  const { order_id } = paymentIntentSucceeded.metadata;
+  if (order_id) {
+    const input = {
+      status: 'succeeded',
+    };
+    await MutationUpdateOrder(order_id, input);
+  }
 };
