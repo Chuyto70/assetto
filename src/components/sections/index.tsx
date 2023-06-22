@@ -15,6 +15,9 @@ const sectionComponents = {
   ComponentSectionsCheckoutTunnel: dynamic(
     () => import('@/components/sections/checkout/CheckoutTunnel')
   ),
+  ComponentSectionsCheckoutComplete: dynamic(
+    () => import('@/components/sections/checkout/CheckoutComplete')
+  ),
 };
 
 // Display a section individually

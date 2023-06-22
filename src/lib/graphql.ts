@@ -485,6 +485,7 @@ export const QueryProduct = async (id: number) => {
               }
               short_description
               sizes {
+                id
                 size
                 quantity
               }
@@ -580,6 +581,7 @@ export const QueryProductFromSlug = async (
               }
               short_description
               sizes {
+                id
                 size
                 quantity
               }
@@ -660,6 +662,42 @@ export const QueryContentComponent = async (
     );
 
   return response;
+};
+
+/**
+ * Query a single order from Strapi
+ * @param payment_intent_id payment intent of stripe
+ * @returns data of the order
+ */
+export const QueryOrderFromPaymentIntent = async (
+  payment_intent_id: string
+) => {
+  const queryVariables = {
+    payment_intent_id,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  const { orders } = await StrapiClient.request<{
+    orders: { data: Order[] };
+  }>(
+    gql`
+      query orderFromPaymentIntent($payment_intent_id: String!) {
+        orders(filters: { payment_intent_id: { eq: $payment_intent_id } }) {
+          data {
+            attributes {
+              status
+              products
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return orders;
 };
 
 /**
@@ -809,6 +847,87 @@ export const MutationDeleteOrder = async (id: string) => {
               products
               createdAt
               updatedAt
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return response;
+};
+
+/**
+ * Update a product in Strapi
+ * @param id
+ * @param input product
+ * @returns data of product
+ */
+export const MutationUpdateProduct = async (
+  id: number,
+  input: Partial<Product['attributes']>
+) => {
+  const queryVariables = {
+    id,
+    input,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  const response = await StrapiClient.request<{
+    updateProduct: { data: Product };
+  }>(
+    gql`
+      mutation updateProduct($id: ID!, $input: ProductInput!) {
+        updateProduct(id: $id, data: $input) {
+          data {
+            id
+            attributes {
+              title
+              slug
+              price
+              sale_price
+              date_on_sale_from
+              date_on_sale_to
+              medias {
+                data {
+                  attributes {
+                    alternativeText
+                    name
+                    url
+                    width
+                    height
+                    mime
+                  }
+                }
+              }
+              short_description
+              sizes {
+                size
+                quantity
+              }
+              colors {
+                name
+                color
+                product {
+                  data {
+                    id
+                    attributes {
+                      slug
+                    }
+                  }
+                }
+              }
+              categories {
+                data {
+                  attributes {
+                    title
+                    slug
+                  }
+                }
+              }
             }
           }
         }

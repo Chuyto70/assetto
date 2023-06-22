@@ -6,15 +6,18 @@ import {
   useStripe,
 } from '@stripe/react-stripe-js';
 import { StripeError } from '@stripe/stripe-js';
-import { FormEvent, useEffect, useState } from 'react';
-
-import logger from '@/lib/logger';
+import { useRouter } from 'next/navigation';
+import { FormEvent, useState } from 'react';
 
 import Button from '@/components/elements/buttons/Button';
 
 import { useCart } from '@/store/cartStore';
 
-const Payment = () => {
+import { deploymentURL } from '@/constant/env';
+
+const StripePayment = ({ return_url }: { return_url: string }) => {
+  const router = useRouter();
+
   const stripeClientSecret = useCart((state) => state.stripeClientSecret);
   const stripePaymentIntentId = useCart((state) => state.stripePaymentIntentId);
 
@@ -23,34 +26,6 @@ const Payment = () => {
 
   const [message, setMessage] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (!stripe) {
-      return;
-    }
-    if (!stripeClientSecret) {
-      return;
-    }
-
-    stripe
-      .retrievePaymentIntent(stripeClientSecret)
-      .then(({ paymentIntent }) => {
-        switch (paymentIntent?.status) {
-          case 'succeeded':
-            setMessage('!Payment succeeded!');
-            break;
-          case 'processing':
-            setMessage('!Your payment is processing.');
-            break;
-          case 'requires_payment_method':
-            setMessage('!Your payment was not successful, please try again.');
-            break;
-          default:
-            setMessage('!Something went wrong.');
-            break;
-        }
-      });
-  }, [stripe, stripeClientSecret]);
 
   const handleErrors = (error: StripeError) => {
     switch (error.type) {
@@ -93,19 +68,36 @@ const Payment = () => {
       return;
     }
 
-    const res = await fetch('http://localhost:3000/api/confirm-intent', {
+    const res = await fetch(`${deploymentURL}/api/confirm-intent`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       mode: 'same-origin',
       body: JSON.stringify({
         payment_intent_id: stripePaymentIntentId,
         payment_method: paymentMethod.id,
+        return_url: `${deploymentURL}${return_url}`,
       }),
       cache: 'no-store',
-    }); //! edit url
+    });
 
     const data = await res.json();
-    logger(data);
+
+    if (data.error) {
+      handleErrors(data.error);
+      return;
+    } else if (data.status === 'requires_action') {
+      // Use Stripe.js to handle the required next action
+      const { error } = await stripe.handleNextAction({
+        clientSecret: stripeClientSecret ?? data.client_secret,
+      });
+      if (error) {
+        handleErrors(data.error);
+        return;
+      }
+    }
+
+    router.push(return_url);
+    return;
   };
 
   return (
@@ -119,4 +111,4 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+export default StripePayment;

@@ -10,7 +10,6 @@ import { PAYMENT_PROVIDER } from '@/lib/interfaces';
 import { seo } from '@/lib/seo';
 
 import Toasts from '@/components/elements/toast/Toasts';
-import ExitHandle from '@/components/ExitHandle';
 import Header from '@/components/layout/Header';
 import { ZustandProvider } from '@/components/ZustandProvider';
 
@@ -69,7 +68,6 @@ export default async function RootLayout({
     >
       <body className='text-dark'>
         <ZustandProvider serverState={useServer.getState()} />
-        <ExitHandle />
         <Header />
         <Toasts />
         {children}

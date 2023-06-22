@@ -1,19 +1,12 @@
 import { gql, QueryContentComponent } from '@/lib/graphql';
 
-import StripeTunnel from '@/components/sections/checkout/stripe/StripeTunnel';
+import StripeComplete from '@/components/sections/checkout/stripe/StripeComplete';
 
 import { useServer } from '@/store/serverStore';
 
-const ComponentSectionsCheckoutTunnel = gql`
-  fragment sectionsCheckoutTunnel on ComponentSectionsCheckoutTunnel {
+const ComponentSectionsCheckoutComplete = gql`
+  fragment sectionsCheckoutComplete on ComponentSectionsCheckoutComplete {
     cart_page {
-      data {
-        attributes {
-          slug
-        }
-      }
-    }
-    complete_page {
       data {
         attributes {
           slug
@@ -23,7 +16,7 @@ const ComponentSectionsCheckoutTunnel = gql`
   }
 `;
 
-const CheckoutTunnel = async ({
+const CheckoutComplete = async ({
   pageID,
   index,
 }: {
@@ -37,18 +30,17 @@ const CheckoutTunnel = async ({
     locale,
     pageID,
     'page',
-    ComponentSectionsCheckoutTunnel,
-    'sectionsCheckoutTunnel'
+    ComponentSectionsCheckoutComplete,
+    'sectionsCheckoutComplete'
   );
-  const { cart_page, complete_page } = page.data.attributes.content[index];
+  const { cart_page } = page.data.attributes.content[index];
   if (paymentProvider === 'STRIPE')
     return (
-      <StripeTunnel
+      <StripeComplete
         cartPage={`/${locale}/${cart_page.data.attributes.slug}`}
-        completePage={`/${locale}/${complete_page.data.attributes.slug}`}
       />
     );
   return null;
 };
 
-export default CheckoutTunnel;
+export default CheckoutComplete;

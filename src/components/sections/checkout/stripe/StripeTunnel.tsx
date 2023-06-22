@@ -8,7 +8,7 @@ import { useState } from 'react';
 import AddressForm, {
   AddressFormType,
 } from '@/components/elements/forms/AddressForm';
-import Payment from '@/components/sections/checkout/stripe/Payment';
+import StripePayment from '@/components/sections/checkout/stripe/StripePayment';
 
 import { useCart } from '@/store/cartStore';
 import { useServer } from '@/store/serverStore';
@@ -23,7 +23,13 @@ const MotionDiv = dynamic(() =>
   import('framer-motion').then((mod) => mod.motion.div)
 );
 
-const StripeTunnel = async ({ cartPage }: { cartPage?: string }) => {
+const StripeTunnel = async ({
+  cartPage,
+  completePage,
+}: {
+  cartPage?: string;
+  completePage?: string;
+}) => {
   const router = useRouter();
 
   const stripeClientSecret = useCart((state) => state.stripeClientSecret);
@@ -63,7 +69,7 @@ const StripeTunnel = async ({ cartPage }: { cartPage?: string }) => {
         });
       return;
     }
-    notify(1, <p>{translations.error.no_payment_intent}</p>);
+    notify(1, <p>{translations.payment.no_payment_intent}</p>);
     if (cartPage) router.push(cartPage);
   };
 
@@ -87,7 +93,7 @@ const StripeTunnel = async ({ cartPage }: { cartPage?: string }) => {
               process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
             )}
           >
-            <Payment />
+            <StripePayment return_url={completePage ?? '/'} />
           </Elements>
         )}
       </MotionDiv>

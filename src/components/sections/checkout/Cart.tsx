@@ -90,6 +90,7 @@ const Cart = ({ checkoutPage }: { checkoutPage?: string }) => {
           setPaymentIntentId(data.payment_intent_id);
           setClientSecret(data.client_secret);
           router.push(checkoutPage);
+          return;
         }
         setValidated(false);
         return;

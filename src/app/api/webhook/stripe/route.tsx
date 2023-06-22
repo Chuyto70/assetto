@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 import {
+  handlePaymentIntentCanceled,
   handlePaymentIntentPaymentFailed,
   handlePaymentIntentProcessing,
   handlePaymentIntentSucceeded,
@@ -51,6 +52,10 @@ export async function POST(req: Request) {
     case 'payment_intent.succeeded':
       const paymentIntentSucceeded = event.data.object;
       handlePaymentIntentSucceeded(paymentIntentSucceeded);
+      break;
+    case 'payment_intent.canceled':
+      const paymentIntentCanceled = event.data.object;
+      handlePaymentIntentCanceled(paymentIntentCanceled);
       break;
     default:
       break;
