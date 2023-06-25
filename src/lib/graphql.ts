@@ -1,6 +1,13 @@
 import { gql, GraphQLClient } from 'graphql-request';
 
-import { Category, Order, Page, Product, Setting } from '@/lib/interfaces';
+import {
+  Category,
+  Order,
+  Page,
+  Product,
+  ProductSize,
+  Setting,
+} from '@/lib/interfaces';
 
 const API_URL = process.env.strapiURL || 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
@@ -445,16 +452,21 @@ export const QueryPageFromSlug = async (
 /**
  * Query a single product from Strapi
  * @param id id of the product
+ * @param disableCaching disable fetch caching
  * @returns data of a product
  */
-export const QueryProduct = async (id: number) => {
+export const QueryProduct = async (id: number, disableCaching = false) => {
   const queryVariables = {
     id: id,
   };
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['products'] } });
+    fetch(url, {
+      ...options,
+      next: { tags: ['products'] },
+      cache: `${disableCaching ? 'no-store' : 'default'}`,
+    });
 
   const { product } = await StrapiClient.request<{
     product: { data: Product };
@@ -935,6 +947,42 @@ export const MutationUpdateProduct = async (
     `,
     queryVariables
   );
+
+  return response;
+};
+
+/**
+ * Update a product size in Strapi
+ * @param id
+ * @param input size
+ * @returns data of the size
+ */
+export const MutationUpdateProductSize = async (
+  id: number,
+  input: Partial<ProductSize>
+) => {
+  const queryVariables = {
+    id,
+    input,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  const response = await StrapiClient.request<{
+    updateProductSize: ProductSize;
+  }>(
+    gql`
+      mutation updateProductSize($id: ID!, $input: ComponentProductsSizesInput!) {
+        updateProductSize(id: $id, data: $input) {
+          ${Object.keys(input).join('\n')}
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  // unhandledRejection graphql-request\build\cjs\index.js (310:14) @ makeRequest car je retourne une erreur si le stock est < 0
 
   return response;
 };

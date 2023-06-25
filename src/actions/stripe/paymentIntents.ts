@@ -2,6 +2,7 @@
 
 import Stripe from 'stripe';
 
+import { toFixedNumber } from '@/lib/helper';
 import { OrderProducts } from '@/lib/interfaces';
 
 import checkCart from '@/actions/checkCart';
@@ -34,7 +35,7 @@ const createOrUpdatePaymentIntent = async (
     if (payment_intent_id) {
       const { id, client_secret, metadata } =
         await stripe.paymentIntents.update(payment_intent_id, {
-          amount: total * 100,
+          amount: toFixedNumber(total * 100, 0),
           currency: 'eur',
           metadata: {
             products: JSON.stringify(checkedItems),
@@ -52,7 +53,7 @@ const createOrUpdatePaymentIntent = async (
     const { error, data } = await createOrUpdateOrder(total, checkedItems);
     if (error) return { error };
     const { id, client_secret } = await stripe.paymentIntents.create({
-      amount: total * 100,
+      amount: toFixedNumber(total * 100, 0),
       currency: 'eur',
       automatic_payment_methods: {
         enabled: true,

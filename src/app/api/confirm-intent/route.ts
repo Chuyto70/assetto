@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-import { QueryOrderFromPaymentIntent } from '@/lib/graphql';
+import {
+  MutationUpdateOrder,
+  MutationUpdateProductSize,
+  QueryOrderFromPaymentIntent,
+} from '@/lib/graphql';
 import { ENUM_ORDER_STATUS } from '@/lib/interfaces';
 
 import checkCart from '@/actions/checkCart';
@@ -53,6 +57,7 @@ export const POST = async (req: NextRequest) => {
       status: stripeStatus,
       next_action,
       client_secret,
+      metadata,
     } = await stripe.paymentIntents.confirm(body.payment_intent_id, {
       payment_method: body.payment_method,
       return_url: body.return_url,
@@ -69,6 +74,20 @@ export const POST = async (req: NextRequest) => {
         },
       },
     });
+
+    // Update stocks
+    products.forEach((product) => {
+      const input = {
+        quantity: -product.qty,
+      };
+      MutationUpdateProductSize(product.sizeId, input);
+    });
+
+    // Change order status
+    MutationUpdateOrder(metadata.order_id, {
+      status: ENUM_ORDER_STATUS.pending,
+    });
+
     return NextResponse.json(
       { status: stripeStatus, next_action, client_secret },
       { status: 200 }

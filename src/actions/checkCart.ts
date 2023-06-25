@@ -20,7 +20,7 @@ const checkCart = async (
     const checkedItems = await Promise.all(
       orderProducts.map(async (item) => {
         // Query the product data by id
-        const { data } = await QueryProduct(item.id);
+        const { data } = await QueryProduct(item.id, true);
 
         // Determine the price based on the sale dates
         const price = isOnSale(

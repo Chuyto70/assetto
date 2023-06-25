@@ -34,12 +34,16 @@ const Cart = ({ checkoutPage }: { checkoutPage?: string }) => {
     if (validated || !cartItems?.length) return;
     setValidated(true);
     const itemsToValidate = cartItems.map((item) => {
+      const sizeId = item.product.attributes.sizes.find(
+        (el) => el.size === item.size
+      );
       return {
         id: item.product.id,
         title: item.product.attributes.title,
         price: item.price,
         qty: item.qty,
         size: item.size,
+        sizeId: sizeId?.id ?? 0,
         color: item.color,
       };
     });
@@ -76,11 +80,11 @@ const Cart = ({ checkoutPage }: { checkoutPage?: string }) => {
               );
               break;
             case 'internal-server-error':
-              notify(2, <p>{translations.error.internal_server_error}</p>);
+              notify(2, <p>{translations.error.internal_server_error} 2</p>);
               break;
             default:
               refreshCart();
-              notify(2, <p>{translations.error.internal_server_error}</p>);
+              notify(2, <p>{translations.error.internal_server_error} 1</p>);
               break;
           }
           setValidated(false);
