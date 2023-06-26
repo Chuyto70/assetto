@@ -22,7 +22,7 @@ const RegionDropdown = dynamic(
 
 const schema = yup
   .object({
-    shippingDifferent: yup.boolean(),
+    shippingDifferent: yup.boolean().required(),
     email: yup
       .string()
       .email("!Votre adresse email n'est pas valide")

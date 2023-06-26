@@ -969,20 +969,23 @@ export const MutationUpdateProductSize = async (
   StrapiClient.requestConfig.fetch = (url, options) =>
     fetch(url, { ...options, cache: 'no-store' });
 
-  const response = await StrapiClient.request<{
-    updateProductSize: ProductSize;
-  }>(
-    gql`
-      mutation updateProductSize($id: ID!, $input: ComponentProductsSizesInput!) {
-        updateProductSize(id: $id, data: $input) {
-          ${Object.keys(input).join('\n')}
+  try {
+    const response = await StrapiClient.request<{
+      updateProductSize: ProductSize;
+    }>(
+      gql`
+        mutation updateProductSize($id: ID!, $input: ComponentProductsSizesInput!) {
+          updateProductSize(id: $id, data: $input) {
+            ${Object.keys(input).join('\n')}
+          }
         }
-      }
-    `,
-    queryVariables
-  );
+      `,
+      queryVariables
+    );
 
-  // unhandledRejection graphql-request\build\cjs\index.js (310:14) @ makeRequest car je retourne une erreur si le stock est < 0
-
-  return response;
+    return response;
+  } catch (error) {
+    /* ignore errors for this mutation */
+  }
+  return {};
 };
