@@ -32,6 +32,7 @@ const StripeTunnel = async ({
 }) => {
   const router = useRouter();
 
+  const setAddress = useCart((state) => state.setAddress);
   const stripeClientSecret = useCart((state) => state.stripeClientSecret);
   const stripePaymentIntentId = useCart((state) => state.stripePaymentIntentId);
 
@@ -62,6 +63,7 @@ const StripeTunnel = async ({
             }
             return;
           }
+          setAddress(data);
           setStep(1);
         })
         .catch(() => {

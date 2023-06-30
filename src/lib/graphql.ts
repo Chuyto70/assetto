@@ -770,7 +770,10 @@ export const MutationCreateOrder = async (input: unknown) => {
  * @param input
  * @returns data of order
  */
-export const MutationUpdateOrder = async (id: string, input: unknown) => {
+export const MutationUpdateOrder = async (
+  id: string | number,
+  input: unknown
+) => {
   const queryVariables = {
     id,
     input,
@@ -957,7 +960,7 @@ export const MutationUpdateProduct = async (
  * @param input size
  * @returns data of the size
  */
-export const MutationUpdateProductSize = async (
+export const MutationUpdateProductSize = (
   id: number,
   input: Partial<ProductSize>
 ) => {
@@ -969,23 +972,48 @@ export const MutationUpdateProductSize = async (
   StrapiClient.requestConfig.fetch = (url, options) =>
     fetch(url, { ...options, cache: 'no-store' });
 
-  try {
-    const response = await StrapiClient.request<{
-      updateProductSize: ProductSize;
-    }>(
-      gql`
+  return StrapiClient.request<{
+    updateProductSize: ProductSize;
+  }>(
+    gql`
         mutation updateProductSize($id: ID!, $input: ComponentProductsSizesInput!) {
           updateProductSize(id: $id, data: $input) {
             ${Object.keys(input).join('\n')}
           }
         }
       `,
-      queryVariables
-    );
+    queryVariables
+  );
+};
 
-    return response;
-  } catch (error) {
-    /* ignore errors for this mutation */
-  }
-  return {};
+/**
+ * Update many product sizes in Strapi
+ * @param ids
+ * @param input size
+ * @returns data of the size
+ */
+export const MutationUpdateManyProductSize = (
+  ids: number[],
+  input: Partial<ProductSize>[]
+) => {
+  const queryVariables = {
+    ids,
+    input,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  return StrapiClient.request<{
+    updateManyProductSize: ProductSize[];
+  }>(
+    gql`
+        mutation updateManyProductSize($ids: [ID!], $input: [ComponentProductsSizesInput!]) {
+          updateManyProductSize(ids: $ids, datas: $input) {
+            ${Object.keys(input).join('\n')}
+          }
+        }
+      `,
+    queryVariables
+  );
 };

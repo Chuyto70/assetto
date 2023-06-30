@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 import {
+  MutationUpdateManyProductSize,
   MutationUpdateOrder,
   MutationUpdateProductSize,
   QueryOrderFromPaymentIntent,
@@ -52,6 +53,38 @@ export const POST = async (req: NextRequest) => {
         { status: 400 }
       );
 
+    // Update stocks
+    for (let i = 0; i++; i < products.length) {
+      const input = {
+        quantity: -products[i].qty,
+      };
+      await MutationUpdateProductSize(products[i].sizeId, input);
+    }
+    try {
+      if (products.length > 1) {
+        await MutationUpdateManyProductSize(
+          products.map((product) => product.sizeId),
+          products.map((product) => {
+            return { quantity: -product.qty };
+          })
+        );
+      } else {
+        await MutationUpdateProductSize(products[0].sizeId, {
+          quantity: -products[0].qty,
+        });
+      }
+    } catch (error) {
+      return NextResponse.json(
+        {
+          error: {
+            message:
+              'This cart is no longer valid, please revalidate your cart.',
+          },
+        },
+        { status: 400 }
+      );
+    }
+
     // Confirm payment in stripe
     const {
       status: stripeStatus,
@@ -73,14 +106,6 @@ export const POST = async (req: NextRequest) => {
           },
         },
       },
-    });
-
-    // Update stocks
-    products.forEach((product) => {
-      const input = {
-        quantity: -product.qty,
-      };
-      MutationUpdateProductSize(product.sizeId, input);
     });
 
     // Change order status

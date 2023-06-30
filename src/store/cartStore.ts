@@ -8,10 +8,13 @@ import { QueryProduct } from '@/lib/graphql';
 import { isOnSale } from '@/lib/helper';
 import { CartItem, Product } from '@/lib/interfaces';
 
+import { AddressFormType } from '@/components/elements/forms/AddressForm';
+
 export interface CartState {
   cartItems: CartItem[];
   totalItems: number;
   totalPrice: number;
+  address: AddressFormType;
   stripeClientSecret?: string;
   stripePaymentIntentId?: string;
 }
@@ -21,6 +24,7 @@ export interface CartActions {
   decrement: (product: Product) => void;
   emptyCart: () => void;
   refreshCart: () => void;
+  setAddress: (address: AddressFormType) => void;
   setStripeClientSecret: (stripeClientSecret: string) => void;
   setStripePaymentIntentId: (stripePaymentIntentId: string) => void;
 }
@@ -184,6 +188,7 @@ export const useCart = create<CartState & CartActions>()(
           totalPrice: totalPrice,
         });
       },
+      setAddress: (address) => set({ address }),
       setStripeClientSecret: (stripeClientSecret: string) =>
         set({ stripeClientSecret }),
       setStripePaymentIntentId: (stripePaymentIntentId: string) =>

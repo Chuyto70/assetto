@@ -9,6 +9,8 @@ import Switch from '@/components/elements/buttons/Switch';
 import FormErrorMessage from '@/components/elements/forms/atoms/FormErrorMessage';
 import FormInput from '@/components/elements/forms/molecules/FormInput';
 
+import { useCart } from '@/store/cartStore';
+
 const CountryDropdown = dynamic(
   () =>
     import('react-country-region-selector').then((mod) => mod.CountryDropdown),
@@ -164,6 +166,8 @@ const AddressForm = ({
 }: {
   onSubmit: (data: AddressFormType) => void;
 }) => {
+  const address = useCart((state) => state.address);
+
   const {
     control,
     register,
@@ -174,8 +178,10 @@ const AddressForm = ({
     resolver: yupResolver(schema),
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: async () => address,
   });
 
+  //? Switch not animating anymore
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
