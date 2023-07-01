@@ -700,6 +700,7 @@ export const QueryOrderFromPaymentIntent = async (
           data {
             id
             attributes {
+              amount
               status
               products
             }

@@ -46,7 +46,10 @@ export const POST = async (req: NextRequest) => {
     // Check cart from order in backend
     const { data } = await QueryOrderFromPaymentIntent(body.payment_intent_id);
     const { status, products } = data[0].attributes;
-    if (status !== ENUM_ORDER_STATUS.checkout)
+    if (
+      status !== ENUM_ORDER_STATUS.checkout &&
+      status !== ENUM_ORDER_STATUS.failed
+    )
       return NextResponse.json(
         {
           error: {

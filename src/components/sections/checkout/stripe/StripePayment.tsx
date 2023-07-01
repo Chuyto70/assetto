@@ -60,6 +60,9 @@ const StripePayment = ({
       case 'no-payment-method':
         setMessage(translations.payment.requires_payment_method);
         break;
+      case 'cannot-confirm-order':
+        setMessage(translations.payment.cannot_confirm_order);
+        break;
       case 'no-valid-cart':
         refreshCart();
         notify(2, <p>{translations.error.cart_not_equal_updated}</p>);
@@ -111,6 +114,7 @@ const StripePayment = ({
 
     if (data.error) {
       handleErrors(data.error);
+      setIsLoading(false);
       return;
     } else if (data.status === 'requires_action') {
       // Use Stripe.js to handle the required next action

@@ -5,7 +5,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { QueryProduct } from '@/lib/graphql';
-import { isOnSale } from '@/lib/helper';
+import { isOnSale, toFixedNumber } from '@/lib/helper';
 import { CartItem, Product } from '@/lib/interfaces';
 
 import { AddressFormType } from '@/components/elements/forms/AddressForm';
@@ -106,8 +106,9 @@ export const useCart = create<CartState & CartActions>()(
               return {
                 cartItems: updatedCart,
                 totalItems: state.totalItems + 1,
-                totalPrice: Number(
-                  (state.totalPrice + (item?.price ?? 0)).toFixed(2)
+                totalPrice: toFixedNumber(
+                  state.totalPrice + (item?.price ?? 0),
+                  2
                 ),
               };
             }
@@ -146,7 +147,7 @@ export const useCart = create<CartState & CartActions>()(
           return {
             cartItems: updatedCart,
             totalItems: totalItems,
-            totalPrice: Number(totalPrice.toFixed(2)),
+            totalPrice: toFixedNumber(totalPrice, 2),
           };
         }),
       emptyCart: () => set(initialState),
@@ -180,9 +181,12 @@ export const useCart = create<CartState & CartActions>()(
         updatedCart = updatedCart.filter(Boolean);
 
         const totalItems = get().cartItems.length;
-        const totalPrice = updatedCart.reduce(
-          (total, item) => total + item?.price * item?.qty,
-          0
+        const totalPrice = toFixedNumber(
+          updatedCart.reduce(
+            (total, item) => total + item?.price * item?.qty,
+            0
+          ),
+          2
         );
         set({
           cartItems: updatedCart,
