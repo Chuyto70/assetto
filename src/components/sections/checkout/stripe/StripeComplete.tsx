@@ -11,7 +11,9 @@ import { useToaster } from '@/store/toasterStore';
 const StripeComplete = ({ cartPage }: { cartPage?: string }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const stripeClientSecret = searchParams.get('payment_intent_client_secret');
+  const stripeClientSecret =
+    searchParams.get('payment_intent_client_secret') ??
+    useCart.getState().stripeClientSecret;
 
   const notify = useToaster.getState().notify;
 
