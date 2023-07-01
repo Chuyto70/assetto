@@ -38,8 +38,8 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
         ref={ref}
         className={clsxm(
           isDark ? 'bg-dark/40' : 'bg-gray-200/40',
-          isOn && 'justify-end',
           'flex cursor-pointer justify-start rounded-full p-[0.1em] transition-colors duration-300 w-[2em] h-[1em]',
+          isOn && 'justify-end',
           className
         )}
         onClick={toggleSwitch}
