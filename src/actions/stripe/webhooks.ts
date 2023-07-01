@@ -2,6 +2,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  MutationUpdateManyProductSize,
   MutationUpdateOrder,
   MutationUpdateProductSize,
   QueryOrderFromPaymentIntent,
@@ -61,13 +62,20 @@ export const handlePaymentIntentCanceled = async (
     const input = {
       status: 'canceled',
     };
-    await MutationUpdateOrder(order_id, input);
     if (previousOrderState.data[0].attributes.status === 'pending') {
-      products.forEach(async (product: OrderProducts) => {
-        await MutationUpdateProductSize(product.sizeId, {
-          quantity: product.qty,
+      // restore stock
+      MutationUpdateManyProductSize(
+        products.map((product: OrderProducts) => product.sizeId),
+        products.map((product: OrderProducts) => {
+          return { quantity: product.qty };
+        })
+      )
+        .then(async () => {
+          await MutationUpdateOrder(order_id, input);
+        })
+        .catch(() => {
+          /**/
         });
-      });
     }
   }
 };

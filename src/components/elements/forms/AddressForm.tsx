@@ -181,7 +181,6 @@ const AddressForm = ({
     defaultValues: async () => address,
   });
 
-  //? Switch not animating anymore
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -190,7 +189,6 @@ const AddressForm = ({
           <Controller
             name='shippingDifferent'
             control={control}
-            defaultValue={false}
             render={({ field }) => (
               <Switch toggle={field.onChange} toggleIsOn={field.value} />
             )}

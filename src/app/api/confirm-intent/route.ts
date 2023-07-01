@@ -9,8 +9,6 @@ import {
 } from '@/lib/graphql';
 import { ENUM_ORDER_STATUS } from '@/lib/interfaces';
 
-import checkCart from '@/actions/checkCart';
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
   apiVersion: '2022-11-15',
 });
@@ -19,17 +17,29 @@ export const POST = async (req: NextRequest) => {
   const body = await req.json();
   if (!body.payment_intent_id)
     return NextResponse.json(
-      { error: { message: 'Please provide the payment intent id' } },
+      {
+        error: {
+          type: 'no-payment-intent',
+        },
+      },
       { status: 400 }
     );
   if (!body.payment_method)
     return NextResponse.json(
-      { error: { message: 'Please provide the payment method' } },
+      {
+        error: {
+          type: 'no-payment-method',
+        },
+      },
       { status: 400 }
     );
   if (!body.return_url)
     return NextResponse.json(
-      { error: { message: 'Please provide the return url' } },
+      {
+        error: {
+          type: 'no-return-url',
+        },
+      },
       { status: 400 }
     );
   try {
@@ -38,28 +48,15 @@ export const POST = async (req: NextRequest) => {
     const { status, products } = data[0].attributes;
     if (status !== ENUM_ORDER_STATUS.checkout)
       return NextResponse.json(
-        { error: { message: 'This order cannot be confirmed.' } },
-        { status: 400 }
-      );
-    const { error } = await checkCart(products);
-    if (error)
-      return NextResponse.json(
         {
           error: {
-            message:
-              'This cart is no longer valid, please revalidate your cart.',
+            type: 'cannot-confirm-order',
           },
         },
         { status: 400 }
       );
 
     // Update stocks
-    for (let i = 0; i++; i < products.length) {
-      const input = {
-        quantity: -products[i].qty,
-      };
-      await MutationUpdateProductSize(products[i].sizeId, input);
-    }
     try {
       if (products.length > 1) {
         await MutationUpdateManyProductSize(
@@ -73,12 +70,16 @@ export const POST = async (req: NextRequest) => {
           quantity: -products[0].qty,
         });
       }
+
+      // Change order status
+      await MutationUpdateOrder(data[0].id, {
+        status: ENUM_ORDER_STATUS.pending,
+      });
     } catch (error) {
       return NextResponse.json(
         {
           error: {
-            message:
-              'This cart is no longer valid, please revalidate your cart.',
+            type: 'no-valid-cart',
           },
         },
         { status: 400 }
@@ -90,7 +91,6 @@ export const POST = async (req: NextRequest) => {
       status: stripeStatus,
       next_action,
       client_secret,
-      metadata,
     } = await stripe.paymentIntents.confirm(body.payment_intent_id, {
       payment_method: body.payment_method,
       return_url: body.return_url,
@@ -108,18 +108,18 @@ export const POST = async (req: NextRequest) => {
       },
     });
 
-    // Change order status
-    MutationUpdateOrder(metadata.order_id, {
-      status: ENUM_ORDER_STATUS.pending,
-    });
-
     return NextResponse.json(
       { status: stripeStatus, next_action, client_secret },
       { status: 200 }
     );
   } catch (error) {
     return NextResponse.json(
-      { error: { message: 'Internal server error' } },
+      {
+        error: {
+          type: 'internal-server-error',
+          message: 'Internal server error',
+        },
+      },
       { status: 500 }
     );
   }

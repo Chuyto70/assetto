@@ -95,7 +95,10 @@ const StripeTunnel = async ({
               process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
             )}
           >
-            <StripePayment return_url={completePage ?? '/'} />
+            <StripePayment
+              cart_page={cartPage ?? '/'}
+              return_url={completePage ?? '/'}
+            />
           </Elements>
         )}
       </MotionDiv>
