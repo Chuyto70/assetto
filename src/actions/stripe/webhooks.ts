@@ -4,7 +4,6 @@
 import {
   MutationUpdateManyProductSize,
   MutationUpdateOrder,
-  MutationUpdateProductSize,
   QueryOrderFromPaymentIntent,
 } from '@/lib/graphql';
 import { OrderProducts } from '@/lib/interfaces';
@@ -17,12 +16,19 @@ export const handlePaymentIntentPaymentFailed = async (
     const input = {
       status: 'failed',
     };
-    await MutationUpdateOrder(order_id, input);
-    products.forEach(async (product: OrderProducts) => {
-      await MutationUpdateProductSize(product.sizeId, {
-        quantity: product.qty,
+    // restore stock
+    MutationUpdateManyProductSize(
+      products.map((product: OrderProducts) => product.sizeId),
+      products.map((product: OrderProducts) => {
+        return { quantity: product.qty };
+      })
+    )
+      .then(async () => {
+        await MutationUpdateOrder(order_id, input);
+      })
+      .catch(() => {
+        /**/
       });
-    });
   }
 };
 
