@@ -33,6 +33,8 @@ const initialState: CartState = {
   cartItems: [],
   totalItems: 0,
   totalPrice: 0,
+  stripeClientSecret: undefined,
+  stripePaymentIntentId: undefined,
 };
 
 export const useCart = create<CartState & CartActions>()(

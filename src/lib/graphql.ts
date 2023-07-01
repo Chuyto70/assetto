@@ -698,6 +698,7 @@ export const QueryOrderFromPaymentIntent = async (
       query orderFromPaymentIntent($payment_intent_id: String!) {
         orders(filters: { payment_intent_id: { eq: $payment_intent_id } }) {
           data {
+            id
             attributes {
               status
               products

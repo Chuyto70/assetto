@@ -80,11 +80,11 @@ const Cart = ({ checkoutPage }: { checkoutPage?: string }) => {
               );
               break;
             case 'internal-server-error':
-              notify(2, <p>{translations.error.internal_server_error} 2</p>);
+              notify(2, <p>{translations.error.internal_server_error}</p>);
               break;
             default:
               refreshCart();
-              notify(2, <p>{translations.error.internal_server_error} 1</p>);
+              notify(2, <p>{translations.error.internal_server_error}</p>);
               break;
           }
           setValidated(false);

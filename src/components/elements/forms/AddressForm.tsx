@@ -78,14 +78,7 @@ const schema = yup
             "!Votre code postal doit être composé de chiffres, de lettres, d'espaces, de tirets, d'apostrophes ou de parenthèses"
           ),
 
-        state: yup
-          .string()
-          .notRequired()
-          .matches(/^[a-zA-ZÀ-ÿ\s\-'()]+$/i, {
-            excludeEmptyString: true,
-            message:
-              "!Votre état ou région doit être composé de lettres, d'espaces, de tirets, d'apostrophes ou de parenthèses",
-          }),
+        state: yup.string().notRequired(),
       })
       .required(),
 
@@ -142,14 +135,7 @@ const schema = yup
           )
           .notRequired(),
 
-        state: yup
-          .string()
-          .notRequired()
-          .matches(/^[a-zA-ZÀ-ÿ\s\-'()]+$/i, {
-            excludeEmptyString: true,
-            message:
-              "!Votre état ou région doit être composé de lettres, d'espaces, de tirets, d'apostrophes ou de parenthèses",
-          }),
+        state: yup.string().notRequired(),
       })
       .when('shippingDifferent', {
         is: false,
@@ -189,6 +175,7 @@ const AddressForm = ({
           <Controller
             name='shippingDifferent'
             control={control}
+            defaultValue={false}
             render={({ field }) => (
               <Switch toggle={field.onChange} toggleIsOn={field.value} />
             )}

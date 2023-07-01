@@ -70,11 +70,6 @@ export const POST = async (req: NextRequest) => {
           quantity: -products[0].qty,
         });
       }
-
-      // Change order status
-      await MutationUpdateOrder(data[0].id, {
-        status: ENUM_ORDER_STATUS.pending,
-      });
     } catch (error) {
       return NextResponse.json(
         {
@@ -85,6 +80,11 @@ export const POST = async (req: NextRequest) => {
         { status: 400 }
       );
     }
+
+    // Change order status
+    MutationUpdateOrder(data[0].id, {
+      status: ENUM_ORDER_STATUS.pending,
+    });
 
     // Confirm payment in stripe
     const {
