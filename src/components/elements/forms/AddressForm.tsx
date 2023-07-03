@@ -9,6 +9,8 @@ import Switch from '@/components/elements/buttons/Switch';
 import FormErrorMessage from '@/components/elements/forms/atoms/FormErrorMessage';
 import FormInput from '@/components/elements/forms/molecules/FormInput';
 
+import { useCart } from '@/store/cartStore';
+
 const CountryDropdown = dynamic(
   () =>
     import('react-country-region-selector').then((mod) => mod.CountryDropdown),
@@ -22,7 +24,7 @@ const RegionDropdown = dynamic(
 
 const schema = yup
   .object({
-    shippingDifferent: yup.boolean(),
+    shippingDifferent: yup.boolean().required(),
     email: yup
       .string()
       .email("!Votre adresse email n'est pas valide")
@@ -76,14 +78,7 @@ const schema = yup
             "!Votre code postal doit être composé de chiffres, de lettres, d'espaces, de tirets, d'apostrophes ou de parenthèses"
           ),
 
-        state: yup
-          .string()
-          .notRequired()
-          .matches(/^[a-zA-ZÀ-ÿ\s\-'()]+$/i, {
-            excludeEmptyString: true,
-            message:
-              "!Votre état ou région doit être composé de lettres, d'espaces, de tirets, d'apostrophes ou de parenthèses",
-          }),
+        state: yup.string().notRequired(),
       })
       .required(),
 
@@ -140,14 +135,7 @@ const schema = yup
           )
           .notRequired(),
 
-        state: yup
-          .string()
-          .notRequired()
-          .matches(/^[a-zA-ZÀ-ÿ\s\-'()]+$/i, {
-            excludeEmptyString: true,
-            message:
-              "!Votre état ou région doit être composé de lettres, d'espaces, de tirets, d'apostrophes ou de parenthèses",
-          }),
+        state: yup.string().notRequired(),
       })
       .when('shippingDifferent', {
         is: false,
@@ -164,6 +152,8 @@ const AddressForm = ({
 }: {
   onSubmit: (data: AddressFormType) => void;
 }) => {
+  const address = useCart((state) => state.address);
+
   const {
     control,
     register,
@@ -174,6 +164,7 @@ const AddressForm = ({
     resolver: yupResolver(schema),
     mode: 'onChange',
     shouldUnregister: true,
+    defaultValues: async () => address,
   });
 
   return (

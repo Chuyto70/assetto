@@ -13,7 +13,10 @@ const sectionComponents = {
     () => import('@/components/sections/checkout/CartWrapper')
   ),
   ComponentSectionsCheckoutTunnel: dynamic(
-    () => import('@/components/sections/checkout/CheckoutWrapper')
+    () => import('@/components/sections/checkout/CheckoutTunnel')
+  ),
+  ComponentSectionsCheckoutComplete: dynamic(
+    () => import('@/components/sections/checkout/CheckoutComplete')
   ),
 };
 

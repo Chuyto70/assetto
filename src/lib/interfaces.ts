@@ -21,10 +21,7 @@ export interface Product {
     };
     short_description?: string;
     description: string;
-    sizes: {
-      size: string;
-      quantity: number;
-    }[];
+    sizes: ProductSize[];
     colors?: {
       name: string;
       color: string;
@@ -120,8 +117,14 @@ export interface Order {
     shipping_state: string;
     status: ENUM_ORDER_STATUS;
     amount: number;
-    products: unknown;
+    products: OrderProducts[];
   };
+}
+
+export interface ProductSize {
+  id: number;
+  size: string;
+  quantity: number;
 }
 
 export interface OrderProducts {
@@ -130,6 +133,7 @@ export interface OrderProducts {
   price: number;
   qty: number;
   size: string;
+  sizeId: number;
   color?: string;
 }
 
@@ -163,12 +167,13 @@ interface Localizations {
   };
 }
 
-enum ENUM_ORDER_STATUS {
-  succeeded,
-  pending,
-  checkout,
-  failed,
-  canceled,
+export enum ENUM_ORDER_STATUS {
+  succeeded = 'succeeded',
+  processing = 'processing',
+  pending = 'pending',
+  checkout = 'checkout',
+  failed = 'failed',
+  canceled = 'canceled',
 }
 
 export enum PAYMENT_PROVIDER {

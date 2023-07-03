@@ -1,6 +1,13 @@
 import { gql, GraphQLClient } from 'graphql-request';
 
-import { Category, Order, Page, Product, Setting } from '@/lib/interfaces';
+import {
+  Category,
+  Order,
+  Page,
+  Product,
+  ProductSize,
+  Setting,
+} from '@/lib/interfaces';
 
 const API_URL = process.env.strapiURL || 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
@@ -445,16 +452,21 @@ export const QueryPageFromSlug = async (
 /**
  * Query a single product from Strapi
  * @param id id of the product
+ * @param disableCaching disable fetch caching
  * @returns data of a product
  */
-export const QueryProduct = async (id: number) => {
+export const QueryProduct = async (id: number, disableCaching = false) => {
   const queryVariables = {
     id: id,
   };
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['products'] } });
+    fetch(url, {
+      ...options,
+      next: { tags: ['products'] },
+      cache: `${disableCaching ? 'no-store' : 'default'}`,
+    });
 
   const { product } = await StrapiClient.request<{
     product: { data: Product };
@@ -485,6 +497,7 @@ export const QueryProduct = async (id: number) => {
               }
               short_description
               sizes {
+                id
                 size
                 quantity
               }
@@ -580,6 +593,7 @@ export const QueryProductFromSlug = async (
               }
               short_description
               sizes {
+                id
                 size
                 quantity
               }
@@ -663,6 +677,44 @@ export const QueryContentComponent = async (
 };
 
 /**
+ * Query a single order from Strapi
+ * @param payment_intent_id payment intent of stripe
+ * @returns data of the order
+ */
+export const QueryOrderFromPaymentIntent = async (
+  payment_intent_id: string
+) => {
+  const queryVariables = {
+    payment_intent_id,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  const { orders } = await StrapiClient.request<{
+    orders: { data: Order[] };
+  }>(
+    gql`
+      query orderFromPaymentIntent($payment_intent_id: String!) {
+        orders(filters: { payment_intent_id: { eq: $payment_intent_id } }) {
+          data {
+            id
+            attributes {
+              amount
+              status
+              products
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return orders;
+};
+
+/**
  * Create an order in Strapi and return Order details
  * @param input
  * @returns data of order
@@ -720,7 +772,10 @@ export const MutationCreateOrder = async (input: unknown) => {
  * @param input
  * @returns data of order
  */
-export const MutationUpdateOrder = async (id: string, input: unknown) => {
+export const MutationUpdateOrder = async (
+  id: string | number,
+  input: unknown
+) => {
   const queryVariables = {
     id,
     input,
@@ -818,4 +873,149 @@ export const MutationDeleteOrder = async (id: string) => {
   );
 
   return response;
+};
+
+/**
+ * Update a product in Strapi
+ * @param id
+ * @param input product
+ * @returns data of product
+ */
+export const MutationUpdateProduct = async (
+  id: number,
+  input: Partial<Product['attributes']>
+) => {
+  const queryVariables = {
+    id,
+    input,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  const response = await StrapiClient.request<{
+    updateProduct: { data: Product };
+  }>(
+    gql`
+      mutation updateProduct($id: ID!, $input: ProductInput!) {
+        updateProduct(id: $id, data: $input) {
+          data {
+            id
+            attributes {
+              title
+              slug
+              price
+              sale_price
+              date_on_sale_from
+              date_on_sale_to
+              medias {
+                data {
+                  attributes {
+                    alternativeText
+                    name
+                    url
+                    width
+                    height
+                    mime
+                  }
+                }
+              }
+              short_description
+              sizes {
+                size
+                quantity
+              }
+              colors {
+                name
+                color
+                product {
+                  data {
+                    id
+                    attributes {
+                      slug
+                    }
+                  }
+                }
+              }
+              categories {
+                data {
+                  attributes {
+                    title
+                    slug
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return response;
+};
+
+/**
+ * Update a product size in Strapi
+ * @param id
+ * @param input size
+ * @returns data of the size
+ */
+export const MutationUpdateProductSize = (
+  id: number,
+  input: Partial<ProductSize>
+) => {
+  const queryVariables = {
+    id,
+    input,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  return StrapiClient.request<{
+    updateProductSize: ProductSize;
+  }>(
+    gql`
+        mutation updateProductSize($id: ID!, $input: ComponentProductsSizesInput!) {
+          updateProductSize(id: $id, data: $input) {
+            ${Object.keys(input).join('\n')}
+          }
+        }
+      `,
+    queryVariables
+  );
+};
+
+/**
+ * Update many product sizes in Strapi
+ * @param ids
+ * @param input size
+ * @returns data of the size
+ */
+export const MutationUpdateManyProductSize = (
+  ids: number[],
+  input: Partial<ProductSize>[]
+) => {
+  const queryVariables = {
+    ids,
+    input,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  return StrapiClient.request<{
+    updateManyProductSize: ProductSize[];
+  }>(
+    gql`
+        mutation updateManyProductSize($ids: [ID!], $input: [ComponentProductsSizesInput!]) {
+          updateManyProductSize(ids: $ids, datas: $input) {
+            ${Object.keys(input).join('\n')}
+          }
+        }
+      `,
+    queryVariables
+  );
 };

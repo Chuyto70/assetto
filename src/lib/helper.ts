@@ -112,3 +112,8 @@ export const isOnSale = (
   }
   return false;
 };
+
+export function toFixedNumber(num: number, digits: number, base = 10): number {
+  const pow = Math.pow(base, digits);
+  return Math.round(num * pow) / pow;
+}

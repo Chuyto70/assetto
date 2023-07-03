@@ -5,13 +5,16 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { QueryProduct } from '@/lib/graphql';
-import { isOnSale } from '@/lib/helper';
+import { isOnSale, toFixedNumber } from '@/lib/helper';
 import { CartItem, Product } from '@/lib/interfaces';
+
+import { AddressFormType } from '@/components/elements/forms/AddressForm';
 
 export interface CartState {
   cartItems: CartItem[];
   totalItems: number;
   totalPrice: number;
+  address: AddressFormType;
   stripeClientSecret?: string;
   stripePaymentIntentId?: string;
 }
@@ -21,6 +24,7 @@ export interface CartActions {
   decrement: (product: Product) => void;
   emptyCart: () => void;
   refreshCart: () => void;
+  setAddress: (address: AddressFormType) => void;
   setStripeClientSecret: (stripeClientSecret: string) => void;
   setStripePaymentIntentId: (stripePaymentIntentId: string) => void;
 }
@@ -29,6 +33,8 @@ const initialState: CartState = {
   cartItems: [],
   totalItems: 0,
   totalPrice: 0,
+  stripeClientSecret: undefined,
+  stripePaymentIntentId: undefined,
 };
 
 export const useCart = create<CartState & CartActions>()(
@@ -100,8 +106,9 @@ export const useCart = create<CartState & CartActions>()(
               return {
                 cartItems: updatedCart,
                 totalItems: state.totalItems + 1,
-                totalPrice: Number(
-                  (state.totalPrice + (item?.price ?? 0)).toFixed(2)
+                totalPrice: toFixedNumber(
+                  state.totalPrice + (item?.price ?? 0),
+                  2
                 ),
               };
             }
@@ -140,7 +147,7 @@ export const useCart = create<CartState & CartActions>()(
           return {
             cartItems: updatedCart,
             totalItems: totalItems,
-            totalPrice: Number(totalPrice.toFixed(2)),
+            totalPrice: toFixedNumber(totalPrice, 2),
           };
         }),
       emptyCart: () => set(initialState),
@@ -174,9 +181,12 @@ export const useCart = create<CartState & CartActions>()(
         updatedCart = updatedCart.filter(Boolean);
 
         const totalItems = get().cartItems.length;
-        const totalPrice = updatedCart.reduce(
-          (total, item) => total + item?.price * item?.qty,
-          0
+        const totalPrice = toFixedNumber(
+          updatedCart.reduce(
+            (total, item) => total + item?.price * item?.qty,
+            0
+          ),
+          2
         );
         set({
           cartItems: updatedCart,
@@ -184,6 +194,7 @@ export const useCart = create<CartState & CartActions>()(
           totalPrice: totalPrice,
         });
       },
+      setAddress: (address) => set({ address }),
       setStripeClientSecret: (stripeClientSecret: string) =>
         set({ stripeClientSecret }),
       setStripePaymentIntentId: (stripePaymentIntentId: string) =>
