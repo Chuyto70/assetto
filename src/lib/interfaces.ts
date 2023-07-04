@@ -146,7 +146,6 @@ interface Link {
   href: string;
   open_new_tab: boolean;
   icon?: string;
-  icon_family?: string;
   style: ENUM_ELEMENTS_LINK_STYLE;
   direction: ENUM_ELEMENTS_LINK_DIRECTION;
   variants: ENUM_ELEMENTS_LINK_VARIANT;

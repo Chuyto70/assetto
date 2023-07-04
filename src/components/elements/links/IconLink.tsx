@@ -78,7 +78,7 @@ const IconLink = React.forwardRef<HTMLAnchorElement, IconLinkProps>(
         )}
         {...rest}
       >
-        {icon && family && <DynamicIcon family={family} icon={icon} />}
+        {icon && family && <DynamicIcon icon={icon} />}
       </UnstyledLink>
     );
   }

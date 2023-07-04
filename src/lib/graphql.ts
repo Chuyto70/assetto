@@ -671,7 +671,6 @@ export const QueryMenus = async (locale: string) => {
                     name
                     href
                     icon
-                    icon_family
                     style
                     direction
                     button_variants
@@ -681,7 +680,6 @@ export const QueryMenus = async (locale: string) => {
                     name
                     href
                     icon
-                    icon_family
                     style
                     direction
                     button_variants
@@ -707,7 +705,6 @@ export const QueryMenus = async (locale: string) => {
                     name
                     href
                     icon
-                    icon_family
                     style
                     direction
                     button_variants
