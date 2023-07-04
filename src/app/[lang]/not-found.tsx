@@ -1,5 +1,4 @@
-import { RiAlarmWarningFill } from 'react-icons/ri';
-
+import DynamicIcon from '@/components/elements/DynamicIcon';
 import ArrowLink from '@/components/elements/links/ArrowLink';
 
 import { useServer } from '@/store/serverStore';
@@ -18,9 +17,10 @@ export default function NotFound({
       <main>
         <section className='bg-white'>
           <div className='layout flex min-h-screen flex-col items-center justify-center text-center text-black'>
-            <RiAlarmWarningFill
-              size={60}
-              className='drop-shadow-glow animate-flicker text-red-500'
+            <DynamicIcon
+              icon='ri:alarm-warning-fill'
+              className='w-32 h-32 md:w-60 md:h-60 drop-shadow-glow animate-flicker text-red-500'
+              skeletonClassName='w-32 h-32 md:w-60 md:h-60 '
             />
             <h1 className='mt-8 text-4xl md:text-6xl'>
               {translations.page_not_found} - {slug}

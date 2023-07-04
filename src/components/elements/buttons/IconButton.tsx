@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { IconType } from 'react-icons';
-import { ImSpinner2 } from 'react-icons/im';
 
 import clsxm from '@/lib/clsxm';
+
+import DynamicIcon from '@/components/elements/DynamicIcon';
 
 const IconButtonVariant = [
   'primary',
@@ -16,7 +16,7 @@ type IconButtonProps = {
   isLoading?: boolean;
   isDarkBg?: boolean;
   variant?: (typeof IconButtonVariant)[number];
-  icon?: IconType;
+  icon?: string;
   iconClassName?: string;
 } & React.ComponentPropsWithRef<'button'>;
 
@@ -101,10 +101,13 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
               }
             )}
           >
-            <ImSpinner2 className='animate-spin' />
+            <DynamicIcon
+              icon='ant-design:loading-outlined'
+              className='animate-spin'
+            />
           </div>
         )}
-        {Icon && <Icon className={clsxm(iconClassName)} />}
+        {Icon && <DynamicIcon icon={Icon} className={clsxm(iconClassName)} />}
       </button>
     );
   }

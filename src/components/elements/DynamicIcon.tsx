@@ -20,7 +20,7 @@ const DynamicIcon = ({
 
   return (
     <div>
-      {loading && (
+      {skeletonClassName && loading && (
         <Skeleton
           className={clsxm('rounded-full opacity-40', skeletonClassName)}
         />

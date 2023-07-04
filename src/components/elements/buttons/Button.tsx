@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { IconType } from 'react-icons';
-import { ImSpinner2 } from 'react-icons/im';
 
 import clsxm from '@/lib/clsxm';
+
+import DynamicIcon from '@/components/elements/DynamicIcon';
 
 const ButtonVariant = ['primary', 'outline', 'ghost', 'light', 'dark'] as const;
 const ButtonSize = ['sm', 'base'] as const;
@@ -12,8 +12,8 @@ type ButtonProps = {
   isDarkBg?: boolean;
   variant?: (typeof ButtonVariant)[number];
   size?: (typeof ButtonSize)[number];
-  leftIcon?: IconType;
-  rightIcon?: IconType;
+  leftIcon?: string;
+  rightIcon?: string;
   leftIconClassName?: string;
   rightIconClassName?: string;
 } & React.ComponentPropsWithRef<'button'>;
@@ -108,7 +108,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               }
             )}
           >
-            <ImSpinner2 className='animate-spin' />
+            <DynamicIcon
+              icon='ant-design:loading-outlined'
+              className='animate-spin'
+            />
           </div>
         )}
         {LeftIcon && (
@@ -118,7 +121,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               size === 'sm' && 'mr-1.5',
             ])}
           >
-            <LeftIcon
+            <DynamicIcon
+              icon={LeftIcon}
               className={clsxm(
                 [
                   size === 'base' && 'md:text-md text-md',
@@ -137,7 +141,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               size === 'sm' && 'ml-1.5',
             ])}
           >
-            <RightIcon
+            <DynamicIcon
+              icon={RightIcon}
               className={clsxm(
                 [
                   size === 'base' && 'text-md md:text-md',
