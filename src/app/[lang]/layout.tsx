@@ -66,7 +66,7 @@ export default async function RootLayout({
       lang={lang ?? 'fr'}
       className={`${noto_sans_display.variable} ${inter.variable}`}
     >
-      <body className='text-dark'>
+      <body className='text-dark min-h-screen flex flex-col'>
         <ZustandProvider serverState={useServer.getState()} />
         <Header />
         <Toasts />

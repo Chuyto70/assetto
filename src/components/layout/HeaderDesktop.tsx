@@ -57,7 +57,7 @@ const HeaderDesktop = ({
         ))}
       </ul>
 
-      {isOpen && <nav></nav>}
+      {isOpen.open && <nav></nav>}
     </div>
   );
 };

@@ -12,7 +12,7 @@ const ProductPage = async ({
   const { data } = await QueryProductFromSlug(lang, slug);
   const { title, categories, price } = data[0]?.attributes ?? {};
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-4 md:p-8'>
+    <main className='flex flex-1 flex-col items-center justify-between p-4 md:p-8'>
       <div>
         {categories && (
           <h2>

@@ -113,6 +113,7 @@ const HeaderBurger = ({
               icon={item.link.icon}
               variant={item.link.variants}
               className='flex w-full justify-center'
+              onClick={() => setIsOpen((state) => !state)}
             >
               {item.link.name}
             </Link>
@@ -126,6 +127,7 @@ const HeaderBurger = ({
                       icon={subItem.icon}
                       variant={subItem.variants}
                       size='lg'
+                      onClick={() => setIsOpen((state) => !state)}
                     >
                       {subItem.name}
                     </Link>
