@@ -14,9 +14,9 @@ const ButtonLinkVariant = [
   'light',
   'dark',
 ] as const;
-const ButtonLinkSize = ['sm', 'base'] as const;
+const ButtonLinkSize = ['sm', 'base', 'md', 'lg', 'xl'] as const;
 
-type ButtonLinkProps = {
+export type ButtonLinkProps = {
   isDarkBg?: boolean;
   variant?: (typeof ButtonLinkVariant)[number];
   size?: (typeof ButtonLinkSize)[number];
@@ -47,12 +47,14 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
         ref={ref}
         {...rest}
         className={clsxm(
-          'inline-flex items-center rounded font-medium',
-          'focus-visible:ring-primary-500 focus:outline-none focus-visible:ring',
-          'shadow-sm',
+          'inline-flex items-center rounded-full font-bold',
+          'focus-visible:ring-primary-300 focus:outline-none focus-visible:ring',
           'transition-colors duration-75',
           //#region  //*=========== Size ===========
           [
+            size === 'xl' && ['px-4 py-2', 'text-lg md:text-xl'],
+            size === 'lg' && ['px-4 py-2', 'text-md md:text-lg'],
+            size === 'md' && ['px-3 py-1.5', 'text-base md:text-md'],
             size === 'base' && ['px-3 py-1.5', 'text-sm md:text-base'],
             size === 'sm' && ['px-2 py-1', 'text-xs md:text-sm'],
           ],
@@ -60,36 +62,35 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
           //#region  //*=========== Variants ===========
           [
             variant === 'primary' && [
-              'bg-primary-500 text-white',
-              'border-primary-600 border',
-              'hover:bg-primary-600 hover:text-white',
-              'active:bg-primary-700',
-              'disabled:bg-primary-700',
+              'bg-primary-200 text-carbon-900',
+              'hover:bg-primary-300 hover:text-carbon-900',
+              'active:bg-primary-300',
+              'disabled:bg-primary-300',
             ],
             variant === 'outline' && [
-              'text-primary-500',
-              'border-primary-500 border',
-              'hover:bg-primary-50 active:bg-primary-100 disabled:bg-primary-100',
+              'text-primary-200',
+              'border-primary-200 border',
+              'hover:bg-primary-300 active:bg-primary-300 disabled:bg-primary-300',
               isDarkBg &&
-                'hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800',
+                'hover:text-carbon-900 active:text-carbon-800 disabled:text-carbon-700',
             ],
             variant === 'ghost' && [
-              'text-primary-500',
+              'text-primary-200',
               'shadow-none',
-              'hover:bg-primary-50 active:bg-primary-100 disabled:bg-primary-100',
+              'hover:bg-primary-300 active:bg-primary-300 disabled:bg-primary-300',
               isDarkBg &&
-                'hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800',
+                'hover:text-carbon-900 active:text-carbon-800 disabled:text-carbon-700',
             ],
             variant === 'light' && [
-              'bg-white text-gray-700',
-              'border border-gray-300',
-              'hover:text-dark hover:bg-gray-100',
-              'active:bg-white/80 disabled:bg-gray-200',
+              'bg-carbon-50 text-carbon-900',
+              'border border-carbon-300',
+              'hover:text-carbon-900 hover:bg-carbon-100',
+              'active:bg-white/80 disabled:bg-carbon-200',
             ],
             variant === 'dark' && [
-              'bg-gray-900 text-white',
-              'border border-gray-600',
-              'hover:bg-gray-800 active:bg-gray-700 disabled:bg-gray-700',
+              'bg-carbon-900 text-white',
+              'border border-carbon-600',
+              'hover:bg-carbon-800 active:bg-carbon-700 disabled:bg-carbon-700',
             ],
           ],
           //#endregion  //*======== Variants ===========

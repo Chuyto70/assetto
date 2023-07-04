@@ -5,7 +5,7 @@ import clsxm from '@/lib/clsxm';
 import UnderlineLink from '@/components/elements/links/UnderlineLink';
 import { UnstyledLinkProps } from '@/components/elements/links/UnstyledLink';
 
-type ArrowLinkProps<C extends React.ElementType> = {
+export type ArrowLinkProps<C extends React.ElementType> = {
   as?: C;
   direction?: 'left' | 'right';
 } & UnstyledLinkProps &

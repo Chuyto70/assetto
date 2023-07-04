@@ -45,7 +45,20 @@ export default {
           900: 'rgb(var(--tw-color-secondary-900) / <alpha-value>)',
           950: 'rgb(var(--tw-color-secondary-950) / <alpha-value>)',
         },
-        black: '#1E1E1E',
+        carbon: {
+          DEFAULT: '#1E1E1E',
+          50: '#CBCBCB',
+          100: '#C1C1C1',
+          200: '#ADADAD',
+          300: '#989898',
+          400: '#848484',
+          500: '#707070',
+          600: '#5B5B5B',
+          700: '#474747',
+          800: '#323232',
+          900: '#1E1E1E',
+          950: '#101010',
+        },
       },
       keyframes: {
         flicker: {

@@ -146,9 +146,10 @@ interface Link {
   href: string;
   open_new_tab: boolean;
   icon?: string;
-  style?: ENUM_ELEMENTS_LINK_STYLE;
-  direction?: ENUM_ELEMENTS_LINK_DIRECTION;
-  button_variants?: ENUM_ELEMENTS_LINK_BUTTON_VARIANT;
+  icon_family?: string;
+  style: ENUM_ELEMENTS_LINK_STYLE;
+  direction: ENUM_ELEMENTS_LINK_DIRECTION;
+  variants: ENUM_ELEMENTS_LINK_VARIANT;
 }
 
 export interface Order {
@@ -237,11 +238,12 @@ export enum PAYMENT_PROVIDER {
 }
 
 export enum ENUM_ELEMENTS_LINK_STYLE {
-  primary,
-  underline,
-  button,
-  arrow,
-  none,
+  primary = 'primary',
+  underline = 'underline',
+  button = 'button',
+  icon = 'icon',
+  arrow = 'arrow',
+  none = 'none',
 }
 
 export enum ENUM_ELEMENTS_LINK_DIRECTION {
@@ -249,10 +251,10 @@ export enum ENUM_ELEMENTS_LINK_DIRECTION {
   right,
 }
 
-export enum ENUM_ELEMENTS_LINK_BUTTON_VARIANT {
-  primary,
-  outline,
-  ghost,
-  light,
-  dark,
+export enum ENUM_ELEMENTS_LINK_VARIANT {
+  primary = 'primary',
+  outline = 'outline',
+  ghost = 'ghost',
+  light = 'light',
+  dark = 'dark',
 }
