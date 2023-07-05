@@ -96,6 +96,62 @@ export interface Setting {
   };
 }
 
+export interface Menu {
+  attributes: {
+    header: Header;
+    footer: Footer;
+  };
+}
+
+export interface Header {
+  id: number;
+  logo: {
+    data: Media;
+  };
+  logo_link: string;
+  items: HeaderItem[];
+  cart_page?: {
+    data: Page;
+  };
+}
+
+export interface HeaderItem {
+  id: number;
+  link: LinkInterface;
+  sublinks: LinkInterface[];
+}
+
+export interface Footer {
+  id: number;
+  columns: FooterColumn[];
+  copyright: string;
+}
+
+export interface FooterColumn {
+  id: number;
+  title: string;
+  description?: string;
+  socials: LinkInterface[];
+  links: LinkInterface[];
+  newsletter?: NewsletterInput;
+}
+
+interface NewsletterInput {
+  id: number;
+  placeholder: string;
+}
+
+export interface LinkInterface {
+  id: number;
+  name: string;
+  href: string;
+  open_new_tab: boolean;
+  icon?: string;
+  style: ENUM_ELEMENTS_LINK_STYLE;
+  direction: ENUM_ELEMENTS_LINK_DIRECTION;
+  variant: ENUM_ELEMENTS_LINK_VARIANT;
+}
+
 export interface Order {
   id: number;
   attributes: {
@@ -140,6 +196,7 @@ export interface OrderProducts {
 interface Media {
   attributes: {
     alternativeText?: string;
+    caption?: string;
     name?: string;
     url: string;
     width: number;
@@ -178,4 +235,26 @@ export enum ENUM_ORDER_STATUS {
 
 export enum PAYMENT_PROVIDER {
   STRIPE = 'STRIPE',
+}
+
+export enum ENUM_ELEMENTS_LINK_STYLE {
+  primary = 'primary',
+  underline = 'underline',
+  button = 'button',
+  icon = 'icon',
+  arrow = 'arrow',
+  none = 'none',
+}
+
+export enum ENUM_ELEMENTS_LINK_DIRECTION {
+  left,
+  right,
+}
+
+export enum ENUM_ELEMENTS_LINK_VARIANT {
+  primary = 'primary',
+  outline = 'outline',
+  ghost = 'ghost',
+  light = 'light',
+  dark = 'dark',
 }

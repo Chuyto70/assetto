@@ -2,6 +2,7 @@ import { gql, GraphQLClient } from 'graphql-request';
 
 import {
   Category,
+  Menu,
   Order,
   Page,
   Product,
@@ -626,6 +627,113 @@ export const QueryProductFromSlug = async (
   );
 
   return products;
+};
+
+/**
+ * Query menus from Strapi
+ * @param locale language of the requested page
+ * @returns the menus objects
+ */
+export const QueryMenus = async (locale: string) => {
+  const queryVariables = {
+    locale: locale,
+  };
+
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: ['menus'] } });
+
+  const { menu } = await StrapiClient.request<{
+    menu: { data: Menu };
+  }>(
+    gql`
+      query QueryMenus {
+        menu {
+          data {
+            attributes {
+              header {
+                id
+                logo {
+                  data {
+                    attributes {
+                      alternativeText
+                      width
+                      height
+                      url
+                    }
+                  }
+                }
+                logo_link
+                items {
+                  id
+                  link {
+                    id
+                    name
+                    href
+                    icon
+                    style
+                    direction
+                    variant
+                  }
+                  sublinks {
+                    id
+                    name
+                    href
+                    icon
+                    style
+                    direction
+                    variant
+                  }
+                }
+                cart_page {
+                  data {
+                    attributes {
+                      slug
+                    }
+                  }
+                }
+              }
+
+              footer {
+                id
+                columns {
+                  id
+                  title
+                  description
+                  socials {
+                    id
+                    name
+                    href
+                    icon
+                    style
+                    direction
+                    variant
+                  }
+                  links {
+                    id
+                    name
+                    href
+                    icon
+                    style
+                    direction
+                    variant
+                  }
+                  newsletter {
+                    id
+                    placeholder
+                  }
+                }
+                copyright
+              }
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return menu;
 };
 
 /**

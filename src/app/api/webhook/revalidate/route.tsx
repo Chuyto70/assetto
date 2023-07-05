@@ -7,6 +7,7 @@ enum Model {
   page = 'page',
   product = 'product',
   category = 'category',
+  menu = 'menu',
 }
 
 enum Tag {
@@ -15,6 +16,7 @@ enum Tag {
   page = 'pages',
   product = 'products',
   category = 'categories',
+  menu = 'menus',
 }
 
 export const POST = async (req: NextRequest) => {

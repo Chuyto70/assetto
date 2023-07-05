@@ -1,5 +1,3 @@
-import { AiOutlineDelete, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
-
 import IconButton from '@/components/elements/buttons/IconButton';
 
 type props = {
@@ -12,13 +10,13 @@ export const QtyBtn = (props: props) => {
   return (
     <>
       <IconButton
-        icon={props.qty <= 1 ? AiOutlineDelete : AiOutlineMinus}
+        icon={props.qty <= 1 ? 'ph:trash' : 'ph:minus-bold'}
         variant='outline'
         onClick={props.onDecrease}
       />
       <span>{props.qty}</span>
       <IconButton
-        icon={AiOutlinePlus}
+        icon='ic:round-close'
         variant='outline'
         onClick={props.onIncrease}
       />

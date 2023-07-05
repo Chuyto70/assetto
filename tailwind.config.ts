@@ -31,8 +31,34 @@ export default {
           900: 'rgb(var(--tw-color-primary-900) / <alpha-value>)',
           950: 'rgb(var(--tw-color-primary-950) / <alpha-value>)',
         },
-        dark_pink: '#E6C2BF',
-        dark: '#1E1E1E',
+        secondary: {
+          // Customize it on globals.css :root
+          50: 'rgb(var(--tw-color-secondary-50) / <alpha-value>)',
+          100: 'rgb(var(--tw-color-secondary-100) / <alpha-value>)',
+          200: 'rgb(var(--tw-color-secondary-200) / <alpha-value>)',
+          300: 'rgb(var(--tw-color-secondary-300) / <alpha-value>)',
+          400: 'rgb(var(--tw-color-secondary-400) / <alpha-value>)',
+          500: 'rgb(var(--tw-color-secondary-500) / <alpha-value>)',
+          600: 'rgb(var(--tw-color-secondary-600) / <alpha-value>)',
+          700: 'rgb(var(--tw-color-secondary-700) / <alpha-value>)',
+          800: 'rgb(var(--tw-color-secondary-800) / <alpha-value>)',
+          900: 'rgb(var(--tw-color-secondary-900) / <alpha-value>)',
+          950: 'rgb(var(--tw-color-secondary-950) / <alpha-value>)',
+        },
+        carbon: {
+          DEFAULT: '#1E1E1E',
+          50: '#CBCBCB',
+          100: '#C1C1C1',
+          200: '#ADADAD',
+          300: '#989898',
+          400: '#848484',
+          500: '#707070',
+          600: '#5B5B5B',
+          700: '#474747',
+          800: '#323232',
+          900: '#1E1E1E',
+          950: '#101010',
+        },
       },
       keyframes: {
         flicker: {
@@ -68,5 +94,5 @@ export default {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 } satisfies Config;

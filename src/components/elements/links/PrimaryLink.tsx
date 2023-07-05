@@ -7,7 +7,7 @@ import UnstyledLink, {
 } from '@/components/elements/links/UnstyledLink';
 
 const PrimaryLinkVariant = ['primary', 'basic'] as const;
-type PrimaryLinkProps = {
+export type PrimaryLinkProps = {
   variant?: (typeof PrimaryLinkVariant)[number];
 } & UnstyledLinkProps;
 

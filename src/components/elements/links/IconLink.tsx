@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { IconType } from 'react-icons';
 
 import clsxm from '@/lib/clsxm';
 
+import DynamicIcon from '@/components/elements/DynamicIcon';
 import UnstyledLink, {
   UnstyledLinkProps,
 } from '@/components/elements/links/UnstyledLink';
@@ -15,23 +15,15 @@ const IconLinkVariant = [
   'dark',
 ] as const;
 
-type IconLinkProps = {
+export type IconLinkProps = {
   isDarkBg?: boolean;
   variant?: (typeof IconLinkVariant)[number];
-  icon?: IconType;
-  iconClassName?: string;
+  icon?: string;
 } & Omit<UnstyledLinkProps, 'children'>;
 
 const IconLink = React.forwardRef<HTMLAnchorElement, IconLinkProps>(
   (
-    {
-      className,
-      icon: Icon,
-      variant = 'outline',
-      isDarkBg = false,
-      iconClassName,
-      ...rest
-    },
+    { className, icon, variant = 'outline', isDarkBg = false, ...rest },
     ref
   ) => {
     return (
@@ -47,15 +39,15 @@ const IconLink = React.forwardRef<HTMLAnchorElement, IconLinkProps>(
           //#region  //*=========== Variants ===========
           [
             variant === 'primary' && [
-              'bg-primary-500 text-white',
-              'border-primary-600 border',
-              'hover:bg-primary-600 hover:text-white',
-              'active:bg-primary-700',
-              'disabled:bg-primary-700',
+              'bg-primary-200 text-dark',
+              'border-primary-300 border',
+              'hover:bg-primary-300 hover:text-dark',
+              'active:bg-primary-400',
+              'disabled:bg-primary-400',
             ],
             variant === 'outline' && [
-              'text-primary-500',
-              'border-primary-500 border',
+              'text-primary-200',
+              'border-primary-200 border',
               'hover:bg-primary-50 active:bg-primary-100 disabled:bg-primary-100',
               isDarkBg &&
                 'hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800',
@@ -85,7 +77,7 @@ const IconLink = React.forwardRef<HTMLAnchorElement, IconLinkProps>(
         )}
         {...rest}
       >
-        {Icon && <Icon className={clsxm(iconClassName)} />}
+        {icon && <DynamicIcon icon={icon} className='h-[1em] w-[1em]' />}
       </UnstyledLink>
     );
   }

@@ -10,6 +10,7 @@ import { PAYMENT_PROVIDER } from '@/lib/interfaces';
 import { seo } from '@/lib/seo';
 
 import Toasts from '@/components/elements/toast/Toasts';
+import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { ZustandProvider } from '@/components/ZustandProvider';
 
@@ -66,11 +67,12 @@ export default async function RootLayout({
       lang={lang ?? 'fr'}
       className={`${noto_sans_display.variable} ${inter.variable}`}
     >
-      <body className='text-dark'>
+      <body className='text-carbon-900 min-h-screen flex flex-col'>
         <ZustandProvider serverState={useServer.getState()} />
         <Header />
         <Toasts />
         {children}
+        <Footer />
       </body>
     </html>
   );
