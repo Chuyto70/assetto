@@ -12,7 +12,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       <input
         ref={ref}
         aria-label={label}
-        className={clsxm('', className)}
+        className={clsxm('form-input', className)}
         {...rest}
       />
     );

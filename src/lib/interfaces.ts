@@ -133,7 +133,7 @@ export interface FooterColumn {
   description?: string;
   socials: LinkInterface[];
   links: LinkInterface[];
-  newsletter: NewsletterInput;
+  newsletter?: NewsletterInput;
 }
 
 interface NewsletterInput {

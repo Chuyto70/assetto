@@ -2,6 +2,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 
 import { QueryMenus } from '@/lib/graphql';
 
+import NewsletterForm from '@/components/elements/forms/NewsletterForm';
 import Link from '@/components/elements/links';
 
 import { useServer } from '@/store/serverStore';
@@ -61,6 +62,14 @@ const Footer = async () => {
                     </li>
                   ))}
                 </ul>
+              )}
+              {column.newsletter && (
+                <div className='w-full flex justify-center'>
+                  <NewsletterForm
+                    placeholder={column.newsletter.placeholder}
+                    className='max-w-xs'
+                  />
+                </div>
               )}
             </nav>
           ))}
