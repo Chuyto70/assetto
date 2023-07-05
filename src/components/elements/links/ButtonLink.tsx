@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { IconType } from 'react-icons';
 
 import clsxm from '@/lib/clsxm';
 
+import DynamicIcon from '@/components/elements/DynamicIcon';
 import UnstyledLink, {
   UnstyledLinkProps,
 } from '@/components/elements/links/UnstyledLink';
@@ -20,8 +20,8 @@ export type ButtonLinkProps = {
   isDarkBg?: boolean;
   variant?: (typeof ButtonLinkVariant)[number];
   size?: (typeof ButtonLinkSize)[number];
-  leftIcon?: IconType;
-  rightIcon?: IconType;
+  leftIcon?: string;
+  rightIcon?: string;
   leftIconClassName?: string;
   rightIconClassName?: string;
 } & UnstyledLinkProps;
@@ -105,7 +105,8 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
               size === 'sm' && 'mr-1.5',
             ])}
           >
-            <LeftIcon
+            <DynamicIcon
+              icon={LeftIcon}
               className={clsxm(
                 [
                   size === 'base' && 'md:text-md text-md',
@@ -124,7 +125,8 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
               size === 'sm' && 'ml-1.5',
             ])}
           >
-            <RightIcon
+            <DynamicIcon
+              icon={RightIcon}
               className={clsxm(
                 [
                   size === 'base' && 'text-md md:text-md',

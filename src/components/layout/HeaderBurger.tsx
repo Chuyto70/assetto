@@ -80,11 +80,7 @@ const HeaderBurger = ({
       animate={isOpen ? 'open' : 'closed'}
       className={className}
     >
-      <MotionButton
-        whileTap={{ scale: 0.97 }}
-        onClick={() => setIsOpen(!isOpen)}
-        className='h-8 w-8 p-0'
-      >
+      <MotionButton onClick={() => setIsOpen(!isOpen)} className='h-8 w-8 p-0'>
         {isOpen ? (
           <DynamicIcon
             icon='heroicons:x-mark-20-solid'
@@ -112,6 +108,7 @@ const HeaderBurger = ({
               style={item.link.style}
               icon={item.link.icon}
               variant={item.link.variants}
+              openNewTab={item.link.open_new_tab}
               className='flex w-full justify-center'
               onClick={() => setIsOpen((state) => !state)}
             >
@@ -125,6 +122,7 @@ const HeaderBurger = ({
                       href={`/${locale}/${subItem.href}`}
                       style={subItem.style}
                       icon={subItem.icon}
+                      openNewTab={item.link.open_new_tab}
                       variant={subItem.variants}
                       size='lg'
                       onClick={() => setIsOpen((state) => !state)}

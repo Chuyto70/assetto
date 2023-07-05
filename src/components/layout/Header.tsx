@@ -5,9 +5,10 @@ import { QueryMenus } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
 
 import DynamicIcon from '@/components/elements/DynamicIcon';
+import Link from '@/components/elements/links';
 import UnstyledLink from '@/components/elements/links/UnstyledLink';
 import HeaderBurger from '@/components/layout/HeaderBurger';
-import HeaderDesktop from '@/components/layout/HeaderDesktop';
+import HeaderItem from '@/components/layout/HeaderItem';
 
 import { useServer } from '@/store/serverStore';
 
@@ -39,7 +40,25 @@ export default async function Header() {
         </UnstyledLink>
 
         {/* Desktop links */}
-        <HeaderDesktop items={header.items} className='hidden md:block' />
+        <ul className='hidden md:flex justify-center gap-3 lg:gap-6'>
+          {header.items.map((item) => (
+            <HeaderItem
+              key={item.id}
+              name={item.link.name}
+              sublinks={item.sublinks}
+            >
+              <Link
+                href={`/${locale}/${item.link.href}`}
+                style={item.link.style}
+                icon={item.link.icon}
+                openNewTab={item.link.open_new_tab}
+                variant={item.link.variants}
+              >
+                {item.link.name}
+              </Link>
+            </HeaderItem>
+          ))}
+        </ul>
 
         <UnstyledLink
           href={`/${locale}/${header.cart_page?.data.attributes.slug}`}

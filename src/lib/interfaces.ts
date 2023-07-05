@@ -117,8 +117,8 @@ export interface Header {
 
 export interface HeaderItem {
   id: number;
-  link: Link;
-  sublinks: Link[];
+  link: LinkInterface;
+  sublinks: LinkInterface[];
 }
 
 export interface Footer {
@@ -131,7 +131,7 @@ export interface FooterColumn {
   id: number;
   title: string;
   description?: string;
-  links: Link[];
+  links: LinkInterface[];
   newsletter: NewsletterInput;
 }
 
@@ -140,7 +140,7 @@ interface NewsletterInput {
   placeholder: string;
 }
 
-interface Link {
+export interface LinkInterface {
   id: number;
   name: string;
   href: string;
