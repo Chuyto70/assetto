@@ -8,8 +8,6 @@ import { HeaderItem } from '@/lib/interfaces';
 import DynamicIcon from '@/components/elements/DynamicIcon';
 import Link from '@/components/elements/links';
 
-import { useServer } from '@/store/serverStore';
-
 const MotionNav = dynamic(() =>
   import('framer-motion').then((mod) => mod.motion.nav)
 );
@@ -33,7 +31,6 @@ const HeaderBurger = ({
   items: HeaderItem[];
   className?: string;
 }) => {
-  const locale = useServer.getState().locale;
   const [isOpen, setIsOpen] = useState(false);
 
   const ulVariants = {
@@ -104,10 +101,10 @@ const HeaderBurger = ({
             className='w-full mx-3 flex flex-col items-center'
           >
             <Link
-              href={`/${locale}/${item.link.href}`}
+              href={item.link.href}
               style={item.link.style}
               icon={item.link.icon}
-              variant={item.link.variants}
+              variant={item.link.variant}
               openNewTab={item.link.open_new_tab}
               className='flex w-full justify-center'
               onClick={() => setIsOpen((state) => !state)}
@@ -119,11 +116,11 @@ const HeaderBurger = ({
                 {item.sublinks.map((subItem) => (
                   <li key={subItem.id}>
                     <Link
-                      href={`/${locale}/${subItem.href}`}
+                      href={subItem.href}
                       style={subItem.style}
                       icon={subItem.icon}
                       openNewTab={item.link.open_new_tab}
-                      variant={subItem.variants}
+                      variant={subItem.variant}
                       size='lg'
                       onClick={() => setIsOpen((state) => !state)}
                     >

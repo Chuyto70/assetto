@@ -673,7 +673,7 @@ export const QueryMenus = async (locale: string) => {
                     icon
                     style
                     direction
-                    button_variants
+                    variant
                   }
                   sublinks {
                     id
@@ -682,7 +682,7 @@ export const QueryMenus = async (locale: string) => {
                     icon
                     style
                     direction
-                    button_variants
+                    variant
                   }
                 }
                 cart_page {
@@ -700,6 +700,15 @@ export const QueryMenus = async (locale: string) => {
                   id
                   title
                   description
+                  socials {
+                    id
+                    name
+                    href
+                    icon
+                    style
+                    direction
+                    variant
+                  }
                   links {
                     id
                     name
@@ -707,7 +716,7 @@ export const QueryMenus = async (locale: string) => {
                     icon
                     style
                     direction
-                    button_variants
+                    variant
                   }
                   newsletter {
                     id

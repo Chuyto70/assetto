@@ -131,6 +131,7 @@ export interface FooterColumn {
   id: number;
   title: string;
   description?: string;
+  socials: LinkInterface[];
   links: LinkInterface[];
   newsletter: NewsletterInput;
 }
@@ -148,7 +149,7 @@ export interface LinkInterface {
   icon?: string;
   style: ENUM_ELEMENTS_LINK_STYLE;
   direction: ENUM_ELEMENTS_LINK_DIRECTION;
-  variants: ENUM_ELEMENTS_LINK_VARIANT;
+  variant: ENUM_ELEMENTS_LINK_VARIANT;
 }
 
 export interface Order {

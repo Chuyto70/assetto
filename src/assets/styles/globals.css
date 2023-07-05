@@ -89,7 +89,7 @@
 
   .layout {
     /* 1536px */
-    @apply mx-auto max-w-screen-2xl;
+    @apply mx-auto max-w-screen-3xl;
   }
 
   .bg-dark a.custom-link {

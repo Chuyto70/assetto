@@ -7,8 +7,6 @@ import { LinkInterface } from '@/lib/interfaces';
 
 import Link from '@/components/elements/links';
 
-import { useServer } from '@/store/serverStore';
-
 const MotionNav = dynamic(() =>
   import('framer-motion').then((mod) => mod.motion.nav)
 );
@@ -26,7 +24,6 @@ const HeaderItem = ({
   sublinks: LinkInterface[];
   children: ReactNode;
 }) => {
-  const locale = useServer.getState().locale;
   const [isOpen, setIsOpen] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -106,10 +103,10 @@ const HeaderItem = ({
             {sublinks.map((item) => (
               <MotionLi key={item.id} variants={itemVariants}>
                 <Link
-                  href={`/${locale}/${item.href}`}
+                  href={item.href}
                   style={item.style}
                   icon={item.icon}
-                  variant={item.variants}
+                  variant={item.variant}
                   size='xl'
                 >
                   {item.name}

@@ -19,12 +19,11 @@ export type IconLinkProps = {
   isDarkBg?: boolean;
   variant?: (typeof IconLinkVariant)[number];
   icon?: string;
-  family?: string;
 } & Omit<UnstyledLinkProps, 'children'>;
 
 const IconLink = React.forwardRef<HTMLAnchorElement, IconLinkProps>(
   (
-    { className, icon, family, variant = 'outline', isDarkBg = false, ...rest },
+    { className, icon, variant = 'outline', isDarkBg = false, ...rest },
     ref
   ) => {
     return (
@@ -78,7 +77,7 @@ const IconLink = React.forwardRef<HTMLAnchorElement, IconLinkProps>(
         )}
         {...rest}
       >
-        {icon && family && <DynamicIcon icon={icon} />}
+        {icon && <DynamicIcon icon={icon} className='h-[1em] w-[1em]' />}
       </UnstyledLink>
     );
   }

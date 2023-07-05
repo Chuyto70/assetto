@@ -24,7 +24,7 @@ export default async function Header() {
         <HeaderBurger items={header.items} className='md:hidden' />
 
         <UnstyledLink
-          href={`/${locale}/${header.logo_link}`}
+          href={header.logo_link}
           className='flex justify-center md:order-first'
         >
           <Image
@@ -48,11 +48,11 @@ export default async function Header() {
               sublinks={item.sublinks}
             >
               <Link
-                href={`/${locale}/${item.link.href}`}
+                href={item.link.href}
                 style={item.link.style}
                 icon={item.link.icon}
                 openNewTab={item.link.open_new_tab}
-                variant={item.link.variants}
+                variant={item.link.variant}
               >
                 {item.link.name}
               </Link>
