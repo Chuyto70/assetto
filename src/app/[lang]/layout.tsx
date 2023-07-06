@@ -9,7 +9,7 @@ import { MediaUrl } from '@/lib/helper';
 import { PAYMENT_PROVIDER } from '@/lib/interfaces';
 import { seo } from '@/lib/seo';
 
-import Toasts from '@/components/elements/toast/Toasts';
+import Toasts from '@/components/elements/toaster/Toasts';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { ZustandProvider } from '@/components/ZustandProvider';

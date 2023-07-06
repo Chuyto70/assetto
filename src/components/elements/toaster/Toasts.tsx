@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 
-import Toast from '@/components/elements/toast/Toast';
+import Toast from '@/components/elements/toaster/ToastElement';
 
 import { useToaster } from '@/store/toasterStore';
 
