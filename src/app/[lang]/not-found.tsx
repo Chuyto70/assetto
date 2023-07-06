@@ -18,7 +18,7 @@ export default function NotFound({
         <DynamicIcon
           icon='ri:alarm-warning-fill'
           className='w-32 h-32 md:w-60 md:h-60 drop-shadow-glow animate-flicker text-red-500'
-          skeletonClassName='w-32 h-32 md:w-60 md:h-60 '
+          wrapperClassName='w-32 h-32 md:w-60 md:h-60 '
         />
         <h1 className='mt-8 text-4xl md:text-6xl'>
           {translations.page_not_found} - {slug}

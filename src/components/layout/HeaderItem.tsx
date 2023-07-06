@@ -94,6 +94,7 @@ const HeaderItem = ({
       {/* SubMenu */}
       {sublinks.length > 0 && (
         <MotionNav
+          initial={false}
           animate={isOpen ? 'open' : 'closed'}
           variants={navVariants}
           className='hidden absolute -z-10 top-20 left-0 w-full bg-secondary-100 p-6 lg:px-12 flex-col gap-2'

@@ -3,27 +3,23 @@
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 
-import clsxm from '@/lib/clsxm';
-
 import Skeleton from '@/components/Skeleton';
 
 const DynamicIcon = ({
   icon,
   className,
-  skeletonClassName,
+  wrapperClassName,
 }: {
   icon: string;
   className?: string;
-  skeletonClassName?: string;
+  wrapperClassName?: string;
 }) => {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div>
-      {skeletonClassName && loading && (
-        <Skeleton
-          className={clsxm('rounded-full opacity-40', skeletonClassName)}
-        />
+    <div className={wrapperClassName}>
+      {loading && (
+        <Skeleton className='rounded-full opacity-40 w-full h-full' />
       )}
       <Icon
         icon={icon}
