@@ -17,11 +17,9 @@ export default async function Page({
   const { title, content } = data[0].attributes;
 
   return (
-    <main className='flex flex-1 w-full flex-col items-center justify-between p-4 md:p-8'>
-      <div className='w-full'>
-        <h1 className='text-5xl font-bold uppercase '>{title}</h1>
-        <Sections sections={content} pageID={pageID} />
-      </div>
-    </main>
+    <>
+      <h1 className='text-5xl font-bold uppercase'>{title}</h1>
+      <Sections sections={content} pageID={pageID} />
+    </>
   );
 }

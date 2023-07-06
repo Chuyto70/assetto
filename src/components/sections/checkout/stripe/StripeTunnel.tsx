@@ -23,7 +23,13 @@ const MotionDiv = dynamic(() =>
   import('framer-motion').then((mod) => mod.motion.div)
 );
 
-const StripeTunnel = async ({
+const loadStripe = async () => {
+  return (await import('@stripe/stripe-js')).loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
+  );
+};
+
+const StripeTunnel = ({
   cartPage,
   completePage,
 }: {
@@ -89,12 +95,7 @@ const StripeTunnel = async ({
       >
         {step === 0 && <AddressForm onSubmit={validateAddressForm} />}
         {step === 1 && (
-          <Elements
-            options={elementsOptions}
-            stripe={(await import('@stripe/stripe-js')).loadStripe(
-              process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
-            )}
-          >
+          <Elements options={elementsOptions} stripe={loadStripe()}>
             <StripePayment
               cart_page={cartPage ?? '/'}
               return_url={completePage ?? '/'}

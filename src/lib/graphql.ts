@@ -741,6 +741,7 @@ export const QueryMenus = async (locale: string) => {
  * @param locale language of the requested page
  * @param id id of the page or other in wich the section is
  * @param type type of the query (page, category, product)
+ * @param tags tags for the cached query (page, category, product)
  * @param fragment pass the fragment of the component
  * @param fragmentSpread the query spread of the fragment without ...
  * @returns data of products
@@ -749,6 +750,7 @@ export const QueryContentComponent = async (
   locale: string,
   id: number,
   type: string,
+  tags: string | string[],
   fragment: string,
   fragmentSpread: string
 ) => {
@@ -759,7 +761,7 @@ export const QueryContentComponent = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: [type] } });
+    fetch(url, { ...options, next: { tags: [...tags] } });
 
   const response =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

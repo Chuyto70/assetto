@@ -71,7 +71,7 @@ export default async function RootLayout({
         <ZustandProvider serverState={useServer.getState()} />
         <Header />
         <Toasts />
-        {children}
+        <main className='flex flex-col flex-auto'>{children}</main>
         <Footer />
       </body>
     </html>

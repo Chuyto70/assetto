@@ -29,6 +29,7 @@ const CartWrapper = async ({
     locale,
     pageID,
     'page',
+    'page',
     ComponentSectionsCart,
     'sectionsCart'
   );

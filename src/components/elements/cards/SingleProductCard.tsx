@@ -33,25 +33,25 @@ const SingleProductCard = ({
   return (
     <div className='flex flex-col gap-4'>
       <Link href={`/${locale}/${slug}`} className='flex flex-col gap-4'>
-        <ProductCarousel
-          medias={medias}
-          className='aspect-[2/3] rounded-md'
-          imgSizes={imgSizes}
-        />
+        <div className='h-full aspect-[2/3] xs:rounded-md overflow-hidden'>
+          <ProductCarousel medias={medias} imgSizes={imgSizes} />
+        </div>
         <div className='flex items-center justify-between gap-2 whitespace-nowrap font-bold'>
           <h4 className='truncate'>{title}</h4>
           {(sale_price && isOnSale(date_on_sale_from, date_on_sale_to) && (
-            <p className='text-dark_pink max-w-full text-lg'>
+            <p className='text-primary-200 max-w-full text-lg'>
               <span>{sale_price} | </span>
               <s>{price}</s> €
             </p>
-          )) || <p className='text-dark_pink max-w-full text-lg'>{price} €</p>}
+          )) || (
+            <p className='text-primary-200 max-w-full text-lg'>{price} €</p>
+          )}
         </div>
         {short_description && (
           <p className='text-gray-500'>{short_description}</p>
         )}
       </Link>
-      {colors && colors.length > 0 && (
+      {colorSwitch && colors && colors.length > 0 && (
         <p className='flex items-center gap-4 font-bold text-gray-500'>
           {colors.map((color) => (
             <button

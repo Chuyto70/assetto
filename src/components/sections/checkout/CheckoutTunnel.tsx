@@ -37,6 +37,7 @@ const CheckoutTunnel = async ({
     locale,
     pageID,
     'page',
+    'page',
     ComponentSectionsCheckoutTunnel,
     'sectionsCheckoutTunnel'
   );
