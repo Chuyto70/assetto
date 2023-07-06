@@ -1,6 +1,8 @@
 import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
+import logger from '@/lib/logger';
+
 enum Model {
   setting = 'setting',
   'static-text' = 'static-text',
@@ -26,6 +28,7 @@ export const POST = async (req: NextRequest) => {
     if (reqToken === token) {
       const data = await req.json();
       const { model } = data;
+      logger(model, 'revalidate tag');
       if (model in Model) {
         const tag = Tag[model as Model] as string;
         revalidateTag(tag);

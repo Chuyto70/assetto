@@ -112,9 +112,9 @@ const HeaderBurger = ({
               {item.link.name}
             </Link>
             {item.sublinks.length > 0 && (
-              <ul className='pt-2 px-2 w-fit max-w-full overflow-x-scroll flex flex-nowrap gap-3 no-scrollbar'>
+              <ul className='pt-2 px-2 w-fit max-w-full overflow-x-scroll snap-x flex flex-nowrap gap-3 no-scrollbar'>
                 {item.sublinks.map((subItem) => (
-                  <li key={subItem.id}>
+                  <li key={subItem.id} className='snap-center'>
                     <Link
                       href={subItem.href}
                       style={subItem.style}

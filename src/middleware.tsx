@@ -2,23 +2,11 @@ import { match } from '@formatjs/intl-localematcher';
 import Negotiator, { Headers } from 'negotiator';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { gql, StrapiClient } from '@/lib/graphql';
+import { Queryi18NLocales } from '@/lib/graphql';
 
 import { defaultLocale } from '@/constant/env';
 
 let locales: string[] = [defaultLocale];
-
-type localeProps = {
-  i18NLocales: {
-    data: [
-      {
-        attributes: {
-          code: string;
-        };
-      }
-    ];
-  };
-};
 
 function getLocaleFromReq(req: Request) {
   const headersObj = Object.fromEntries(req.headers.entries());
@@ -36,19 +24,7 @@ function getLocaleFromCookie(cookie: string) {
 }
 
 export async function middleware(req: NextRequest) {
-  const { i18NLocales } = await StrapiClient.request<localeProps>(
-    gql`
-      query {
-        i18NLocales {
-          data {
-            attributes {
-              code
-            }
-          }
-        }
-      }
-    `
-  );
+  const { i18NLocales } = await Queryi18NLocales();
 
   const allLocales = locales.concat(
     i18NLocales.data.map((item) => item.attributes.code)

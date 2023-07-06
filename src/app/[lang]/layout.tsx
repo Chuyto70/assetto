@@ -4,12 +4,16 @@ import { Inter, Noto_Sans_Display } from 'next/font/google';
 
 import '@/assets/styles/globals.css';
 
-import { QuerySettings, QueryStaticTexts } from '@/lib/graphql';
+import {
+  Queryi18NLocales,
+  QuerySettings,
+  QueryStaticTexts,
+} from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
 import { PAYMENT_PROVIDER } from '@/lib/interfaces';
 import { seo } from '@/lib/seo';
 
-import Toasts from '@/components/elements/toast/Toasts';
+import Toasts from '@/components/elements/toaster/Toasts';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { ZustandProvider } from '@/components/ZustandProvider';
@@ -60,7 +64,12 @@ export default async function RootLayout({
   params: { lang: string };
 }) {
   const { translations } = await QueryStaticTexts(lang);
-  useServer.setState({ locale: lang, translations: translations });
+  const { i18NLocales } = await Queryi18NLocales();
+  useServer.setState({
+    locale: lang,
+    locales: i18NLocales.data,
+    translations: translations,
+  });
 
   return (
     <html

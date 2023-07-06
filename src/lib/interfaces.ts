@@ -193,6 +193,19 @@ export interface OrderProducts {
   color?: string;
 }
 
+export type localeProps = {
+  i18NLocales: {
+    data: [
+      {
+        attributes: {
+          code: string;
+          name: string;
+        };
+      }
+    ];
+  };
+};
+
 interface Media {
   attributes: {
     alternativeText?: string;
