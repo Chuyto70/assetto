@@ -30,6 +30,7 @@ const CheckoutComplete = async ({
     locale,
     pageID,
     'page',
+    'page',
     ComponentSectionsCheckoutComplete,
     'sectionsCheckoutComplete'
   );

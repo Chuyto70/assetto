@@ -80,7 +80,7 @@ const ComponentSectionsProductSelectedList = gql`
   }
 `;
 
-export default (async function SelectedList({
+export default async function SelectedList({
   pageID,
   index,
 }: {
@@ -106,6 +106,7 @@ export default (async function SelectedList({
     locale,
     pageID,
     'page',
+    ['page', 'products'],
     ComponentSectionsProductSelectedList,
     'sectionsProductSelectedList'
   );
@@ -136,10 +137,4 @@ export default (async function SelectedList({
       })}
     </ul>
   );
-} as unknown as ({
-  pageID,
-  index,
-}: {
-  pageID: number;
-  index: number;
-}) => JSX.Element);
+}

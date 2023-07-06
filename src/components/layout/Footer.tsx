@@ -82,4 +82,6 @@ const Footer = async () => {
   );
 };
 
+// Layout shift dans le footer ?
+
 export default Footer;

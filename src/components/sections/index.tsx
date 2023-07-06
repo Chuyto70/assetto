@@ -1,14 +1,14 @@
 import dynamic from 'next/dynamic';
 
+import SelectedList from '@/components/sections/products/SelectedList';
+
 type sectionTypeProps = {
   __typename: keyof typeof sectionComponents;
 };
 
 // Map Strapi sections to section components
 const sectionComponents = {
-  ComponentSectionsProductSelectedList: dynamic(
-    () => import('@/components/sections/products/SelectedList')
-  ),
+  ComponentSectionsProductSelectedList: SelectedList,
   ComponentSectionsCart: dynamic(
     () => import('@/components/sections/checkout/CartWrapper')
   ),
