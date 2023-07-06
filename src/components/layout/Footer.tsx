@@ -4,6 +4,7 @@ import { QueryMenus } from '@/lib/graphql';
 
 import NewsletterForm from '@/components/elements/forms/NewsletterForm';
 import Link from '@/components/elements/links';
+import LanguageSwitch from '@/components/layout/LanguageSwitch';
 
 import { useServer } from '@/store/serverStore';
 
@@ -74,14 +75,17 @@ const Footer = async () => {
             </nav>
           ))}
         </div>
-        <div className='border-white border-t-2 pt-6 text-center text-sm xl:text-base'>
-          <MDXRemote source={footer.copyright} />
+        <div className='flex flex-row border-white border-t-2 pt-6 text-center text-sm xl:text-base'>
+          <div>
+            <LanguageSwitch />
+          </div>
+          <div>
+            <MDXRemote source={footer.copyright} />
+          </div>
         </div>
       </div>
     </footer>
   );
 };
-
-// Layout shift dans le footer ?
 
 export default Footer;

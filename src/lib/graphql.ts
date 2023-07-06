@@ -2,6 +2,7 @@ import { gql, GraphQLClient } from 'graphql-request';
 
 import {
   Category,
+  localeProps,
   Menu,
   Order,
   Page,
@@ -1128,4 +1129,33 @@ export const MutationUpdateManyProductSize = (
       `,
     queryVariables
   );
+};
+
+/**
+ * Query locales from Strapi
+ * @returns locales
+ */
+export const Queryi18NLocales = async () => {
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: ['i18NLocales'] } });
+
+  const response =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await StrapiClient.request<localeProps>(
+      gql`
+        query i18NLocales {
+          i18NLocales {
+            data {
+              attributes {
+                code
+                name
+              }
+            }
+          }
+        }
+      `
+    );
+
+  return response;
 };
