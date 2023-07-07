@@ -2,6 +2,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 
 import { QueryMenus } from '@/lib/graphql';
 
+import DynamicIcon from '@/components/elements/DynamicIcon';
 import NewsletterForm from '@/components/elements/forms/NewsletterForm';
 import Link from '@/components/elements/links';
 import LanguageSwitch from '@/components/layout/LanguageSwitch';
@@ -10,6 +11,9 @@ import { useServer } from '@/store/serverStore';
 
 const Footer = async () => {
   const locale = useServer.getState().locale;
+  const locales = useServer.getState().locales;
+  const currentLocale = locales?.find((el) => el.attributes.code === locale);
+
   const { data } = await QueryMenus(locale);
   const { footer } = data.attributes;
 
@@ -75,9 +79,19 @@ const Footer = async () => {
             </nav>
           ))}
         </div>
-        <div className='flex flex-row border-white border-t-2 pt-6 text-center text-sm xl:text-base'>
-          <div>
-            <LanguageSwitch />
+        <div className='flex flex-col gap-3 border-white border-t-2 pt-6 text-center text-sm xl:text-base'>
+          <div className='flex justify-center'>
+            <LanguageSwitch className='flex flex-row items-center justify-center gap-3'>
+              <div className='w-8 h-fit rounded-sm overflow-hidden'>
+                <DynamicIcon
+                  icon={`flagpack:${
+                    currentLocale?.attributes.code ?? 'gb-ukm'
+                  }`}
+                  className='w-8 h-fit'
+                />
+              </div>
+              <span>{currentLocale?.attributes.name}</span>
+            </LanguageSwitch>
           </div>
           <div>
             <MDXRemote source={footer.copyright} />
