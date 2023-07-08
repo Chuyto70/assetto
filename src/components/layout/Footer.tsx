@@ -69,7 +69,7 @@ const Footer = async () => {
                 </ul>
               )}
               {column.newsletter && (
-                <div className='w-full flex justify-center'>
+                <div className='w-full flex justify-center md:justify-start'>
                   <NewsletterForm
                     placeholder={column.newsletter.placeholder}
                     className='max-w-xs'
