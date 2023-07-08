@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { HeaderItem } from '@/lib/interfaces';
 
@@ -31,6 +31,8 @@ const HeaderBurger = ({
   items: HeaderItem[];
   className?: string;
 }) => {
+  const navRef = useRef<HTMLSpanElement>(null);
+  const ulRef = useRef<HTMLSpanElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const ulVariants = {
@@ -71,69 +73,88 @@ const HeaderBurger = ({
     },
   };
 
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleClick({ target }: MouseEvent) {
+      if (
+        navRef.current &&
+        ulRef.current &&
+        !navRef.current.contains(target as Node) &&
+        !ulRef.current.contains(target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+    window.addEventListener('click', handleClick);
+    return () => window.removeEventListener('click', handleClick);
+  }, [isOpen]);
+
   return (
-    <MotionNav
-      initial={false}
-      animate={isOpen ? 'open' : 'closed'}
-      className={className}
-    >
-      <MotionButton onClick={() => setIsOpen(!isOpen)} className='h-8 w-8 p-0'>
-        {isOpen ? (
-          <DynamicIcon
-            icon='heroicons:x-mark-20-solid'
-            className='h-full w-full text-carbon-900'
-          />
-        ) : (
-          <DynamicIcon
-            icon='heroicons:bars-2'
-            className='h-full w-full text-carbon-900'
-          />
-        )}
-      </MotionButton>
-      <MotionUl
-        variants={ulVariants}
-        className='bg-secondary-100 top-0 left-0 absolute -z-10 w-full h-fit max-h-screen hidden flex-col items-center gap-3 pt-20 pb-10'
-      >
-        {items.map((item) => (
-          <MotionLi
-            variants={itemVariants}
-            key={item.id}
-            className='w-full mx-3 flex flex-col items-center'
+    <span ref={navRef} className={className}>
+      <MotionNav initial={false} animate={isOpen ? 'open' : 'closed'}>
+        <MotionButton
+          onClick={() => setIsOpen(!isOpen)}
+          className='h-8 w-8 p-0'
+        >
+          {isOpen ? (
+            <DynamicIcon
+              icon='heroicons:x-mark-20-solid'
+              className='h-full w-full text-carbon-900'
+            />
+          ) : (
+            <DynamicIcon
+              icon='heroicons:bars-2'
+              className='h-full w-full text-carbon-900'
+            />
+          )}
+        </MotionButton>
+        <span ref={ulRef}>
+          <MotionUl
+            variants={ulVariants}
+            className='bg-secondary-100 top-0 left-0 absolute -z-10 w-full h-fit max-h-screen hidden flex-col items-center gap-3 pt-20 pb-10'
           >
-            <Link
-              href={item.link.href}
-              style={item.link.style}
-              icon={item.link.icon}
-              variant={item.link.variant}
-              openNewTab={item.link.open_new_tab}
-              className='flex w-full justify-center'
-              onClick={() => setIsOpen((state) => !state)}
-            >
-              {item.link.name}
-            </Link>
-            {item.sublinks.length > 0 && (
-              <ul className='pt-2 px-2 w-fit max-w-full overflow-x-scroll snap-x flex flex-nowrap gap-3 no-scrollbar'>
-                {item.sublinks.map((subItem) => (
-                  <li key={subItem.id} className='snap-center'>
-                    <Link
-                      href={subItem.href}
-                      style={subItem.style}
-                      icon={subItem.icon}
-                      openNewTab={item.link.open_new_tab}
-                      variant={subItem.variant}
-                      size='lg'
-                      onClick={() => setIsOpen((state) => !state)}
-                    >
-                      {subItem.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </MotionLi>
-        ))}
-      </MotionUl>
-    </MotionNav>
+            {items.map((item) => (
+              <MotionLi
+                variants={itemVariants}
+                key={item.id}
+                className='w-full mx-3 flex flex-col items-center'
+              >
+                <Link
+                  href={item.link.href}
+                  style={item.link.style}
+                  icon={item.link.icon}
+                  variant={item.link.variant}
+                  openNewTab={item.link.open_new_tab}
+                  className='flex w-full justify-center'
+                  onClick={() => setIsOpen((state) => !state)}
+                >
+                  {item.link.name}
+                </Link>
+                {item.sublinks.length > 0 && (
+                  <ul className='pt-2 px-2 w-fit max-w-full overflow-x-scroll snap-x flex flex-nowrap gap-3 no-scrollbar'>
+                    {item.sublinks.map((subItem) => (
+                      <li key={subItem.id} className='snap-center'>
+                        <Link
+                          href={subItem.href}
+                          style={subItem.style}
+                          icon={subItem.icon}
+                          openNewTab={item.link.open_new_tab}
+                          variant={subItem.variant}
+                          size='lg'
+                          onClick={() => setIsOpen((state) => !state)}
+                        >
+                          {subItem.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </MotionLi>
+            ))}
+          </MotionUl>
+        </span>
+      </MotionNav>
+    </span>
   );
 };
 

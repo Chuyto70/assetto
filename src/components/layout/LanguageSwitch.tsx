@@ -89,7 +89,7 @@ const LanguageSwitch = ({
     function handleClick({ target }: MouseEvent) {
       if (
         menuRef.current &&
-        btnRef &&
+        btnRef.current &&
         !menuRef.current.contains(target as Node) &&
         !btnRef.current?.contains(target as Node)
       ) {

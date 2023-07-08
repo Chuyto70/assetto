@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import { CartItemCard } from '@/components/elements/cards/CartItemCard';
 import ButtonLink from '@/components/elements/links/ButtonLink';
@@ -21,6 +21,7 @@ const HeaderCart = ({
   children?: ReactNode;
   cartPage: string;
 }) => {
+  const divRef = useRef<HTMLSpanElement>(null);
   const cartItems = useStore(useCart, (state) => state.cartItems);
   const cartTotalPrice = useStore(useCart, (state) => state.totalPrice) ?? 0;
   const translations = useServer.getState().translations;
@@ -64,47 +65,60 @@ const HeaderCart = ({
     },
   };
 
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleClick({ target }: MouseEvent) {
+      if (divRef.current && !divRef.current.contains(target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    window.addEventListener('click', handleClick);
+    return () => window.removeEventListener('click', handleClick);
+  }, [isOpen]);
+
   return (
-    <MotionDiv
-      onClick={() => setIsOpen((state) => !state)}
-      className='cursor-pointer'
-    >
-      {children}
-      {/* Cart */}
+    <span ref={divRef}>
       <MotionDiv
-        initial={false}
-        animate={isOpen ? 'open' : 'closed'}
-        variants={divVariants}
-        className='bg-secondary-100 top-0 md:top-20 left-0 md:left-auto md:right-0 absolute -z-10 w-full md:max-w-md h-fit max-h-screen hidden flex-col items-center gap-3 pt-20 px-3 pb-3 md:p-6'
+        onClick={() => setIsOpen((state) => !state)}
+        className='cursor-pointer'
       >
-        {cartItems?.map((item, index) => (
-          <MotionDiv key={index} variants={itemVariants}>
-            <CartItemCard cartItem={item} className='text-base' />
-          </MotionDiv>
-        ))}
-        {!cartItems?.length && (
-          <MotionDiv variants={itemVariants}>
-            <p>{translations.cart?.empty}</p>
-          </MotionDiv>
-        )}
+        {children}
+        {/* Cart */}
         <MotionDiv
-          variants={itemVariants}
-          className='w-full border-carbon-900 flex justify-between border-t-2 pt-4 text-base font-bold md:pt-8'
+          initial={false}
+          animate={isOpen ? 'open' : 'closed'}
+          variants={divVariants}
+          className='cursor-default bg-secondary-100 top-0 md:top-20 left-0 md:left-auto md:right-0 absolute -z-10 w-full md:max-w-md h-fit max-h-screen hidden flex-col items-center gap-3 pt-20 px-3 pb-3 md:p-6'
         >
-          <p>{translations.total}</p>
-          <p>{cartTotalPrice} €</p>
-        </MotionDiv>
-        <MotionDiv variants={itemVariants} className='w-full'>
-          <ButtonLink
-            href={cartPage}
-            variant='dark'
-            className='w-full justify-center'
+          {cartItems?.map((item, index) => (
+            <MotionDiv key={index} variants={itemVariants}>
+              <CartItemCard cartItem={item} className='text-base' />
+            </MotionDiv>
+          ))}
+          {!cartItems?.length && (
+            <MotionDiv variants={itemVariants}>
+              <p>{translations.cart?.empty}</p>
+            </MotionDiv>
+          )}
+          <MotionDiv
+            variants={itemVariants}
+            className='w-full border-carbon-900 flex justify-between border-t-2 pt-4 text-base font-bold md:pt-8'
           >
-            {translations.cart.validate_btn}
-          </ButtonLink>
+            <p>{translations.total}</p>
+            <p>{cartTotalPrice} €</p>
+          </MotionDiv>
+          <MotionDiv variants={itemVariants} className='w-full'>
+            <ButtonLink
+              href={cartPage}
+              variant='dark'
+              className='w-full justify-center'
+            >
+              {translations.cart.validate_btn}
+            </ButtonLink>
+          </MotionDiv>
         </MotionDiv>
       </MotionDiv>
-    </MotionDiv>
+    </span>
   );
 };
 
