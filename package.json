@@ -1,6 +1,6 @@
 {
-  "name": "alhena",
-  "version": "0.1.1",
+  "name": "assetto-hosting",
+  "version": "0.1.0",
   "private": true,
   "author": {
     "name": "Sygix"
@@ -59,7 +59,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/cors": "^2.8.13",
-    "@types/node": "20.4.0",
+    "@types/node": "^20.4.1",
     "@types/react": "^18.2.14",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
