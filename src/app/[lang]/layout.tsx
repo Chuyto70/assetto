@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
-import { Inter, Noto_Sans_Display } from 'next/font/google';
+import { Inter } from 'next/font/google';
 
 import '@/assets/styles/globals.css';
 
@@ -19,12 +19,6 @@ import Header from '@/components/layout/Header';
 import { ZustandProvider } from '@/components/ZustandProvider';
 
 import { useServer } from '@/store/serverStore';
-
-const noto_sans_display = Noto_Sans_Display({
-  subsets: ['latin'],
-  variable: '--font-noto-sans-display',
-  display: 'swap',
-});
 
 const inter = Inter({
   subsets: ['latin'],
@@ -74,7 +68,7 @@ export default async function RootLayout({
   return (
     <html
       lang={lang ?? 'fr'}
-      className={`${noto_sans_display.variable} ${inter.variable}`}
+      className={`${inter.variable}`}
     >
       <body className='text-carbon-900 min-h-screen flex flex-col'>
         <ZustandProvider serverState={useServer.getState()} />
