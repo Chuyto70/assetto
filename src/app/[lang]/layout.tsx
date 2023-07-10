@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
 import { Inter } from 'next/font/google';
+import { ReactNode } from 'react';
 
 import '@/assets/styles/globals.css';
 
@@ -50,32 +51,31 @@ export async function generateMetadata({
   return metadata;
 }
 
-export default async function RootLayout({
-  children,
-  params: { lang },
-}: {
-  children: React.ReactNode;
-  params: { lang: string };
+export default async function RootLayout(props: {
+  children: ReactNode,
+  modal: ReactNode,
+  params: { lang: string },
 }) {
-  const { translations } = await QueryStaticTexts(lang);
+  const { translations } = await QueryStaticTexts(props.params.lang);
   const { i18NLocales } = await Queryi18NLocales();
   useServer.setState({
-    locale: lang,
+    locale: props.params.lang,
     locales: i18NLocales.data,
     translations: translations,
   });
 
   return (
     <html
-      lang={lang ?? 'fr'}
+      lang={props.params.lang ?? 'fr'}
       className={`${inter.variable}`}
     >
       <body className='text-carbon-900 min-h-screen flex flex-col'>
         <ZustandProvider serverState={useServer.getState()} />
         <Header />
         <Toasts />
-        <main className='flex flex-col flex-auto'>{children}</main>
+        <main className='flex flex-col flex-auto'>{props.children}</main>
         <Footer />
+        {props.modal}
       </body>
     </html>
   );
