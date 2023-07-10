@@ -11,7 +11,6 @@ export default {
     extend: {
       fontFamily: {
         primary: [
-          'var(--font-noto-sans-display)',
           'var(--font-inter)',
           ...defaultTheme.fontFamily.sans,
         ],

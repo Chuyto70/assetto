@@ -68,7 +68,7 @@ export interface Category {
 export interface Page {
   id: number;
   attributes: {
-    title: string;
+    title?: string;
     slug: string;
     content: {
       __typename: string;
@@ -110,9 +110,6 @@ export interface Header {
   };
   logo_link: string;
   items: HeaderItem[];
-  cart_page?: {
-    data: Page;
-  };
 }
 
 export interface HeaderItem {

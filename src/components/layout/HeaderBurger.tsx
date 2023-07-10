@@ -96,22 +96,15 @@ const HeaderBurger = ({
           onClick={() => setIsOpen(!isOpen)}
           className='h-8 w-8 p-0'
         >
-          {isOpen ? (
-            <DynamicIcon
-              icon='heroicons:x-mark-20-solid'
-              className='h-full w-full text-carbon-900'
-            />
-          ) : (
-            <DynamicIcon
-              icon='heroicons:bars-2'
-              className='h-full w-full text-carbon-900'
-            />
-          )}
+          <DynamicIcon
+            icon='material-symbols:menu-rounded'
+            className='h-full w-full text-carbon-900 dark:text-white'
+          />
         </MotionButton>
         <span ref={ulRef}>
           <MotionUl
             variants={ulVariants}
-            className='bg-secondary-100 top-0 left-0 absolute -z-10 w-full h-fit max-h-screen hidden flex-col items-center gap-3 pt-20 pb-10'
+            className='bg-white dark:bg-carbon-900 top-0 left-0 absolute -z-10 w-full h-screen max-h-screen hidden flex-col items-center gap-3 pt-20 pb-10'
           >
             {items.map((item) => (
               <MotionLi

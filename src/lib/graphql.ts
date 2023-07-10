@@ -686,13 +686,6 @@ export const QueryMenus = async (locale: string) => {
                     variant
                   }
                 }
-                cart_page {
-                  data {
-                    attributes {
-                      slug
-                    }
-                  }
-                }
               }
 
               footer {
@@ -718,10 +711,6 @@ export const QueryMenus = async (locale: string) => {
                     style
                     direction
                     variant
-                  }
-                  newsletter {
-                    id
-                    placeholder
                   }
                 }
                 copyright

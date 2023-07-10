@@ -4,32 +4,24 @@ import * as React from 'react';
 import { QueryMenus } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
 
-import DynamicIcon from '@/components/elements/DynamicIcon';
 import Link from '@/components/elements/links';
 import UnstyledLink from '@/components/elements/links/UnstyledLink';
 import HeaderBurger from '@/components/layout/HeaderBurger';
-import HeaderCart from '@/components/layout/HeaderCart';
 import HeaderItem from '@/components/layout/HeaderItem';
 
 import { useServer } from '@/store/serverStore';
 
 export default async function Header() {
   const locale = useServer.getState().locale;
-  const translations = useServer.getState().translations;
   const { data } = await QueryMenus(locale);
   const { header } = data.attributes;
 
   return (
-    <header className='sticky top-0 z-50 bg-secondary-100 text-carbon-900 font-bold'>
-      <div className='max-w-screen-3xl grid grid-flow-row grid-cols-[auto_1fr_auto] items-center gap-3 p-3 md:p-6 lg:px-12 lg:gap-6 text-lg xl:text-xl'>
-        <HeaderBurger
-          items={header.items}
-          className='md:hidden flex justify-center'
-        />
-
+    <header className='sticky top-0 z-50 bg-white dark:bg-carbon-900 text-carbon-900 dark:text-white font-bold'>
+      <div className='max-w-screen-3xl grid grid-flow-row grid-cols-[auto_1fr] items-center gap-3 p-3 md:p-6 lg:px-12 lg:gap-6 text-lg xl:text-xl'>
         <UnstyledLink
           href={header.logo_link}
-          className='flex justify-center md:order-first'
+          className='flex justify-center'
         >
           <Image
             src={MediaUrl(header.logo.data.attributes.url)}
@@ -42,6 +34,11 @@ export default async function Header() {
             sizes='80vw'
           />
         </UnstyledLink>
+
+        <HeaderBurger
+          items={header.items}
+          className='md:hidden flex justify-center'
+        />
 
         {/* Desktop links */}
         <ul className='hidden md:flex justify-center gap-3 lg:gap-6'>
@@ -63,19 +60,6 @@ export default async function Header() {
             </HeaderItem>
           ))}
         </ul>
-
-        <HeaderCart
-          cartPage={`/${locale}/${header.cart_page?.data.attributes.slug}`}
-        >
-          <div className='flex flex-row items-center gap-3 lg:gap-6 flex-nowrap'>
-            <p className='hidden md:inline-block'>{translations.cart.title}</p>
-            <DynamicIcon
-              icon='heroicons:shopping-bag'
-              className='w-full h-full lg:w-10 lg:h-10 text-carbon-900 grow-0'
-              wrapperClassName='w-8 h-8 lg:w-10 lg:h-10'
-            />
-          </div>
-        </HeaderCart>
       </div>
     </header>
   );
