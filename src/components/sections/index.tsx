@@ -1,6 +1,3 @@
-import dynamic from 'next/dynamic';
-
-import SelectedList from '@/components/sections/products/SelectedList';
 
 type sectionTypeProps = {
   __typename: keyof typeof sectionComponents;
@@ -8,16 +5,7 @@ type sectionTypeProps = {
 
 // Map Strapi sections to section components
 const sectionComponents = {
-  ComponentSectionsProductSelectedList: SelectedList,
-  ComponentSectionsCart: dynamic(
-    () => import('@/components/sections/checkout/CartWrapper')
-  ),
-  ComponentSectionsCheckoutTunnel: dynamic(
-    () => import('@/components/sections/checkout/CheckoutTunnel')
-  ),
-  ComponentSectionsCheckoutComplete: dynamic(
-    () => import('@/components/sections/checkout/CheckoutComplete')
-  ),
+  ComponentSectionsProductSelectedList: null,
 };
 
 // Display a section individually

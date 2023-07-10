@@ -34,6 +34,7 @@ const HeaderBurger = ({
   const navRef = useRef<HTMLSpanElement>(null);
   const ulRef = useRef<HTMLSpanElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [subIsOpen, setSubIsOpen] = useState(false);
 
   const ulVariants = {
     open: {
@@ -112,28 +113,36 @@ const HeaderBurger = ({
                 key={item.id}
                 className='w-full mx-3 flex flex-col items-center'
               >
-                <Link
-                  href={item.link.href}
-                  style={item.link.style}
-                  icon={item.link.icon}
-                  variant={item.link.variant}
-                  openNewTab={item.link.open_new_tab}
-                  className='flex w-full justify-center'
-                  onClick={() => setIsOpen((state) => !state)}
-                >
-                  {item.link.name}
-                </Link>
-                {item.sublinks.length > 0 && (
-                  <ul className='pt-2 px-2 w-fit max-w-full overflow-x-scroll snap-x flex flex-nowrap gap-3 no-scrollbar'>
+                <span className='inline-flex items-center gap-1'>
+                  <Link
+                    href={item.link.href}
+                    style={item.link.style}
+                    icon={item.link.icon}
+                    variant={item.link.variant}
+                    openNewTab={item.link.open_new_tab}
+                    className='flex w-full justify-center'
+                    onClick={() => setIsOpen((state) => !state)}
+                  >
+                    {item.link.name}
+                  </Link>
+                  {item.sublinks.length > 0 && <MotionButton onClick={() => setSubIsOpen((state) => !state)}>
+                    <DynamicIcon
+                      icon='material-symbols:keyboard-arrow-down-rounded'
+                      className='h-8 w-8 text-carbon-900 dark:text-white'
+                    />
+                  </MotionButton>}
+                </span>
+
+                {item.sublinks.length > 0 && subIsOpen && (
+                  <ul className='pt-2 pb-6 flex flex-col item-center gap-3 text-sm font-normal'>
                     {item.sublinks.map((subItem) => (
-                      <li key={subItem.id} className='snap-center'>
+                      <li key={subItem.id} className='flex justify-center'>
                         <Link
                           href={subItem.href}
                           style={subItem.style}
                           icon={subItem.icon}
                           openNewTab={item.link.open_new_tab}
                           variant={subItem.variant}
-                          size='lg'
                           onClick={() => setIsOpen((state) => !state)}
                         >
                           {subItem.name}
