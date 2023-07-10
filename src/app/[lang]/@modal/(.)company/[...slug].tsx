@@ -2,12 +2,12 @@ import React from 'react'
 
 import { QueryPageFromSlug } from '@/lib/graphql';
 
-import Modal from '@/components/elements/modal/Modal'
+import Modal from '@/components/elements/modal/Modal';
 import Sections from '@/components/sections';
 
 import notFound from '@/app/[lang]/not-found';
 
-async function MediaModal({
+async function CompanyModal({
   params: { lang, slug },
 }: {
   params: { slug: string[]; lang: string };
@@ -27,4 +27,4 @@ async function MediaModal({
   )
 }
 
-export default MediaModal;
+export default CompanyModal;
