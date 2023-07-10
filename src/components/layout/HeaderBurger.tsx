@@ -105,7 +105,7 @@ const HeaderBurger = ({
         <span ref={ulRef}>
           <MotionUl
             variants={ulVariants}
-            className='bg-white dark:bg-carbon-900 top-0 left-0 absolute -z-10 w-full h-screen max-h-screen hidden flex-col items-center gap-3 pt-20 pb-10'
+            className='bg-carbon-200 dark:bg-carbon-900 top-0 left-0 absolute -z-10 w-full h-screen max-h-screen hidden flex-col items-center gap-3 pt-20 pb-10'
           >
             {items.map((item) => (
               <MotionLi
@@ -120,7 +120,7 @@ const HeaderBurger = ({
                     icon={item.link.icon}
                     variant={item.link.variant}
                     openNewTab={item.link.open_new_tab}
-                    className='flex w-full justify-center'
+                    className='flex w-full justify-center font-bold dark:font-bold'
                     onClick={() => setIsOpen((state) => !state)}
                   >
                     {item.link.name}
@@ -143,6 +143,7 @@ const HeaderBurger = ({
                           icon={subItem.icon}
                           openNewTab={item.link.open_new_tab}
                           variant={subItem.variant}
+                          className='font-semibold dark:font-semibold'
                           onClick={() => setIsOpen((state) => !state)}
                         >
                           {subItem.name}

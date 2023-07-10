@@ -126,16 +126,13 @@ export interface Footer {
 
 export interface FooterColumn {
   id: number;
+  logo: {
+    data?: Media;
+  };
   title: string;
   description?: string;
   socials: LinkInterface[];
   links: LinkInterface[];
-  newsletter?: NewsletterInput;
-}
-
-interface NewsletterInput {
-  id: number;
-  placeholder: string;
 }
 
 export interface LinkInterface {

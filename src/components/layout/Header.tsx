@@ -18,11 +18,11 @@ export default async function Header() {
   const { header } = data.attributes;
 
   return (
-    <header className='sticky top-0 z-50 bg-white dark:bg-carbon-900 text-carbon-900 dark:text-white font-bold'>
-      <div className='max-w-screen-3xl grid grid-flow-row grid-cols-[1fr_auto] md:grid-cols-[auto_1fr_auto] items-center gap-3 p-3 md:p-6 lg:px-12 lg:gap-6 text-base'>
+    <header className='sticky top-0 z-50 bg-carbon-200 dark:bg-carbon-900 border-b-2 border-carbon-900 dark:border-0 text-carbon-900  dark:text-white font-bold'>
+      <div className='layout w-full flex flex-row items-center justify-between md:justify-start gap-3 p-3 md:p-6 lg:px-12 lg:gap-6 text-base md:text-sm xl:text-base'>
         <UnstyledLink
           href={header.logo_link}
-          className='flex'
+          className='flex shrink-1'
         >
           <Image
             src={MediaUrl(header.logo.data.attributes.url)}
@@ -32,7 +32,7 @@ export default async function Header() {
             height={header.logo.data.attributes.height}
             alt={header.logo.data.attributes.alternativeText ?? ''}
             className='object-contain object-left w-full h-10'
-            sizes='80vw'
+            sizes='50vw'
           />
         </UnstyledLink>
 
@@ -42,7 +42,7 @@ export default async function Header() {
         />
 
         {/* Desktop links */}
-        <ul className='hidden md:flex flex-wrap gap-3 lg:gap-6'>
+        <ul className='hidden md:flex shrink-1 gap-3 lg:gap-6'>
           {header.items.map((item) => (
             <HeaderItem
               key={item.id}
@@ -55,6 +55,7 @@ export default async function Header() {
                 icon={item.link.icon}
                 openNewTab={item.link.open_new_tab}
                 variant={item.link.variant}
+                className='font-bold dark:font-bold'
               >
                 {item.link.name}
               </Link>
@@ -65,6 +66,10 @@ export default async function Header() {
             </HeaderItem>
           ))}
         </ul>
+
+        <div className='hidden md:flex shrink-0 w-[250px]'>
+          {/* This will be the theme and lang/currency buttons */}
+        </div>
       </div>
     </header>
   );

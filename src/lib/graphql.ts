@@ -692,6 +692,18 @@ export const QueryMenus = async (locale: string) => {
                 id
                 columns {
                   id
+                  logo {
+                    data {
+                      attributes {
+                        alternativeText
+                        name
+                        url
+                        width
+                        height
+                        mime
+                      }
+                    }
+                  }
                   title
                   description
                   socials {

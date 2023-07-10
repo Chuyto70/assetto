@@ -101,7 +101,7 @@ const HeaderItem = ({
           initial={false}
           animate={isOpen ? 'open' : 'closed'}
           variants={navVariants}
-          className='hidden absolute -z-10 top-full -left-1/4 rounded-b-xl bg-white dark:bg-carbon-900 p-6 lg:px-12 flex-col gap-2'
+          className='hidden absolute -z-10 top-full -left-1/2 rounded-b-xl bg-carbon-200 dark:bg-carbon-900 p-6 lg:px-12 flex-col gap-2'
         >
           {name && <h2 className='text-6xl uppercase pb-4'>{name}</h2>}
           <ul className='flex flex-col gap-3'>
@@ -113,7 +113,7 @@ const HeaderItem = ({
                   icon={item.icon}
                   variant={item.variant}
                   size='xl'
-                  className='whitespace-nowrap'
+                  className='whitespace-nowrap font-semibold dark:font-semibold'
                 >
                   {item.name}
                 </Link>
