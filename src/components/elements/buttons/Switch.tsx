@@ -40,7 +40,7 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
         ref={ref}
         className={clsxm(
           isDark ? 'bg-carbon-800/40' : 'bg-carbon-200/40',
-          'flex cursor-pointer justify-start rounded-full p-[0.1em] transition-colors duration-300 w-[2em] h-[1em]',
+          'flex items-center cursor-pointer justify-start rounded-full p-[0.1em] transition-colors duration-300 w-[2em] h-[1em]',
           isOn && 'justify-end',
           className
         )}

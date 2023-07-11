@@ -10,6 +10,7 @@ import Link from '@/components/elements/links';
 import UnstyledLink from '@/components/elements/links/UnstyledLink';
 import HeaderBurger from '@/components/layout/HeaderBurger';
 import HeaderItem from '@/components/layout/HeaderItem';
+import SettingsButton from '@/components/layout/SettingsButton';
 
 import { useServer } from '@/store/serverStore';
 
@@ -19,7 +20,7 @@ export default async function Header() {
   const { header } = data.attributes;
 
   return (
-    <header className='sticky top-0 z-50 bg-carbon-200 dark:bg-carbon-900 border-b-2 border-carbon-900 dark:border-0 text-carbon-900  dark:text-white font-bold'>
+    <header className='sticky top-0 z-40 bg-carbon-200 dark:bg-carbon-900 border-b-2 border-carbon-900 dark:border-0 text-carbon-900  dark:text-white font-bold'>
       <div className='layout w-full flex flex-row items-center justify-between gap-3 p-3 md:p-6 lg:px-12 lg:gap-6 text-base md:text-sm xl:text-base'>
         <UnstyledLink
           href={header.logo_link}
@@ -68,9 +69,12 @@ export default async function Header() {
           ))}
         </ul>
 
-        <div className='hidden md:flex shrink-0'>
+        <div className='hidden md:flex shrink-0 lg:gap-3'>
           {/* This will be the theme and lang/currency buttons */}
-          <div className='h-10 w-20'><ThemeSwitch /></div>
+          <div className='h-10 w-20 flex items-center'><ThemeSwitch className='h-full' /></div>
+          <SettingsButton className='h-10 rounded-full flex items-center p-1 px-2 gap-1 bg-carbon-200 dark:bg-carbon-900 shadow-carbon-200-inner dark:shadow-carbon-900-inner'>
+            <Image src="/images/setting-dynamic-color.png" quality={100} width={30} height={30} alt="3d settings icon" />
+          </SettingsButton>
         </div>
       </div>
     </header>

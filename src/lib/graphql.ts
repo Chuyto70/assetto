@@ -59,6 +59,8 @@ export const QuerySettings = async (locale: string) => {
                 description
               }
               payment_provider
+              default_currency
+              currencies
             }
           }
         }

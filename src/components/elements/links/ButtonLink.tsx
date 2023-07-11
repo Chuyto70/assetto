@@ -47,7 +47,7 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
         ref={ref}
         {...rest}
         className={clsxm(
-          'inline-flex items-center rounded-full font-bold',
+          'inline-flex items-center rounded-full',
           'focus-visible:ring-primary-300 focus:outline-none focus-visible:ring',
           'transition-colors duration-75',
           //#region  //*=========== Size ===========
@@ -62,24 +62,24 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
           //#region  //*=========== Variants ===========
           [
             variant === 'primary' && [
-              'bg-primary-200 text-carbon-900',
-              'hover:bg-primary-300 hover:text-carbon-900',
-              'active:bg-primary-300',
-              'disabled:bg-primary-300',
+              'bg-primary-200 text-carbon-900 dark:bg-primary-600 dark:text-white',
+              'hover:bg-primary-300 hover:text-carbon-900 dark:hover:bg-primary-400 dark:hover:text-white',
+              'active:bg-primary-300 dark:active:bg-primary-400',
+              'disabled:bg-primary-300 dark:disabled:bg-primary-400',
             ],
             variant === 'outline' && [
               'text-primary-200',
               'border-primary-200 border',
               'hover:bg-primary-300 active:bg-primary-300 disabled:bg-primary-300',
               isDarkBg &&
-                'hover:text-carbon-900 active:text-carbon-800 disabled:text-carbon-700',
+              'hover:text-carbon-900 active:text-carbon-800 disabled:text-carbon-700',
             ],
             variant === 'ghost' && [
               'text-primary-200',
               'shadow-none',
               'hover:bg-primary-300 active:bg-primary-300 disabled:bg-primary-300',
               isDarkBg &&
-                'hover:text-carbon-900 active:text-carbon-800 disabled:text-carbon-700',
+              'hover:text-carbon-900 active:text-carbon-800 disabled:text-carbon-700',
             ],
             variant === 'light' && [
               'bg-carbon-50 text-carbon-900',

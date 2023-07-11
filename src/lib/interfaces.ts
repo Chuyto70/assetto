@@ -93,6 +93,8 @@ export interface Setting {
     };
     seo: DefaultSeoMetadata;
     payment_provider: string;
+    default_currency: string;
+    currencies: string[];
   };
 }
 

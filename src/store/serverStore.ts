@@ -8,10 +8,14 @@ export interface ServerState {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   translations: any;
   paymentProvider: PAYMENT_PROVIDER;
+  currency: string;
+  currencies: string[];
 }
 
 export const useServer = create<ServerState>(() => ({
   locale: '',
   translations: {},
   paymentProvider: PAYMENT_PROVIDER.STRIPE,
+  currency: '',
+  currencies: [],
 }));

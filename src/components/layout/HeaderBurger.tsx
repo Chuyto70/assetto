@@ -8,6 +8,8 @@ import { HeaderItem } from '@/lib/interfaces';
 import ThemeSwitch from '@/components/elements/buttons/ThemeSwitch';
 import DynamicIcon from '@/components/elements/DynamicIcon';
 import Link from '@/components/elements/links';
+import SettingsButton from '@/components/layout/SettingsButton';
+import NextImage from '@/components/NextImage';
 
 const MotionNav = dynamic(() =>
   import('framer-motion').then((mod) => mod.motion.nav)
@@ -161,6 +163,9 @@ const HeaderBurger = ({
               className='w-full mx-3 flex justify-between p-3'
             >
               <div className='h-10 w-20'><ThemeSwitch /></div>
+              <SettingsButton className='h-10 rounded-full flex items-center p-1 px-2 gap-1 bg-carbon-200 dark:bg-carbon-900 shadow-carbon-200-inner dark:shadow-carbon-900-inner'>
+                <NextImage src="/images/setting-dynamic-color.png" quality={100} width={30} height={30} alt="3d settings icon" />
+              </SettingsButton>
             </MotionLi>
           </MotionUl>
         </span>

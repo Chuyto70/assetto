@@ -37,9 +37,11 @@ export async function generateMetadata({
     favicons,
     seo: defaultSeo,
     payment_provider,
+    default_currency,
+    currencies
   } = await QuerySettings(lang);
   const iconList: Icon[] = [];
-  useServer.setState({ paymentProvider: payment_provider as PAYMENT_PROVIDER });
+  useServer.setState({ paymentProvider: payment_provider as PAYMENT_PROVIDER, currency: default_currency, currencies });
   favicons.data.forEach((icon) => {
     return iconList.push(MediaUrl(icon.attributes.url));
   });
