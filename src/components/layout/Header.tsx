@@ -4,6 +4,7 @@ import * as React from 'react';
 import { QueryMenus } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
 
+import ThemeSwitch from '@/components/elements/buttons/ThemeSwitch';
 import DynamicIcon from '@/components/elements/DynamicIcon';
 import Link from '@/components/elements/links';
 import UnstyledLink from '@/components/elements/links/UnstyledLink';
@@ -69,6 +70,7 @@ export default async function Header() {
 
         <div className='hidden md:flex shrink-0 w-[250px]'>
           {/* This will be the theme and lang/currency buttons */}
+          <ThemeSwitch />
         </div>
       </div>
     </header>

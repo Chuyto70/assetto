@@ -4,17 +4,6 @@ import { ImageResponse, NextRequest } from 'next/server';
 import { deploymentURL } from '@/constant/env';
 
 export const GET = async (req: NextRequest) => {
-  const rachana400 = fetch(
-    new URL('../../../assets/fonts/Rachana-Regular.ttf', import.meta.url)
-  ).then((res) => res.arrayBuffer());
-
-  const rachana700 = fetch(
-    new URL('../../../assets/fonts/Rachana-Bold.ttf', import.meta.url)
-  ).then((res) => res.arrayBuffer());
-
-  const rachanaRegular = await rachana400;
-  const rachanaBold = await rachana700;
-
   const { searchParams } = new URL(req.url ? req.url : 'locahost');
 
   const siteName = searchParams.get('siteName');
@@ -112,19 +101,7 @@ export const GET = async (req: NextRequest) => {
     {
       width: 1200,
       height: 630,
-      emoji: 'twemoji',
-      fonts: [
-        {
-          name: 'Rachana',
-          data: rachanaRegular,
-          weight: 400,
-        },
-        {
-          name: 'Rachana',
-          data: rachanaBold,
-          weight: 700,
-        },
-      ],
+      emoji: 'twemoji'
     }
   );
 };
