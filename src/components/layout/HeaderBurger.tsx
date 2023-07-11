@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { HeaderItem } from '@/lib/interfaces';
 
+import ThemeSwitch from '@/components/elements/buttons/ThemeSwitch';
 import DynamicIcon from '@/components/elements/DynamicIcon';
 import Link from '@/components/elements/links';
 
@@ -154,6 +155,13 @@ const HeaderBurger = ({
                 )}
               </MotionLi>
             ))}
+
+            <MotionLi
+              variants={itemVariants}
+              className='w-full mx-3 flex justify-between p-3'
+            >
+              <div className='h-10 w-20'><ThemeSwitch /></div>
+            </MotionLi>
           </MotionUl>
         </span>
       </MotionNav>

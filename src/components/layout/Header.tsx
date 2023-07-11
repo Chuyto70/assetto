@@ -20,7 +20,7 @@ export default async function Header() {
 
   return (
     <header className='sticky top-0 z-50 bg-carbon-200 dark:bg-carbon-900 border-b-2 border-carbon-900 dark:border-0 text-carbon-900  dark:text-white font-bold'>
-      <div className='layout w-full flex flex-row items-center justify-between md:justify-start gap-3 p-3 md:p-6 lg:px-12 lg:gap-6 text-base md:text-sm xl:text-base'>
+      <div className='layout w-full flex flex-row items-center justify-between gap-3 p-3 md:p-6 lg:px-12 lg:gap-6 text-base md:text-sm xl:text-base'>
         <UnstyledLink
           href={header.logo_link}
           className='flex shrink-1'
@@ -68,9 +68,9 @@ export default async function Header() {
           ))}
         </ul>
 
-        <div className='hidden md:flex shrink-0 w-[250px]'>
+        <div className='hidden md:flex shrink-0'>
           {/* This will be the theme and lang/currency buttons */}
-          <ThemeSwitch />
+          <div className='h-10 w-20'><ThemeSwitch /></div>
         </div>
       </div>
     </header>
