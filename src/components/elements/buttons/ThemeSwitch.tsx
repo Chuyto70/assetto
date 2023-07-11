@@ -22,16 +22,14 @@ const ThemeSwitch = ({ className }: { className?: string }) => {
   if (!isMounted) return null;
 
   return (
-    <div className={clsxm('w-full h-full', className)}>
-      <Switch
-        className="bg-carbon-200 dark:bg-carbon-900 text-4xl shadow-carbon-200-inner dark:shadow-carbon-900-inner"
-        toggleClassName="bg-transparent"
-        isDark={resolvedTheme !== 'dark' ?? true}
-        toggleIsOn={resolvedTheme !== 'dark' ?? true}
-        toggle={handleToggle}
-        icon={<NextImage src={resolvedTheme === 'dark' ? "/images/moon-dynamic-color.png" : "/images/sun-dynamic-color.png"} quality={100} width={30} height={30} alt="3d icon of the moon" />}
-      />
-    </div>
+    <Switch
+      className={clsxm("bg-carbon-200 dark:bg-carbon-900 text-4xl shadow-carbon-200-inner dark:shadow-carbon-900-inner", className)}
+      toggleClassName="bg-transparent"
+      isDark={resolvedTheme !== 'dark' ?? true}
+      toggleIsOn={resolvedTheme !== 'dark' ?? true}
+      toggle={handleToggle}
+      icon={<NextImage src={resolvedTheme === 'dark' ? "/images/moon-dynamic-color.png" : "/images/sun-dynamic-color.png"} quality={100} width={30} height={30} alt="3d icon of the moon" />}
+    />
   )
 }
 
