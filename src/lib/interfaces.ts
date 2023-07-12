@@ -70,9 +70,9 @@ export interface Page {
   attributes: {
     title?: string;
     slug: string;
-    content: {
+    content: [{
       __typename: string;
-    };
+    }];
     metadata: SeoMetadata;
     locale: string;
     updatedAt: string;
@@ -226,7 +226,7 @@ interface SeoMetadata {
   meta_description?: string;
 }
 
-interface Localizations {
+export interface Localizations {
   attributes: {
     locale: string;
     slug: string;

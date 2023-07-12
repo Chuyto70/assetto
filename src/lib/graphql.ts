@@ -385,21 +385,6 @@ export const QuerySeo = async (locale: string, slug: string[] | undefined) => {
   return data;
 };
 
-type graphQLPageProps = {
-  pages: {
-    data: [
-      {
-        id: number;
-        attributes: {
-          title: string;
-          slug: string;
-          content: [];
-        };
-      }
-    ];
-  };
-};
-
 /**
  * Query a single page from Strapi
  * @param locale language of the requested page
@@ -425,7 +410,7 @@ export const QueryPageFromSlug = async (
   StrapiClient.requestConfig.fetch = (url, options) =>
     fetch(url, { ...options, next: { tags: ['pages'] } });
 
-  const { pages } = await StrapiClient.request<graphQLPageProps>(
+  const { pages } = await StrapiClient.request<{ pages: { data: Page[]}}>(
     gql`
       query Pages($locale: I18NLocaleCode!, $joinedSlug: String!) {
         pages(
@@ -436,11 +421,17 @@ export const QueryPageFromSlug = async (
           data {
             id
             attributes {
-              title
               slug
-
               content {
                 __typename
+              }
+              localizations {
+                data {
+                  attributes {
+                    slug
+                    locale
+                  }
+                }
               }
             }
           }

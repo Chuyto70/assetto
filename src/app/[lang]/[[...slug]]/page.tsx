@@ -1,5 +1,7 @@
 import { QueryPageFromSlug } from '@/lib/graphql';
 
+import Sections, { sectionTypeProps } from '@/components/sections';
+
 import notFound from '@/app/[lang]/not-found';
 
 export default async function Page({
@@ -12,12 +14,11 @@ export default async function Page({
   if (data.length <= 0) return notFound({ lang, slug });
 
   const pageID = data[0].id;
-  const { title, content } = data[0].attributes;
+  const { content } = data[0].attributes;
 
   return (
     <>
-      <h1 className='text-5xl font-bold uppercase'>{title}</h1>
-      {/* <Sections sections={content} pageID={pageID} /> */}
+      <Sections sections={content as [sectionTypeProps]} pageID={pageID} />
     </>
   );
 }
