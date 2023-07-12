@@ -17,7 +17,7 @@ const Footer = async () => {
   return (
     <footer className='relative w-full bg-carbon-200 dark:bg-carbon-900 text-carbon-900 dark:text-white font-normal dark:font-light overflow-hidden border-t-2 border-carbon-900 dark:border-white'>
       <span className='absolute -bottom-10 -right-10 rounded-full bg-primary-600 w-60 h-60'></span>
-      <div className='w-full bg-carbon-200/60 dark:bg-carbon-900/60 backdrop-blur-200'>
+      <div className='w-full bg-carbon-200/40 dark:bg-carbon-900/60 backdrop-blur-200'>
         <div className='layout flex flex-col gap-6 p-3 py-6 md:px-6 lg:px-12'>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6'>
             {footer.columns.map((column) => (

@@ -17,5 +17,5 @@ export const useServer = create<ServerState>(() => ({
   translations: {},
   paymentProvider: PAYMENT_PROVIDER.STRIPE,
   currency: '',
-  currencies: [],
+  currencies: []
 }));

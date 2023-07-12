@@ -73,12 +73,16 @@ export default async function RootLayout(props: {
       className={`${inter.variable}`}
       suppressHydrationWarning
     >
-      <body className='text-carbon-900 min-h-screen flex flex-col'>
+      <body className='relative bg-white dark:bg-carbon-900 text-carbon-900 min-h-screen flex flex-col'>
+        <span className='-z-10 absolute w-full h-screen overflow-hidden'>
+          <span className='absolute top-0 -left-10 rounded-full bg-secondary-600 w-60 h-60'></span>
+          <span className='absolute bottom-1/4 -right-10 rounded-full bg-primary-600 w-60 h-60'></span>
+        </span>
         <ZustandProvider serverState={useServer.getState()} />
         <ThemesProvider>
           <Header />
           <Toasts />
-          <main className='flex flex-col flex-auto'>{props.children}</main>
+          <main className='flex flex-col flex-auto items-center bg-white/40 dark:bg-carbon-900/60 backdrop-blur-200 text-carbon-900 dark:text-white'>{props.children}</main>
           <Footer />
         </ThemesProvider>
         {props.modal}

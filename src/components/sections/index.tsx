@@ -1,11 +1,12 @@
+import TypedTitle from "@/components/sections/TypedTitle";
 
-type sectionTypeProps = {
+export type sectionTypeProps = {
   __typename: keyof typeof sectionComponents;
 };
 
 // Map Strapi sections to section components
 const sectionComponents = {
-  ComponentSectionsProductSelectedList: null,
+  ComponentSectionsTypedTitle: TypedTitle,
 };
 
 // Display a section individually
@@ -26,7 +27,7 @@ const Section = (props: {
 };
 
 // Display the list of sections
-const Sections = (props: { sections: []; pageID: number }) => {
+const Sections = (props: { sections: [sectionTypeProps]; pageID: number }) => {
   return (
     <>
       {/* Show the actual sections */}
