@@ -41,8 +41,8 @@ export async function generateMetadata({
   const data = products.data.length
     ? products.data
     : categories.data.length
-    ? categories.data
-    : pages.data;
+      ? categories.data
+      : pages.data;
 
   const {
     metadata: meta,
@@ -66,7 +66,6 @@ export async function generateMetadata({
 
 export default async function SlugLayout({
   children,
-  product,
   category,
   params: { lang, slug },
 }: {
@@ -78,8 +77,8 @@ export default async function SlugLayout({
   const joinedSlug = !slug
     ? '/'
     : slug instanceof Array
-    ? slug.join('/')
-    : Array.of(slug).join('/');
+      ? slug.join('/')
+      : Array.of(slug).join('/');
   const data = await QueryIdFromSlug(lang, slug);
   const currentProduct = data.products.data.find((product) =>
     product.attributes.slug === joinedSlug ? product.id : false
@@ -87,9 +86,6 @@ export default async function SlugLayout({
   const currentCategory = data.categories.data.find((cat) =>
     cat.attributes.slug === joinedSlug ? cat.id : false
   );
-
-  // If slug is a product -> @product
-  if (currentProduct && !currentCategory) return <>{product}</>;
 
   // If slug is a category -> @category
   if (!currentProduct && currentCategory) return <>{category}</>;

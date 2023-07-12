@@ -4,32 +4,27 @@ import * as React from 'react';
 import { QueryMenus } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
 
+import ThemeSwitch from '@/components/elements/buttons/ThemeSwitch';
 import DynamicIcon from '@/components/elements/DynamicIcon';
 import Link from '@/components/elements/links';
 import UnstyledLink from '@/components/elements/links/UnstyledLink';
 import HeaderBurger from '@/components/layout/HeaderBurger';
-import HeaderCart from '@/components/layout/HeaderCart';
 import HeaderItem from '@/components/layout/HeaderItem';
+import SettingsButton from '@/components/layout/SettingsButton';
 
 import { useServer } from '@/store/serverStore';
 
 export default async function Header() {
   const locale = useServer.getState().locale;
-  const translations = useServer.getState().translations;
   const { data } = await QueryMenus(locale);
   const { header } = data.attributes;
 
   return (
-    <header className='sticky top-0 z-50 bg-secondary-100 text-carbon-900 font-bold'>
-      <div className='max-w-screen-3xl grid grid-flow-row grid-cols-[auto_1fr_auto] items-center gap-3 p-3 md:p-6 lg:px-12 lg:gap-6 text-lg xl:text-xl'>
-        <HeaderBurger
-          items={header.items}
-          className='md:hidden flex justify-center'
-        />
-
+    <header className='sticky top-0 z-40 bg-carbon-200 dark:bg-carbon-900 border-b-2 border-carbon-900 dark:border-0 text-carbon-900  dark:text-white font-bold'>
+      <div className='layout w-full flex flex-row items-center justify-between gap-3 p-3 md:p-6 lg:px-12 lg:gap-6 text-base md:text-sm xl:text-base'>
         <UnstyledLink
           href={header.logo_link}
-          className='flex justify-center md:order-first'
+          className='flex shrink-1'
         >
           <Image
             src={MediaUrl(header.logo.data.attributes.url)}
@@ -38,18 +33,23 @@ export default async function Header() {
             width={header.logo.data.attributes.width}
             height={header.logo.data.attributes.height}
             alt={header.logo.data.attributes.alternativeText ?? ''}
-            className='object-contain object-center w-full h-10'
-            sizes='80vw'
+            className='object-contain object-left w-full h-10'
+            sizes='50vw'
           />
         </UnstyledLink>
 
+        <HeaderBurger
+          items={header.items}
+          className='md:hidden flex justify-center'
+        />
+
         {/* Desktop links */}
-        <ul className='hidden md:flex justify-center gap-3 lg:gap-6'>
+        <ul className='hidden md:flex shrink-1 gap-3 lg:gap-6'>
           {header.items.map((item) => (
             <HeaderItem
               key={item.id}
-              name={item.link.name}
               sublinks={item.sublinks}
+              className='flex flex-row items-center gap-1'
             >
               <Link
                 href={item.link.href}
@@ -57,25 +57,25 @@ export default async function Header() {
                 icon={item.link.icon}
                 openNewTab={item.link.open_new_tab}
                 variant={item.link.variant}
+                className='font-bold dark:font-bold'
               >
                 {item.link.name}
               </Link>
+              {item.sublinks.length > 0 && <span className='w-8 h-8'><DynamicIcon
+                icon='material-symbols:keyboard-arrow-down-rounded'
+                className='h-full w-full text-carbon-900 dark:text-white'
+              /></span>}
             </HeaderItem>
           ))}
         </ul>
 
-        <HeaderCart
-          cartPage={`/${locale}/${header.cart_page?.data.attributes.slug}`}
-        >
-          <div className='flex flex-row items-center gap-3 lg:gap-6 flex-nowrap'>
-            <p className='hidden md:inline-block'>{translations.cart.title}</p>
-            <DynamicIcon
-              icon='heroicons:shopping-bag'
-              className='w-full h-full lg:w-10 lg:h-10 text-carbon-900 grow-0'
-              wrapperClassName='w-8 h-8 lg:w-10 lg:h-10'
-            />
-          </div>
-        </HeaderCart>
+        <div className='hidden md:flex shrink-0 lg:gap-3'>
+          {/* This will be the theme and lang/currency buttons */}
+          <div className='h-10 w-20 flex items-center'><ThemeSwitch className='h-full' /></div>
+          <SettingsButton className='h-10 rounded-full flex items-center p-1 px-2 gap-1 bg-carbon-200 dark:bg-carbon-900 shadow-carbon-200-inner dark:shadow-carbon-900-inner'>
+            <Image src="/images/setting-dynamic-color.png" quality={100} width={30} height={30} alt="3d settings icon" />
+          </SettingsButton>
+        </div>
       </div>
     </header>
   );

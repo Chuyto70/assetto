@@ -59,6 +59,8 @@ export const QuerySettings = async (locale: string) => {
                 description
               }
               payment_provider
+              default_currency
+              currencies
             }
           }
         }
@@ -686,19 +688,24 @@ export const QueryMenus = async (locale: string) => {
                     variant
                   }
                 }
-                cart_page {
-                  data {
-                    attributes {
-                      slug
-                    }
-                  }
-                }
               }
 
               footer {
                 id
                 columns {
                   id
+                  logo {
+                    data {
+                      attributes {
+                        alternativeText
+                        name
+                        url
+                        width
+                        height
+                        mime
+                      }
+                    }
+                  }
                   title
                   description
                   socials {
@@ -718,10 +725,6 @@ export const QueryMenus = async (locale: string) => {
                     style
                     direction
                     variant
-                  }
-                  newsletter {
-                    id
-                    placeholder
                   }
                 }
                 copyright

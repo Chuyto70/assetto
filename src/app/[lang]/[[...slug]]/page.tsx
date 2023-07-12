@@ -1,7 +1,5 @@
 import { QueryPageFromSlug } from '@/lib/graphql';
 
-import Sections from '@/components/sections';
-
 import notFound from '@/app/[lang]/not-found';
 
 export default async function Page({
@@ -19,7 +17,7 @@ export default async function Page({
   return (
     <>
       <h1 className='text-5xl font-bold uppercase'>{title}</h1>
-      <Sections sections={content} pageID={pageID} />
+      {/* <Sections sections={content} pageID={pageID} /> */}
     </>
   );
 }

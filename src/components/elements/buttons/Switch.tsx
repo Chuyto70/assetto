@@ -13,10 +13,12 @@ type SwitchProps = {
   isDark?: boolean;
   toggleIsOn?: boolean;
   toggle?: (isOn: boolean) => void;
+  toggleClassName?: string;
+  icon?: React.ReactNode;
 } & React.ComponentPropsWithRef<'div'>;
 
 const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
-  ({ className, isDark = false, toggleIsOn = false, toggle, ...rest }, ref) => {
+  ({ className, isDark = false, toggleIsOn = false, toggle, toggleClassName, icon, ...rest }, ref) => {
     const [isOn, setIsOn] = useState(toggleIsOn);
     const toggleSwitch = () => {
       if (toggle !== undefined) toggle(!isOn);
@@ -37,8 +39,8 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
       <div
         ref={ref}
         className={clsxm(
-          isDark ? 'bg-dark/40' : 'bg-gray-200/40',
-          'flex cursor-pointer justify-start rounded-full p-[0.1em] transition-colors duration-300 w-[2em] h-[1em]',
+          isDark ? 'bg-carbon-800/40' : 'bg-carbon-200/40',
+          'flex items-center cursor-pointer justify-start rounded-full p-[0.1em] transition-colors duration-300 w-[2em] h-[1em]',
           isOn && 'justify-end',
           className
         )}
@@ -46,10 +48,16 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
         {...rest}
       >
         <MotionDiv
-          className='rounded-full bg-white w-[0.8em] h-[0.8em]'
+          className={clsxm(
+            isDark ? 'bg-white' : 'bg-carbon-900',
+            'rounded-full w-[0.8em] h-[0.8em] flex justify-center items-center',
+            toggleClassName
+          )}
           layout
           transition={spring}
-        />
+        >
+          {icon}
+        </MotionDiv>
       </div>
     );
   }

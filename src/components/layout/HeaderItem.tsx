@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
+import clsxm from '@/lib/clsxm';
 import { LinkInterface } from '@/lib/interfaces';
 
 import Link from '@/components/elements/links';
@@ -16,11 +17,13 @@ const MotionLi = dynamic(() =>
 );
 
 const HeaderItem = ({
+  className,
   name,
   sublinks,
   children,
 }: {
-  name: string;
+  className?: string;
+  name?: string;
   sublinks: LinkInterface[];
   children: ReactNode;
 }) => {
@@ -76,6 +79,7 @@ const HeaderItem = ({
 
   return (
     <MotionLi
+      className={clsxm('relative', className)}
       onHoverStart={() => {
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
@@ -97,10 +101,10 @@ const HeaderItem = ({
           initial={false}
           animate={isOpen ? 'open' : 'closed'}
           variants={navVariants}
-          className='hidden absolute -z-10 top-20 left-0 w-full bg-secondary-100 p-6 lg:px-12 flex-col gap-2'
+          className='hidden absolute -z-10 top-full -left-1/2 rounded-b-xl bg-carbon-200 dark:bg-carbon-900 p-6 lg:px-12 flex-col gap-2'
         >
-          <h2 className='text-6xl uppercase pb-4'>{name}</h2>
-          <ul className='flex flex-row gap-6'>
+          {name && <h2 className='text-6xl uppercase pb-4'>{name}</h2>}
+          <ul className='flex flex-col gap-3'>
             {sublinks.map((item) => (
               <MotionLi key={item.id} variants={itemVariants}>
                 <Link
@@ -109,6 +113,7 @@ const HeaderItem = ({
                   icon={item.icon}
                   variant={item.variant}
                   size='xl'
+                  className='whitespace-nowrap font-semibold dark:font-semibold'
                 >
                   {item.name}
                 </Link>

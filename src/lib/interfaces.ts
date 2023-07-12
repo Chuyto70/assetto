@@ -68,7 +68,7 @@ export interface Category {
 export interface Page {
   id: number;
   attributes: {
-    title: string;
+    title?: string;
     slug: string;
     content: {
       __typename: string;
@@ -93,6 +93,8 @@ export interface Setting {
     };
     seo: DefaultSeoMetadata;
     payment_provider: string;
+    default_currency: string;
+    currencies: string[];
   };
 }
 
@@ -110,9 +112,6 @@ export interface Header {
   };
   logo_link: string;
   items: HeaderItem[];
-  cart_page?: {
-    data: Page;
-  };
 }
 
 export interface HeaderItem {
@@ -129,16 +128,13 @@ export interface Footer {
 
 export interface FooterColumn {
   id: number;
+  logo: {
+    data?: Media;
+  };
   title: string;
   description?: string;
   socials: LinkInterface[];
   links: LinkInterface[];
-  newsletter?: NewsletterInput;
-}
-
-interface NewsletterInput {
-  id: number;
-  placeholder: string;
 }
 
 export interface LinkInterface {

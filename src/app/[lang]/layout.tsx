@@ -17,6 +17,7 @@ import { seo } from '@/lib/seo';
 import Toasts from '@/components/elements/toaster/Toasts';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
+import ThemesProvider from '@/components/ThemesProvider';
 import { ZustandProvider } from '@/components/ZustandProvider';
 
 import { useServer } from '@/store/serverStore';
@@ -36,9 +37,11 @@ export async function generateMetadata({
     favicons,
     seo: defaultSeo,
     payment_provider,
+    default_currency,
+    currencies
   } = await QuerySettings(lang);
   const iconList: Icon[] = [];
-  useServer.setState({ paymentProvider: payment_provider as PAYMENT_PROVIDER });
+  useServer.setState({ paymentProvider: payment_provider as PAYMENT_PROVIDER, currency: default_currency, currencies });
   favicons.data.forEach((icon) => {
     return iconList.push(MediaUrl(icon.attributes.url));
   });
@@ -68,13 +71,16 @@ export default async function RootLayout(props: {
     <html
       lang={props.params.lang ?? 'fr'}
       className={`${inter.variable}`}
+      suppressHydrationWarning
     >
       <body className='text-carbon-900 min-h-screen flex flex-col'>
         <ZustandProvider serverState={useServer.getState()} />
-        <Header />
-        <Toasts />
-        <main className='flex flex-col flex-auto'>{props.children}</main>
-        <Footer />
+        <ThemesProvider>
+          <Header />
+          <Toasts />
+          <main className='flex flex-col flex-auto'>{props.children}</main>
+          <Footer />
+        </ThemesProvider>
         {props.modal}
       </body>
     </html>
