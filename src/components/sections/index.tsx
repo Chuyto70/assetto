@@ -1,3 +1,4 @@
+import MdxBlock from "@/components/sections/MdxBlock";
 import TypedTitle from "@/components/sections/TypedTitle";
 
 export type sectionTypeProps = {
@@ -7,6 +8,7 @@ export type sectionTypeProps = {
 // Map Strapi sections to section components
 const sectionComponents = {
   ComponentSectionsTypedTitle: TypedTitle,
+  ComponentSectionsMdxBlock: MdxBlock,
 };
 
 // Display a section individually
