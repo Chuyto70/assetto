@@ -107,6 +107,7 @@ const Carousel = async (props: { pageID: number; index: number }) => {
           thumbsClassName="md:absolute right-0 md:w-1/4 md:h-full"
           thumbsContainerClassName="md:flex-col md:h-full"
           thumbClassName="aspect-video w-1/2 xs:w-1/3 md:w-full md:max-h-1/4 rounded-3xl overflow-hidden mr-3 last:mr-0 md:mr-0 md:mb-3 lg:mb-6 md:last:mb-0"
+          activeThumbClassName="border-2 border-primary-600"
         >
           {items.map((item) => (
             <CarouselItem key={item.id}

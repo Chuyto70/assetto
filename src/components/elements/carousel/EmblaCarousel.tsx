@@ -3,7 +3,7 @@
 import Autoplay from 'embla-carousel-autoplay';
 import { OptionsType } from 'embla-carousel-autoplay/components/Options';
 import useEmblaCarousel from "embla-carousel-react";
-import { ReactNode } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 
 import clsxm from '@/lib/clsxm';
 
@@ -18,12 +18,34 @@ const EmblaCarousel = (props: {
   thumbsClassName?: string;
   thumbsContainerClassName?: string;
   thumbClassName?: string;
+  activeThumbClassName?: string;
   thumbOptions?: Partial<OptionsType>;
 }) => {
-
+  const [selectedIndex, setSelectedIndex] = useState(0)
   const autoplay = props.autoplay ? [Autoplay(props.autoplayOptions ?? {})] : [];
   const [emblaRef, emblaApi] = useEmblaCarousel(props.options ?? {}, autoplay);
-  const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel(props.thumbOptions ?? {})
+  const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel(props.thumbOptions ?? {});
+
+  const onThumbClick = useCallback(
+    (index: number) => {
+      if (!emblaApi || !emblaThumbsApi) return
+      emblaApi.scrollTo(index)
+    },
+    [emblaApi, emblaThumbsApi]
+  )
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi || !emblaThumbsApi) return
+    setSelectedIndex(emblaApi.selectedScrollSnap())
+    emblaThumbsApi.scrollTo(emblaApi.selectedScrollSnap())
+  }, [emblaApi, emblaThumbsApi, setSelectedIndex])
+
+  useEffect(() => {
+    if (!emblaApi) return
+    onSelect()
+    emblaApi.on('select', onSelect)
+    emblaApi.on('reInit', onSelect)
+  }, [emblaApi, onSelect])
 
   return (
     <>
@@ -42,8 +64,8 @@ const EmblaCarousel = (props: {
         <div className={clsxm('flex', props.thumbsContainerClassName)}>
           {props.thumbsChildren.map((thumb, index) => (
             <button key={index}
-              className={clsxm('flex-shrink-0 flex-grow-0', props.thumbClassName)}
-              onClick={() => null}
+              className={clsxm('flex-shrink-0 flex-grow-0', selectedIndex === index && props.activeThumbClassName, props.thumbClassName)}
+              onClick={() => onThumbClick(index)}
             >
               {thumb}
             </button>
