@@ -29,7 +29,7 @@ type dataType = {
 
 const TypedTitle = async (props: { pageID: number; index: number }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', 'page', ComponentSectionsTypedTitle, 'sectionsTypedTitle');
+  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsTypedTitle, 'sectionsTypedTitle');
   const { titles } = content[props.index];
 
   return (

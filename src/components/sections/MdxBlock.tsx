@@ -25,7 +25,7 @@ type dataType = {
 
 const MdxBlock = async (props: { pageID: number; index: number }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', 'page', ComponentSectionsMdxBlock, 'sectionsMdxBlock');
+  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsMdxBlock, 'sectionsMdxBlock');
   const { text } = content[props.index];
 
   return (

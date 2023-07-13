@@ -1,3 +1,4 @@
+import Carousel from "@/components/sections/Carousel";
 import MdxBlock from "@/components/sections/MdxBlock";
 import TypedTitle from "@/components/sections/TypedTitle";
 
@@ -9,6 +10,7 @@ export type sectionTypeProps = {
 const sectionComponents = {
   ComponentSectionsTypedTitle: TypedTitle,
   ComponentSectionsMdxBlock: MdxBlock,
+  ComponentSectionsCarousel: Carousel,
 };
 
 // Display a section individually

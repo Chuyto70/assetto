@@ -745,7 +745,7 @@ export const QueryContentComponent = async (
   locale: string,
   id: number,
   type: string,
-  tags: string | string[],
+  tags: string[],
   fragment: string,
   fragmentSpread: string
 ) => {
