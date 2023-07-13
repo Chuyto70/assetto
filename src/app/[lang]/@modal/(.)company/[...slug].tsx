@@ -3,7 +3,7 @@ import React from 'react'
 import { QueryPageFromSlug } from '@/lib/graphql';
 
 import Modal from '@/components/elements/modal/Modal';
-import Sections from '@/components/sections';
+import Sections, { sectionTypeProps } from '@/components/sections';
 
 import notFound from '@/app/[lang]/not-found';
 
@@ -22,7 +22,7 @@ async function CompanyModal({
 
   return (
     <Modal>
-      <Sections sections={content} pageID={pageID} />
+      <Sections sections={content as [sectionTypeProps]} pageID={pageID} />
     </Modal>
   )
 }

@@ -99,6 +99,7 @@ const HeaderBurger = ({
         <MotionButton
           onClick={() => setIsOpen(!isOpen)}
           className='h-8 w-8 p-0'
+          aria-label='menu'
         >
           <DynamicIcon
             icon='material-symbols:menu-rounded'

@@ -25,6 +25,7 @@ export default async function Header() {
         <UnstyledLink
           href={header.logo_link}
           className='flex shrink-1'
+          aria-label='home page'
         >
           <Image
             src={MediaUrl(header.logo.data.attributes.url)}
