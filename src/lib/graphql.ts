@@ -10,6 +10,7 @@ import {
   ProductSize,
   Setting,
 } from '@/lib/interfaces';
+import logger from '@/lib/logger';
 
 const API_URL = process.env.strapiURL || 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
@@ -745,7 +746,7 @@ export const QueryContentComponent = async (
   locale: string,
   id: number,
   type: string,
-  tags: string | string[],
+  tags: string[],
   fragment: string,
   fragmentSpread: string
 ) => {
@@ -753,6 +754,8 @@ export const QueryContentComponent = async (
     locale: locale,
     id: id,
   };
+
+  logger([...tags], 'tags');
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>

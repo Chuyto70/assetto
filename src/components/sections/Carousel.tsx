@@ -63,7 +63,7 @@ type dataType = {
 
 const Carousel = async (props: { pageID: number; index: number }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', 'page', ComponentSectionsCarousel, 'sectionsCarousel');
+  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsCarousel, 'sectionsCarousel');
   const { items } = content[props.index];
 
   const thumbs = items.map((item) => (
