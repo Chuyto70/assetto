@@ -202,7 +202,7 @@ export type localeProps = {
   };
 };
 
-interface Media {
+export interface Media {
   attributes: {
     alternativeText?: string;
     caption?: string;
