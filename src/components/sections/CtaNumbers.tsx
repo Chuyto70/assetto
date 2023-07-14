@@ -3,15 +3,14 @@ import { gql, QueryContentComponent } from "@/lib/graphql";
 import { ENUM_ELEMENTS_LINK_DIRECTION, ENUM_ELEMENTS_LINK_STYLE, ENUM_ELEMENTS_LINK_VARIANT } from "@/lib/interfaces";
 
 import Link from "@/components/elements/links";
+import Count from "@/components/elements/texts/Count";
 
 import { useServer } from "@/store/serverStore";
 
 const ComponentSectionsCtaNumbers = gql`
   fragment sectionsCtaNumbers on ComponentSectionsCtaNumbers {
     text_1
-    firstNumber
     text_2
-    secondNumber
     cta_btn{
       name
       href
@@ -30,9 +29,7 @@ type dataType = {
       attributes: {
         content: {
           text_1: string;
-          firstNumber: number;
           text_2?: string;
-          secondNumber: number;
           cta_btn: {
             name: string;
             href: string;
@@ -52,7 +49,21 @@ type dataType = {
 const CtaNumbers = async (props: { pageID: number; index: number }) => {
   const locale = useServer.getState().locale;
   const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsCtaNumbers, 'sectionsCtaNumbers');
-  const { text_1, firstNumber, text_2, secondNumber, cta_btn } = content[props.index];
+  const { text_1, text_2, cta_btn } = content[props.index];
+
+  const text1WithCounter = text_1.split(/\${([^}]*)}/).map((item, index) => {
+    if (index % 2 === 0) return item;
+    else if (!isNaN(Number.parseInt(item))) {
+      return <Count key={index} value={Number.parseInt(item)} className="text-primary-600">{item}</Count>;
+    } else return <span className="text-primary-600">{item}</span>;
+  });
+
+  const text2WithCounter = text_2?.split(/\${([^}]*)}/).map((item, index) => {
+    if (index % 2 === 0) return item;
+    else if (!isNaN(Number.parseInt(item))) {
+      return <Count key={index} value={Number.parseInt(item)} className="text-primary-600">{item}</Count>;
+    } else return <span className="text-primary-600">{item}</span>;
+  });
 
   return (
     <section className="relative w-full overflow-hidden border-y-2 border-carbon-900 dark:border-white bg-white dark:bg-carbon-900">
@@ -60,8 +71,8 @@ const CtaNumbers = async (props: { pageID: number; index: number }) => {
       <div className="w-full flex justify-center bg-carbon-200/40 dark:bg-carbon-600/40 backdrop-blur-200">
         <div className="w-full lg:max-w-screen-2xl p-3 md:p-6 lg:px-12 flex flex-col gap-6">
           <div className="w-full flex flex-col xs:flex-row items-center justify-between gap-3">
-            <h3 className="w-full text-center font-semibold">{text_1.replace('${firstNumber}', firstNumber.toString())}</h3>
-            {text_2 && <h3 className="w-full text-center font-semibold">{text_2.replace('${secondNumber}', secondNumber.toString())}</h3>}
+            <h3 className="w-full text-center font-semibold">{text1WithCounter}</h3>
+            {text2WithCounter && <h3 className="w-full text-center font-semibold">{text2WithCounter}</h3>}
           </div>
           <div className="w-full flex justify-center">
             {cta_btn.style === 'button' && cta_btn.direction === 'right' ? <Link
