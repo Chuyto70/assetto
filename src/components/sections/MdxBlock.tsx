@@ -29,7 +29,7 @@ const MdxBlock = async (props: { pageID: number; index: number }) => {
   const { text } = content[props.index];
 
   return (
-    <section className="mx-3 md:mx-6 lg:mx-12 prose dark:prose-invert max-w-screen-3xl prose-p:text-carbon-700 dark:prose-p:text-carbon-400">
+    <section className="mx-3 md:mx-6 lg:mx-12 prose dark:prose-invert prose-p:text-carbon-700 dark:prose-p:text-carbon-400">
       <MDXRemote source={text} />
     </section>
   )

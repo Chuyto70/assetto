@@ -78,7 +78,7 @@ const Carousel = async (props: { pageID: number; index: number }) => {
   ));
 
   return (
-    <section className="w-full px-3 lg:px-6 max-w-screen-2xl">
+    <section className="w-full px-3 md:px-6 lg:px-12 max-w-screen-2xl">
       <div className="relative w-full flex flex-col md:flex-row gap-3 lg:gap-6">
         <EmblaCarousel
           className="w-full md:w-3/4 md:pr-3 lg:pr-6 shrink-0"

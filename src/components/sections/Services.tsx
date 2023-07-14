@@ -56,15 +56,15 @@ const Services = async (props: { pageID: number; index: number }) => {
   const { title, description, services } = content[props.index];
 
   return (
-    <section className="w-full px-3 lg:px-6 max-w-screen-2xl flex flex-col gap-6">
-      <div className="flex flex-col gap-3 md:flex-row md:justify-between lg:gap-6">
-        {title && <h2 className="italic uppercase">{title}</h2>}
-        {description && <p className="text-carbon-700 dark:text-carbon-400">{description}</p>}
+    <section className="w-full px-3 md:px-6 lg:px-12 lg:max-w-screen-2xl flex flex-col gap-6">
+      <div className="flex flex-col items-center text-center md:text-left gap-3 md:flex-row md:justify-between lg:gap-6">
+        {title && <h2 className="italic uppercase md:w-1/2">{title}</h2>}
+        {description && <p className="md:w-1/2 text-carbon-700 dark:text-carbon-400">{description}</p>}
       </div>
-      <div className="flex flex-col gap-3 lg:gap-6">
+      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">
         {services.map((service) => (
           <div key={service.id}
-            className="flex flex-col gap-3 p-3 rounded-3xl border-2 border-carbon-900 dark:border-white"
+            className="flex flex-col gap-3 p-3 md:p-6 rounded-3xl border-2 border-carbon-900 dark:border-white"
           >
             {service.icon.data && <div className="w-full flex justify-center">
               <Image
