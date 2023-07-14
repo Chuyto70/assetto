@@ -4,6 +4,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 
 import { gql, QueryContentComponent } from "@/lib/graphql";
 import { MediaUrl } from "@/lib/helper";
+import { Media } from "@/lib/interfaces";
 
 import CarouselItem from "@/components/elements/carousel/CarouselItem";
 import EmblaCarousel from "@/components/elements/carousel/EmblaCarousel";
@@ -42,15 +43,7 @@ type dataType = {
             title: string;
             description: string;
             image: {
-              data: {
-                attributes: {
-                  alternativeText: string;
-                  caption: string;
-                  url: string;
-                  width: number;
-                  height: number;
-                }
-              }
+              data: Media;
             }
             href: string;
           }[];
@@ -75,7 +68,7 @@ const Carousel = async (props: { pageID: number; index: number }) => {
         width={item.image.data.attributes.width}
         height={item.image.data.attributes.height}
         src={MediaUrl(item.image.data.attributes.url)}
-        alt={item.image.data.attributes.alternativeText}
+        alt={item.image.data.attributes.alternativeText ?? ''}
         sizes="100vw (min-width: 768px) 70vw"
       />
       <h3 className="absolute bottom-0 left-0 w-full line-clamp-2 text-center p-3 lg:p-6 text-sm lg:text-base text-primary-600">
@@ -85,7 +78,7 @@ const Carousel = async (props: { pageID: number; index: number }) => {
   ));
 
   return (
-    <section className="w-full px-3 lg:px-6 max-w-screen-2xl">
+    <section className="w-full px-3 md:px-6 lg:px-12 max-w-screen-2xl">
       <div className="relative w-full flex flex-col md:flex-row gap-3 lg:gap-6">
         <EmblaCarousel
           className="w-full md:w-3/4 md:pr-3 lg:pr-6 shrink-0"
@@ -118,7 +111,7 @@ const Carousel = async (props: { pageID: number; index: number }) => {
                 width={item.image.data.attributes.width}
                 height={item.image.data.attributes.height}
                 src={MediaUrl(item.image.data.attributes.url)}
-                alt={item.image.data.attributes.alternativeText}
+                alt={item.image.data.attributes.alternativeText ?? ''}
                 sizes="100vw (min-width: 768px) 70vw"
               />
               <div className="absolute bottom-0 left-0 p-3 lg:p-6 text-white no-underline">

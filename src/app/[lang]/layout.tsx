@@ -82,7 +82,7 @@ export default async function RootLayout(props: {
         <ThemesProvider>
           <Header />
           <Toasts />
-          <main className='flex flex-col flex-auto items-center bg-white/40 dark:bg-carbon-900/60 backdrop-blur-200 text-carbon-900 dark:text-white'>{props.children}</main>
+          <main className='flex flex-col flex-auto items-center py-12 gap-12 md:gap-24 bg-white/40 dark:bg-carbon-900/60 backdrop-blur-200 text-carbon-900 dark:text-white'>{props.children}</main>
           <Footer />
         </ThemesProvider>
         {props.modal}
