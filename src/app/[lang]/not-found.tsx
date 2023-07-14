@@ -1,5 +1,6 @@
-import DynamicIcon from '@/components/elements/DynamicIcon';
-import ArrowLink from '@/components/elements/links/ArrowLink';
+import Image from 'next/image';
+
+import ButtonLink from '@/components/elements/links/ButtonLink';
 
 import { useServer } from '@/store/serverStore';
 
@@ -7,28 +8,33 @@ export default function NotFound({
   lang,
   slug,
 }: {
-  slug: string[];
+  slug?: string[];
   lang: string;
 }) {
   const translations = useServer.getState().translations;
 
   return (
-    <main className='flex flex-col flex-1'>
-      <div className='layout flex flex-1 flex-col items-center justify-center text-center text-black'>
-        <DynamicIcon
-          icon='ri:alarm-warning-fill'
-          className='w-32 h-32 md:w-60 md:h-60 drop-shadow-glow animate-flicker text-red-500'
-          wrapperClassName='w-32 h-32 md:w-60 md:h-60 '
-        />
-        <h1 className='mt-8 text-4xl md:text-6xl'>
-          {translations.page_not_found} - {slug}
-        </h1>
-        {lang && (
-          <ArrowLink className='mt-4 md:text-lg' href={`/${lang ?? ''}`}>
-            {translations.back_to_home_btn}
-          </ArrowLink>
-        )}
-      </div>
-    </main>
+    <div className='w-full max-w-screen-md flex flex-1 flex-col items-center justify-center text-center text-black'>
+      <h1 className='uppercase italic mt-8 text-4xl md:text-6xl text-carbon-900 dark:text-white'>
+        {translations.errors?.page_not_found}{slug && ` | ${slug}`}
+      </h1>
+      {lang && (
+        <ButtonLink
+          variant='dark'
+          rightIcon='octicon:chevron-right-12'
+          rightIconClassName='w-4 h-4 md:w-6 md:h-6'
+          size='xl'
+          className='mt-4 text-lg md:text-xl font-semibold' href={`/${lang ?? ''}`}
+        >
+          {translations.btn?.back_to_home}
+        </ButtonLink>
+      )}
+      <Image src='/images/lost.svg'
+        alt={translations.errors?.page_not_found}
+        width={1000}
+        height={1000}
+        className='w-full h-full object-contain object-center'
+      />
+    </div>
   );
 }

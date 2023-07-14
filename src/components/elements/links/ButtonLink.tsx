@@ -47,7 +47,7 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
         ref={ref}
         {...rest}
         className={clsxm(
-          'inline-flex items-center rounded-full',
+          'inline-flex items-center justify-center gap-3 rounded-full',
           'focus-visible:ring-primary-300 focus:outline-none focus-visible:ring',
           'transition-colors duration-75',
           //#region  //*=========== Size ===========
@@ -88,9 +88,8 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
               'active:bg-white/80 disabled:bg-carbon-200',
             ],
             variant === 'dark' && [
-              'bg-carbon-900 text-white',
-              'border border-carbon-600',
-              'hover:bg-carbon-800 active:bg-carbon-700 disabled:bg-carbon-700',
+              'bg-carbon-800 text-white',
+              'hover:bg-carbon-700 active:bg-carbon-700 disabled:bg-carbon-700',
             ],
           ],
           //#endregion  //*======== Variants ===========

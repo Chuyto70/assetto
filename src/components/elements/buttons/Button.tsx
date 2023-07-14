@@ -5,7 +5,7 @@ import clsxm from '@/lib/clsxm';
 import DynamicIcon from '@/components/elements/DynamicIcon';
 
 const ButtonVariant = ['primary', 'outline', 'ghost', 'light', 'dark'] as const;
-const ButtonSize = ['sm', 'base'] as const;
+const ButtonSize = ['sm', 'base', 'md', 'lg', 'xl'] as const;
 
 type ButtonProps = {
   isLoading?: boolean;
@@ -50,6 +50,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           'transition-colors duration-75',
           //#region  //*=========== Size ===========
           [
+            size === 'xl' && ['px-4 py-2', 'text-lg md:text-xl'],
+            size === 'lg' && ['px-4 py-2', 'text-md md:text-lg'],
+            size === 'md' && ['px-3 py-1.5', 'text-base md:text-md'],
             size === 'base' && ['px-3 py-1.5', 'text-sm md:text-base'],
             size === 'sm' && ['px-2 py-1', 'text-xs md:text-sm'],
           ],
@@ -77,15 +80,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               'hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800',
             ],
             variant === 'light' && [
-              'bg-white text-gray-700',
-              'border border-gray-300',
-              'hover:text-dark hover:bg-gray-100',
-              'active:bg-white/80 disabled:bg-gray-200',
+              'bg-carbon-50 text-carbon-900',
+              'border border-carbon-300',
+              'hover:text-carbon-900 hover:bg-carbon-100',
+              'active:bg-white/80 disabled:bg-carbon-200',
             ],
             variant === 'dark' && [
-              'bg-carbon-900 text-white',
-              'border border-carbon-600',
-              'hover:bg-carbon-800 active:bg-carbon-700 disabled:bg-carbon-700',
+              'bg-carbon-800 text-white',
+              'hover:bg-carbon-700 active:bg-carbon-700 disabled:bg-carbon-700',
             ],
           ],
           //#endregion  //*======== Variants ===========
