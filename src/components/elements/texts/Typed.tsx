@@ -38,4 +38,4 @@ const Typed = ({ children, texts }: { children?: ReactNode; texts: string[] }) =
   );
 }
 
-export default Typed
+export default Typed;
