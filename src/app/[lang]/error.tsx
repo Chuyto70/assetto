@@ -15,7 +15,7 @@ export default function Error({
       <h1 className='uppercase italic mt-8 text-4xl md:text-6xl text-carbon-900 dark:text-white'>
         Something went wrong
       </h1>
-      {error && <p className="text-carbon-600 dark:text-carbon-400">{error.message}</p>}
+      {error && <p className="text-carbon-700 dark:text-carbon-400">{error.message}</p>}
       <Button
         variant='dark'
         rightIcon='octicon:chevron-right-12'
