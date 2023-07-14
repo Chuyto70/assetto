@@ -256,8 +256,8 @@ export enum ENUM_ELEMENTS_LINK_STYLE {
 }
 
 export enum ENUM_ELEMENTS_LINK_DIRECTION {
-  left,
-  right,
+  left = 'left',
+  right = 'right',
 }
 
 export enum ENUM_ELEMENTS_LINK_VARIANT {

@@ -1,4 +1,5 @@
 import Carousel from "@/components/sections/Carousel";
+import CtaNumbers from "@/components/sections/CtaNumbers";
 import MdxBlock from "@/components/sections/MdxBlock";
 import Services from "@/components/sections/Services";
 import TypedTitle from "@/components/sections/TypedTitle";
@@ -13,6 +14,7 @@ const sectionComponents = {
   ComponentSectionsMdxBlock: MdxBlock,
   ComponentSectionsCarousel: Carousel,
   ComponentSectionsServices: Services,
+  ComponentSectionsCtaNumbers: CtaNumbers,
 };
 
 // Display a section individually
