@@ -68,7 +68,7 @@ const Services = async (props: { pageID: number; index: number }) => {
           >
             {service.icon.data && <div className="w-full flex justify-center">
               <Image
-                className="h-20 w-20 object-center object-cover brightness-75"
+                className="h-20 w-20 object-center object-cover"
                 width={service.icon.data.attributes.width}
                 height={service.icon.data.attributes.height}
                 src={MediaUrl(service.icon.data.attributes.url)}

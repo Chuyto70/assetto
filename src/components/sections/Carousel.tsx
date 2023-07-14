@@ -84,7 +84,7 @@ const Carousel = async (props: { pageID: number; index: number }) => {
           className="w-full md:w-3/4 md:pr-3 lg:pr-6 shrink-0"
           containerClassName="w-full"
           options={{ loop: true, containScroll: 'trimSnaps', }}
-          autoplay={false}
+          autoplay={true}
           autoplayOptions={{
             delay: 5000,
             stopOnInteraction: false,
