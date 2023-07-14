@@ -102,7 +102,7 @@ const Carousel = async (props: { pageID: number; index: number }) => {
           thumbClassName="aspect-video w-1/2 xs:w-1/3 md:w-full md:max-h-1/4 rounded-3xl overflow-hidden mr-3 last:mr-0 md:mr-0 md:mb-3 lg:mb-6 md:last:mb-0"
           activeThumbClassName="border-2 border-primary-600"
         >
-          {items.map((item) => (
+          {items.map((item, index) => (
             <CarouselItem key={item.id}
               className="relative w-full aspect-square xs:aspect-video rounded-3xl overflow-hidden mr-3 lg:mr-6"
             >
@@ -113,6 +113,7 @@ const Carousel = async (props: { pageID: number; index: number }) => {
                 src={MediaUrl(item.image.data.attributes.url)}
                 alt={item.image.data.attributes.alternativeText ?? ''}
                 sizes="100vw (min-width: 768px) 70vw"
+                priority={index === 0}
               />
               <div className="absolute bottom-0 left-0 p-3 lg:p-6 text-white no-underline">
                 {item.href ? <Link href={item.href}>
