@@ -16,21 +16,17 @@ const Accordion = (props: { children?: ReactNode; className?: string; response: 
       onClick={() => setIsOpen((state) => !state)}
     >
       {props.children}
-      <AnimatePresence initial={false} >
-        {isOpen && <MotionDiv
-          key='description'
-          initial="collapsed"
-          animate="open"
-          exit="collapsed"
-          variants={{
-            open: { opacity: 1, height: "auto" },
-            collapsed: { opacity: 0, height: 0 }
-          }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-        >
-          {props.response}
-        </MotionDiv>}
-      </AnimatePresence>
+      <MotionDiv
+        initial={isOpen ? 'open' : 'collapsed'}
+        animate={isOpen ? 'open' : 'collapsed'}
+        variants={{
+          open: { opacity: 1, height: "auto" },
+          collapsed: { opacity: 0, height: 0 }
+        }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+      >
+        {props.response}
+      </MotionDiv>
     </MotionDiv>
   )
 }
