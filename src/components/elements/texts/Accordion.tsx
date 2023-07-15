@@ -17,7 +17,7 @@ const Accordion = (props: { children?: ReactNode; className?: string; response: 
     >
       {props.children}
       <MotionDiv
-        initial={isOpen ? 'open' : 'collapsed'}
+        initial={props.initialOpen ? 'open' : 'collapsed'}
         animate={isOpen ? 'open' : 'collapsed'}
         variants={{
           open: { opacity: 1, height: "auto" },
