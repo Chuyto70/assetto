@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 import { ReactNode, useState } from "react";
 
-const AnimatePresence = dynamic(() => import('framer-motion').then((mod) => mod.AnimatePresence));
 const MotionDiv = dynamic(() => import('framer-motion').then((mod) => mod.motion.div));
 
 const Accordion = (props: { children?: ReactNode; className?: string; response: ReactNode; initialOpen?: boolean }) => {
