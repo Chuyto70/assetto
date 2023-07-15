@@ -1,4 +1,3 @@
-
 import { gql, QueryContentComponent } from "@/lib/graphql";
 import { ENUM_ELEMENTS_LINK_DIRECTION, ENUM_ELEMENTS_LINK_STYLE, ENUM_ELEMENTS_LINK_VARIANT } from "@/lib/interfaces";
 
