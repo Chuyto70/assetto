@@ -1,4 +1,3 @@
-
 import { gql, QueryContentComponent } from "@/lib/graphql";
 import { ENUM_ELEMENTS_LINK_DIRECTION, ENUM_ELEMENTS_LINK_STYLE, ENUM_ELEMENTS_LINK_VARIANT } from "@/lib/interfaces";
 
@@ -52,17 +51,17 @@ const CtaNumbers = async (props: { pageID: number; index: number }) => {
   const { text_1, text_2, cta_btn } = content[props.index];
 
   const text1WithCounter = text_1.split(/\${([^}]*)}/).map((item, index) => {
-    if (index % 2 === 0) return item;
+    if (index % 2 === 0) return <span key={index}>{item}</span>;
     else if (!isNaN(Number.parseInt(item))) {
       return <Count key={index} value={Number.parseInt(item)} className="text-primary-600">{item}</Count>;
-    } else return <span className="text-primary-600">{item}</span>;
+    } else return <span key={index} className="text-primary-600">{item}</span>;
   });
 
   const text2WithCounter = text_2?.split(/\${([^}]*)}/).map((item, index) => {
-    if (index % 2 === 0) return item;
+    if (index % 2 === 0) return <span key={index}>{item}</span>;
     else if (!isNaN(Number.parseInt(item))) {
       return <Count key={index} value={Number.parseInt(item)} className="text-primary-600">{item}</Count>;
-    } else return <span className="text-primary-600">{item}</span>;
+    } else return <span key={index} className="text-primary-600">{item}</span>;
   });
 
   return (

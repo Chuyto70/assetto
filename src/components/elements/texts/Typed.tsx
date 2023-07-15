@@ -10,7 +10,7 @@ const Typed = ({ children, texts }: { children?: ReactNode; texts: string[] }) =
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (!isMounted) setIsMounted(true);
+    if (!isMounted) setTimeout(() => setIsMounted(true), 5000);
     else {
       const typed = new TypedJS(el.current, {
         strings: texts,
