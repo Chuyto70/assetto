@@ -15,6 +15,7 @@ const ComponentSectionsFaq = gql`
       id
       question
       response
+      initial_open
     }
   }
 `;
@@ -30,6 +31,7 @@ type dataType = {
             id: number;
             question: string;
             response: string;
+            initial_open: boolean;
           }[];
         }[];
       };
@@ -50,10 +52,10 @@ const Faq = async (props: { pageID: number; index: number }) => {
         {small_text && <p className="font-semibold text-primary-600">{small_text}</p>}
         <h2 className="">{title}</h2>
       </div>
-      {items.map((item, index) => (
+      {items.map((item) => (
         <Accordion
           key={item.id}
-          initialOpen={index === 0}
+          initialOpen={item.initial_open}
           response={<span className="font-normal text-sm"><MDXRemote source={item.response} /></span>}
           className="bg-carbon-300 dark:bg-carbon-800 rounded-2xl w-full p-6 overflow-hidden flex flex-col gap-3 hover:cursor-pointer"
         >
