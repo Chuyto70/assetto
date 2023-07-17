@@ -8,32 +8,18 @@ export interface CartItem {
 
 export interface Product {
   id: number;
-  selectedSize?: string;
   attributes: {
     title: string;
     slug: string;
-    price: number;
-    sale_price?: number;
-    date_on_sale_from?: string;
-    date_on_sale_to?: string;
+    description: string;
+    short_description?: string;
     medias: {
       data: Media[];
     };
-    short_description?: string;
-    description: string;
-    sizes: ProductSize[];
-    colors?: {
-      name: string;
-      color: string;
-      product: {
-        data: {
-          id: number;
-        };
-      };
-    }[];
     categories?: {
       data: Category[];
     };
+    prices: ProductPrice[];
     metadata: SeoMetadata;
     locale: string;
     updatedAt: string;
@@ -173,10 +159,13 @@ export interface Order {
   };
 }
 
-export interface ProductSize {
-  id: number;
-  size: string;
-  quantity: number;
+export interface ProductPrice {
+  currency: string;
+  price: number;
+  sale_price?: number;
+  on_sale_from?: string;
+  on_sale_to?: string;
+  currency_symbol: string;
 }
 
 export interface OrderProducts {
