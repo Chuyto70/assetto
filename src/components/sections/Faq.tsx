@@ -56,7 +56,7 @@ const Faq = async (props: { pageID: number; index: number }) => {
         <Accordion
           key={item.id}
           initialOpen={item.initial_open}
-          response={<span className="block mt-3 font-normal text-sm"><MDXRemote source={item.response} /></span>}
+          response={<span className="block mt-3 prose prose-carbon dark:prose-invert prose-sm"><MDXRemote source={item.response} /></span>}
           className="bg-carbon-300 dark:bg-carbon-800 rounded-2xl w-full p-6 overflow-hidden flex flex-col hover:cursor-pointer"
         >
           <span className="flex justify-between gap-3">

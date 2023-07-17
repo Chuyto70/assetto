@@ -12,7 +12,7 @@ export default function Error({
 }) {
   return (
     <div className='w-full max-w-screen-md px-3 md:px-6 lg:px-12 flex flex-1 flex-col items-center justify-center text-center text-black'>
-      <h1 className='uppercase italic mt-8 text-4xl md:text-6xl text-carbon-900 dark:text-white'>
+      <h1 className='uppercase italic mt-8 text-carbon-900 dark:text-white'>
         Something went wrong
       </h1>
       {error && <p className="text-carbon-700 dark:text-carbon-400">{error.message}</p>}

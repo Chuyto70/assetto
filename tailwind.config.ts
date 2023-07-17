@@ -100,7 +100,45 @@ export default {
         'carbon-200-inner': '2px 2px 5px 0px rgba(165, 165, 165, 0.90) inset, -2px -2px 4px 0px rgba(255, 255, 255, 0.90) inset, 2px -2px 4px 0px rgba(165, 165, 165, 0.20) inset, -2px 2px 4px 0px rgba(165, 165, 165, 0.20) inset, -1px -1px 2px 0px rgba(165, 165, 165, 0.50), 1px 1px 2px 0px rgba(255, 255, 255, 0.30)'
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      typography: ({ theme }: {theme: any}) => ({
+      typography: ({ theme }: { theme: any }) => ({
+        DEFAULT: {
+          css: {
+            h1: {
+              fontSize: theme('fontSize.2xl')
+            },
+            h2: {
+              fontSize: theme('fontSize.xl')
+            },
+            h3: {
+              fontSize: theme('fontSize.lg')
+            },
+            h4: {
+              fontSize: theme('fontSize.base')
+            },
+            p: {
+              fontSize: theme('fontSize.sm')
+            },
+          }
+        },
+        md: {
+          css: {
+            h1: {
+              fontSize: theme('fontSize.4xl')
+            },
+            h2: {
+              fontSize: theme('fontSize.3xl')
+            },
+            h3: {
+              fontSize: theme('fontSize.2xl')
+            },
+            h4: {
+              fontSize: theme('fontSize.lg')
+            },
+            p: {
+              fontSize: theme('fontSize.base')
+            },
+          }
+        },
         carbon: {
           css: {
             '--tw-prose-body': theme('colors.carbon[800]'),
