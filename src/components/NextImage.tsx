@@ -1,3 +1,5 @@
+'use client';
+
 import Image, { ImageProps } from 'next/image';
 import * as React from 'react';
 
@@ -9,9 +11,9 @@ type NextImageProps = {
   blurClassName?: string;
   alt: string;
 } & (
-  | { width: string | number; height: string | number }
-  | { fill: boolean; width?: string | number; height?: string | number }
-) &
+    | { width: string | number; height: string | number }
+    | { fill: boolean; width?: string | number; height?: string | number }
+  ) &
   ImageProps;
 
 /**
