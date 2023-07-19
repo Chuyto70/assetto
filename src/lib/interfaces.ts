@@ -192,6 +192,7 @@ export type localeProps = {
 };
 
 export interface Media {
+  id: number;
   attributes: {
     alternativeText?: string;
     caption?: string;

@@ -3,6 +3,7 @@ import { gql, GraphQLClient } from 'graphql-request';
 import {
   Category,
   localeProps,
+  Media,
   Menu,
   Order,
   Page,
@@ -1004,6 +1005,40 @@ export const Queryi18NLocales = async () => {
         }
       `
     );
+
+  return response;
+};
+
+/**
+ * Query Media from Strapi
+ * @param id 
+ * @returns media
+ */
+export const QueryMedia = async (id: string) => {
+  const queryVariables = {
+    id,
+  };
+
+  const response = await StrapiClient.request<{ uploadFile: { data: Media } }>(
+    gql`
+      query Media($id: ID!) {
+        uploadFile(id: $id) {
+          data {
+            id
+            attributes {
+              alternativeText
+              caption
+              width
+              height
+              url
+              mime
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
 
   return response;
 };
