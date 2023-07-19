@@ -14,6 +14,7 @@ const ComponentSectionsMediaGrid = gql`
       data {
         id
         attributes {
+          name
           alternativeText
           caption
           width
@@ -54,7 +55,9 @@ const MediaGrid = async (props: { pageID: number; index: number }) => {
           if (media.attributes.mime.startsWith('image/')) {
             return (
               <li key={media.id}>
-                <Link href="/">
+                <Link href={`/${locale}/media/${media.id}${media.attributes.name ? `/${media.attributes.name}` : ``}`}
+                  scroll={false}
+                >
                   <NextImage
                     useSkeleton
                     src={MediaUrl(media.attributes.url)}
@@ -71,7 +74,9 @@ const MediaGrid = async (props: { pageID: number; index: number }) => {
           if (media.attributes.mime.startsWith('video/')) {
             return (
               <li key={media.id}>
-                <Link href="/">
+                <Link href={`/${locale}/media/${media.id}${media.attributes.name ? `/${media.attributes.name}` : ``}`}
+                  scroll={false}
+                >
                   <video
                     autoPlay={true}
                     loop={true}
