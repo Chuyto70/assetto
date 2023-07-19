@@ -2,6 +2,7 @@ import Carousel from "@/components/sections/Carousel";
 import Categories from "@/components/sections/Categories";
 import CtaNumbers from "@/components/sections/CtaNumbers";
 import Faq from "@/components/sections/Faq";
+import GameRequest from "@/components/sections/GameRequest";
 import MdxBlock from "@/components/sections/MdxBlock";
 import Services from "@/components/sections/Services";
 import TypedTitle from "@/components/sections/TypedTitle";
@@ -19,6 +20,7 @@ const sectionComponents = {
   ComponentSectionsCtaNumbers: CtaNumbers,
   ComponentSectionsFaq: Faq,
   ComponentSectionsCategories: Categories,
+  ComponentSectionsGameRequest: GameRequest,
 };
 
 // Display a section individually
