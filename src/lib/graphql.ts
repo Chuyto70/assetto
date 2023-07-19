@@ -7,7 +7,6 @@ import {
   Order,
   Page,
   Product,
-  ProductSize,
   Setting,
 } from '@/lib/interfaces';
 
@@ -981,151 +980,6 @@ export const MutationDeleteOrder = async (id: string) => {
 };
 
 /**
- * Update a product in Strapi
- * @param id
- * @param input product
- * @returns data of product
- */
-export const MutationUpdateProduct = async (
-  id: number,
-  input: Partial<Product['attributes']>
-) => {
-  const queryVariables = {
-    id,
-    input,
-  };
-
-  StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, cache: 'no-store' });
-
-  const response = await StrapiClient.request<{
-    updateProduct: { data: Product };
-  }>(
-    gql`
-      mutation updateProduct($id: ID!, $input: ProductInput!) {
-        updateProduct(id: $id, data: $input) {
-          data {
-            id
-            attributes {
-              title
-              slug
-              price
-              sale_price
-              date_on_sale_from
-              date_on_sale_to
-              medias {
-                data {
-                  attributes {
-                    alternativeText
-                    name
-                    url
-                    width
-                    height
-                    mime
-                  }
-                }
-              }
-              short_description
-              sizes {
-                size
-                quantity
-              }
-              colors {
-                name
-                color
-                product {
-                  data {
-                    id
-                    attributes {
-                      slug
-                    }
-                  }
-                }
-              }
-              categories {
-                data {
-                  attributes {
-                    title
-                    slug
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `,
-    queryVariables
-  );
-
-  return response;
-};
-
-/**
- * Update a product size in Strapi
- * @param id
- * @param input size
- * @returns data of the size
- */
-export const MutationUpdateProductSize = (
-  id: number,
-  input: Partial<ProductSize>
-) => {
-  const queryVariables = {
-    id,
-    input,
-  };
-
-  StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, cache: 'no-store' });
-
-  return StrapiClient.request<{
-    updateProductSize: ProductSize;
-  }>(
-    gql`
-        mutation updateProductSize($id: ID!, $input: ComponentProductsSizesInput!) {
-          updateProductSize(id: $id, data: $input) {
-            ${Object.keys(input).join('\n')}
-          }
-        }
-      `,
-    queryVariables
-  );
-};
-
-/**
- * Update many product sizes in Strapi
- * @param ids
- * @param input size
- * @returns data of the size
- */
-export const MutationUpdateManyProductSize = (
-  ids: number[],
-  input: Partial<ProductSize>[]
-) => {
-  const queryVariables = {
-    ids,
-    input,
-  };
-
-  StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, cache: 'no-store' });
-
-  return StrapiClient.request<{
-    updateManyProductSize: ProductSize[];
-  }>(
-    gql`
-        mutation updateManyProductSize($ids: [ID!], $input: [ComponentProductsSizesInput!]) {
-          updateManyProductSize(ids: $ids, datas: $input) {
-            ${Object.keys(input).join('\n')}
-          }
-        }
-      `,
-    queryVariables
-  );
-};
-
-/**
  * Query locales from Strapi
  * @returns locales
  */
@@ -1150,6 +1004,38 @@ export const Queryi18NLocales = async () => {
         }
       `
     );
+
+  return response;
+};
+
+/**
+ * Update or Create a game-request in Strapi and return details
+ * @param input
+ * @returns data of order
+ */
+export const MutationUpsertGameRequest = async (
+  input: unknown
+) => {
+  const queryVariables = {
+    input,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  const response = await StrapiClient.request<{ upsertGameRequest: { data: unknown } }>(
+    gql`
+      mutation upsertGameRequest($input: GameRequestInput!) {
+        upsertGameRequest(data: $input) {
+          attributes {
+            email
+            game
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
 
   return response;
 };
