@@ -1056,7 +1056,6 @@ export const QueryMediaFromSlug = async (locale: string, slug: string[] | undefi
                   }
                 }
               }
-      
               thumbnail {
                 data {
                   attributes {
@@ -1069,8 +1068,22 @@ export const QueryMediaFromSlug = async (locale: string, slug: string[] | undefi
                   }
                 }
               }
-      
               ext_video
+
+              metadata {
+                template_title
+                title_suffix
+                meta_description
+              }
+              updatedAt
+              localizations {
+                data {
+                  attributes {
+                    slug
+                    locale
+                  }
+                }
+              }
             }
           }
         }

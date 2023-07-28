@@ -219,13 +219,18 @@ export interface Media {
       providerUid: string;
       url: string;
     };
+    metadata: SeoMetadata;
+    updatedAt: string;
+    localizations: {
+      data: Localizations[];
+    };
   }
 }
 
 interface DefaultSeoMetadata {
-  title: string;
-  siteName: string;
-  description: string;
+  title?: string;
+  siteName?: string;
+  description?: string;
 }
 
 interface SeoMetadata {
