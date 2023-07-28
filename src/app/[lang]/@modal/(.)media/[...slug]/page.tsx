@@ -16,9 +16,7 @@ async function MediaModal({
   const { ext_video, media: uploadFile } = media.attributes;
 
   if (uploadFile.data?.attributes.mime.startsWith('image/')) {
-    return <Modal dismissBack={true}
-      className='w-fit sm:w-fit md:w-fit lg:w-fit max-w-none'
-    >
+    return <Modal dismissBack={true}>
       <NextImage
         useSkeleton
         src={MediaUrl(uploadFile.data.attributes.url)}
@@ -26,7 +24,7 @@ async function MediaModal({
         height={uploadFile.data.attributes.height}
         alt={uploadFile.data.attributes.alternativeText ?? ''}
         quality={100}
-        className="border-2 border-carbon-900 dark:border-transparent"
+        className="object-contain w-full"
       />
     </Modal>
   } else if (uploadFile.data?.attributes.mime.startsWith('video/')) {
@@ -40,7 +38,6 @@ async function MediaModal({
         muted={false}
         width={uploadFile.data.attributes.width}
         height={uploadFile.data.attributes.height}
-        className='border-2 border-carbon-900 dark:border-transparent'
       >
         <source
           src={MediaUrl(uploadFile.data.attributes.url)}
@@ -52,6 +49,48 @@ async function MediaModal({
           content={uploadFile.data.attributes.alternativeText}
         />
       </video>
+    </Modal>
+  } else if (ext_video) {
+    return <Modal dismissBack={true}
+      className='aspect-video h-fit'
+    >
+      {ext_video.provider && ext_video.providerUid && (
+        ext_video.provider === "vimeo" && (
+          <iframe
+            src={`https://player.vimeo.com/video/${ext_video.providerUid}`}
+            allowFullScreen
+            frameBorder="0"
+            width="100%"
+            height="100%"
+
+            className='h-full w-full'
+          ></iframe>
+        ) ||
+        ext_video.provider === "youtube" && (
+          <iframe
+            src={`https://www.youtube.com/embed/${ext_video.providerUid}?modestbranding=1&autoplay=1`}
+            allowFullScreen
+            allow="autoplay; encrypted-media"
+            frameBorder="0"
+            width="100%"
+            height="100%"
+
+            className='h-full w-full'
+          ></iframe>
+        ) ||
+        ext_video.provider === "facebook" && (
+          <iframe
+            src={`https://www.facebook.com/plugins/video.php?href=${ext_video.providerUid}&show_text=false&t=0`}
+            allowFullScreen
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            frameBorder="0"
+            width="100%"
+            height="100%"
+
+            className='h-full w-full'
+          />
+        )
+      )}
     </Modal>
   } else return null;
 }

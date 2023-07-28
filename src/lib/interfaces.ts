@@ -214,7 +214,11 @@ export interface Media {
     thumbnail: {
       data?: UploadFile;
     };
-    ext_video?: JSON;
+    ext_video?: {
+      provider: string;
+      providerUid: string;
+      url: string;
+    };
   }
 }
 

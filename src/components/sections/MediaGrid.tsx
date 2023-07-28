@@ -73,7 +73,7 @@ const MediaGrid = async (props: { pageID: number; index: number }) => {
 
   return (
     <section className="w-full max-w-screen-3xl px-3 md:px-6 lg:px-12">
-      <ul className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+      <ul className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-6">
         {medias.data.map((media) => {
           const { ext_video, thumbnail, slug, media: uploadFile } = media.attributes;
 
@@ -90,7 +90,7 @@ const MediaGrid = async (props: { pageID: number; index: number }) => {
                   alt={thumbnail.data?.attributes.alternativeText ?? ''}
                   className="w-full aspect-square rounded-3xl overflow-hidden border-2 border-carbon-900 dark:border-transparent"
                   imgClassName='object-cover object-center w-full h-full'
-                  sizes="100vw, (min-width: 475px) 50vw, (min-width: 1024px) 33vw"
+                  sizes="100vw, (min-width: 475px) 50vw, (min-width: 1024px) 33vw, (min-width: 1536px) 25vw"
                 />
               </Link>
             </li>
@@ -109,7 +109,7 @@ const MediaGrid = async (props: { pageID: number; index: number }) => {
                   alt={uploadFile.data?.attributes.alternativeText ?? ''}
                   className="w-full aspect-square rounded-3xl overflow-hidden border-2 border-carbon-900 dark:border-transparent"
                   imgClassName='object-cover object-center w-full h-full'
-                  sizes="100vw, (min-width: 475px) 50vw, (min-width: 1024px) 33vw"
+                  sizes="100vw, (min-width: 475px) 50vw, (min-width: 1024px) 33vw, (min-width: 1536px) 25vw"
                 />
               </Link>
             </li>
