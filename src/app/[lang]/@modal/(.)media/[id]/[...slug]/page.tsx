@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { QueryMedia } from '@/lib/graphql';
+import { QueryUploadFile } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
 
 import Modal from '@/components/elements/modal/Modal'
@@ -12,7 +12,7 @@ async function MediaModal({
   params: { id: string; slug: string[]; lang: string };
 }) {
 
-  const { uploadFile } = await QueryMedia(id);
+  const { uploadFile } = await QueryUploadFile(id);
 
   if (uploadFile.data.attributes.mime.startsWith('image/')) {
     return <Modal dismissBack={true}

@@ -1,10 +1,5 @@
-import Link from "next/link";
 
 import { gql, QueryContentComponent } from "@/lib/graphql";
-import { MediaUrl } from "@/lib/helper";
-import { Media } from "@/lib/interfaces";
-
-import NextImage from "@/components/NextImage";
 
 import { useServer } from "@/store/serverStore";
 
@@ -14,13 +9,35 @@ const ComponentSectionsMediaGrid = gql`
       data {
         id
         attributes {
-          name
-          alternativeText
-          caption
-          width
-          height
-          url
-          mime
+          slug
+          media {
+            data {
+              attributes {
+                name
+                alternativeText
+                caption
+                width
+                height
+                url
+                mime
+              }
+            }
+          }
+          
+          thumbnail {
+            data {
+              attributes {
+                name
+                alternativeText
+                caption
+                width
+                height
+                url
+              }
+            }
+          }
+          
+          ext_video
         }
       }
     }
@@ -33,7 +50,7 @@ type dataType = {
       attributes: {
         content: {
           medias: {
-            data: Media[];
+            // data: Media[];
           }
         }[];
       };
@@ -51,7 +68,7 @@ const MediaGrid = async (props: { pageID: number; index: number }) => {
   return (
     <section className="w-full max-w-screen-3xl px-3 md:px-6 lg:px-12">
       <ul className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-        {medias.data.map((media) => {
+        {/* {medias.data.map((media) => {
           if (media.attributes.mime.startsWith('image/')) {
             return (
               <li key={media.id}>
@@ -99,7 +116,7 @@ const MediaGrid = async (props: { pageID: number; index: number }) => {
               </li>
             );
           }
-        })}
+        })} */}
       </ul>
     </section>
   )

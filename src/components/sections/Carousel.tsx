@@ -4,7 +4,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 
 import { gql, QueryContentComponent } from "@/lib/graphql";
 import { MediaUrl } from "@/lib/helper";
-import { Media } from "@/lib/interfaces";
+import { UploadFile } from "@/lib/interfaces";
 
 import CarouselItem from "@/components/elements/carousel/CarouselItem";
 import EmblaCarousel from "@/components/elements/carousel/EmblaCarousel";
@@ -43,7 +43,7 @@ type dataType = {
             title: string;
             description: string;
             image: {
-              data: Media;
+              data: UploadFile;
             }
             href: string;
           }[];

@@ -3,12 +3,12 @@ import { gql, GraphQLClient } from 'graphql-request';
 import {
   Category,
   localeProps,
-  Media,
   Menu,
   Order,
   Page,
   Product,
   Setting,
+  UploadFile,
 } from '@/lib/interfaces';
 
 const API_URL = process.env.strapiURL || 'http://localhost:1337';
@@ -1010,18 +1010,18 @@ export const Queryi18NLocales = async () => {
 };
 
 /**
- * Query Media from Strapi
+ * Query UploadFile from Strapi
  * @param id 
  * @returns media
  */
-export const QueryMedia = async (id: string) => {
+export const QueryUploadFile = async (id: string) => {
   const queryVariables = {
     id,
   };
 
-  const response = await StrapiClient.request<{ uploadFile: { data: Media } }>(
+  const response = await StrapiClient.request<{ uploadFile: { data: UploadFile } }>(
     gql`
-      query Media($id: ID!) {
+      query UploadFile($id: ID!) {
         uploadFile(id: $id) {
           data {
             id

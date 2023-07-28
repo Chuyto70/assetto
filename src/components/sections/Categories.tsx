@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { gql, QueryContentComponent } from "@/lib/graphql";
 import { MediaUrl } from "@/lib/helper";
-import { Media, Product } from "@/lib/interfaces";
+import { Product, UploadFile } from "@/lib/interfaces";
 
 import FormatPrice from "@/components/elements/texts/FormatPrice";
 
@@ -63,7 +63,7 @@ type dataType = {
                 slug: string;
                 short_description: string;
                 image: {
-                  data: Media;
+                  data: UploadFile;
                 };
                 products: {
                   data: Product[];
