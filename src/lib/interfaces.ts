@@ -204,6 +204,20 @@ export interface UploadFile {
   };
 }
 
+export interface Media {
+  id: number;
+  attributes: {
+    slug: string;
+    media: {
+      data?: UploadFile;
+    };
+    thumbnail: {
+      data?: UploadFile;
+    };
+    ext_video?: JSON;
+  }
+}
+
 interface DefaultSeoMetadata {
   title: string;
   siteName: string;
