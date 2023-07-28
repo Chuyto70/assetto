@@ -10,6 +10,7 @@ enum Model {
   product = 'product',
   category = 'category',
   menu = 'menu',
+  media = 'media',
 }
 
 enum Tag {
@@ -19,6 +20,7 @@ enum Tag {
   product = 'products',
   category = 'categories',
   menu = 'menus',
+  media = 'medias',
 }
 
 export const POST = async (req: NextRequest) => {

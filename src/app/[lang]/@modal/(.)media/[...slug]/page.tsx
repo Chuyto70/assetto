@@ -1,20 +1,21 @@
-import React from 'react'
 
-import { QueryUploadFile } from '@/lib/graphql';
+
+import { QueryMediaFromSlug } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
 
-import Modal from '@/components/elements/modal/Modal'
+import Modal from '@/components/elements/modal/Modal';
 import NextImage from '@/components/NextImage';
 
 async function MediaModal({
-  params: { id },
+  params: { slug, lang },
 }: {
-  params: { id: string; slug: string[]; lang: string };
+  params: { slug: string[]; lang: string };
 }) {
+  const { medias } = await QueryMediaFromSlug(lang, ['media', ...slug]);
+  const media = medias.data[0];
+  const { ext_video, media: uploadFile } = media.attributes;
 
-  const { uploadFile } = await QueryUploadFile(id);
-
-  if (uploadFile.data.attributes.mime.startsWith('image/')) {
+  if (uploadFile.data?.attributes.mime.startsWith('image/')) {
     return <Modal dismissBack={true}
       className='w-fit sm:w-fit md:w-fit lg:w-fit max-w-none'
     >
@@ -24,10 +25,11 @@ async function MediaModal({
         width={uploadFile.data.attributes.width}
         height={uploadFile.data.attributes.height}
         alt={uploadFile.data.attributes.alternativeText ?? ''}
+        quality={100}
         className="border-2 border-carbon-900 dark:border-transparent"
       />
     </Modal>
-  } else if (uploadFile.data.attributes.mime.startsWith('video/')) {
+  } else if (uploadFile.data?.attributes.mime.startsWith('video/')) {
     return <Modal dismissBack={true}
       className='aspect-video'
     >

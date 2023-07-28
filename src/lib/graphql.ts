@@ -3,12 +3,12 @@ import { gql, GraphQLClient } from 'graphql-request';
 import {
   Category,
   localeProps,
+  Media,
   Menu,
   Order,
   Page,
   Product,
   Setting,
-  UploadFile,
 } from '@/lib/interfaces';
 
 const API_URL = process.env.strapiURL || 'http://localhost:1337';
@@ -1010,28 +1010,67 @@ export const Queryi18NLocales = async () => {
 };
 
 /**
- * Query UploadFile from Strapi
- * @param id 
+ * Query Media from slug
+ * @param locale 
+ * @param slug slugs array
  * @returns media
  */
-export const QueryUploadFile = async (id: string) => {
+export const QueryMediaFromSlug = async (locale: string, slug: string[] | undefined) => {
+  const joinedSlug = !slug
+    ? '/'
+    : slug instanceof Array
+    ? slug.join('/')
+    : Array.of(slug).join('/');
+
   const queryVariables = {
-    id,
+    locale: locale,
+    joinedSlug: joinedSlug,
   };
 
-  const response = await StrapiClient.request<{ uploadFile: { data: UploadFile } }>(
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+  fetch(url, { ...options, next: { tags: ['medias'] } });
+
+  const response = await StrapiClient.request<{ medias: { data: Media[] } }>(
     gql`
-      query UploadFile($id: ID!) {
-        uploadFile(id: $id) {
+      query MediaFromSlug($locale: I18NLocaleCode!, $joinedSlug: String!) {
+        medias(
+          filters: { slug: { eq: $joinedSlug } }
+          locale: $locale
+          pagination: { limit: 1 }
+        ) {
           data {
             id
             attributes {
-              alternativeText
-              caption
-              width
-              height
-              url
-              mime
+              slug
+              media {
+                data {
+                  attributes {
+                    name
+                    alternativeText
+                    caption
+                    width
+                    height
+                    url
+                    mime
+                  }
+                }
+              }
+      
+              thumbnail {
+                data {
+                  attributes {
+                    name
+                    alternativeText
+                    caption
+                    width
+                    height
+                    url
+                  }
+                }
+              }
+      
+              ext_video
             }
           }
         }
