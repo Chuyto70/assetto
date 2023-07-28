@@ -10,7 +10,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string[]; lang: string };
 }): Promise<Metadata> {
-  const { medias } = await QueryMediaFromSlug(lang, ['media', ...slug]);
+  const { medias } = await QueryMediaFromSlug(lang, slug);
   const { seo: defaultSeo } = await QuerySettings(lang);
 
   if (!medias.data.length)

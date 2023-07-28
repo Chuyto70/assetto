@@ -10,7 +10,7 @@ export default async function Page({
 }: {
   params: { slug: string[]; lang: string };
 }) {
-  const { medias } = await QueryMediaFromSlug(lang, ['media', ...slug]);
+  const { medias } = await QueryMediaFromSlug(lang, slug);
   const data = medias.data;
   if (data.length <= 0) return notFound({ lang, slug });
 

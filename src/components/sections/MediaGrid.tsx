@@ -79,7 +79,7 @@ const MediaGrid = async (props: { pageID: number; index: number }) => {
 
           if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
             <li key={media.id}>
-              <Link href={`/${locale}/${slug}`}
+              <Link href={`/${locale}/media/${slug}`}
                 scroll={false}
               >
                 <NextImage
@@ -98,7 +98,7 @@ const MediaGrid = async (props: { pageID: number; index: number }) => {
 
           else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
             <li key={media.id}>
-              <Link href={`/${locale}/${slug}`}
+              <Link href={`/${locale}/media/${slug}`}
                 scroll={false}
               >
                 <NextImage
@@ -117,7 +117,7 @@ const MediaGrid = async (props: { pageID: number; index: number }) => {
 
           else if (uploadFile.data?.attributes.mime.startsWith('video/') && !thumbnail.data) return (
             <li key={media.id}>
-              <Link href={`/${locale}/${slug}`}
+              <Link href={`/${locale}/media/${slug}`}
                 scroll={false}
               >
                 <video

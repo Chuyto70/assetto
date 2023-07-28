@@ -11,7 +11,7 @@ async function MediaModal({
 }: {
   params: { slug: string[]; lang: string };
 }) {
-  const { medias } = await QueryMediaFromSlug(lang, ['media', ...slug]);
+  const { medias } = await QueryMediaFromSlug(lang, slug);
   const media = medias.data[0];
   const { ext_video, media: uploadFile } = media.attributes;
 
