@@ -4,6 +4,7 @@ import CtaNumbers from "@/components/sections/CtaNumbers";
 import Faq from "@/components/sections/Faq";
 import GameRequest from "@/components/sections/GameRequest";
 import MdxBlock from "@/components/sections/MdxBlock";
+import MediaCarousel from "@/components/sections/MediaCarousel";
 import MediaGrid from "@/components/sections/MediaGrid";
 import Services from "@/components/sections/Services";
 import TypedTitle from "@/components/sections/TypedTitle";
@@ -23,6 +24,7 @@ const sectionComponents = {
   ComponentSectionsCategories: Categories,
   ComponentSectionsGameRequest: GameRequest,
   ComponentSectionsMediaGrid: MediaGrid,
+  ComponentSectionsMediaCarousel: MediaCarousel,
 };
 
 // Display a section individually

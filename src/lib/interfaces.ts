@@ -207,6 +207,7 @@ export interface UploadFile {
 export interface Media {
   id: number;
   attributes: {
+    name: string;
     slug: string;
     media: {
       data?: UploadFile;

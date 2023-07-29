@@ -1042,6 +1042,7 @@ export const QueryMediaFromSlug = async (locale: string, slug: string[] | undefi
           data {
             id
             attributes {
+              name
               slug
               media {
                 data {
