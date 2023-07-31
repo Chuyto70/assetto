@@ -141,7 +141,7 @@ export default {
         },
         carbon: {
           css: {
-            '--tw-prose-body': theme('colors.carbon[800]'),
+            '--tw-prose-body': theme('colors.carbon[700]'),
             '--tw-prose-headings': theme('colors.carbon[900]'),
             '--tw-prose-lead': theme('colors.carbon[700]'),
             '--tw-prose-links': theme('colors.carbon[900]'),
@@ -157,7 +157,7 @@ export default {
             '--tw-prose-pre-bg': theme('colors.carbon[900]'),
             '--tw-prose-th-borders': theme('colors.carbon[300]'),
             '--tw-prose-td-borders': theme('colors.carbon[200]'),
-            '--tw-prose-invert-body': theme('colors.carbon[200]'),
+            '--tw-prose-invert-body': theme('colors.carbon[400]'),
             '--tw-prose-invert-headings': theme('colors.white'),
             '--tw-prose-invert-lead': theme('colors.carbon[300]'),
             '--tw-prose-invert-links': theme('colors.white'),

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { gql, QueryContentComponent } from "@/lib/graphql";
 import { MediaUrl } from "@/lib/helper";
-import { Media } from "@/lib/interfaces";
+import { UploadFile } from "@/lib/interfaces";
 
 import { useServer } from "@/store/serverStore";
 
@@ -38,7 +38,7 @@ type dataType = {
           services: {
             id: number;
             icon: {
-              data?: Media;
+              data?: UploadFile;
             }
             title: string;
             description: string;

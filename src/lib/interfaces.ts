@@ -14,7 +14,7 @@ export interface Product {
     description: string;
     short_description?: string;
     medias: {
-      data: Media[];
+      data: UploadFile[];
     };
     categories?: {
       data: Category[];
@@ -94,7 +94,7 @@ export interface Menu {
 export interface Header {
   id: number;
   logo: {
-    data: Media;
+    data: UploadFile;
   };
   logo_link: string;
   items: HeaderItem[];
@@ -115,7 +115,7 @@ export interface Footer {
 export interface FooterColumn {
   id: number;
   logo: {
-    data?: Media;
+    data?: UploadFile;
   };
   title: string;
   description?: string;
@@ -191,7 +191,7 @@ export type localeProps = {
   };
 };
 
-export interface Media {
+export interface UploadFile {
   id: number;
   attributes: {
     alternativeText?: string;
@@ -204,10 +204,34 @@ export interface Media {
   };
 }
 
+export interface Media {
+  id: number;
+  attributes: {
+    name: string;
+    slug: string;
+    media: {
+      data?: UploadFile;
+    };
+    thumbnail: {
+      data?: UploadFile;
+    };
+    ext_video?: {
+      provider: string;
+      providerUid: string;
+      url: string;
+    };
+    metadata: SeoMetadata;
+    updatedAt: string;
+    localizations: {
+      data: Localizations[];
+    };
+  }
+}
+
 interface DefaultSeoMetadata {
-  title: string;
-  siteName: string;
-  description: string;
+  title?: string;
+  siteName?: string;
+  description?: string;
 }
 
 interface SeoMetadata {

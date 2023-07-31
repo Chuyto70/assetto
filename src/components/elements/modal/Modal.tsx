@@ -90,13 +90,14 @@ export default function Modal({ children, className, dismissBack = false, dismis
           <div
             ref={wrapper}
             className={clsxm("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-              "w-full sm:w-10/12 md:w-8/12 lg:w-1/2 max-w-screen-lg max-h-screen",
+              "w-full sm:w-10/12 max-w-screen-lg max-h-screen",
               "overflow-y-scroll no-scrollbar p-6", className)}
           >
             <MotionDiv
               initial={wrapperVariants.closed}
               animate={wrapperVariants.open}
               exit={wrapperVariants.closed}
+              className='h-full w-full'
             >
               {children}
             </MotionDiv>

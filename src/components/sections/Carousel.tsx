@@ -4,7 +4,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 
 import { gql, QueryContentComponent } from "@/lib/graphql";
 import { MediaUrl } from "@/lib/helper";
-import { Media } from "@/lib/interfaces";
+import { UploadFile } from "@/lib/interfaces";
 
 import CarouselItem from "@/components/elements/carousel/CarouselItem";
 import EmblaCarousel from "@/components/elements/carousel/EmblaCarousel";
@@ -43,7 +43,7 @@ type dataType = {
             title: string;
             description: string;
             image: {
-              data: Media;
+              data: UploadFile;
             }
             href: string;
           }[];
@@ -83,7 +83,7 @@ const Carousel = async (props: { pageID: number; index: number }) => {
         <EmblaCarousel
           className="w-full md:w-3/4 md:pr-3 lg:pr-6 shrink-0"
           containerClassName="w-full"
-          options={{ loop: true, containScroll: 'trimSnaps', }}
+          options={{ loop: true, containScroll: 'trimSnaps' }}
           autoplay={true}
           autoplayOptions={{
             delay: 5000,
@@ -104,6 +104,7 @@ const Carousel = async (props: { pageID: number; index: number }) => {
         >
           {items.map((item, index) => (
             <CarouselItem key={item.id}
+              index={index}
               className="relative w-full aspect-square xs:aspect-video rounded-3xl overflow-hidden mr-3 lg:mr-6"
             >
               <Image
