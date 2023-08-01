@@ -60,6 +60,7 @@ export const QuerySettings = async (locale: string) => {
                 description
               }
               payment_provider
+              mapbox_public_key
               default_currency
               currencies
             }

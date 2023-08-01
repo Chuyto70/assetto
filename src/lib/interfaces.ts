@@ -79,6 +79,7 @@ export interface Setting {
     };
     seo: DefaultSeoMetadata;
     payment_provider: string;
+    mapbox_public_key?: string;
     default_currency: string;
     currencies: string[];
   };
