@@ -281,3 +281,13 @@ export enum ENUM_ELEMENTS_LINK_VARIANT {
   light = 'light',
   dark = 'dark',
 }
+
+export enum ENUM_MAX_WIDTH_SCREEN {
+  'default' = '',
+  'none' = 'max-w-none',
+  'max_w_screen_sm' = 'max-w-screen-sm',
+  'max_w_screen_md' = 'max-w-screen-md',
+  'max_w_screen_lg' = 'max-w-screen-lg',
+  'max_w_screen_xl' = 'max-w-screen-xl',
+  'max_w_screen_2xl' = 'max-w-screen-2xl',
+}
