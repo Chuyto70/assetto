@@ -104,10 +104,14 @@ export default {
         DEFAULT: {
           css: {
             h1: {
-              fontSize: theme('fontSize.2xl')
+              fontSize: theme('fontSize.2xl'),
             },
             h2: {
-              fontSize: theme('fontSize.xl')
+              fontSize: theme('fontSize.xl'),
+              a: {
+                color: 'rgb(var(--tw-color-primary-600) / var(--tw-text-opacity))',
+                textDecoration: 'none'
+              }
             },
             h3: {
               fontSize: theme('fontSize.lg')
@@ -118,6 +122,103 @@ export default {
             p: {
               fontSize: theme('fontSize.sm')
             },
+            li: {
+              marginTop: 'unset',
+              marginBottom: 'unset',
+              fontSize: theme('fontSize.sm'),
+            },
+            code: {
+              backgroundColor: theme('colors.carbon[700]'),
+              fontWeight: theme('fontWeight.normal'),
+              borderRadius: '0.375rem',
+              padding: theme('padding.1'),
+              '&::before': {
+                content: 'none !important'
+              },
+              '&::after': {
+                content: 'none !important'
+              }
+            },
+            table: {
+              width: theme('width.fit'),
+              borderColor: theme('colors.carbon[700]'),
+              borderRadius: '0.375rem',
+              borderWidth: '1px',
+              borderCollapse: 'separate',
+              borderSpacing: '0',
+              overflow: 'hidden',
+            },
+            thead: {
+              backgroundColor: theme('colors.carbon[400]'),
+              borderWidth: '0',
+              
+              th: {
+                padding: theme('padding.2'),
+                borderBottomWidth: '1px',
+                borderBottomColor: theme('colors.carbon[700]'),
+
+                '&:not(:last-child)': {
+                  borderRightWidth: '1px',
+                  borderRightColor: theme('colors.carbon[700]'),
+                },
+              },
+            },
+            tbody: {
+
+              td: {
+                padding: theme('padding.2'),
+
+                '&:not(:last-child)': {
+                  borderRightWidth: '1px',
+                  borderRightColor: theme('colors.carbon[700]'),
+                },
+              }
+            },
+
+            "table>thead>tr:not(:last-child)>th": {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.carbon[700]'),
+            },
+            "table>thead>tr:not(:last-child)>td": {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.carbon[700]'),
+            },
+            "table>tbody>tr:not(:last-child)>th": {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.carbon[700]'),
+            },
+            "table>tbody>tr:not(:last-child)>td": {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.carbon[700]'),
+            },
+            "table>tfoot>tr:not(:last-child)>th": {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.carbon[700]'),
+            },
+            "table>tfoot>tr:not(:last-child)>td": {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.carbon[700]'),
+            },
+            "table>tr:not(:last-child)>td": {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.carbon[700]'),
+            },
+            "table>tr:not(:last-child)>th": {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.carbon[700]'),
+            },
+            "table>thead:not(:last-child)": {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.carbon[700]'),
+            },
+            "table>tbody:not(:last-child)": {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.carbon[700]'),
+            },
+            "table>tfoot:not(:last-child)": {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.carbon[700]'),
+            }
           }
         },
         md: {
@@ -126,7 +227,7 @@ export default {
               fontSize: theme('fontSize.4xl')
             },
             h2: {
-              fontSize: theme('fontSize.3xl')
+              fontSize: theme('fontSize.3xl'),
             },
             h3: {
               fontSize: theme('fontSize.2xl')
@@ -137,6 +238,9 @@ export default {
             p: {
               fontSize: theme('fontSize.base')
             },
+            li: {
+              fontSize: theme('fontSize.base'),
+            }
           }
         },
         carbon: {
@@ -152,9 +256,9 @@ export default {
             '--tw-prose-quotes': theme('colors.carbon[900]'),
             '--tw-prose-quote-borders': theme('colors.carbon[300]'),
             '--tw-prose-captions': theme('colors.carbon[700]'),
-            '--tw-prose-code': theme('colors.carbon[900]'),
+            '--tw-prose-code': theme('colors.carbon[100]'),
             '--tw-prose-pre-code': theme('colors.carbon[100]'),
-            '--tw-prose-pre-bg': theme('colors.carbon[900]'),
+            '--tw-prose-pre-bg': theme('colors.carbon[700]'),
             '--tw-prose-th-borders': theme('colors.carbon[300]'),
             '--tw-prose-td-borders': theme('colors.carbon[200]'),
             '--tw-prose-invert-body': theme('colors.carbon[400]'),
@@ -168,13 +272,81 @@ export default {
             '--tw-prose-invert-quotes': theme('colors.carbon[100]'),
             '--tw-prose-invert-quote-borders': theme('colors.carbon[700]'),
             '--tw-prose-invert-captions': theme('colors.carbon[400]'),
-            '--tw-prose-invert-code': theme('colors.white'),
-            '--tw-prose-invert-pre-code': theme('colors.carbon[300]'),
-            '--tw-prose-invert-pre-bg': 'rgb(0 0 0 / 50%)',
+            '--tw-prose-invert-code': theme('colors.carbon[400]'),
+            '--tw-prose-invert-pre-code': theme('colors.carbon[400]'),
+            '--tw-prose-invert-pre-bg': theme('colors.carbon[950]'),
             '--tw-prose-invert-th-borders': theme('colors.carbon[600]'),
             '--tw-prose-invert-td-borders': theme('colors.carbon[700]'),
           },
         },
+        dark: {
+          css: {
+            code: {
+              backgroundColor: theme('colors.carbon[950]'),
+            },
+            table: {
+              borderColor: theme('colors.carbon[400]'),
+            },
+            thead: {
+              backgroundColor: theme('colors.carbon[800]'),
+
+              th: {
+                borderBottomColor: theme('colors.carbon[400]'),
+
+                '&:not(:last-child)': {
+                  borderRightColor: theme('colors.carbon[400]'),
+                },
+              },
+
+              td: {
+                '&:not(:last-child)': {
+                  borderRightColor: theme('colors.carbon[400]'),
+                },
+              },
+            },
+            tbody: {
+
+              td: {
+                '&:not(:last-child)': {
+                  borderRightColor: theme('colors.carbon[400]'),
+                },
+              }
+            },
+            "table>thead>tr:not(:last-child)>th": {
+              borderBottomColor: theme('colors.carbon[400]'),
+            },
+            "table>thead>tr:not(:last-child)>td": {
+              borderBottomColor: theme('colors.carbon[400]'),
+            },
+            "table>tbody>tr:not(:last-child)>th": {
+              borderBottomColor: theme('colors.carbon[400]'),
+            },
+            "table>tbody>tr:not(:last-child)>td": {
+              borderBottomColor: theme('colors.carbon[400]'),
+            },
+            "table>tfoot>tr:not(:last-child)>th": {
+              borderBottomColor: theme('colors.carbon[400]'),
+            },
+            "table>tfoot>tr:not(:last-child)>td": {
+              borderBottomColor: theme('colors.carbon[400]'),
+            },
+            "table>tr:not(:last-child)>td": {
+              borderBottomColor: theme('colors.carbon[400]'),
+            },
+            "table>tr:not(:last-child)>th": {
+              borderBottomColor: theme('colors.carbon[400]'),
+            },
+            "table>thead:not(:last-child)": {
+              borderBottomColor: theme('colors.carbon[400]'),
+            },
+            "table>tbody:not(:last-child)": {
+              borderBottomColor: theme('colors.carbon[400]'),
+            },
+            "table>tfoot:not(:last-child)": {
+              borderBottomColor: theme('colors.carbon[400]'),
+            }
+          }
+        }
       }),
     },
   },

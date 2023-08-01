@@ -9,6 +9,7 @@ import {
   Page,
   Product,
   Setting,
+  UploadFile,
 } from '@/lib/interfaces';
 
 const API_URL = process.env.strapiURL || 'http://localhost:1337';
@@ -1085,6 +1086,47 @@ export const QueryMediaFromSlug = async (locale: string, slug: string[] | undefi
                   }
                 }
               }
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return response;
+};
+
+/**
+ * Query Media from slug
+ * @param locale 
+ * @param slug slugs array
+ * @returns media
+ */
+export const QueryUploadFileFromSrc = async (src: string) => {
+
+  const queryVariables = {
+    src,
+  };
+
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+  fetch(url, { ...options, next: { tags: ['files'] } });
+
+  const response = await StrapiClient.request<{ uploadFiles: { data: UploadFile[] } }>(
+    gql`
+      query uploadFileFromSrc($src: String!) {
+        uploadFiles(filters: { url: { eq: $src } }) {
+          data {
+            id
+            attributes {
+              name
+              url
+              width
+              height
+              mime
+              caption
+              alternativeText
             }
           }
         }

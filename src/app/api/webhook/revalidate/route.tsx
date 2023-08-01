@@ -11,6 +11,7 @@ enum Model {
   category = 'category',
   menu = 'menu',
   media = 'media',
+  file = 'file',
 }
 
 enum Tag {
@@ -21,6 +22,7 @@ enum Tag {
   category = 'categories',
   menu = 'menus',
   media = 'medias',
+  file = 'files',
 }
 
 export const POST = async (req: NextRequest) => {

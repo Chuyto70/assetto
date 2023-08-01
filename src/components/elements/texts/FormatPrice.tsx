@@ -5,7 +5,7 @@ import Price from "@/components/elements/texts/Price";
 
 const FormatPrice = ({ text, prices }: { text: string; prices: ProductPrice[] }) => {
 
-  const formattedPrice = text?.split(/\${([^}]*)}/).map((item, index) => {
+  return text?.split(/\${([^}]*)}/).map((item, index) => {
     if (index % 2 === 0) return <span key={index}>{item}</span>;
     else if (item === 'price') {
       return <Price key={index} prices={prices} />;
@@ -14,9 +14,6 @@ const FormatPrice = ({ text, prices }: { text: string; prices: ProductPrice[] })
     } else return null;
   });
 
-  return (
-    <>{formattedPrice}</>
-  )
 }
 
 export default FormatPrice;
