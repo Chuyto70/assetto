@@ -124,7 +124,8 @@ export default {
             },
             li: {
               marginTop: 'unset',
-              marginBottom: 'unset'
+              marginBottom: 'unset',
+              fontSize: theme('fontSize.sm'),
             },
             code: {
               backgroundColor: theme('colors.carbon[700]'),
@@ -152,7 +153,6 @@ export default {
               borderWidth: '0',
               
               th: {
-                minWidth: theme('width.72'),
                 padding: theme('padding.2'),
                 borderBottomWidth: '1px',
                 borderBottomColor: theme('colors.carbon[700]'),
@@ -238,6 +238,9 @@ export default {
             p: {
               fontSize: theme('fontSize.base')
             },
+            li: {
+              fontSize: theme('fontSize.base'),
+            }
           }
         },
         carbon: {

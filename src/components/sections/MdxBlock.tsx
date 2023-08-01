@@ -6,7 +6,11 @@ import clsxm from "@/lib/clsxm";
 import { gql, QueryContentComponent } from "@/lib/graphql";
 import { ENUM_MAX_WIDTH_SCREEN } from "@/lib/interfaces";
 
-import PreCode from "@/components/elements/mdx/PreCode";
+import MdxImage from "@/components/elements/images/MdxImage";
+import AlertBlock from "@/components/elements/texts/AlertBlock";
+import P from "@/components/elements/texts/P";
+import PreCode from "@/components/elements/texts/PreCode";
+import Table from "@/components/elements/texts/Table";
 
 import { useServer } from "@/store/serverStore";
 
@@ -32,6 +36,10 @@ type dataType = {
 
 const components = {
   pre: PreCode,
+  table: Table,
+  AlertBlock: AlertBlock,
+  p: P,
+  img: MdxImage,
 }
 
 const MdxBlock = async (props: { pageID: number; index: number }) => {
@@ -40,7 +48,7 @@ const MdxBlock = async (props: { pageID: number; index: number }) => {
   const { text, max_width } = content[props.index];
 
   return (
-    <section className={clsxm("mx-3 md:mx-6 lg:mx-12 prose prose-carbon dark:prose-invert dark:prose-dark md:prose-md prose-h1:italic", ENUM_MAX_WIDTH_SCREEN[max_width])}>
+    <section className={clsxm("px-3 md:px-6 lg:px-12 prose prose-carbon dark:prose-invert dark:prose-dark md:prose-md prose-h1:italic w-full", ENUM_MAX_WIDTH_SCREEN[max_width])}>
       <MDXRemote source={text} options={{
         mdxOptions: {
           remarkPlugins: [remarkGfm, [remarkEmoji, { accessible: true }]],

@@ -26,7 +26,7 @@ const PreCode = (props: { children?: ReactNode }) => {
     <div className="relative group/pre-code">
       <button
         onClick={copyToClipboard}
-        className="absolute top-4 right-4 opacity-0 group-hover/pre-code:opacity-100 text-xl text-carbon-100 dark:text-carbon-400 hover:text-carbon-50 dark:hover:text-carbon-200 transition-all duration-300"
+        className="absolute top-4 right-4 p-1 opacity-0 group-hover/pre-code:opacity-100 bg-carbon-700 dark:bg-carbon-950 rounded-full text-xl text-carbon-100 dark:text-carbon-400 hover:text-carbon-50 dark:hover:text-carbon-200 transition-all duration-300"
       >
         <DynamicIcon icon="tabler:clipboard" />
       </button>
