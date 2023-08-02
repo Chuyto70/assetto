@@ -67,6 +67,7 @@
     "@types/mapbox-gl": "^2.7.12",
     "@types/node": "^20.4.1",
     "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
     "autoprefixer": "^10.4.14",

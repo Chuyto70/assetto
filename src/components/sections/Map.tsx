@@ -63,7 +63,7 @@ const Map = async (props: { pageID: number; index: number }) => {
   const locale = useServer.getState().locale;
   const { mapbox_public_key } = await QuerySettings(locale);
   const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsMap, 'sectionsMap');
-  const { title, description, latitude, longitude, zoom, style } = content[props.index];
+  const { title, description, latitude, longitude, zoom, style, markers } = content[props.index];
 
   return (
     <section className="w-full flex flex-col items-center gap-6">
@@ -77,6 +77,7 @@ const Map = async (props: { pageID: number; index: number }) => {
         longitude={longitude}
         zoom={zoom}
         style={style}
+        markers={markers}
         className="max-w-screen-3xl w-full h-[500px]"
       />}
     </section>
