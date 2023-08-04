@@ -53,9 +53,9 @@ const Contact = async (props: { pageID: number; index: number }) => {
         <span className='absolute top-0 left-1/2 -translate-x-1/2 rounded-full bg-secondary-600 w-60 h-60'></span>
         <div className="w-full flex flex-col items-center justify-center gap-3 md:gap-6 p-3 md:p-6 rounded-3xl border-2 border-carbon-900 dark:border-carbon-200 bg-carbon-200/40 dark:bg-carbon-600/40 backdrop-blur-200">
           {title && <h2 className="italic uppercase">{title}</h2>}
-          {description && <p className="text-center">{description}</p>}
+          {description && <p className="text-carbon-700 dark:text-carbon-400 text-center">{description}</p>}
           <ContactForm
-            labels={{
+            label={{
               name: field_name,
               email: field_email,
               subject: field_subject,
@@ -68,6 +68,7 @@ const Contact = async (props: { pageID: number; index: number }) => {
               message: field_message_placeholder
             }}
             submitText={field_submit}
+            className="w-full flex flex-col items-center gap-3"
           />
         </div>
       </div>

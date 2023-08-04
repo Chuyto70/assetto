@@ -1,13 +1,14 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { get, useForm } from 'react-hook-form';
 import { InferType, object, string } from 'yup';
 
 import clsxm from '@/lib/clsxm';
 
 import Button from '@/components/elements/buttons/Button';
 import FormInput from '@/components/elements/forms/molecules/FormInput';
+import FormTextArea from '@/components/elements/forms/molecules/FormTextArea';
 
 import { useToaster } from '@/store/toasterStore';
 
@@ -24,6 +25,7 @@ export type ContactFormType = InferType<typeof schema>;
 
 const ContactForm = ({
   placeholder,
+  label,
   submitText,
   className,
 }: {
@@ -33,7 +35,7 @@ const ContactForm = ({
     subject?: string;
     message?: string;
   };
-  labels: {
+  label: {
     name: string;
     email: string;
     subject: string;
@@ -63,25 +65,60 @@ const ContactForm = ({
         className
       )}
     >
-      <FormInput
-        name='email'
-        label='Email'
-        placeholder={placeholder?.email}
-        className="rounded-full w-full py-2 px-3 border-2 border-carbon-700 bg-transparent placeholder:text-carbon-700 text-sm md:text-base"
-        register={register}
-        errors={errors}
-        errorClassName='text-red-600 text-sm'
-      />
 
-      <FormInput
-        name='subject'
-        label='Subject'
-        placeholder={placeholder?.subject}
-        className="rounded-full w-full py-2 px-3 border-2 border-carbon-700 bg-transparent placeholder:text-carbon-700 text-sm md:text-base"
-        register={register}
-        errors={errors}
-        errorClassName='text-red-600 text-sm'
-      />
+      <span className='w-full'>
+        {label.name && <label htmlFor="Name">{label.name}</label>}
+        <FormInput
+          name='name'
+          label='Name'
+          placeholder={placeholder?.name}
+          className={clsxm("rounded-full w-full mt-1 py-2 px-3 border-2 border-carbon-700 dark:bg-carbon-900 placeholder:text-carbon-700 dark:placeholder:text-carbon-400 text-sm md:text-base", get(errors, 'name') && 'border-red-600')}
+          register={register}
+          errors={errors}
+          errorClassName='text-red-600 text-sm'
+        />
+      </span>
+
+      <span className='w-full'>
+        {label.email && <label htmlFor="Email">{label.email}</label>}
+        <FormInput
+          name='email'
+          label='Email'
+          placeholder={placeholder?.email}
+          className={clsxm("rounded-full w-full mt-1 py-2 px-3 border-2 border-carbon-700 dark:bg-carbon-900 placeholder:text-carbon-700 dark:placeholder:text-carbon-400 text-sm md:text-base", get(errors, 'email') && 'border-red-600')}
+          register={register}
+          errors={errors}
+          errorClassName='text-red-600 text-sm'
+        />
+      </span>
+
+      <span className='w-full'>
+        {label.subject && <label htmlFor="Subject">{label.subject}</label>}
+        <FormInput
+          name='subject'
+          label='Subject'
+          placeholder={placeholder?.subject}
+          className={clsxm("rounded-full w-full mt-1 py-2 px-3 border-2 border-carbon-700 dark:bg-carbon-900 placeholder:text-carbon-700 dark:placeholder:text-carbon-400 text-sm md:text-base", get(errors, 'subject') && 'border-red-600')}
+          register={register}
+          errors={errors}
+          errorClassName='text-red-600 text-sm'
+        />
+      </span>
+
+      <span className='w-full'>
+        {label.email && <label htmlFor="Message">{label.message}</label>}
+        <FormTextArea
+          name='message'
+          label='Message'
+          placeholder={placeholder?.message}
+          className={clsxm("rounded-2xl w-full mt-1 py-2 px-3 border-2 border-carbon-700 dark:bg-carbon-900 placeholder:text-carbon-700 dark:placeholder:text-carbon-400 text-sm md:text-base", get(errors, 'message') && 'border-red-600')}
+          register={register}
+          errors={errors}
+          errorClassName='text-red-600 text-sm'
+          rows={5}
+        />
+      </span>
+
       <Button
         type='submit'
         variant='primary'
