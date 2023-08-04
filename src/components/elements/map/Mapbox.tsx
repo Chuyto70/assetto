@@ -6,7 +6,6 @@ import { createPortal } from "react-dom";
 import { createRoot } from 'react-dom/client';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
-
 import clsxm from "@/lib/clsxm";
 import { LinkInterface } from "@/lib/interfaces";
 
@@ -29,7 +28,7 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
   markers?: MarkerType[];
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<Map | null>(null);
+  const mapElement = useRef<Map | null>(null);
   const markerList = useRef<Marker[]>([]);
 
   const createPopup = (marker: MarkerType) => {
@@ -41,7 +40,7 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
   const createMarkers = useCallback(() => {
     if (!markers) return;
     markers.forEach((el) => {
-      if (!map.current) return;
+      if (!mapElement.current) return;
       const element = document.createElement('div');
       element.className = 'flex';
 
@@ -58,7 +57,7 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
       })
         .setLngLat([el.longitude, el.latitude])
         .setPopup(createPopup(el))
-        .addTo(map.current));
+        .addTo(mapElement.current));
     });
 
     return () => {
@@ -70,7 +69,7 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
 
   useEffect(() => {
     if (!mapContainer.current) return;
-    map.current = new Map({
+    mapElement.current = new Map({
       container: mapContainer.current,
       style,
       center: [longitude, latitude],
@@ -80,8 +79,8 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
     createMarkers();
 
     return () => {
-      if (!map.current) return;
-      map.current.remove();
+      if (!mapElement.current) return;
+      mapElement.current.remove();
     }
   }, [createMarkers, latitude, longitude, mapbox_public_key, style, zoom]);
 
