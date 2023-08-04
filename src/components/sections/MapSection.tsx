@@ -59,7 +59,7 @@ type dataType = {
   };
 };
 
-const Map = async (props: { pageID: number; index: number }) => {
+const MapSection = async (props: { pageID: number; index: number }) => {
   const locale = useServer.getState().locale;
   const { mapbox_public_key } = await QuerySettings(locale);
   const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsMap, 'sectionsMap');
@@ -84,4 +84,4 @@ const Map = async (props: { pageID: number; index: number }) => {
   )
 }
 
-export default Map;
+export default MapSection;
