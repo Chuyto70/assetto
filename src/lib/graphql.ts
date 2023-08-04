@@ -12,6 +12,8 @@ import {
   UploadFile,
 } from '@/lib/interfaces';
 
+import { ContactFormType } from '@/components/elements/forms/ContactForm';
+
 const API_URL = process.env.strapiURL || 'http://localhost:1337';
 const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
 
@@ -1163,6 +1165,35 @@ export const MutationUpsertGameRequest = async (
             game
           }
         }
+      }
+    `,
+    queryVariables
+  );
+
+  return response;
+};
+
+/**
+ * Request Strapi to send contact mail
+ * @param input
+ * @returns data of order
+ */
+export const MutationSendContactMail = async (
+  locale: string,
+  data: ContactFormType
+) => {
+  const queryVariables = {
+    locale,
+    data,
+  };
+
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, cache: 'no-store' });
+
+  const response = await StrapiClient.request<{ sendContactMail: { data: null } }>(
+    gql`
+      mutation sendContactMail($locale: I18NLocaleCode!, $data: sendContactMailDataType!) {
+        sendContactMail(locale: $locale, data: $data)
       }
     `,
     queryVariables

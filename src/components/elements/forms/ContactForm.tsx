@@ -10,7 +10,10 @@ import Button from '@/components/elements/buttons/Button';
 import FormInput from '@/components/elements/forms/molecules/FormInput';
 import FormTextArea from '@/components/elements/forms/molecules/FormTextArea';
 
+import { useServer } from '@/store/serverStore';
 import { useToaster } from '@/store/toasterStore';
+
+import { sendContactMail } from '@/actions/strapi/send-contact-mail';
 
 const schema = object({
   email: string()
@@ -46,6 +49,7 @@ const ContactForm = ({
   inputClassName?: string;
   buttonClassName?: string;
 }) => {
+  const locale = useServer((state) => state.locale);
   const notify = useToaster((state) => state.notify);
 
   const { formState: { errors }, handleSubmit, register } = useForm<ContactFormType>({
@@ -55,7 +59,24 @@ const ContactForm = ({
   });
 
   const submitContact = (data: ContactFormType) => {
-    // submit contact
+    sendContactMail(locale, data)
+      .then(() =>
+        notify(
+          0,
+          <p>
+            !Votre demande a été prise en compte, merci
+          </p>
+        )
+      )
+      .catch(() =>
+        notify(
+          1,
+          <p>
+            !Oups, il y a eu un problème avec votre inscription, veuillez
+            réessayer plus tard
+          </p>
+        )
+      );
   };
 
   return (
