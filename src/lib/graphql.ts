@@ -9,6 +9,7 @@ import {
   Order,
   Page,
   Product,
+  QueryMetaProps,
   Setting,
   UploadFile,
 } from '@/lib/interfaces';
@@ -471,7 +472,7 @@ export const QueryLatestArticle = async (locale: string, page: number, pageSize:
     });
 
   const { articles } = await StrapiClient.request<{
-    articles: { data: Article[] };
+    articles: { data: Article[], meta: QueryMetaProps };
   }>(
     gql`
       query latestArticles($locale: I18NLocaleCode!, $page: Int!, $pageSize: Int!) {
@@ -502,7 +503,7 @@ export const QueryLatestArticle = async (locale: string, page: number, pageSize:
                 }
               }
               author
-              updatedAt
+              publishedAt
             }
           }
           meta {

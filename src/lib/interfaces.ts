@@ -74,8 +74,12 @@ export interface Article {
     title: string;
     slug: string;
     short_description: string;
-    thumbnail: UploadFile;
-    cover?: UploadFile;
+    thumbnail: {
+      data: UploadFile
+    };
+    cover: {
+      data?: UploadFile
+    };
     content: string;
     author: string;
     metadata: SeoMetadata;
@@ -245,6 +249,13 @@ export interface Media {
     localizations: {
       data: Localizations[];
     };
+  }
+}
+
+export interface QueryMetaProps {
+  pagination?: {
+    page: number;
+    pageCount: number;
   }
 }
 
