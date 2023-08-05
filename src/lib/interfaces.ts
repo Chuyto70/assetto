@@ -23,7 +23,7 @@ export interface Product {
     metadata: SeoMetadata;
     locale: string;
     updatedAt: string;
-    localizations: {
+    localizations?: {
       data: Localizations[];
     };
   };
@@ -45,7 +45,7 @@ export interface Category {
     metadata: SeoMetadata;
     locale: string;
     updatedAt: string;
-    localizations: {
+    localizations?: {
       data: Localizations[];
     };
   };
@@ -62,10 +62,29 @@ export interface Page {
     metadata: SeoMetadata;
     locale: string;
     updatedAt: string;
-    localizations: {
+    localizations?: {
       data: Localizations[];
     };
   };
+}
+
+export interface Article {
+  id: number;
+  attributes: {
+    title: string;
+    slug: string;
+    short_description: string;
+    thumbnail: UploadFile;
+    cover?: UploadFile;
+    content: string;
+    author: string;
+    metadata: SeoMetadata;
+    updatedAt?: string;
+    publishedAt?: string;
+    localizations?: {
+      data: Localizations[];
+    };
+  }
 }
 
 export interface Setting {

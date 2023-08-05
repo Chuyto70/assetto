@@ -1,6 +1,7 @@
 import { gql, GraphQLClient } from 'graphql-request';
 
 import {
+  Article,
   Category,
   localeProps,
   Media,
@@ -446,6 +447,77 @@ export const QueryPageFromSlug = async (
   );
 
   return pages;
+};
+
+/**
+ * Query a latest articles
+ * @param locale locale of the article
+ * @param page number of page to query
+ * @param pageSize number of the page size to query
+ * @returns multiple articles
+ */
+export const QueryLatestArticle = async (locale: string, page: number, pageSize: number) => {
+  const queryVariables = {
+    locale,
+    page,
+    pageSize
+  };
+
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, {
+      ...options,
+      next: { tags: ['articles'] },
+    });
+
+  const { articles } = await StrapiClient.request<{
+    articles: { data: Article[] };
+  }>(
+    gql`
+      query latestArticles($locale: I18NLocaleCode!, $page: Int!, $pageSize: Int!) {
+        articles(
+          locale: $locale
+          publicationState: LIVE
+          sort: "DESC"
+          pagination: { page: $page, pageSize: $pageSize }
+        ) {
+          data {
+            id
+            attributes {
+              title
+              slug
+              short_description
+              thumbnail {
+                data {
+                  id
+                  attributes {
+                    name
+                    alternativeText
+                    caption
+                    width
+                    height
+                    url
+                    mime
+                  }
+                }
+              }
+              author
+              updatedAt
+            }
+          }
+          meta {
+            pagination {
+              page
+              pageCount
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return articles;
 };
 
 /**

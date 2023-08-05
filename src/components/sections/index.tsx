@@ -4,6 +4,7 @@ import Contact from "@/components/sections/Contact";
 import CtaNumbers from "@/components/sections/CtaNumbers";
 import Faq from "@/components/sections/Faq";
 import GameRequest from "@/components/sections/GameRequest";
+import LatestArticles from "@/components/sections/LatestArticles";
 import MapSection from "@/components/sections/MapSection";
 import MdxBlock from "@/components/sections/MdxBlock";
 import MediaCarousel from "@/components/sections/MediaCarousel";
@@ -29,6 +30,7 @@ const sectionComponents = {
   ComponentSectionsMediaCarousel: MediaCarousel,
   ComponentSectionsMap: MapSection,
   ComponentSectionsContact: Contact,
+  ComponentSectionsLatestArticles: LatestArticles,
 };
 
 // Display a section individually

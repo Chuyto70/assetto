@@ -10,6 +10,7 @@ import MdxImage from "@/components/elements/images/MdxImage";
 import AlertBlock from "@/components/elements/texts/AlertBlock";
 import P from "@/components/elements/texts/P";
 import PreCode from "@/components/elements/texts/PreCode";
+import StatusText from "@/components/elements/texts/StatusText";
 import Table from "@/components/elements/texts/Table";
 
 import { useServer } from "@/store/serverStore";
@@ -40,6 +41,7 @@ const components = {
   AlertBlock: AlertBlock,
   p: P,
   img: MdxImage,
+  StatusText: StatusText
 }
 
 const MdxBlock = async (props: { pageID: number; index: number }) => {
