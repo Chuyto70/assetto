@@ -15,7 +15,7 @@ export default function NotFound({
 
   return (
     <div className='w-full max-w-screen-md px-3 md:px-6 lg:px-12 flex flex-1 flex-col items-center justify-center text-center text-black'>
-      <h1 className='uppercase italic mt-8 text-carbon-900 dark:text-white'>
+      <h1 className='italic mt-8 text-carbon-900 dark:text-white'>
         {translations.errors?.page_not_found}{slug && ` | ${slug}`}
       </h1>
       {lang && (

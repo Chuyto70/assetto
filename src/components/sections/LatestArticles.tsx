@@ -46,7 +46,7 @@ const LatestArticles = async (props: { pageID: number; index: number }) => {
 
   return (
     <section className="w-full max-w-screen-xl px-3 md:px-6 lg:px-12 flex flex-col items-center gap-3 md:gap-6">
-      {title && <h2 className="italic uppercase">{title}</h2>}
+      {title && <h2 className="italic">{title}</h2>}
       {status_text && <StatusText className="text-md" status={status} icon={status_icon} ><p className="font-semibold">{status_text}</p></StatusText>}
 
       <ArticlesList

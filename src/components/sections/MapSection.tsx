@@ -68,7 +68,7 @@ const MapSection = async (props: { pageID: number; index: number }) => {
   return (
     <section className="w-full flex flex-col items-center gap-6">
       <div className="px-3 md:px-6 lg:px-12 max-w-screen-2xl flex flex-col items-center text-center md:text-left gap-3 md:flex-row md:justify-between lg:gap-6">
-        {title && <h2 className="italic uppercase md:w-1/2">{title}</h2>}
+        {title && <h2 className="italic md:w-1/2">{title}</h2>}
         {description && <p className={clsxm("md:w-1/2 text-carbon-700 dark:text-carbon-400", title && 'md:text-right')}>{description}</p>}
       </div>
       {mapbox_public_key && <Mapbox

@@ -451,6 +451,75 @@ export const QueryPageFromSlug = async (
 };
 
 /**
+ * Query a single category from Strapi
+ * @param locale language of the requested page
+ * @param slug array of slugs
+ * @returns data of a page with direct content
+ */
+export const QueryCategoryFromSlug = async (
+  locale: string,
+  slug: string[] | undefined
+) => {
+  const joinedSlug = !slug
+    ? '/'
+    : slug instanceof Array
+    ? slug.join('/')
+    : Array.of(slug).join('/');
+
+  const queryVariables = {
+    locale: locale,
+    joinedSlug: joinedSlug,
+  };
+
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: ['categories'] } });
+
+  const { categories } = await StrapiClient.request<{ categories: { data: Category[]}}>(
+    gql`
+      query CategoryFromSlug($locale: I18NLocaleCode!, $joinedSlug: String!) {
+        categories(
+          filters: { slug: { eq: $joinedSlug } }
+          locale: $locale
+          pagination: { limit: 1 }
+        ) {
+          data {
+            id
+            attributes {
+              title
+              slug
+              description
+              products {
+                data {
+                  id
+                  attributes {
+                    title
+                  }
+                }
+              }
+              content {
+                __typename
+              }
+              localizations {
+                data {
+                  attributes {
+                    slug
+                    locale
+                  }
+                }
+              }
+            }
+          }
+        }
+      }    
+    `,
+    queryVariables
+  );
+
+  return categories;
+};
+
+/**
  * Query a single article from Strapi
  * @param locale language of the requested page
  * @param slug array of slugs

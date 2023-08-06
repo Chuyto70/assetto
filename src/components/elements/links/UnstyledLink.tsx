@@ -9,6 +9,7 @@ export type UnstyledLinkProps = {
   openNewTab?: boolean;
   className?: string;
   nextLinkProps?: Omit<LinkProps, 'href'>;
+  scroll?: boolean;
 } & React.ComponentPropsWithRef<'a'>;
 
 const UnstyledLink = React.forwardRef<HTMLAnchorElement, UnstyledLinkProps>(
