@@ -1,22 +1,9 @@
 import { clsx } from 'clsx';
-import { NextApiRequest } from 'next';
-import { ImageResponse } from 'next/server';
+import { ImageResponse, NextRequest } from 'next/server';
 
 import { deploymentURL } from '@/constant/env';
 
-export const GET = async (req: NextApiRequest) => {
-
-  const inter400 = fetch(
-    new URL('../../../assets/fonts/Inter-Regular.ttf', import.meta.url)
-  ).then((res) => res.arrayBuffer());
-  
-  const inter700 = fetch(
-    new URL('../../../assets/fonts/Inter-Bold.ttf', import.meta.url)
-  ).then((res) => res.arrayBuffer());
-  
-  const interRegular = await inter400;
-  const interBold = await inter700;
-
+export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url ? req.url : 'locahost');
 
   const siteName = searchParams.get('siteName');
@@ -31,7 +18,7 @@ export const GET = async (req: NextApiRequest) => {
     siteName: siteName ?? 'Site Name',
     description: description ?? 'Description',
     theme: theme ?? 'dark',
-    logo: logo ?? `${deploymentURL}/images/new-tab.png`,
+    logo: logo ?? `${deploymentURL}/images/favicon.png`,
     templateTitle,
     logoWidth: logoWidth ? +logoWidth : 100,
     logoHeight: logoHeight ? +logoHeight : undefined,
@@ -43,7 +30,7 @@ export const GET = async (req: NextApiRequest) => {
         style={{
           height: '100%',
           width: '100%',
-          fontFamily: 'Inter',
+          fontFamily: 'Rachana',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -53,14 +40,16 @@ export const GET = async (req: NextApiRequest) => {
           backgroundColor: clsx(query.theme === 'dark' ? '#222' : '#fff'),
         }}
       >
-        <picture><img
-          style={{
-            width: query.logoWidth,
-            ...(query.logoHeight && { height: query.logoHeight }),
-          }}
-          src={query.logo}
-          alt='Favicon'
-        /></picture>
+        <picture>
+          <img
+            style={{
+              width: query.logoWidth,
+              ...(query.logoHeight && { height: query.logoHeight }),
+            }}
+            src={query.logo}
+            alt='Favicon'
+          />
+        </picture>
         {query.templateTitle ? (
           <div
             style={{
@@ -112,21 +101,9 @@ export const GET = async (req: NextApiRequest) => {
     {
       width: 1200,
       height: 630,
-      emoji: 'twemoji',
-      fonts: [
-        {
-          name: 'Inter',
-          data: interRegular,
-          weight: 400,
-        },
-        {
-          name: 'Inter',
-          data: interBold,
-          weight: 700,
-        },
-      ],
+      emoji: 'twemoji'
     }
   );
-}
+};
 
 export const runtime = 'edge';

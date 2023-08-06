@@ -1,4 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
+
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig = {
   eslint: {
     dirs: ['src'],
@@ -7,16 +13,15 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
 
-  experimental: {
-    appDir: true
+  env: {
+    strapiURL: process.env.STRAPI_URL,
   },
 
-  // Uncoment to add domain whitelist
-  // images: {
-  //   domains: [
-  //     'res.cloudinary.com',
-  //   ],
-  // },
+  // Domain whitelist
+  images: {
+    domains: process.env.IMAGES_DOMAINS?.split(', '),
+    deviceSizes: [475, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+  },
 
   // SVGR
   webpack(config) {
@@ -36,6 +41,9 @@ const nextConfig = {
 
     return config;
   },
+  experimental: {
+    serverActions: true,
+  },
 };
 
-module.exports = nextConfig;
+module.exports = withBundleAnalyzer(nextConfig);
