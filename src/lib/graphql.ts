@@ -451,6 +451,78 @@ export const QueryPageFromSlug = async (
 };
 
 /**
+ * Query a single article from Strapi
+ * @param locale language of the requested page
+ * @param slug array of slugs
+ * @returns data of a page with direct content
+ */
+export const QueryArticleFromSlug = async (
+  locale: string,
+  slug: string[] | undefined
+) => {
+  const joinedSlug = !slug
+    ? '/'
+    : slug instanceof Array
+    ? slug.join('/')
+    : Array.of(slug).join('/');
+
+  const queryVariables = {
+    locale: locale,
+    joinedSlug: joinedSlug,
+  };
+
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: ['articles'] } });
+
+  const { articles } = await StrapiClient.request<{ articles: { data: Article[]}}>(
+    gql`
+      query ArticleFromSlug($locale: I18NLocaleCode!, $joinedSlug: String!) {
+        articles(
+          filters: { slug: { eq: $joinedSlug } }
+          locale: $locale
+          pagination: { limit: 1 }
+        ) {
+          data {
+            id
+            attributes {
+              title
+              slug
+              short_description
+              cover {
+                data {
+                  id
+                  attributes {
+                    name
+                    width
+                    height
+                    alternativeText
+                    caption
+                    url
+                    mime
+                  }
+                }
+              }
+              content
+              author
+              metadata {
+                template_title
+                title_suffix
+                meta_description
+              }
+              publishedAt
+            }
+          }
+        }
+      }    
+    `,
+    queryVariables
+  );
+
+  return articles;
+};
+
+/**
  * Query a latest articles
  * @param locale locale of the article
  * @param page number of page to query
@@ -479,7 +551,7 @@ export const QueryLatestArticle = async (locale: string, page: number, pageSize:
         articles(
           locale: $locale
           publicationState: LIVE
-          sort: "DESC"
+          sort: "createdAt:desc"
           pagination: { page: $page, pageSize: $pageSize }
         ) {
           data {
