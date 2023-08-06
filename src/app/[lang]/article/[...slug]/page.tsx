@@ -1,6 +1,9 @@
-import { QueryMediaFromSlug } from "@/lib/graphql";
+import { format, parseISO } from "date-fns";
+
+import { QueryArticleFromSlug } from "@/lib/graphql";
 import { MediaUrl } from "@/lib/helper";
 
+import RemoteMDX from "@/components/elements/texts/RemoteMDX";
 import NextImage from "@/components/NextImage";
 
 import notFound from "@/app/[lang]/not-found";
@@ -10,90 +13,38 @@ export default async function Page({
 }: {
   params: { slug: string[]; lang: string };
 }) {
-  const { medias } = await QueryMediaFromSlug(lang, slug);
-  const data = medias.data;
+  const { data } = await QueryArticleFromSlug(lang, slug);
   if (data.length <= 0) return notFound({ lang, slug });
 
-  const media = medias.data[0];
-  const { ext_video, media: uploadFile } = media.attributes;
+  const { title, cover, author, publishedAt, content } = data[0].attributes;
 
-  if (uploadFile.data && uploadFile.data.attributes.mime.startsWith('image/')) {
-    return <div className="max-w-screen-3xl">
-      <NextImage
-        useSkeleton
-        src={MediaUrl(uploadFile.data.attributes.url)}
-        width={uploadFile.data.attributes.width}
-        height={uploadFile.data.attributes.height}
-        alt={uploadFile.data.attributes.alternativeText ?? ''}
-        quality={100}
-        className="w-full"
-      />
+  return (
+    <div
+      className="w-full max-w-screen-xl pb-3 md:pb-6 overflow-hidden flex flex-col gap-3 md:gap-6"
+    >
+      <div className="relative w-full h-48 flex justify-center items-center">
+        {cover.data && <NextImage
+          className='absolute w-full h-full after:absolute after:block after:top-0 after:left-0 after:w-full after:h-full after:bg-carbon-900/40'
+          imgClassName='w-full h-full object-cover object-center'
+          useSkeleton
+          width={cover.data.attributes.width}
+          height={cover.data.attributes.height}
+          src={MediaUrl(cover.data.attributes.url)}
+          alt={cover.data.attributes.alternativeText ?? ''}
+        />}
+        <h1 className="relative z-10 text-white text-center">{title}</h1>
+      </div>
+
+      <div className='w-full flex justify-center gap-1 text-carbon-700 dark:text-carbon-400 font-semibold'>
+        <address rel="author">{author}</address>
+        <span>-</span>
+        <time dateTime={publishedAt}>{format(parseISO(publishedAt ?? '1970-01-01'), 'dd/MM/yyyy')}</time>
+      </div>
+
+      <div className="px-3 md:px-6 prose prose-carbon dark:prose-invert dark:prose-dark md:prose-md max-w-full prose-h1:italic ">
+        <RemoteMDX source={content} />
+      </div>
     </div>
-  }
+  )
 
-  if (uploadFile.data && uploadFile.data.attributes.mime.startsWith('video/')) {
-    return <div className="h-[80vh] max-w-full aspect-video">
-      <video
-        autoPlay={true}
-        controls={true}
-        loop={false}
-        muted={false}
-        width={uploadFile.data.attributes.width}
-        height={uploadFile.data.attributes.height}
-        className="max-w-full"
-      >
-        <source
-          src={MediaUrl(uploadFile.data.attributes.url)}
-          type={uploadFile.data.attributes.mime}
-        />
-        <meta itemProp='name' content={uploadFile.data.attributes.name} />
-        <meta
-          itemProp='description'
-          content={uploadFile.data.attributes.alternativeText}
-        />
-      </video>
-    </div>
-  }
-
-  return <div className="h-[80vh] max-w-full aspect-video">
-    {ext_video && (
-      ext_video.provider && ext_video.providerUid && (
-        ext_video.provider === "vimeo" && (
-          <iframe
-            src={`https://player.vimeo.com/video/${ext_video.providerUid}`}
-            allowFullScreen
-            frameBorder="0"
-            width="100%"
-            height="100%"
-
-            className='aspect-video h-full'
-          ></iframe>
-        ) ||
-        ext_video.provider === "youtube" && (
-          <iframe
-            src={`https://www.youtube.com/embed/${ext_video.providerUid}?modestbranding=1&autoplay=1`}
-            allowFullScreen
-            allow="autoplay; encrypted-media"
-            frameBorder="0"
-            width="100%"
-            height="100%"
-
-            className='aspect-video h-full'
-          ></iframe>
-        ) ||
-        ext_video.provider === "facebook" && (
-          <iframe
-            src={`https://www.facebook.com/plugins/video.php?href=${ext_video.providerUid}&show_text=false&t=0`}
-            allowFullScreen
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-            frameBorder="0"
-            width="100%"
-            height="100%"
-
-            className='aspect-video h-full'
-          />
-        )
-      )
-    )}
-  </div>
 }

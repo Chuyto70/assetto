@@ -2,7 +2,7 @@ import formatISO from "date-fns/formatISO";
 import parseISO from "date-fns/parseISO";
 import { Metadata } from "next";
 
-import { QueryMediaFromSlug, QuerySettings } from "@/lib/graphql";
+import { QueryArticleFromSlug, QuerySettings } from "@/lib/graphql";
 import { seo } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -10,13 +10,11 @@ export async function generateMetadata({
 }: {
   params: { slug: string[]; lang: string };
 }): Promise<Metadata> {
-  const { medias } = await QueryMediaFromSlug(lang, slug);
+  const { data } = await QueryArticleFromSlug(lang, slug);
   const { seo: defaultSeo } = await QuerySettings(lang);
 
-  if (!medias.data.length)
+  if (!data.length)
     return seo({ ...defaultSeo });
-
-  const data = medias.data;
 
   const {
     metadata: meta,
@@ -32,7 +30,7 @@ export async function generateMetadata({
     description: meta.meta_description || defaultSeo.description,
     path: path,
     lang: lang,
-    date: formatISO(parseISO(updatedAt)),
+    date: formatISO(parseISO(updatedAt ?? '01/01/1970')),
     localizations: localizations,
   });
   return metadata;

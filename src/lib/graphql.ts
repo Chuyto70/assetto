@@ -511,6 +511,7 @@ export const QueryArticleFromSlug = async (
                 meta_description
               }
               publishedAt
+              updatedAt
             }
           }
         }
