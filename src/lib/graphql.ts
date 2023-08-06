@@ -489,11 +489,35 @@ export const QueryCategoryFromSlug = async (
               title
               slug
               description
+              price_text
+              btn_text
               products {
                 data {
                   id
                   attributes {
                     title
+                    description
+                    medias {
+                      data {
+                        attributes {
+                          name
+                          width
+                          height
+                          caption
+                          alternativeText
+                          url
+                          mime
+                        }
+                      }
+                    }
+                    prices {
+                      price
+                      sale_price
+                      on_sale_to
+                      on_sale_from
+                      currency
+                      currency_symbol
+                    }
                   }
                 }
               }
@@ -511,7 +535,7 @@ export const QueryCategoryFromSlug = async (
             }
           }
         }
-      }    
+      }
     `,
     queryVariables
   );

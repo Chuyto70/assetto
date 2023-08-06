@@ -6,9 +6,9 @@ const Currency = (props: { prices: { price: number; currency: string; currency_s
   const userCurrency = useServer((state) => state.currency);
   const currentPrice = props.prices.find((el) => el.currency === userCurrency);
   return (
-    <>
+    <span className="currency_symbol">
       {currentPrice?.currency_symbol}
-    </>
+    </span>
   )
 }
 
