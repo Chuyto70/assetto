@@ -19,16 +19,16 @@ export default function Toast({ children, close, type }: Type) {
     type === ToasterTypes.INFO
       ? 'border-gray-600 text-gray-600'
       : type === ToasterTypes.SUCCESS
-      ? 'border-green-600 text-green-600'
-      : type === ToasterTypes.WARNING
-      ? 'border-yellow-600 text-yellow-600'
-      : 'border-red-600 text-red-600';
+        ? 'border-green-600 text-green-600'
+        : type === ToasterTypes.WARNING
+          ? 'border-yellow-600 text-yellow-600'
+          : 'border-red-600 text-red-600';
 
   return (
     <div
       className={clsxm(
         color,
-        'flex max-w-xs flex-row items-center justify-between gap-4 rounded-full border-2 bg-white/60 p-4 backdrop-blur-lg lg:max-w-lg'
+        'flex max-w-xs flex-row items-center justify-between gap-4 rounded-full border-2 bg-carbon-400/40 dark:bg-carbon-700/40 px-3 py-2 backdrop-blur-lg lg:max-w-lg'
       )}
     >
       {type === ToasterTypes.INFO && (
@@ -46,7 +46,7 @@ export default function Toast({ children, close, type }: Type) {
       <div className='flex items-center gap-2'>{children}</div>
       <IconButton
         icon='ion:close'
-        className='h-6 w-6 rounded-full border-0 bg-transparent text-gray-400 shadow-none'
+        className='h-6 w-6 rounded-full border-0 dark:text-carbon-200 dark:hover:text-carbon-700 bg-transparent shadow-none'
         variant='light'
         onClick={close}
       />
