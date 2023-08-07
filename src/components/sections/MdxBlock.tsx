@@ -14,21 +14,19 @@ const ComponentSectionsMdxBlock = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          text: string;
-          max_width: keyof typeof ENUM_MAX_WIDTH_SCREEN;
-        }[];
-      };
+  data: {
+    attributes: {
+      content: {
+        text: string;
+        max_width: keyof typeof ENUM_MAX_WIDTH_SCREEN;
+      }[];
     };
   };
 };
 
-const MdxBlock = async (props: { pageID: number; index: number }) => {
+const MdxBlock = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsMdxBlock, 'sectionsMdxBlock');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType], ComponentSectionsMdxBlock, 'sectionsMdxBlock');
   const { text, max_width } = content[props.index];
 
   return (

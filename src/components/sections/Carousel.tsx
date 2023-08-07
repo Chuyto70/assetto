@@ -34,29 +34,27 @@ const ComponentSectionsCarousel = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          items: {
-            id: number;
-            title: string;
-            description: string;
-            image: {
-              data: UploadFile;
-            }
-            href: string;
-          }[];
+  data: {
+    attributes: {
+      content: {
+        items: {
+          id: number;
+          title: string;
+          description: string;
+          image: {
+            data: UploadFile;
+          }
+          href: string;
         }[];
-      };
+      }[];
     };
   };
 };
 
 
-const Carousel = async (props: { pageID: number; index: number }) => {
+const Carousel = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsCarousel, 'sectionsCarousel');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType], ComponentSectionsCarousel, 'sectionsCarousel');
   const { items } = content[props.index];
 
   const thumbs = items.map((item) => (

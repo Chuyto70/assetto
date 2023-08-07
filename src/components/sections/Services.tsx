@@ -30,30 +30,28 @@ const ComponentSectionsServices = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          title?: string;
-          description?: string;
-          services: {
-            id: number;
-            icon: {
-              data?: UploadFile;
-            }
-            title: string;
-            description: string;
-          }[];
+  data: {
+    attributes: {
+      content: {
+        title?: string;
+        description?: string;
+        services: {
+          id: number;
+          icon: {
+            data?: UploadFile;
+          }
+          title: string;
+          description: string;
         }[];
-      };
+      }[];
     };
   };
 };
 
 
-const Services = async (props: { pageID: number; index: number }) => {
+const Services = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsServices, 'sectionsServices');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType], ComponentSectionsServices, 'sectionsServices');
   const { title, description, services } = content[props.index];
 
   return (

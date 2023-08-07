@@ -21,30 +21,28 @@ const ComponentSectionsContact = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          title?: string;
-          description?: string;
-          field_name: string;
-          field_name_placeholder?: string;
-          field_email: string;
-          field_email_placeholder?: string;
-          field_subject: string;
-          field_subject_placeholder?: string;
-          field_message: string;
-          field_message_placeholder?: string;
-          field_submit: string;
-        }[];
-      };
+  data: {
+    attributes: {
+      content: {
+        title?: string;
+        description?: string;
+        field_name: string;
+        field_name_placeholder?: string;
+        field_email: string;
+        field_email_placeholder?: string;
+        field_subject: string;
+        field_subject_placeholder?: string;
+        field_message: string;
+        field_message_placeholder?: string;
+        field_submit: string;
+      }[];
     };
   };
 };
 
-const Contact = async (props: { pageID: number; index: number }) => {
+const Contact = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsContact, 'sectionsContact');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType], ComponentSectionsContact, 'sectionsContact');
   const { title, description, field_email, field_message, field_name, field_subject, field_submit, field_email_placeholder, field_message_placeholder, field_name_placeholder, field_subject_placeholder } = content[props.index];
 
   return (

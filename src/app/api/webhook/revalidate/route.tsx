@@ -15,18 +15,6 @@ enum Model {
   file = 'file',
 }
 
-enum Tag {
-  setting = 'settings',
-  'static-text' = 'static_texts',
-  page = 'pages',
-  article = 'articles',
-  product = 'products',
-  category = 'categories',
-  menu = 'menus',
-  media = 'medias',
-  file = 'files',
-}
-
 export const POST = async (req: NextRequest) => {
   if (req.headers.get('Authorization')) {
     const reqToken = req.headers.get('Authorization');
@@ -36,8 +24,7 @@ export const POST = async (req: NextRequest) => {
       const { model } = data;
       logger(model, 'revalidate tag');
       if (model in Model) {
-        const tag = Tag[model as Model] as string;
-        revalidateTag(tag);
+        revalidateTag(model);
         return NextResponse.json(
           { revalidated: true, now: Date.now() },
           { status: 200 }

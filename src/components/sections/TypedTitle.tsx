@@ -13,23 +13,21 @@ const ComponentSectionsTypedTitle = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          titles: {
-            text: string;
-          }[];
+  data: {
+    attributes: {
+      content: {
+        titles: {
+          text: string;
         }[];
-      };
+      }[];
     };
   };
 };
 
 
-const TypedTitle = async (props: { pageID: number; index: number }) => {
+const TypedTitle = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsTypedTitle, 'sectionsTypedTitle');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType], ComponentSectionsTypedTitle, 'sectionsTypedTitle');
   const { titles } = content[props.index];
 
   return (

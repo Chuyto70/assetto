@@ -51,23 +51,21 @@ const ComponentSectionsMediaGrid = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          medias: {
-            data: Media[];
-          }
-        }[];
-      };
+  data: {
+    attributes: {
+      content: {
+        medias: {
+          data: Media[];
+        }
+      }[];
     };
   };
 };
 
 
-const MediaGrid = async (props: { pageID: number; index: number }) => {
+const MediaGrid = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages', 'medias'], ComponentSectionsMediaGrid, 'sectionsMediaGrid');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType, 'media'], ComponentSectionsMediaGrid, 'sectionsMediaGrid');
   const { medias } = content[props.index];
 
 

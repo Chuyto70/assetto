@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import clsxm from '@/lib/clsxm';
+import { ENUM_ELEMENTS_LINK_DIRECTION } from '@/lib/interfaces';
 
 import DynamicIcon from '@/components/elements/DynamicIcon';
 import UnstyledLink, {
@@ -20,10 +21,9 @@ export type ButtonLinkProps = {
   isDarkBg?: boolean;
   variant?: (typeof ButtonLinkVariant)[number];
   size?: (typeof ButtonLinkSize)[number];
-  leftIcon?: string;
-  rightIcon?: string;
-  leftIconClassName?: string;
-  rightIconClassName?: string;
+  icon?: string;
+  iconClassName?: string;
+  direction?: ENUM_ELEMENTS_LINK_DIRECTION;
 } & UnstyledLinkProps;
 
 const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
@@ -34,10 +34,9 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
       variant = 'primary',
       size = 'base',
       isDarkBg = false,
-      leftIcon: LeftIcon,
-      rightIcon: RightIcon,
-      leftIconClassName,
-      rightIconClassName,
+      icon,
+      iconClassName,
+      direction,
       ...rest
     },
     ref
@@ -97,42 +96,20 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
           className
         )}
       >
-        {LeftIcon && (
-          <div
-            className={clsxm([
-              size === 'base' && 'mr-1',
-              size === 'sm' && 'mr-1.5',
-            ])}
-          >
+        {direction === 'left' && icon && (
+          <div className={clsxm(['base mr-1'])}>
             <DynamicIcon
-              icon={LeftIcon}
-              className={clsxm(
-                [
-                  size === 'base' && 'md:text-md text-md',
-                  size === 'sm' && 'md:text-md text-sm',
-                ],
-                leftIconClassName
-              )}
+              icon={icon}
+              className={clsxm('base md:text-md text-md', iconClassName)}
             />
           </div>
         )}
         {children}
-        {RightIcon && (
-          <div
-            className={clsxm([
-              size === 'base' && 'ml-1',
-              size === 'sm' && 'ml-1.5',
-            ])}
-          >
+        {(direction === 'right' || direction === undefined) && icon && (
+          <div className={clsxm(['base ml-1'])}>
             <DynamicIcon
-              icon={RightIcon}
-              className={clsxm(
-                [
-                  size === 'base' && 'text-md md:text-md',
-                  size === 'sm' && 'md:text-md text-sm',
-                ],
-                rightIconClassName
-              )}
+              icon={icon}
+              className={clsxm('base text-md md:text-md', iconClassName)}
             />
           </div>
         )}

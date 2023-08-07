@@ -35,34 +35,32 @@ const ComponentSectionsMap = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          title?: string;
-          description?: string;
+  data: {
+    attributes: {
+      content: {
+        title?: string;
+        description?: string;
+        latitude: number;
+        longitude: number;
+        zoom: number;
+        style: string;
+        markers: {
+          id: number;
+          name: string;
           latitude: number;
           longitude: number;
-          zoom: number;
-          style: string;
-          markers: {
-            id: number;
-            name: string;
-            latitude: number;
-            longitude: number;
-            color: string;
-            link?: LinkInterface;
-          }[];
+          color: string;
+          link?: LinkInterface;
         }[];
-      };
+      }[];
     };
   };
 };
 
-const MapSection = async (props: { pageID: number; index: number }) => {
+const MapSection = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
   const { mapbox_public_key } = await QuerySettings(locale);
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsMap, 'sectionsMap');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType], ComponentSectionsMap, 'sectionsMap');
   const { title, description, latitude, longitude, zoom, style, markers } = content[props.index];
 
   return (

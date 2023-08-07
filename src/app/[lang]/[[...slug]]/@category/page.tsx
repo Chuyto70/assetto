@@ -92,7 +92,7 @@ const CategoryPage = async ({
 
         </div>
       </section>
-      <Sections sections={content as unknown as [sectionTypeProps]} pageID={pageID} />
+      <Sections sections={content as unknown as [sectionTypeProps]} pageID={pageID} pageType="category" />
     </>
   );
 };

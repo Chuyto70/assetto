@@ -70,8 +70,8 @@ const ArticlesList = ({ articles, pageSize = 3, pageCount = 1, page = 1, loadMor
                   scroll={false}
                   variant='dark'
                   className='w-fit'
-                  rightIcon='material-symbols:chevron-right-rounded'
-                  rightIconClassName='w-6 h-6 md:w-8 md:h-8'
+                  icon='material-symbols:chevron-right-rounded'
+                  iconClassName='w-6 h-6 md:w-8 md:h-8'
                 >{linkText}</ButtonLink>
               </div>
             </article>
