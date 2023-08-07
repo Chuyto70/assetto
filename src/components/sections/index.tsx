@@ -1,3 +1,4 @@
+import Benefits from "@/components/sections/Benefits";
 import Carousel from "@/components/sections/Carousel";
 import Categories from "@/components/sections/Categories";
 import Contact from "@/components/sections/Contact";
@@ -33,6 +34,7 @@ const sectionComponents = {
   ComponentSectionsContact: Contact,
   ComponentSectionsLatestArticles: LatestArticles,
   ComponentSectionsPreview: Preview,
+  ComponentSectionsBenefits: Benefits,
 };
 
 // Display a section individually
