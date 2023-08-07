@@ -3,6 +3,7 @@ import Carousel from "@/components/sections/Carousel";
 import Categories from "@/components/sections/Categories";
 import Contact from "@/components/sections/Contact";
 import CtaNumbers from "@/components/sections/CtaNumbers";
+import Display from "@/components/sections/Display";
 import Faq from "@/components/sections/Faq";
 import GameRequest from "@/components/sections/GameRequest";
 import LatestArticles from "@/components/sections/LatestArticles";
@@ -35,6 +36,7 @@ const sectionComponents = {
   ComponentSectionsLatestArticles: LatestArticles,
   ComponentSectionsPreview: Preview,
   ComponentSectionsBenefits: Benefits,
+  ComponentSectionsDisplay: Display,
 };
 
 // Display a section individually
