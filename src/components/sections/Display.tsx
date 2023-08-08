@@ -15,6 +15,7 @@ const ComponentSectionsDisplay = gql`
   fragment sectionDisplay on ComponentSectionsDisplay {
     title
     description
+    scrolling_speed
     medias {
       data {
         id
@@ -69,6 +70,7 @@ type dataType = {
       content: {
         title?: string;
         description?: string;
+        scrolling_speed: number;
         link: LinkInterface;
         medias: {
           data: Media[];
@@ -82,7 +84,7 @@ type dataType = {
 const Display = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
   const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType], ComponentSectionsDisplay, 'sectionDisplay');
-  const { title, description, link, medias } = content[props.index];
+  const { title, description, scrolling_speed, link, medias } = content[props.index];
 
   return (
     <section className={clsxm("w-full px-3 md:px-6 lg:px-12 max-w-screen-2xl flex flex-col lg:flex-row lg:items-center gap-6",
@@ -160,7 +162,51 @@ const Display = async (props: { pageID: number; index: number; pageType: string;
 
       {/* 5 and more medias */}
       {medias.data.length > 4 && <div className="w-full overflow-hidden">
-        <FramerInfinite leftToRight={true} >
+        <FramerInfinite speed={scrolling_speed} >
+          {medias.data.map((media) => {
+            const { ext_video, thumbnail, slug, media: uploadFile } = media.attributes;
+
+            if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
+
+              <NextLink href={`/${locale}/media/${slug}`}
+                key={media.id}
+                scroll={false}
+                className="shrink-0 grow-0 w-60 md:w-96 h-fit p-3"
+              >
+                <NextImage
+                  useSkeleton
+                  src={MediaUrl(thumbnail.data?.attributes.url ?? '')}
+                  width={thumbnail.data?.attributes.width ?? 0}
+                  height={thumbnail.data?.attributes.height ?? 0}
+                  alt={thumbnail.data?.attributes.alternativeText ?? ''}
+                  className="w-full aspect-video rounded-xl overflow-hidden"
+                  imgClassName='object-cover object-center w-full h-full'
+                />
+              </NextLink>
+
+            );
+
+            else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
+
+              <NextLink href={`/${locale}/media/${slug}`}
+                key={media.id}
+                scroll={false}
+                className="shrink-0 grow-0 w-60 md:w-96 h-fit p-3"
+              >
+                <NextImage
+                  useSkeleton
+                  src={MediaUrl(uploadFile.data?.attributes.url ?? '')}
+                  width={uploadFile.data?.attributes.width ?? 0}
+                  height={uploadFile.data?.attributes.height ?? 0}
+                  alt={uploadFile.data?.attributes.alternativeText ?? ''}
+                  className="w-full aspect-video rounded-xl overflow-hidden"
+                  imgClassName='object-cover object-center w-full h-full'
+                />
+              </NextLink>
+            );
+          })}
+        </FramerInfinite>
+        <FramerInfinite speed={scrolling_speed} leftToRight={true} >
           {medias.data.map((media) => {
             const { ext_video, thumbnail, slug, media: uploadFile } = media.attributes;
 
