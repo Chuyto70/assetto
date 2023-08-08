@@ -1,9 +1,12 @@
+import NextLink from "next/link";
 
 import clsxm from "@/lib/clsxm";
 import { gql, QueryContentComponent } from "@/lib/graphql";
+import { MediaUrl } from "@/lib/helper";
 import { LinkInterface, Media } from "@/lib/interfaces";
 
 import Link from "@/components/elements/links";
+import NextImage from "@/components/NextImage";
 
 import { useServer } from "@/store/serverStore";
 
@@ -81,21 +84,68 @@ const Display = async (props: { pageID: number; index: number; pageType: string;
   const { title, description, link, medias } = content[props.index];
 
   return (
-    <section className="w-full px-3 md:px-6 lg:px-12 lg:max-w-screen-2xl flex flex-col gap-6">
-      <div className="flex flex-col items-center text-center md:text-left gap-3 md:flex-row md:justify-between lg:gap-6">
-        {title && <h2 className="italic md:w-1/2">{title}</h2>}
-        {description && !link && <p className={clsxm("md:w-1/2 text-carbon-700 dark:text-carbon-400", title && 'md:text-right')}>{description}</p>}
-        {link && <Link
-          href={link.href}
-          openNewTab={link.open_new_tab}
-          style={link.style}
-          variant={link.variant}
-          icon={link.icon}
-          direction={link.direction}
-          size="lg"
-        >{link.name}</Link>}
+    <section className="w-full px-3 md:px-6 lg:px-12 lg:max-w-screen-2xl flex flex-col lg:flex-row lg:items-center gap-6">
+      <div className="lg:w-1/2 lg:h-fit flex flex-col items-center text-center md:text-left gap-3 md:flex-row lg:flex-col md:justify-between lg:gap-6">
+        {title && <h2 className="italic md:w-1/2 lg:w-full">{title}</h2>}
+        <div className="md:w-1/2 lg:w-full flex flex-col gap-3 lg:gap-6 items-center md:items-end lg:items-start">
+          {description && <p className={clsxm("text-carbon-700 dark:text-carbon-400", title && 'md:text-right lg:text-left')}>{description}</p>}
+          {link && <Link
+            href={link.href}
+            openNewTab={link.open_new_tab}
+            style={link.style}
+            variant={link.variant}
+            icon={link.icon}
+            direction={link.direction}
+            size="lg"
+            className=""
+          >{link.name}</Link>}
+        </div>
       </div>
 
+      <div className="lg:w-1/2 h-fit flex flex-wrap justify-center items-start">
+        {medias.data.map((media) => {
+          const { ext_video, thumbnail, slug, media: uploadFile } = media.attributes;
+
+          if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
+
+            <NextLink href={`/${locale}/media/${slug}`}
+              key={media.id}
+              scroll={false}
+              className="w-1/2 h-fit p-3"
+            >
+              <NextImage
+                useSkeleton
+                src={MediaUrl(thumbnail.data?.attributes.url ?? '')}
+                width={thumbnail.data?.attributes.width ?? 0}
+                height={thumbnail.data?.attributes.height ?? 0}
+                alt={thumbnail.data?.attributes.alternativeText ?? ''}
+                className="w-full aspect-video rounded-xl overflow-hidden shadow-xl"
+                imgClassName='object-cover object-center w-full h-full'
+              />
+            </NextLink>
+
+          );
+
+          else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
+
+            <NextLink href={`/${locale}/media/${slug}`}
+              key={media.id}
+              scroll={false}
+              className="w-1/2 h-fit p-3"
+            >
+              <NextImage
+                useSkeleton
+                src={MediaUrl(uploadFile.data?.attributes.url ?? '')}
+                width={uploadFile.data?.attributes.width ?? 0}
+                height={uploadFile.data?.attributes.height ?? 0}
+                alt={uploadFile.data?.attributes.alternativeText ?? ''}
+                className="w-full aspect-video rounded-xl overflow-hidden shadow-xl"
+                imgClassName='object-cover object-center w-full h-full'
+              />
+            </NextLink>
+          );
+        })}
+      </div>
     </section>
   )
 }
