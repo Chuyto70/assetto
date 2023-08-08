@@ -69,7 +69,7 @@ const Benefits = async (props: { pageID: number; index: number; pageType: string
   const { title, benefits } = content[props.index];
 
   return (
-    <section className="w-full px-3 md:px-6 lg:px-12 lg:max-w-screen-2xl flex flex-col items-center gap-6 md:gap-12">
+    <section className="w-full px-3 md:px-6 lg:px-12 max-w-screen-2xl flex flex-col items-center gap-6 md:gap-12">
       <h2 className="italic text-center">{title}</h2>
       <div className={clsxm("w-full grid grid-cols-1 gap-6 md:gap-12",
         benefits.length > 1 && 'xs:grid-cols-2',

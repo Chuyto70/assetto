@@ -91,7 +91,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
   const { title, description, link, image_1, image_2, image_3 } = content[props.index];
 
   return (
-    <section className="w-full px-3 md:px-6 lg:px-12 lg:max-w-screen-2xl flex flex-col lg:flex-row items-center gap-6 md:gap-12">
+    <section className="w-full px-3 md:px-6 lg:px-12 max-w-screen-2xl flex flex-col lg:flex-row items-center gap-6 md:gap-12">
       <div className="lg:w-1/2 flex flex-col items-center lg:items-start lg:justify-center gap-3 md:gap-6">
         <h2 className="text-center lg:text-left italic">{title}</h2>
         <p className="text-center lg:text-left">{description}</p>
