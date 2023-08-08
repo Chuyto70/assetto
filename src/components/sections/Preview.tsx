@@ -92,7 +92,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
 
   return (
     <section className="w-full px-3 md:px-6 lg:px-12 lg:max-w-screen-2xl flex flex-col lg:flex-row items-center gap-6 md:gap-12">
-      <div className="lg:w-3/5 flex flex-col items-center lg:items-start lg:justify-center gap-3 md:gap-6">
+      <div className="lg:w-1/2 flex flex-col items-center lg:items-start lg:justify-center gap-3 md:gap-6">
         <h2 className="text-center lg:text-left italic">{title}</h2>
         <p className="text-center lg:text-left">{description}</p>
         <Link
@@ -105,7 +105,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
           size="lg"
         >{link.name}</Link>
       </div>
-      <div className="xs:w-4/5 lg:w-2/5 grid grid-cols-4 grid-rows-3 gap-3 md:gap-6">
+      <div className="xs:w-4/5 lg:w-1/2 grid grid-cols-4 grid-rows-3 gap-3 md:gap-6">
         <NextImage
           useSkeleton
           src={MediaUrl(image_1.data.attributes.url)}

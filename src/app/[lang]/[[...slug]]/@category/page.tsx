@@ -82,7 +82,7 @@ const CategoryPage = async ({
                 <div className="prose prose-carbon dark:prose-invert dark:prose-dark md:prose-md max-w-full">
                   <RemoteMDX source={product.attributes.description} />
                 </div>
-                <div className="flex justify-center">
+                <div className="w-full flex justify-center">
                   <ButtonLink className="md:text-lg font-semibold px-6" href="#">{btn_text}</ButtonLink>
                 </div>
               </div>
