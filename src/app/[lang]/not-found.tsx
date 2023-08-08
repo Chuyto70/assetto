@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { ENUM_ELEMENTS_LINK_DIRECTION } from '@/lib/interfaces';
+
 import ButtonLink from '@/components/elements/links/ButtonLink';
 
 import { useServer } from '@/store/serverStore';
@@ -21,8 +23,9 @@ export default function NotFound({
       {lang && (
         <ButtonLink
           variant='dark'
-          rightIcon='octicon:chevron-right-12'
-          rightIconClassName='w-4 h-4 md:w-6 md:h-6'
+          icon='octicon:chevron-right-12'
+          iconClassName='w-4 h-4 md:w-6 md:h-6'
+          direction={ENUM_ELEMENTS_LINK_DIRECTION.right}
           size='xl'
           className='mt-4 text-lg md:text-xl font-semibold' href={`/${lang ?? ''}`}
         >

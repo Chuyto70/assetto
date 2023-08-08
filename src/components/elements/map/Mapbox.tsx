@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import { createRoot } from 'react-dom/client';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
+
 import clsxm from "@/lib/clsxm";
 import { LinkInterface } from "@/lib/interfaces";
 
