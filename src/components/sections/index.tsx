@@ -13,6 +13,7 @@ import MediaCarousel from "@/components/sections/MediaCarousel";
 import MediaGrid from "@/components/sections/MediaGrid";
 import Preview from "@/components/sections/Preview";
 import Services from "@/components/sections/Services";
+import Testimonials from "@/components/sections/Testimonials";
 import TypedTitle from "@/components/sections/TypedTitle";
 
 export type sectionTypeProps = {
@@ -37,6 +38,7 @@ const sectionComponents = {
   ComponentSectionsPreview: Preview,
   ComponentSectionsBenefits: Benefits,
   ComponentSectionsDisplay: Display,
+  ComponentSectionsTestimonials: Testimonials,
 };
 
 // Display a section individually
