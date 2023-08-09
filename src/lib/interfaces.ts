@@ -109,6 +109,7 @@ export interface Setting {
     payment_provider: string;
     mapbox_public_key?: string;
     paypal_client_id?: string;
+    google_tag_id?: string;
     default_currency: string;
     currencies: string[];
   };
