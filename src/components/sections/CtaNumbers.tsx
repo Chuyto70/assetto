@@ -23,31 +23,29 @@ const ComponentSectionsCtaNumbers = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          text_1: string;
-          text_2?: string;
-          cta_btn: {
-            name: string;
-            href: string;
-            open_new_tab: boolean;
-            icon?: string;
-            style: ENUM_ELEMENTS_LINK_STYLE;
-            direction: ENUM_ELEMENTS_LINK_DIRECTION;
-            variant: ENUM_ELEMENTS_LINK_VARIANT;
-          }
-        }[];
-      };
+  data: {
+    attributes: {
+      content: {
+        text_1: string;
+        text_2?: string;
+        cta_btn: {
+          name: string;
+          href: string;
+          open_new_tab: boolean;
+          icon?: string;
+          style: ENUM_ELEMENTS_LINK_STYLE;
+          direction: ENUM_ELEMENTS_LINK_DIRECTION;
+          variant: ENUM_ELEMENTS_LINK_VARIANT;
+        }
+      }[];
     };
   };
 };
 
 
-const CtaNumbers = async (props: { pageID: number; index: number }) => {
+const CtaNumbers = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsCtaNumbers, 'sectionsCtaNumbers');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType], ComponentSectionsCtaNumbers, 'sectionsCtaNumbers');
   const { text_1, text_2, cta_btn } = content[props.index];
 
   const text1WithCounter = text_1.split(/\${([^}]*)}/).map((item, index) => {
@@ -74,38 +72,18 @@ const CtaNumbers = async (props: { pageID: number; index: number }) => {
             {text2WithCounter && <h3 className="w-full text-center font-semibold">{text2WithCounter}</h3>}
           </div>
           <div className="w-full flex justify-center">
-            {cta_btn.style === 'button' && cta_btn.direction === 'right' ? <Link
+            {cta_btn.style === 'button' && <Link
               href={cta_btn.href}
               openNewTab={cta_btn.open_new_tab}
               style={cta_btn.style}
               variant={cta_btn.variant}
-              rightIcon={cta_btn.icon}
+              icon={cta_btn.icon}
+              direction={cta_btn.direction}
               className="bg-primary-600 text-white font-semibold text-lg md:text-2xl"
               size="lg"
             >
               {cta_btn.name}
-            </Link> :
-              cta_btn.style === 'button' && cta_btn.direction === 'left' ? <Link
-                href={cta_btn.href}
-                openNewTab={cta_btn.open_new_tab}
-                style={cta_btn.style}
-                variant={cta_btn.variant}
-                leftIcon={cta_btn.icon}
-                className="bg-primary-600 text-white font-semibold text-lg md:text-2xl"
-                size="lg"
-              >
-                {cta_btn.name}
-              </Link> :
-                <Link
-                  href={cta_btn.href}
-                  openNewTab={cta_btn.open_new_tab}
-                  style={cta_btn.style}
-                  variant={cta_btn.variant}
-                  icon={cta_btn.icon}
-                >
-                  {cta_btn.name}
-                </Link>
-            }
+            </Link>}
           </div>
         </div>
       </div>

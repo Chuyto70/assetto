@@ -21,28 +21,26 @@ const ComponentSectionsFaq = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          small_text?: string;
-          title: string;
-          items: {
-            id: number;
-            question: string;
-            response: string;
-            initial_open: boolean;
-          }[];
+  data: {
+    attributes: {
+      content: {
+        small_text?: string;
+        title: string;
+        items: {
+          id: number;
+          question: string;
+          response: string;
+          initial_open: boolean;
         }[];
-      };
+      }[];
     };
   };
 };
 
 
-const Faq = async (props: { pageID: number; index: number }) => {
+const Faq = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsFaq, 'sectionsFaq');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType], ComponentSectionsFaq, 'sectionsFaq');
   const { small_text, title, items } = content[props.index];
 
 

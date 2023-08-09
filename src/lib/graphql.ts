@@ -39,7 +39,7 @@ export const QuerySettings = async (locale: string) => {
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['settings'] } });
+    fetch(url, { ...options, next: { tags: ['setting'] } });
 
   const { setting } = await StrapiClient.request<{
     setting: {
@@ -143,7 +143,7 @@ export const QueryIdFromSlug = async (
   StrapiClient.requestConfig.fetch = (url, options) =>
     fetch(url, {
       ...options,
-      next: { tags: ['pages', 'products', 'categories'] },
+      next: { tags: ['page', 'product', 'category'] },
     });
 
   const data = await StrapiClient.request<{
@@ -226,7 +226,7 @@ export const QueryAllPaths = async () => {
   StrapiClient.requestConfig.fetch = (url, options) =>
     fetch(url, {
       ...options,
-      next: { tags: ['pages', 'products', 'categories'] },
+      next: { tags: ['page', 'product', 'category'] },
     });
 
   const data = await StrapiClient.request<graphQLPathsProps>(
@@ -290,7 +290,7 @@ export const QuerySeo = async (locale: string, slug: string[] | undefined) => {
   StrapiClient.requestConfig.fetch = (url, options) =>
     fetch(url, {
       ...options,
-      next: { tags: ['pages', 'products', 'categories'] },
+      next: { tags: ['page', 'product', 'category'] },
     });
 
   const data = await StrapiClient.request<{
@@ -414,7 +414,7 @@ export const QueryPageFromSlug = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['pages'] } });
+    fetch(url, { ...options, next: { tags: ['page'] } });
 
   const { pages } = await StrapiClient.request<{ pages: { data: Page[]}}>(
     gql`
@@ -451,6 +451,99 @@ export const QueryPageFromSlug = async (
 };
 
 /**
+ * Query a single category from Strapi
+ * @param locale language of the requested page
+ * @param slug array of slugs
+ * @returns data of a page with direct content
+ */
+export const QueryCategoryFromSlug = async (
+  locale: string,
+  slug: string[] | undefined
+) => {
+  const joinedSlug = !slug
+    ? '/'
+    : slug instanceof Array
+    ? slug.join('/')
+    : Array.of(slug).join('/');
+
+  const queryVariables = {
+    locale: locale,
+    joinedSlug: joinedSlug,
+  };
+
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: ['category'] } });
+
+  const { categories } = await StrapiClient.request<{ categories: { data: Category[]}}>(
+    gql`
+      query CategoryFromSlug($locale: I18NLocaleCode!, $joinedSlug: String!) {
+        categories(
+          filters: { slug: { eq: $joinedSlug } }
+          locale: $locale
+          pagination: { limit: 1 }
+        ) {
+          data {
+            id
+            attributes {
+              title
+              slug
+              description
+              price_text
+              btn_text
+              products {
+                data {
+                  id
+                  attributes {
+                    title
+                    description
+                    medias {
+                      data {
+                        attributes {
+                          name
+                          width
+                          height
+                          caption
+                          alternativeText
+                          url
+                          mime
+                        }
+                      }
+                    }
+                    prices {
+                      price
+                      sale_price
+                      on_sale_to
+                      on_sale_from
+                      currency
+                      currency_symbol
+                    }
+                  }
+                }
+              }
+              content {
+                __typename
+              }
+              localizations {
+                data {
+                  attributes {
+                    slug
+                    locale
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return categories;
+};
+
+/**
  * Query a single article from Strapi
  * @param locale language of the requested page
  * @param slug array of slugs
@@ -473,7 +566,7 @@ export const QueryArticleFromSlug = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['articles'] } });
+    fetch(url, { ...options, next: { tags: ['article'] } });
 
   const { articles } = await StrapiClient.request<{ articles: { data: Article[]}}>(
     gql`
@@ -541,7 +634,7 @@ export const QueryLatestArticle = async (locale: string, page: number, pageSize:
   StrapiClient.requestConfig.fetch = (url, options) =>
     fetch(url, {
       ...options,
-      next: { tags: ['articles'] },
+      next: { tags: ['article'] },
     });
 
   const { articles } = await StrapiClient.request<{
@@ -609,7 +702,7 @@ export const QueryProduct = async (id: number, disableCaching = false) => {
   StrapiClient.requestConfig.fetch = (url, options) =>
     fetch(url, {
       ...options,
-      next: { tags: ['products'] },
+      next: { tags: ['product'] },
       cache: `${disableCaching ? 'no-store' : 'default'}`,
     });
 
@@ -700,7 +793,7 @@ export const QueryProductFromSlug = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['products'] } });
+    fetch(url, { ...options, next: { tags: ['product'] } });
 
   const { products } = await StrapiClient.request<{
     products: { data: Product[] };
@@ -785,7 +878,7 @@ export const QueryMenus = async (locale: string) => {
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['menus'] } });
+    fetch(url, { ...options, next: { tags: ['menu'] } });
 
   const { menu } = await StrapiClient.request<{
     menu: { data: Menu };
@@ -928,7 +1021,7 @@ export const QueryContentComponent = async (
       queryVariables
     );
 
-  return response;
+  return response[type];
 };
 
 /**
@@ -1179,7 +1272,7 @@ export const QueryMediaFromSlug = async (locale: string, slug: string[] | undefi
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-  fetch(url, { ...options, next: { tags: ['medias'] } });
+  fetch(url, { ...options, next: { tags: ['media'] } });
 
   const response = await StrapiClient.request<{ medias: { data: Media[] } }>(
     gql`
@@ -1260,7 +1353,7 @@ export const QueryUploadFileFromSrc = async (src: string) => {
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-  fetch(url, { ...options, next: { tags: ['files'] } });
+  fetch(url, { ...options, next: { tags: ['file'] } });
 
   const response = await StrapiClient.request<{ uploadFiles: { data: UploadFile[] } }>(
     gql`

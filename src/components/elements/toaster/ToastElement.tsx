@@ -17,7 +17,7 @@ type Type = {
 export default function Toast({ children, close, type }: Type) {
   const color =
     type === ToasterTypes.INFO
-      ? 'border-gray-600 text-gray-600'
+      ? 'border-gray-600 text-gray-600 dark:text-gray-400'
       : type === ToasterTypes.SUCCESS
         ? 'border-green-600 text-green-600'
         : type === ToasterTypes.WARNING

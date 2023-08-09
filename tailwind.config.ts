@@ -98,7 +98,8 @@ export default {
       },
       boxShadow: {
         'carbon-900-inner': '2px 2px 5px 0px rgba(23, 23, 23, 0.90) inset, -2px -2px 4px 0px rgba(38, 38, 38, 0.90) inset, 2px -2px 4px 0px rgba(23, 23, 23, 0.20) inset, -2px 2px 4px 0px rgba(23, 23, 23, 0.20) inset, -1px -1px 2px 0px rgba(23, 23, 23, 0.50), 1px 1px 2px 0px rgba(38, 38, 38, 0.30)',
-        'carbon-200-inner': '2px 2px 5px 0px rgba(165, 165, 165, 0.90) inset, -2px -2px 4px 0px rgba(255, 255, 255, 0.90) inset, 2px -2px 4px 0px rgba(165, 165, 165, 0.20) inset, -2px 2px 4px 0px rgba(165, 165, 165, 0.20) inset, -1px -1px 2px 0px rgba(165, 165, 165, 0.50), 1px 1px 2px 0px rgba(255, 255, 255, 0.30)'
+        'carbon-200-inner': '2px 2px 5px 0px rgba(165, 165, 165, 0.90) inset, -2px -2px 4px 0px rgba(255, 255, 255, 0.90) inset, 2px -2px 4px 0px rgba(165, 165, 165, 0.20) inset, -2px 2px 4px 0px rgba(165, 165, 165, 0.20) inset, -1px -1px 2px 0px rgba(165, 165, 165, 0.50), 1px 1px 2px 0px rgba(255, 255, 255, 0.30)',
+        'carbon-900-around': '0 0 15px -3px rgb(30, 30, 30)'
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       typography: ({ theme }: { theme: any }) => ({

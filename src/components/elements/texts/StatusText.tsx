@@ -1,4 +1,4 @@
-import { ReactNode } from "node_modules/@types/react";
+import { ReactNode } from "react";
 
 import clsxm from "@/lib/clsxm";
 

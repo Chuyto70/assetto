@@ -56,24 +56,22 @@ const ComponentSectionsMediaCarousel = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          title?: string;
-          medias: {
-            data: Media[];
-          }
-        }[];
-      };
+  data: {
+    attributes: {
+      content: {
+        title?: string;
+        medias: {
+          data: Media[];
+        }
+      }[];
     };
   };
 };
 
 
-const MediaCarousel = async (props: { pageID: number; index: number }) => {
+const MediaCarousel = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages', 'medias'], ComponentSectionsMediaCarousel, 'sectionsMediaCarousel');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType, 'media'], ComponentSectionsMediaCarousel, 'sectionsMediaCarousel');
   const { title, medias } = content[props.index];
 
 

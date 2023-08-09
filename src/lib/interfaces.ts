@@ -36,6 +36,8 @@ export interface Category {
     slug: string;
     description: string;
     short_description: string;
+    price_text: string;
+    btn_text: string;
     products: {
       data: Product[];
     };

@@ -14,24 +14,22 @@ const ComponentSectionsGameRequest = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          title: string;
-          btn_text: string;
-          email_placeholder: string;
-          game_placeholder: string;
-        }[];
-      };
+  data: {
+    attributes: {
+      content: {
+        title: string;
+        btn_text: string;
+        email_placeholder: string;
+        game_placeholder: string;
+      }[];
     };
   };
 };
 
 
-const GameRequest = async (props: { pageID: number; index: number }) => {
+const GameRequest = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages'], ComponentSectionsGameRequest, 'sectionsGameRequest');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType], ComponentSectionsGameRequest, 'sectionsGameRequest');
   const { title, btn_text, email_placeholder, game_placeholder } = content[props.index];
 
 

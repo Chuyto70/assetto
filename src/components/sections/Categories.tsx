@@ -51,38 +51,36 @@ const ComponentSectionsCategories = gql`
 `;
 
 type dataType = {
-  page: {
-    data: {
-      attributes: {
-        content: {
-          categories: {
-            data: {
-              id: number;
-              attributes: {
-                title: string;
-                slug: string;
-                short_description: string;
-                image: {
-                  data: UploadFile;
-                };
-                products: {
-                  data: Product[];
-                }
+  data: {
+    attributes: {
+      content: {
+        categories: {
+          data: {
+            id: number;
+            attributes: {
+              title: string;
+              slug: string;
+              short_description: string;
+              image: {
+                data: UploadFile;
+              };
+              products: {
+                data: Product[];
               }
-            }[];
-          };
-          price_text?: string;
-          short_description: boolean;
-        }[];
-      };
+            }
+          }[];
+        };
+        price_text?: string;
+        short_description: boolean;
+      }[];
     };
   };
 };
 
 
-const Categories = async (props: { pageID: number; index: number }) => {
+const Categories = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { page: { data: { attributes: { content } } } }: dataType = await QueryContentComponent(locale, props.pageID, 'page', ['pages', 'categories'], ComponentSectionsCategories, 'sectionsCategories');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType, 'category'], ComponentSectionsCategories, 'sectionsCategories');
   const { categories: { data }, price_text, short_description } = content[props.index];
 
   return (

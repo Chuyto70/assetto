@@ -1,7 +1,9 @@
+import Benefits from "@/components/sections/Benefits";
 import Carousel from "@/components/sections/Carousel";
 import Categories from "@/components/sections/Categories";
 import Contact from "@/components/sections/Contact";
 import CtaNumbers from "@/components/sections/CtaNumbers";
+import Display from "@/components/sections/Display";
 import Faq from "@/components/sections/Faq";
 import GameRequest from "@/components/sections/GameRequest";
 import LatestArticles from "@/components/sections/LatestArticles";
@@ -9,6 +11,7 @@ import MapSection from "@/components/sections/MapSection";
 import MdxBlock from "@/components/sections/MdxBlock";
 import MediaCarousel from "@/components/sections/MediaCarousel";
 import MediaGrid from "@/components/sections/MediaGrid";
+import Preview from "@/components/sections/Preview";
 import Services from "@/components/sections/Services";
 import TypedTitle from "@/components/sections/TypedTitle";
 
@@ -31,11 +34,15 @@ const sectionComponents = {
   ComponentSectionsMap: MapSection,
   ComponentSectionsContact: Contact,
   ComponentSectionsLatestArticles: LatestArticles,
+  ComponentSectionsPreview: Preview,
+  ComponentSectionsBenefits: Benefits,
+  ComponentSectionsDisplay: Display,
 };
 
 // Display a section individually
 const Section = (props: {
   sectionType: sectionTypeProps;
+  pageType: string;
   index: number;
   pageID: number;
 }) => {
@@ -47,17 +54,18 @@ const Section = (props: {
   }
 
   // Display the section
-  return <SectionComponent pageID={props.pageID} index={props.index} />;
+  return <SectionComponent pageID={props.pageID} index={props.index} pageType={props.pageType} />;
 };
 
 // Display the list of sections
-const Sections = (props: { sections: [sectionTypeProps]; pageID: number }) => {
+const Sections = (props: { sections: [sectionTypeProps]; pageID: number; pageType?: string; }) => {
   return (
     <>
       {/* Show the actual sections */}
       {props.sections?.map((section: sectionTypeProps, index) => (
         <Section
           sectionType={section}
+          pageType={props.pageType ?? 'page'}
           index={index}
           pageID={props.pageID}
           key={`${section.__typename}${index}`}
