@@ -100,6 +100,11 @@
   .min-h-main {
     @apply min-h-[calc(100vh-56px)];
   }
+
+  /* Disable color-sheme on iframe */
+  iframe {
+    color-scheme: auto;
+  }
 }
 
 @layer utilities {

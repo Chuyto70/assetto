@@ -1,5 +1,3 @@
-
-
 import { QueryMediaFromSlug } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
 

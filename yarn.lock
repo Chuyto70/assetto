@@ -2409,6 +2409,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@paypal/paypal-js@npm:^6.0.0":
+  version: 6.0.1
+  resolution: "@paypal/paypal-js@npm:6.0.1"
+  dependencies:
+    promise-polyfill: ^8.3.0
+  checksum: 1be4238f945d8b64e7fb9de51c508d2acc9e63e2caedeb326dc2a5dae17b9558a7a24f571dc2680fbf1595bf7a824b40709507cf9767ab14fedd8fc2632d3109
+  languageName: node
+  linkType: hard
+
+"@paypal/react-paypal-js@npm:^8.1.1":
+  version: 8.1.1
+  resolution: "@paypal/react-paypal-js@npm:8.1.1"
+  dependencies:
+    "@paypal/paypal-js": ^6.0.0
+    "@paypal/sdk-constants": ^1.0.122
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 8dd483407ddd468bcc609c86aa96bd08d543b03d63b68bd7fd34beb42d4f6405d57da9fb36154838b0c99ceb55a62388c6f8b15e3f338072fb24de6491d32376
+  languageName: node
+  linkType: hard
+
+"@paypal/sdk-constants@npm:^1.0.122":
+  version: 1.0.131
+  resolution: "@paypal/sdk-constants@npm:1.0.131"
+  dependencies:
+    hi-base32: ^0.5.0
+  checksum: 9235a760e7a0756d5a470c15af4ddaf06a3db04c375289a24333568176a3b44ff1633716364fe2c44d9d02378966bfbb4925f3a13e7c516fc7e76a1497189569
+  languageName: node
+  linkType: hard
+
 "@pkgr/utils@npm:^2.3.1":
   version: 2.4.1
   resolution: "@pkgr/utils@npm:2.4.1"
@@ -3676,6 +3707,7 @@ __metadata:
     "@hookform/resolvers": ^3.1.1
     "@iconify/react": ^4.1.1
     "@next/bundle-analyzer": ^13.4.9
+    "@paypal/react-paypal-js": ^8.1.1
     "@stripe/react-stripe-js": ^2.1.1
     "@stripe/stripe-js": ^1.54.1
     "@svgr/webpack": ^6.5.1
@@ -6534,6 +6566,13 @@ __metadata:
   version: 2.0.1
   resolution: "hast-util-whitespace@npm:2.0.1"
   checksum: 431be6b2f35472f951615540d7a53f69f39461e5e080c0190268bdeb2be9ab9b1dddfd1f467dd26c1de7e7952df67beb1307b6ee940baf78b24a71b5e0663868
+  languageName: node
+  linkType: hard
+
+"hi-base32@npm:^0.5.0":
+  version: 0.5.1
+  resolution: "hi-base32@npm:0.5.1"
+  checksum: 6655682b5796d75ed3068071e61d05a490e2086c4908af3b94a730059147b8a4a5e8870e656b828d0550dcc9988d8748bda54a53e428cbce28e0d7a785b2ffde
   languageName: node
   linkType: hard
 
@@ -10223,6 +10262,13 @@ __metadata:
   version: 1.0.1
   resolution: "promise-inflight@npm:1.0.1"
   checksum: 22749483091d2c594261517f4f80e05226d4d5ecc1fc917e1886929da56e22b5718b7f2a75f3807e7a7d471bc3be2907fe92e6e8f373ddf5c64bae35b5af3981
+  languageName: node
+  linkType: hard
+
+"promise-polyfill@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "promise-polyfill@npm:8.3.0"
+  checksum: 206373802076c77def0805758d0a8ece64120dfa6603f092404a1004211f8f2f67f33cadbc35953fc2a8ed0b0d38c774e88bdf01e20ce7a920723a60df84b7a5
   languageName: node
   linkType: hard
 
