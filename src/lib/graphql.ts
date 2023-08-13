@@ -67,6 +67,8 @@ export const QuerySettings = async (locale: string) => {
               mapbox_public_key
               default_currency
               currencies
+              paypal_client_id
+              google_tag_id
             }
           }
         }
@@ -717,10 +719,8 @@ export const QueryProduct = async (id: number, disableCaching = false) => {
             attributes {
               title
               slug
-              price
-              sale_price
-              date_on_sale_from
-              date_on_sale_to
+              description
+              short_description
               medias {
                 data {
                   attributes {
@@ -733,23 +733,22 @@ export const QueryProduct = async (id: number, disableCaching = false) => {
                   }
                 }
               }
-              short_description
-              sizes {
-                id
-                size
-                quantity
-              }
-              colors {
-                name
-                color
-                product {
-                  data {
-                    id
-                    attributes {
-                      slug
-                    }
+              categories {
+                data {
+                  id
+                  attributes {
+                    slug
                   }
                 }
+              }
+              prices {
+                currency
+                price
+                sale_price
+                on_sale_from
+                on_sale_to
+                currency_symbol
+                paypal_plan_id
               }
               categories {
                 data {
@@ -759,10 +758,17 @@ export const QueryProduct = async (id: number, disableCaching = false) => {
                   }
                 }
               }
+              success_page {
+                data {
+                  attributes {
+                    slug
+                  }
+                }
+              }
             }
           }
         }
-      }
+      }    
     `,
     queryVariables
   );

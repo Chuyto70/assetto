@@ -83,7 +83,7 @@ const CategoryPage = async ({
                   <RemoteMDX source={product.attributes.description} />
                 </div>
                 <div className="w-full flex justify-center">
-                  <ButtonLink className="md:text-lg font-semibold px-6" href="#">{btn_text}</ButtonLink>
+                  <ButtonLink scroll={false} className="md:text-lg font-semibold px-6" href={`/checkout/${product.id}`}>{btn_text}</ButtonLink>
                 </div>
               </div>
             </div>

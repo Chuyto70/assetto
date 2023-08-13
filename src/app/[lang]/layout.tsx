@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
+import dynamic from 'next/dynamic';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 
@@ -21,6 +22,8 @@ import ThemesProvider from '@/components/ThemesProvider';
 import { ZustandProvider } from '@/components/ZustandProvider';
 
 import { useServer } from '@/store/serverStore';
+
+const GoogleTag = dynamic(() => import('@/components/GoogleTag'), { ssr: false });
 
 const inter = Inter({
   subsets: ['latin'],
@@ -59,6 +62,7 @@ export default async function RootLayout(props: {
   modal: ReactNode,
   params: { lang: string },
 }) {
+  const { google_tag_id } = await QuerySettings(props.params.lang);
   const { translations } = await QueryStaticTexts(props.params.lang);
   const { i18NLocales } = await Queryi18NLocales();
   useServer.setState({
@@ -78,6 +82,7 @@ export default async function RootLayout(props: {
           <span className='absolute top-0 -left-10 rounded-full bg-secondary-600 w-60 h-60'></span>
           <span className='absolute bottom-1/4 -right-10 rounded-full bg-primary-600 w-60 h-60'></span>
         </span>
+        {google_tag_id && <GoogleTag gtmId={google_tag_id} />}
         <ZustandProvider serverState={useServer.getState()} />
         <ThemesProvider>
           <Header />

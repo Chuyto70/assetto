@@ -20,6 +20,9 @@ export interface Product {
       data: Category[];
     };
     prices: ProductPrice[];
+    success_page?: {
+      data: Page;
+    };
     metadata: SeoMetadata;
     locale: string;
     updatedAt: string;
@@ -105,6 +108,8 @@ export interface Setting {
     seo: DefaultSeoMetadata;
     payment_provider: string;
     mapbox_public_key?: string;
+    paypal_client_id?: string;
+    google_tag_id?: string;
     default_currency: string;
     currencies: string[];
   };
@@ -192,6 +197,7 @@ export interface ProductPrice {
   on_sale_from?: string;
   on_sale_to?: string;
   currency_symbol: string;
+  paypal_plan_id?: string;
 }
 
 export interface OrderProducts {
