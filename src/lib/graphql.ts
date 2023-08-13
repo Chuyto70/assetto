@@ -13,6 +13,7 @@ import {
   Setting,
   UploadFile,
 } from '@/lib/interfaces';
+import logger from '@/lib/logger';
 
 import { ContactFormType } from '@/components/elements/forms/ContactForm';
 
@@ -1237,6 +1238,8 @@ export const Queryi18NLocales = async () => {
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
     fetch(url, { ...options, cache: 'no-store' });
+  
+  logger(StrapiClient);
 
   const response =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
