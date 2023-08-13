@@ -3,7 +3,6 @@ import Negotiator, { Headers } from 'negotiator';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { Queryi18NLocales } from '@/lib/graphql';
-import logger from '@/lib/logger';
 
 import { defaultLocale } from '@/constant/env';
 
@@ -26,7 +25,6 @@ function getLocaleFromCookie(cookie: string) {
 
 export async function middleware(req: NextRequest) {
   const { i18NLocales } = await Queryi18NLocales();
-  logger(i18NLocales, 'middleware query locales');
 
   const allLocales = locales.concat(
     i18NLocales.data.map((item) => item.attributes.code)
