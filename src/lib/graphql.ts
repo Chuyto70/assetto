@@ -1236,7 +1236,7 @@ export const MutationDeleteOrder = async (id: string) => {
 export const Queryi18NLocales = async () => {
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['i18NLocales'] } });
+    fetch(url, { ...options, cache: 'no-store' });
 
   const response =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
