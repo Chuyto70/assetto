@@ -1236,10 +1236,10 @@ export const MutationDeleteOrder = async (id: string) => {
 export const Queryi18NLocales = async () => {
 
   // eslint-disable-next-line no-console
-  console.log(StrapiClient);
+  console.log(process.env.STRAPI_API_TOKEN);
 
   // eslint-disable-next-line no-console
-  console.log(process.env.STRAPI_URL);
+  console.log(process.env.NEXT_PUBLIC_STRAPI_URL);
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>

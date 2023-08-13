@@ -14,7 +14,7 @@ const nextConfig = {
   swcMinify: true,
 
   env: {
-    strapiURL: process.env.STRAPI_URL,
+    NEXT_PUBLIC_STRAPI_URL: process.env.NEXT_PUBLIC_STRAPI_URL,
   },
 
   // Domain whitelist
