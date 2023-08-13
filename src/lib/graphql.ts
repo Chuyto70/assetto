@@ -1237,6 +1237,8 @@ export const MutationDeleteOrder = async (id: string) => {
 export const Queryi18NLocales = async () => {
 
   logger('test');
+  // eslint-disable-next-line no-console
+  console.log('test');
   
   logger(StrapiClient);
 
