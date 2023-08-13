@@ -13,7 +13,6 @@ import {
   Setting,
   UploadFile,
 } from '@/lib/interfaces';
-import logger from '@/lib/logger';
 
 import { ContactFormType } from '@/components/elements/forms/ContactForm';
 
@@ -1236,11 +1235,8 @@ export const MutationDeleteOrder = async (id: string) => {
  */
 export const Queryi18NLocales = async () => {
 
-  logger('test');
   // eslint-disable-next-line no-console
-  console.log('test');
-  
-  logger(StrapiClient);
+  console.log(StrapiClient);
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
