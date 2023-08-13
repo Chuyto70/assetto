@@ -13,10 +13,6 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
 
-  env: {
-    NEXT_PUBLIC_STRAPI_URL: process.env.NEXT_PUBLIC_STRAPI_URL,
-  },
-
   // Domain whitelist
   images: {
     domains: process.env.IMAGES_DOMAINS?.split(', '),
