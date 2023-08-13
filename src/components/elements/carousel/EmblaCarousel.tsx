@@ -1,7 +1,6 @@
 'use client';
 
 import Autoplay from 'embla-carousel-autoplay';
-import { OptionsType } from 'embla-carousel-autoplay/components/Options';
 import useEmblaCarousel, { EmblaCarouselType } from 'embla-carousel-react';
 import {
   createContext,
@@ -35,7 +34,7 @@ const EmblaCarousel = (props: {
   children: ReactNode;
   className?: string;
   containerClassName?: string;
-  options?: Partial<OptionsType>;
+  options?: unknown;
   autoplay?: boolean;
   autoplayOptions?: unknown;
   thumbsChildren?: ReactNode[];
@@ -43,7 +42,7 @@ const EmblaCarousel = (props: {
   thumbsContainerClassName?: string;
   thumbClassName?: string;
   activeThumbClassName?: string;
-  thumbOptions?: Partial<OptionsType>;
+  thumbOptions?: unknown;
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const autoplay = props.autoplay
