@@ -1238,6 +1238,9 @@ export const Queryi18NLocales = async () => {
   // eslint-disable-next-line no-console
   console.log(StrapiClient);
 
+  // eslint-disable-next-line no-console
+  console.log(process.env.STRAPI_URL);
+
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
     fetch(url, { ...options, cache: 'no-store' });
