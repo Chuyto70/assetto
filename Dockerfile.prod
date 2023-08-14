@@ -59,9 +59,9 @@ ENV DEPLOYMENT_HOST ${DEPLOYMENT_HOST}
 ENV NODE_ENV production
 
 # Run the script to add/update environment variables in .env.production
-COPY add_env_vars.sh /app/add_env_vars.sh
-RUN chmod +x /app/add_env_vars.sh
-RUN /app/add_env_vars.sh
+COPY --from=deps /app/add_env_vars.sh ./add_env_vars.sh
+RUN chmod +x ./add_env_vars.sh
+RUN ./add_env_vars.sh
 
 RUN yarn build
 
