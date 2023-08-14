@@ -89,7 +89,7 @@ export function deepEqual(obj1: any, obj2: any): boolean {
 }
 
 export const MediaUrl = (url: string) => {
-  return `${url.startsWith('/') ? process.env.strapiURL : ''}${url}`;
+  return `${url.startsWith('/') ? process.env.NEXT_PUBLIC_STRAPI_URL : ''}${url}`;
 };
 
 export const isOnSale = (
