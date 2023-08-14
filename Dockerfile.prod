@@ -79,9 +79,12 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-EXPOSE 3000
+ARG DEPLOYMENT_PORT
+ARG DEPLOYMENT_HOST
 
-ENV PORT 3000
-ENV HOSTNAME localhost
+EXPOSE ${DEPLOYMENT_PORT}
+
+ENV PORT ${DEPLOYMENT_PORT}
+ENV HOSTNAME ${DEPLOYMENT_HOST}
 
 CMD ["node", "server.js"]
