@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const { DefinePlugin } = require('webpack');
 /** @type {import('next').NextConfig} */
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -20,7 +21,7 @@ const nextConfig = {
   },
 
   // SVGR
-  webpack(config) {
+  webpack(config, { nextRuntime }) {
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,
@@ -34,6 +35,15 @@ const nextConfig = {
         },
       ],
     });
+
+    if (nextRuntime === 'edge') {
+      config.plugins.push(
+        new DefinePlugin({
+          'process.env.NEXT_PUBLIC_STRAPI_URL': `"${process.env.NEXT_PUBLIC_STRAPI_URL}"`,
+          'process.env.STRAPI_API_TOKEN': `"${process.env.STRAPI_API_TOKEN}"`,
+        })
+      )
+    }
 
     return config;
   },
