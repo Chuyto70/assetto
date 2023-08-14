@@ -26,7 +26,7 @@ function getLocaleFromCookie(cookie: string) {
 export async function middleware(req: NextRequest) {
 
   // eslint-disable-next-line no-console
-  console.log(req.url);
+  console.log(req.nextUrl);
 
   // eslint-disable-next-line no-console
   console.log(global.process.env);
