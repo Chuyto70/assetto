@@ -17,8 +17,6 @@ const nextConfig = {
 
   // SVGR
   webpack(config) {
-    // eslint-disable-next-line no-console
-    console.log(process.env.NEXT_PUBLIC_STRAPI_URL);
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,
