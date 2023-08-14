@@ -5,10 +5,11 @@ env_file=".env.production"
 
 # Function to add/update variable in .env.production
 add_env_vars() {
-  # Loop through each key in the .env.production file
-  for key in $(grep -E '^[A-Za-z_][A-Za-z0-9_]*=' "$env_file" | sed -E 's/=.*//'); do
-    # Get the value currently set in the .env.production file
-    value=$(grep "^$key=" "$env_file" | sed -E "s/^$key=//")
+  # Loop through each key=value line in the .env.production file
+  while IFS= read -r line; do
+    # Split the line into key and value
+    key="${line%%=*}"
+    value="${line#*=}"
     
     # Check if the value is empty (not set)
     if [ -z "$value" ]; then
@@ -18,10 +19,10 @@ add_env_vars() {
       # Check if the environment variable is set
       if [ -n "$env_value" ]; then
         # Add the environment variable to the .env.production file
-        echo "$key=$env_value" >> "$env_file"
+        sed -i "s/^$key=.*/$key=$env_value/" "$env_file"
       fi
     fi
-  done
+  done < "$env_file"
 }
 
 # Call the function to add/update environment variables
