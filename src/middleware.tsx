@@ -29,7 +29,7 @@ export async function middleware(req: NextRequest) {
   console.log(req.url);
 
   // eslint-disable-next-line no-console
-  console.log(process.env);
+  console.log(global.process.env);
 
   const { i18NLocales } = await Queryi18NLocales();
 
