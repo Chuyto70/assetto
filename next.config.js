@@ -33,15 +33,17 @@ const nextConfig = {
 
     return config;
   },
+
   experimental: {
     serverActions: true,
   },
+
   output: 'standalone',
 };
 
 if (process.env.NODE_ENV === 'development') {
   const withBundleAnalyzer = require('@next/bundle-analyzer')({
-    enabled: process.env.ANALYZE === 'true',
+    enabled: process.env.BUNDLE_ANALYZE === 'true',
   });
   module.exports = withBundleAnalyzer(nextConfig);
 } else {

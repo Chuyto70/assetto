@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { Queryi18NLocales } from '@/lib/graphql';
 
-import { defaultLocale, deploymentURL } from '@/constant/env';
+import { defaultLocale } from '@/constant/env';
 
 let locales: string[] = [defaultLocale];
 
@@ -24,12 +24,11 @@ function getLocaleFromCookie(cookie: string) {
 }
 
 export async function middleware(req: NextRequest) {
-  const { i18NLocales } = await Queryi18NLocales();
 
   // eslint-disable-next-line no-console
-  console.log(deploymentURL);
-  // eslint-disable-next-line no-console
-  console.log(process.env.DEFAULT_LOCALE);
+  console.log(process.env);
+
+  const { i18NLocales } = await Queryi18NLocales();
 
   const allLocales = locales.concat(
     i18NLocales.data.map((item) => item.attributes.code)
