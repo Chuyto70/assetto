@@ -29,7 +29,7 @@ export async function middleware(req: NextRequest) {
   // eslint-disable-next-line no-console
   console.log(deploymentURL);
   // eslint-disable-next-line no-console
-  console.log(process.env.NEXT_PUBLIC_DEPLOYMENT_URL);
+  console.log(process.env.DEFAULT_LOCALE);
 
   const allLocales = locales.concat(
     i18NLocales.data.map((item) => item.attributes.code)
