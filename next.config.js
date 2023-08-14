@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /** @type {import('next').NextConfig} */
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
-
 const nextConfig = {
   eslint: {
     dirs: ['src'],
@@ -45,4 +41,11 @@ const nextConfig = {
   output: 'standalone',
 };
 
-module.exports = withBundleAnalyzer(nextConfig);
+if (process.env.NODE_ENV === 'development') {
+  const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: process.env.ANALYZE === 'true',
+  });
+  module.exports = withBundleAnalyzer(nextConfig);
+} else {
+  module.exports = nextConfig;
+}

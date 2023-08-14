@@ -2890,7 +2890,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*":
+"@types/jest@npm:*, @types/jest@npm:^29.5.3":
   version: 29.5.3
   resolution: "@types/jest@npm:29.5.3"
   dependencies:
@@ -3663,6 +3663,7 @@ __metadata:
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
     "@types/cors": ^2.8.13
+    "@types/jest": ^29.5.3
     "@types/mapbox-gl": ^2.7.12
     "@types/negotiator": ^0.6.1
     "@types/node": ^20.4.1
