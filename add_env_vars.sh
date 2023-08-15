@@ -7,8 +7,11 @@ touch .env.production.local
 for var in $(compgen -e); do
   # Vérifier si la variable existe déjà dans le fichier
   if ! grep -q "^$var=" .env.production.local; then
-    # Ajouter la variable et sa valeur au fichier
-    echo "$var=${!var}" >> .env.production.local
+    # Vérifier si la variable a une valeur non vide
+    if [ -n "${!var}" ]; then
+      # Ajouter la variable et sa valeur au fichier
+      echo "$var=${!var}" >> .env.production.local
+    fi
   fi
 done
 
