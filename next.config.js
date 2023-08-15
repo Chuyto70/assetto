@@ -11,7 +11,7 @@ const nextConfig = {
 
   // Domain whitelist
   images: {
-    domains: process.env.IMAGES_DOMAINS?.split(', '),
+    domains: global.process.env.IMAGES_DOMAINS?.split(', '),
     deviceSizes: [475, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
   },
 
@@ -40,6 +40,9 @@ const nextConfig = {
 
   output: 'standalone',
 };
+
+// eslint-disable-next-line no-console
+console.log(nextConfig.images.domains);
 
 if (process.env.NODE_ENV === 'development') {
   const withBundleAnalyzer = require('@next/bundle-analyzer')({
