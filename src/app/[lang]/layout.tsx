@@ -57,13 +57,11 @@ export async function generateMetadata({
   return metadata;
 }
 
-export default async function RootLayout(props: {
+export default async function BaseLayout(props: {
   children: ReactNode,
   modal: ReactNode,
   params: { lang: string },
 }) {
-
-  if (!props.params.lang) return null;
 
   const { google_tag_id } = await QuerySettings(props.params.lang);
   const { translations } = await QueryStaticTexts(props.params.lang);

@@ -36,7 +36,7 @@ export async function generateMetadata({
   return metadata;
 }
 
-export default async function SlugLayout({
+export default async function ArticleSlugLayout({
   children,
 }: {
   children: React.ReactNode;
