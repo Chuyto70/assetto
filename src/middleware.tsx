@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { Queryi18NLocales } from '@/lib/graphql';
 
-const defaultLocale = process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'fr';
+const defaultLocale = global.process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'fr';
 
 let locales: string[] = [defaultLocale];
 
@@ -27,6 +27,10 @@ export async function middleware(req: NextRequest) {
 
   // eslint-disable-next-line no-console
   console.log(defaultLocale);
+
+  // eslint-disable-next-line no-console
+  console.log(process.env.NEXT_PUBLIC_DEFAULT_LOCALE);
+
   const { i18NLocales } = await Queryi18NLocales();
 
   const allLocales = locales.concat(
