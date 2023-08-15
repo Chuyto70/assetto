@@ -58,9 +58,7 @@ ENV DEPLOYMENT_HOST ${DEPLOYMENT_HOST}
 
 ENV NODE_ENV production
 
-# Run the script to add/update environment variables in .env.production
-COPY add_env_vars.sh .
-COPY .env.production .
+# Run the script to add/update environment variables in .env.production.local
 RUN apk add --no-cache --upgrade bash
 RUN ["chmod", "+x", "./add_env_vars.sh"]
 RUN ["./add_env_vars.sh"]
@@ -89,7 +87,7 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-COPY --from=builder /app/.env.production ./.env.production
+COPY --from=builder /app/.env.production.local ./.env.production.local
 
 EXPOSE 3000
 

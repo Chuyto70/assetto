@@ -26,10 +26,7 @@ function getLocaleFromCookie(cookie: string) {
 export async function middleware(req: NextRequest) {
 
   // eslint-disable-next-line no-console
-  console.log(req.nextUrl);
-
-  // eslint-disable-next-line no-console
-  console.log(global.process.env);
+  console.log(process.env);
 
   const { i18NLocales } = await Queryi18NLocales();
 
@@ -61,7 +58,7 @@ export async function middleware(req: NextRequest) {
     // e.g. incoming request is /products
     // The new URL is now /fr/products
     const response = NextResponse.redirect(
-      new URL(`/${locale}${pathname}`, req.url)
+      new URL(`/${locale}${pathname}`, process.env.NEXT_PUBLIC_DEPLOYMENT_URL)
     );
     response.cookies.set('preferred_language', locale, {
       expires: cookieexpirationDate,
@@ -75,7 +72,7 @@ export async function middleware(req: NextRequest) {
     !localeCookieIsMissingLocale
   ) {
     const locale = getLocaleFromCookie(localeCookie);
-    return NextResponse.redirect(new URL(`/${locale}${pathname}`, req.url));
+    return NextResponse.redirect(new URL(`/${locale}${pathname}`, process.env.NEXT_PUBLIC_DEPLOYMENT_URL));
   }
 
   // Rewrite cookie if it doesn't match the current pathname
