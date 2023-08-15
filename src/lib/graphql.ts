@@ -16,8 +16,8 @@ import {
 
 import { ContactFormType } from '@/components/elements/forms/ContactForm';
 
-const API_URL = process.env.NEXT_PUBLIC_STRAPI_URL ?? 'http://localhost:1337';
-const STRAPI_TOKEN = process.env.STRAPI_API_TOKEN;
+const API_URL = global.process.env.NEXT_PUBLIC_STRAPI_URL ?? 'http://localhost:1337';
+const STRAPI_TOKEN = global.process.env.STRAPI_API_TOKEN;
 
 export { gql } from 'graphql-request';
 

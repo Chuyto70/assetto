@@ -6,7 +6,7 @@ export const addContact = async (email: string) => {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
+        Authorization: `Bearer ${global.process.env.SENDGRID_API_KEY}`,
       },
       body: JSON.stringify({
         contacts: [

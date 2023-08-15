@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { Queryi18NLocales } from '@/lib/graphql';
 
-const defaultLocale = global.process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'fr';
+import { defaultLocale, deploymentURL } from '@/constant/env';
 
 let locales: string[] = [defaultLocale];
 
@@ -24,12 +24,6 @@ function getLocaleFromCookie(cookie: string) {
 }
 
 export async function middleware(req: NextRequest) {
-
-  // eslint-disable-next-line no-console
-  console.log(defaultLocale);
-
-  // eslint-disable-next-line no-console
-  console.log(process.env.NEXT_PUBLIC_DEFAULT_LOCALE);
 
   const { i18NLocales } = await Queryi18NLocales();
 
@@ -61,12 +55,12 @@ export async function middleware(req: NextRequest) {
     // e.g. incoming request is /products
     // The new URL is now /fr/products
     const response = NextResponse.redirect(
-      new URL(`/${locale}${pathname}`, process.env.NEXT_PUBLIC_DEPLOYMENT_URL)
+      new URL(`/${locale}${pathname}`, deploymentURL)
     );
     response.cookies.set('preferred_language', locale, {
       expires: cookieexpirationDate,
       sameSite: true,
-      domain: process.env.DEPLOYMENT_HOST,
+      domain: global.process.env.DEPLOYMENT_HOST,
     });
     return response;
   } else if (
@@ -75,7 +69,7 @@ export async function middleware(req: NextRequest) {
     !localeCookieIsMissingLocale
   ) {
     const locale = getLocaleFromCookie(localeCookie);
-    return NextResponse.redirect(new URL(`/${locale}${pathname}`, process.env.NEXT_PUBLIC_DEPLOYMENT_URL));
+    return NextResponse.redirect(new URL(`/${locale}${pathname}`, deploymentURL));
   }
 
   // Rewrite cookie if it doesn't match the current pathname
@@ -91,7 +85,7 @@ export async function middleware(req: NextRequest) {
     response.cookies.set('preferred_language', pathnameLocale, {
       expires: cookieexpirationDate,
       sameSite: true,
-      domain: process.env.DEPLOYMENT_HOST,
+      domain: global.process.env.DEPLOYMENT_HOST,
     });
     return response;
   }

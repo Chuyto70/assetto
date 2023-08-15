@@ -18,7 +18,7 @@ enum Model {
 export const POST = async (req: NextRequest) => {
   if (req.headers.get('Authorization')) {
     const reqToken = req.headers.get('Authorization');
-    const token = `Bearer ${process.env.STRAPI_WEBHOOK_TOKEN}`;
+    const token = `Bearer ${global.process.env.STRAPI_WEBHOOK_TOKEN}`;
     if (reqToken === token) {
       const data = await req.json();
       const { model } = data;
