@@ -41,6 +41,11 @@ const nextConfig = {
   output: 'standalone',
 };
 
+// eslint-disable-next-line no-console
+console.log('=-=-=-=-=-=-=-=\n', nextConfig.images.domains);
+// eslint-disable-next-line no-console
+console.log('-=-=-=-=-=-=-=-');
+
 if (process.env.NODE_ENV === 'development') {
   const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.BUNDLE_ANALYZE === 'true',
