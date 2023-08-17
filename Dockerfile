@@ -65,7 +65,7 @@ USER nextjs
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN rm /app/next-env.d.ts
+RUN ls -la /app
 
 EXPOSE 3000
 
