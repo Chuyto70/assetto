@@ -20,7 +20,7 @@ FROM base AS runner
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY --chown=nextjs:nodejs  . .
 
 # Pass all environment variables at build time
 ARG BUNDLE_ANALYZE
