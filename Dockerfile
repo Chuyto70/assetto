@@ -24,7 +24,7 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --chown=nextjs:nodejs . .
-COPY --chown=nextjs:nodejs ./next-env.d.ts ./next-env.d.ts
+COPY --from=deps --chown=nextjs:nodejs /app/next-env.d.ts ./next-env.d.ts
 
 # Pass all environment variables at build time
 ARG BUNDLE_ANALYZE
