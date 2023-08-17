@@ -19,8 +19,11 @@ RUN \
 FROM base AS runner
 WORKDIR /app
 
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
 COPY --from=deps /app/node_modules ./node_modules
-COPY --chown=nextjs:nodejs  . .
+COPY --chown=nextjs:nodejs . .
 
 # Pass all environment variables at build time
 ARG BUNDLE_ANALYZE
@@ -54,9 +57,6 @@ ENV DEPLOYMENT_HOST ${DEPLOYMENT_HOST}
 ENV NODE_ENV development
 # Uncomment the following line in case you want to disable telemetry during runtime.
 ENV NEXT_TELEMETRY_DISABLED 1
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
 
 # Run the script to add/update environment variables in .env.development.local
 RUN apk add --no-cache --upgrade bash
