@@ -4,7 +4,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { Queryi18NLocales } from '@/lib/graphql';
 
-import { defaultLocale, deploymentURL } from '@/constant/env';
+import { deploymentURL } from '@/constant/env';
+
+const defaultLocale = global.process.env.NEXT_PUBLIC_DEFAULT_LOCALE || 'fr';
 
 let locales: string[] = [defaultLocale];
 
