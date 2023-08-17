@@ -25,7 +25,7 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN ["chmod", "+x", "./next-env.d.ts"]
+RUN ["chmod", "+x", "/app/next-env.d.ts"]
 
 # Pass all environment variables at build time
 ARG BUNDLE_ANALYZE
