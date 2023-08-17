@@ -91,7 +91,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/cache ./.next/cache
 
-COPY --from=builder /app/.env.production.local ./.env.production.local
+COPY --from=builder /app/.env.development.local ./.env.development.local
 
 EXPOSE 3000
 
