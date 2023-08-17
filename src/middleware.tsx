@@ -24,18 +24,6 @@ function getLocaleFromCookie(cookie: string) {
 }
 
 export async function middleware(req: NextRequest) {
-
-
-  // eslint-disable-next-line no-console
-  console.log('deploymentURL');
-  // eslint-disable-next-line no-console
-  console.log(deploymentURL);
-
-  // eslint-disable-next-line no-console
-  console.log('defaultLocale');
-  // eslint-disable-next-line no-console
-  console.log(defaultLocale);
-
   const { i18NLocales } = await Queryi18NLocales();
 
   const allLocales = locales.concat(

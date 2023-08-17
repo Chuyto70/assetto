@@ -9,6 +9,7 @@ export default function Count({
   children,
   className,
   value,
+  ...rest
 }: {
   children?: ReactNode;
   className?: string;
@@ -39,7 +40,7 @@ export default function Count({
     [springValue]
   );
 
-  return <span ref={inViewRef} className={className}>
+  return <span ref={inViewRef} className={className} {...rest}>
     {isInView ? <span ref={ref} /> : children}
   </span>;
 }
