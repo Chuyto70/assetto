@@ -25,6 +25,9 @@ function getLocaleFromCookie(cookie: string) {
 
 export async function middleware(req: NextRequest) {
 
+  // eslint-disable-next-line no-console
+  console.log(global.process.env.IMAGES_DOMAINS);
+
   const { i18NLocales } = await Queryi18NLocales();
 
   const allLocales = locales.concat(
