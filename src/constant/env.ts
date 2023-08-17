@@ -11,4 +11,4 @@ export const deploymentURL = process.env.NEXT_PUBLIC_DEPLOYMENT_URL
   ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   : 'http://localhost:3000';
 
-export const defaultLocale = global.process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'fr';
+export const defaultLocale = process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? 'fr';
