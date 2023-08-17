@@ -54,6 +54,9 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 # Run the script to add/update environment variables in .env.development.local
 RUN apk add --no-cache --upgrade bash
+COPY ./add_env_vars.development.sh ./add_env_vars.development.sh
+RUN ["chmod", "+x", "./add_env_vars.development.sh"]
+RUN ["./add_env_vars.development.sh"]
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -62,9 +65,6 @@ USER nextjs
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-RUN ["chmod", "+x", "./add_env_vars.development.sh"]
-RUN ["./add_env_vars.development.sh"]
 
 EXPOSE 3000
 
