@@ -21,7 +21,7 @@ export default async function Header() {
 
   return (
     <header className='sticky top-0 z-40 bg-carbon-200 dark:bg-carbon-900 border-b-2 border-carbon-900 dark:border-0 text-carbon-900  dark:text-white font-bold'>
-      <div className='layout w-full flex flex-row items-center justify-between gap-3 p-3 md:p-6 lg:px-12 lg:gap-6 text-base md:text-sm xl:text-base'>
+      <div className='layout w-full flex flex-row items-center justify-between gap-3 p-3 lg:px-12 lg:gap-6 text-base md:text-sm xl:text-base'>
         <UnstyledLink
           href={header.logo_link}
           className='flex shrink-1'
