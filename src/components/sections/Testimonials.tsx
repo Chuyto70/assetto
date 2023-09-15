@@ -35,7 +35,7 @@ const Testimonials = async (props: { pageID: number; index: number; pageType: st
   return (
     <section suppressHydrationWarning className="w-full px-3 md:px-6 lg:px-12 max-w-screen-2xl flex flex-col items-center gap-6 md:gap-12">
       {title && <h2 className="italic text-center">{title}</h2>}
-      <div className="no-eflsight-title">
+      <div className="no-eflsight-title eflsight-fix">
         <ElfsightWrapper widgetId={elfsight_id} modern={modern} />
       </div>
     </section>

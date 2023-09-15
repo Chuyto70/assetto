@@ -149,4 +149,11 @@
   .no-eflsight-title [class*=' WidgetTitle'] {
     @apply hidden;
   }
+
+  .eflsight-fix [class^='Main__Container'],
+  .eflsight-fix [class*=' Main__Container'],
+  .eflsight-fix [class^='swiper-wrapper'],
+  .eflsight-fix [class*=' swiper-wrapper'] {
+    @apply h-auto !important;
+  }
 }
