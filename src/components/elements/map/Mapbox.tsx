@@ -67,6 +67,7 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
         }}
         style={{ width: '100%', height: '100%' }}
         mapStyle={style}
+        cooperativeGestures
       >
         {pins}
 
