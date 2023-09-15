@@ -9,8 +9,18 @@ const CarouselBtn = (props: { isNext?: boolean; children?: ReactNode; icon?: str
   const { carouselApi } = useCarouselContext();
 
   const handleClick = () => {
-    if (props.isNext) carouselApi?.scrollNext();
-    else carouselApi?.scrollPrev();
+    if (carouselApi) {
+      const autoplayPlugin = carouselApi.plugins().autoplay as unknown as {
+        reset: () => void;
+      };
+
+      if (autoplayPlugin) {
+        autoplayPlugin.reset();
+      }
+
+      if (props.isNext) carouselApi.scrollNext();
+      else carouselApi.scrollPrev();
+    }
   };
 
   return (
