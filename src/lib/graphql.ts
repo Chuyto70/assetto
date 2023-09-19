@@ -498,6 +498,7 @@ export const QueryCategoryFromSlug = async (
                   id
                   attributes {
                     title
+                    slug
                     description
                     medias {
                       data {
@@ -748,6 +749,10 @@ export const QueryProduct = async (id: number, disableCaching = false) => {
                 on_sale_from
                 on_sale_to
                 currency_symbol
+                details {
+                  line_name
+                  amount
+                }
                 paypal_plan_id
               }
               categories {
@@ -819,10 +824,8 @@ export const QueryProductFromSlug = async (
             attributes {
               title
               slug
-              price
-              sale_price
-              date_on_sale_from
-              date_on_sale_to
+              description
+              short_description
               medias {
                 data {
                   attributes {
@@ -835,28 +838,38 @@ export const QueryProductFromSlug = async (
                   }
                 }
               }
-              short_description
-              sizes {
-                id
-                size
-                quantity
-              }
-              colors {
-                name
-                color
-                product {
-                  data {
-                    id
-                    attributes {
-                      slug
-                    }
+              categories {
+                data {
+                  id
+                  attributes {
+                    slug
                   }
                 }
+              }
+              prices {
+                currency
+                price
+                sale_price
+                on_sale_from
+                on_sale_to
+                currency_symbol
+                details {
+                  line_name
+                  amount
+                }
+                paypal_plan_id
               }
               categories {
                 data {
                   attributes {
                     title
+                    slug
+                  }
+                }
+              }
+              success_page {
+                data {
+                  attributes {
                     slug
                   }
                 }

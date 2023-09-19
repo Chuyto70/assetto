@@ -197,6 +197,10 @@ export interface ProductPrice {
   on_sale_from?: string;
   on_sale_to?: string;
   currency_symbol: string;
+  details: {
+    line_name: string;
+    amount: number;
+  }[];
   paypal_plan_id?: string;
 }
 

@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 
 import clsxm from '@/lib/clsxm';
@@ -16,6 +16,9 @@ export default function Modal({ children, className, dismissBack = false, dismis
   const wrapper = useRef(null);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
+  const [openPath, setOpenPath] = useState<string | null>();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const overlayVariants = {
     open: {
@@ -46,9 +49,10 @@ export default function Modal({ children, className, dismissBack = false, dismis
   };
 
   const onDismiss = useCallback(() => {
+    if (openPath !== `${pathname}?${searchParams}`) return;
     dismissBack && router.back();
     dismissAction !== undefined && dismissAction();
-  }, [dismissBack, router, dismissAction]);
+  }, [openPath, pathname, searchParams, dismissBack, router, dismissAction]);
 
   const onClick: MouseEventHandler = useCallback(
     (e) => {
@@ -59,17 +63,20 @@ export default function Modal({ children, className, dismissBack = false, dismis
     [isOpen, overlay, wrapper]
   );
 
-  const onKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsOpen(false);
-    },
-    []
-  );
+  const onKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') setIsOpen(false);
+  },
+    []);
 
   useEffect(() => {
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [onKeyDown])
+  }, [onKeyDown]);
+
+  useEffect(() => {
+    !openPath && setOpenPath(`${pathname}?${searchParams}`);
+    if (openPath && openPath !== `${pathname}?${searchParams}`) setIsOpen(false);
+  }, [openPath, pathname, searchParams]);
 
   return (
     <AnimatePresence
@@ -105,6 +112,5 @@ export default function Modal({ children, className, dismissBack = false, dismis
         </div>
       </MotionDiv>}
     </AnimatePresence>
-
   )
 }
