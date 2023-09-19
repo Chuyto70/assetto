@@ -3,6 +3,7 @@ import remarkEmoji from "remark-emoji";
 import remarkGfm from "remark-gfm";
 
 import MdxImage from "@/components/elements/images/MdxImage";
+import MdxLink from "@/components/elements/links/MdxLink";
 import AlertBlock from "@/components/elements/texts/AlertBlock";
 import P from "@/components/elements/texts/P";
 import PreCode from "@/components/elements/texts/PreCode";
@@ -15,7 +16,8 @@ const components = {
   AlertBlock: AlertBlock,
   p: P,
   img: MdxImage,
-  StatusText: StatusText
+  StatusText: StatusText,
+  Link: MdxLink,
 }
 
 const RemoteMDX = (props: { source: string; }) => {

@@ -65,8 +65,7 @@ export default function Modal({ children, className, dismissBack = false, dismis
 
   const onKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'Escape') setIsOpen(false);
-  },
-    []);
+  }, []);
 
   useEffect(() => {
     document.addEventListener('keydown', onKeyDown);

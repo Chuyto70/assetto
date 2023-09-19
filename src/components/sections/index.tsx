@@ -1,3 +1,4 @@
+import SectionLink from "@/components/elements/links/SectionLink";
 import Benefits from "@/components/sections/Benefits";
 import Carousel from "@/components/sections/Carousel";
 import Categories from "@/components/sections/Categories";
@@ -39,6 +40,9 @@ const sectionComponents = {
   ComponentSectionsBenefits: Benefits,
   ComponentSectionsDisplay: Display,
   ComponentSectionsTestimonials: Testimonials,
+
+  // Elements
+  ComponentElementsLink: SectionLink,
 };
 
 // Display a section individually

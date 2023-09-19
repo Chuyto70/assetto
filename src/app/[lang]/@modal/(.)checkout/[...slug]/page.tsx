@@ -24,22 +24,22 @@ async function CheckoutCompleteModal({
 
 
   return (
-    <ModalWrapper routerRoute='/'>
+    <ModalWrapper routerRoute='/' className='max-w-fit'>
       <div
-        className="text-carbon-900 dark:text-white bg-carbon-200 dark:bg-carbon-900 shadow-xl dark:shadow-carbon-500/10 dark:border-2 rounded-3xl p-3 md:p-6 overflow-hidden flex flex-col gap-3 md:gap-6 divide-y-2 divide-carbon-300 dark:divide-carbon-800"
+        className="text-carbon-900 dark:text-white bg-carbon-200 dark:bg-carbon-900 shadow-xl dark:shadow-carbon-500/10 dark:border-2 rounded-3xl p-3 md:p-6 overflow-hidden flex flex-col gap-3 md:gap-6 divide-y-2 divide-carbon-300 dark:divide-carbon-800 w-fit"
       >
         <h3 className='flex gap-3 items-center'>
-          <NextImage src="/images/card-dynamic-color.png" quality={100} width={30} height={30} alt="3d icon of a credit card"
+          <NextImage src="/images/tick-dynamic-color.png" quality={100} width={30} height={30} alt="3d icon of a credit card"
             className='inline-block'
           />
-          {translations.checkout.subscribe_to}</h3>
+          {translations.checkout.subscribed}</h3>
 
-        <div className='pt-3 md:pt-6 flex flex-col gap-3 md:gap-6'>
+        <div className='pt-3 md:pt-6 flex flex-col gap-3 md:gap-6 w-fit'>
           <Sections sections={content as [sectionTypeProps]} pageID={pageID} />
         </div>
 
-        <div className='pt-3 md:pt-6 flex justify-between'>
-          <ButtonLink href="/games" nextLinkProps={{ replace: true }}>!BACK HOME</ButtonLink>
+        <div className='pt-3 md:pt-6 flex justify-center'>
+          <ButtonLink href="/" nextLinkProps={{ replace: true }}>{translations.btn.back_to_home}</ButtonLink>
         </div>
       </div>
     </ModalWrapper>
