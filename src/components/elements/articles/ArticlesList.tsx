@@ -19,6 +19,7 @@ import { loadMoreArticle } from '@/actions/strapi/load-more-articles';
 const ArticlesList = ({ articles, pageSize = 3, pageCount = 1, page = 1, loadMoreText = 'load more', linkText = 'read the info' }: { articles: Article[]; pageSize?: number; pageCount?: number; page?: number; loadMoreText?: string; linkText?: string }) => {
   const locale = useServer((state) => state.locale);
   const notify = useToaster((state) => state.notify);
+  const translations = useServer.getState().translations;
   const [currentPage, setCurrentPage] = useState(page);
   const [listArticles, setListArticles] = useState<Article[]>(articles);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,8 +36,7 @@ const ArticlesList = ({ articles, pageSize = 3, pageCount = 1, page = 1, loadMor
         notify(
           1,
           <p>
-            !Oups, il y a eu un problème avec votre inscription, veuillez
-            réessayer plus tard
+            {translations.forms.request_error}
           </p>
         );
       })
