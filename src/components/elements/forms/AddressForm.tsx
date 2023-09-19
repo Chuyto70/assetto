@@ -9,6 +9,8 @@ import Switch from '@/components/elements/buttons/Switch';
 import FormErrorMessage from '@/components/elements/forms/atoms/FormErrorMessage';
 import FormInput from '@/components/elements/forms/molecules/FormInput';
 
+import { useServer } from '@/store/serverStore';
+
 const CountryDropdown = dynamic(
   () =>
     import('react-country-region-selector').then((mod) => mod.CountryDropdown),
@@ -20,42 +22,44 @@ const RegionDropdown = dynamic(
   { ssr: false }
 );
 
+const translations = useServer.getState().translations;
+
 const schema = yup
   .object({
     shippingDifferent: yup.boolean().required(),
     email: yup
       .string()
-      .email("!Votre adresse email n'est pas valide")
-      .required('!Email requise'),
+      .email(translations.forms.invalid_email)
+      .required(translations.forms.required_email),
     address: yup
       .object({
         name: yup
           .string()
-          .required('!Un nom est requis')
-          .min(2, '!Votre nom doit comporter plus de 2 lettres')
-          .max(50, '!Votre nom est trop long')
+          .required(translations.forms.required_name)
+          .min(2, translations.forms.min_name)
+          .max(50, translations.forms.max_name)
           .matches(
             /^[A-Za-zÀ-ÿ-]+(?:\s[A-Za-zÀ-ÿ-]+)?$/i,
-            "!Votre nom doit être composé de lettres et d'un éventuel espace"
+            translations.forms.regex_name
           ),
 
         city: yup
           .string()
-          .required('!Une ville est requise')
-          .max(100, '!Votre ville est trop longue')
+          .required(translations.forms.required_city)
+          .max(100, translations.forms.max_city)
           .matches(
             /^[a-zA-ZÀ-ÿ\s\-']+$/i,
-            "!Votre ville doit être composée de lettres, d'espaces, de tirets ou d'apostrophes"
+            translations.forms.regex_city
           ),
 
-        country: yup.string().required('!Un pays est requis'),
+        country: yup.string().required(translations.forms.required_country),
 
         line1: yup
           .string()
-          .required('!Une addresse est requise')
+          .required(translations.forms.required_address)
           .matches(
             /^[0-9A-Za-zÀ-ÿ\s\-',.]+$/i,
-            "!Votre adresse doit être composée de chiffres, de lettres, d'espaces, de tirets, d'apostrophes ou de points"
+            translations.forms.regex_address
           ),
 
         line2: yup
@@ -64,16 +68,16 @@ const schema = yup
           .matches(/^[0-9A-Za-zÀ-ÿ\s\-',.]+$/i, {
             excludeEmptyString: true,
             message:
-              "!Votre adresse doit être composée de chiffres, de lettres, d'espaces, de tirets, d'apostrophes ou de points",
+              translations.forms.regex_address,
           }),
 
         postal_code: yup
           .string()
-          .required('!Un code postal est requis')
-          .max(10, '!Votre code postal est trop long')
+          .required(translations.forms.required_postalcode)
+          .max(10, translations.forms.max_postalcode)
           .matches(
             /^[0-9A-Za-zÀ-ÿ\s\-'()]+$/i,
-            "!Votre code postal doit être composé de chiffres, de lettres, d'espaces, de tirets, d'apostrophes ou de parenthèses"
+            translations.forms.regex_postalcode
           ),
 
         state: yup.string().notRequired(),
@@ -84,33 +88,33 @@ const schema = yup
       .object({
         name: yup
           .string()
-          .required('!Un nom est requis')
-          .min(2, '!Votre nom doit comporter plus de 2 lettres')
-          .max(50, '!Votre nom est trop long')
+          .required(translations.forms.required_name)
+          .min(2, translations.forms.min_name)
+          .max(50, translations.forms.max_name)
           .matches(
             /^[A-Za-zÀ-ÿ-]+(?:\s[A-Za-zÀ-ÿ-]+)?$/i,
-            "!Votre nom doit être composé de lettres et d'un éventuel espace"
+            translations.forms.regex_name
           )
           .notRequired(),
 
         city: yup
           .string()
-          .required('!Une ville est requise')
-          .max(100, '!Votre ville est trop longue')
+          .required(translations.forms.required_city)
+          .max(100, translations.forms.max_city)
           .matches(
             /^[a-zA-ZÀ-ÿ\s\-']+$/i,
-            "!Votre ville doit être composée de lettres, d'espaces, de tirets ou d'apostrophes"
+            translations.forms.regex_city
           )
           .notRequired(),
 
-        country: yup.string().required('!Un pays est requis').notRequired(),
+        country: yup.string().required(translations.forms.required_country).notRequired(),
 
         line1: yup
           .string()
-          .required('!Une addresse est requise')
+          .required(translations.forms.required_address)
           .matches(
             /^[0-9A-Za-zÀ-ÿ\s\-',.]+$/i,
-            "!Votre adresse doit être composée de chiffres, de lettres, d'espaces, de tirets, d'apostrophes ou de points"
+            translations.forms.regex_address
           )
           .notRequired(),
 
@@ -120,16 +124,16 @@ const schema = yup
           .matches(/^[0-9A-Za-zÀ-ÿ\s\-',.]+$/i, {
             excludeEmptyString: true,
             message:
-              "!Votre adresse doit être composée de chiffres, de lettres, d'espaces, de tirets, d'apostrophes ou de points",
+              translations.forms.regex_address,
           }),
 
         postal_code: yup
           .string()
-          .required('!Un code postal est requis')
-          .max(10, '!Votre code postal est trop long')
+          .required(translations.forms.required_postalcode)
+          .max(10, translations.forms.max_postalcode)
           .matches(
             /^[0-9A-Za-zÀ-ÿ\s\-'()]+$/i,
-            "!Votre code postal doit être composé de chiffres, de lettres, d'espaces, de tirets, d'apostrophes ou de parenthèses"
+            translations.forms.regex_postalcode
           )
           .notRequired(),
 
@@ -368,7 +372,7 @@ const AddressForm = ({
           </>
         )}
 
-        <input type='submit' value='!Valider' />
+        <input type='submit' value={translations.btn.submit} />
       </form>
     </>
   );
