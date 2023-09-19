@@ -9,16 +9,18 @@ import clsxm from '@/lib/clsxm';
 import Button from '@/components/elements/buttons/Button';
 import FormInput from '@/components/elements/forms/molecules/FormInput';
 
+import { useServer } from '@/store/serverStore';
 import { useToaster } from '@/store/toasterStore';
 
 import { requestGame } from '@/actions/strapi/game-request';
 
+const translations = useServer.getState().translations;
 
 const schema = object({
   email: string()
-    .email("!Votre adresse email n'est pas valide")
-    .required('!Une email est requise'),
-  game: string().required("!Un jeu est requis")
+    .email(translations.forms.invalid_email)
+    .required(translations.forms.required_email),
+  game: string().required(translations.forms.required_game)
 }).required();
 
 export type GameRequestFormType = InferType<typeof schema>;
@@ -51,7 +53,7 @@ const GameRequestForm = ({
         notify(
           0,
           <p>
-            !Votre demande a été prise en compte, merci
+            {translations.forms.request_sent}
           </p>
         )
       )
@@ -59,8 +61,7 @@ const GameRequestForm = ({
         notify(
           1,
           <p>
-            !Oups, il y a eu un problème avec votre inscription, veuillez
-            réessayer plus tard
+            {translations.forms.request_error}
           </p>
         )
       );
