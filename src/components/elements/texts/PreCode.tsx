@@ -4,10 +4,12 @@ import { ReactNode, useRef } from "react";
 
 import DynamicIcon from "@/components/elements/DynamicIcon";
 
+import { useServer } from "@/store/serverStore";
 import { useToaster } from "@/store/toasterStore";
 
 const PreCode = (props: { children?: ReactNode }) => {
   const preRef = useRef<HTMLPreElement | null>(null);
+  const translations = useServer.getState().translations;
   const notify = useToaster((state) => state.notify);
 
   const copyToClipboard = () => {
@@ -18,7 +20,7 @@ const PreCode = (props: { children?: ReactNode }) => {
     if (!clipboard) return;
 
     clipboard.writeText(preRef.current.innerText).then(() => {
-      notify(0, <p>!Copied to your clipboard !</p>)
+      notify(0, <p>{translations.toaster.copied_to_clipboard}</p>)
     });
   };
 
