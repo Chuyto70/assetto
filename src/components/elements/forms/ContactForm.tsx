@@ -15,13 +15,15 @@ import { useToaster } from '@/store/toasterStore';
 
 import { sendContactMail } from '@/actions/strapi/send-contact-mail';
 
+const translations = useServer.getState().translations;
+
 const schema = object({
   email: string()
-    .email("!Votre adresse email n'est pas valide")
-    .required('!Une email est requise'),
-  name: string().required("!Un nom est requis"),
-  subject: string().min(5, '!Minimum 5 caracters').required("!Un sujet est requis"),
-  message: string().min(5, '!Minimum 5 caracters').required("!Un message est requis"),
+    .email(translations.forms.invalid_email)
+    .required(translations.forms.required_email),
+  name: string().required(translations.forms.required_name),
+  subject: string().min(5, translations.forms.min).required(translations.forms.required_subject),
+  message: string().min(5, translations.forms.min).required(translations.forms.required_message),
 }).required();
 
 export type ContactFormType = InferType<typeof schema>;
@@ -64,7 +66,7 @@ const ContactForm = ({
         notify(
           0,
           <p>
-            !Votre demande a été prise en compte, merci
+            {translations.forms.request_sent}
           </p>
         )
       )
@@ -72,8 +74,7 @@ const ContactForm = ({
         notify(
           1,
           <p>
-            !Oups, il y a eu un problème avec votre inscription, veuillez
-            réessayer plus tard
+            {translations.forms.request_error}
           </p>
         )
       );
