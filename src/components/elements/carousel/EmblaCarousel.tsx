@@ -1,7 +1,6 @@
 'use client';
 
 import Autoplay from 'embla-carousel-autoplay';
-import { OptionsType } from 'embla-carousel-autoplay/components/Options';
 import useEmblaCarousel, { EmblaCarouselType } from 'embla-carousel-react';
 import { createContext, ReactNode, useContext } from 'react';
 
@@ -24,7 +23,7 @@ const EmblaCarousel = (props: {
   otherChildrens?: ReactNode;
   className?: string;
   containerClassName?: string;
-  options?: Partial<OptionsType>;
+  options?: unknown;
   autoplay?: boolean;
   autoplayOptions?: unknown;
 }) => {
