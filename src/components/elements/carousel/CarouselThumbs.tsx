@@ -1,6 +1,5 @@
 'use client';
 
-import { OptionsType } from 'embla-carousel-autoplay/components/Options';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 
@@ -14,7 +13,7 @@ const CarouselThumbs = (props: {
   containerClassName?: string;
   thumbClassName?: string;
   activeClassName?: string;
-  options?: Partial<OptionsType>;
+  options?: unknown;
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { carouselApi: emblaApi } = useCarouselContext();
