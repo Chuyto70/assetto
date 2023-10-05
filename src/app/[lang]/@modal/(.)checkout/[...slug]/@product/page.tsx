@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import React from 'react'
 
 import { QueryProductFromSlug, QuerySettings } from '@/lib/graphql';
@@ -40,7 +39,7 @@ async function CheckoutModal({
             {paypal_client_id && <PaypalBtn intentType='subscription'
               clientId={paypal_client_id}
               prices={product.attributes.prices}
-              successPageSlug={product.attributes.success_page?.data.attributes.slug ?? '/'}
+              successPageSlug={`/checkout/${product.attributes.success_page?.data.attributes.slug}` ?? '/'}
             />}
           </div>
 
@@ -60,7 +59,6 @@ async function CheckoutModal({
 
         <div className='pt-3 md:pt-6 flex justify-between'>
           <PreviousLink className='text-carbon-700 dark:text-carbon-400 cursor-pointer' dismissBack={true}>{translations.btn.previous}</PreviousLink>
-          <Link href={`/checkout/${product.attributes.success_page?.data.attributes.slug}`}>test</Link>
         </div>
       </div>
     </Modal >
