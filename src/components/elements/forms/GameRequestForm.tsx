@@ -18,9 +18,9 @@ const translations = useServer.getState().translations;
 
 const schema = object({
   email: string()
-    .email(translations.forms.invalid_email)
-    .required(translations.forms.required_email),
-  game: string().required(translations.forms.required_game)
+    .email(translations.forms?.invalid_email ?? 'invalid email')
+    .required(translations.forms?.required_email ?? 'required email'),
+  game: string().required(translations.forms?.required_game ?? 'required game')
 }).required();
 
 export type GameRequestFormType = InferType<typeof schema>;
