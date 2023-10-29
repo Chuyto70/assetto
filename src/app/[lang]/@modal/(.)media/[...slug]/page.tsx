@@ -22,7 +22,7 @@ async function MediaModal({
         height={uploadFile.data.attributes.height}
         alt={uploadFile.data.attributes.alternativeText ?? ''}
         quality={100}
-        className="object-contain w-full"
+        className="object-contain w-full flex justify-center"
       />
     </Modal>
   } else if (uploadFile.data?.attributes.mime.startsWith('video/')) {
@@ -36,6 +36,7 @@ async function MediaModal({
         muted={false}
         width={uploadFile.data.attributes.width}
         height={uploadFile.data.attributes.height}
+        className='h-full w-full'
       >
         <source
           src={MediaUrl(uploadFile.data.attributes.url)}
