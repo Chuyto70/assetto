@@ -69,6 +69,7 @@ export const QuerySettings = async (locale: string) => {
               currencies
               paypal_client_id
               google_tag_id
+              provide_support_script
             }
           }
         }

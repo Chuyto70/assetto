@@ -18,6 +18,7 @@ import { seo } from '@/lib/seo';
 import Toasts from '@/components/elements/toaster/Toasts';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
+import ProvideSupport from '@/components/ProvideSupport';
 import ThemesProvider from '@/components/ThemesProvider';
 import { ZustandProvider } from '@/components/ZustandProvider';
 
@@ -63,7 +64,7 @@ export default async function BaseLayout(props: {
   params: { lang: string },
 }) {
 
-  const { google_tag_id } = await QuerySettings(props.params.lang);
+  const { google_tag_id, provide_support_script } = await QuerySettings(props.params.lang);
   const { translations } = await QueryStaticTexts(props.params.lang);
   const { i18NLocales } = await Queryi18NLocales();
   useServer.setState({
@@ -83,6 +84,7 @@ export default async function BaseLayout(props: {
           <span className='absolute top-0 -left-10 rounded-full bg-secondary-600 w-60 h-60'></span>
           <span className='absolute bottom-1/4 -right-10 rounded-full bg-primary-600 w-60 h-60'></span>
         </span>
+        {provide_support_script && <ProvideSupport script={provide_support_script} />}
         {google_tag_id && <GoogleTag gtmId={google_tag_id} />}
         <ZustandProvider serverState={useServer.getState()} />
         <ThemesProvider>
