@@ -79,7 +79,7 @@ const CategoryPage = async ({
                     ? '' : products.data.length < 3
                       ? 'lg:w-2/3' : 'xs:w-2/3 md:w-full'
                 )} />
-                <div className="prose prose-carbon dark:prose-invert dark:prose-dark md:prose-md max-w-full">
+                <div className="prose prose-carbon dark:prose-invert dark:prose-dark md:prose-md max-w-full flex-1">
                   <RemoteMDX source={product.attributes.description} />
                 </div>
                 <div className="w-full flex justify-center">
