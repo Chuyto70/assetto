@@ -57,14 +57,14 @@ export const seo = (props?: SeoProps): Metadata => {
   meta['metadataBase'] = meta.lang
     ? new URL(`${meta.url}/${meta.lang}`)
     : new URL(`${meta.url}`);
-
+  
   // ? Uncomment code below if you want to use default open graph
   const ogImage = openGraph({
     description: meta.description ? meta.description : defaultMeta.description,
-    siteName: props?.templateTitle
-      ? `${props.templateTitle} | ${meta.siteName}`
-      : meta.title,
-    templateTitle: props?.templateTitle ? props.templateTitle : meta.title,
+    siteName: meta.siteName ?? meta.title,
+    templateTitle: props?.templateTitle
+    ? `${props.templateTitle} | ${meta.siteName}`
+    : meta.title,
   });
   // ADD LOGO to og
 
