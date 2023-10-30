@@ -12,6 +12,7 @@ import MapSection from "@/components/sections/MapSection";
 import MdxBlock from "@/components/sections/MdxBlock";
 import MediaCarousel from "@/components/sections/MediaCarousel";
 import MediaGrid from "@/components/sections/MediaGrid";
+import MediaGridAlt from "@/components/sections/MediaGridAlt";
 import Preview from "@/components/sections/Preview";
 import Services from "@/components/sections/Services";
 import Testimonials from "@/components/sections/Testimonials";
@@ -32,6 +33,7 @@ const sectionComponents = {
   ComponentSectionsCategories: Categories,
   ComponentSectionsGameRequest: GameRequest,
   ComponentSectionsMediaGrid: MediaGrid,
+  ComponentSectionsMediaGridAlt: MediaGridAlt,
   ComponentSectionsMediaCarousel: MediaCarousel,
   ComponentSectionsMap: MapSection,
   ComponentSectionsContact: Contact,

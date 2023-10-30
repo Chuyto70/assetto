@@ -10,8 +10,8 @@ import NextImage from "@/components/NextImage";
 
 import { useServer } from "@/store/serverStore";
 
-const ComponentSectionsMediaGrid = gql`
-  fragment sectionsMediaGrid on ComponentSectionsMediaGrid {
+const ComponentSectionsMediaGridAlt = gql`
+  fragment sectionsMediaGridAlt on ComponentSectionsMediaGridAlt {
     medias {
       data {
         id
@@ -64,11 +64,10 @@ type dataType = {
 };
 
 
-const MediaGrid = async (props: { pageID: number; index: number; pageType: string; }) => {
+const MediaGridAlt = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
-  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType, 'media'], ComponentSectionsMediaGrid, 'sectionsMediaGrid');
+  const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType, 'media'], ComponentSectionsMediaGridAlt, 'sectionsMediaGridAlt');
   const { medias } = content[props.index];
-
 
   return (
     <section className="w-full max-w-screen-3xl px-3 md:px-6 lg:px-12">
@@ -93,7 +92,7 @@ const MediaGrid = async (props: { pageID: number; index: number; pageType: strin
                   width={thumbnail.data?.attributes.width ?? 0}
                   height={thumbnail.data?.attributes.height ?? 0}
                   alt={thumbnail.data?.attributes.alternativeText ?? ''}
-                  className="w-full aspect-square rounded-3xl overflow-hidden border-2 border-carbon-900 dark:border-transparent"
+                  className="w-full aspect-video rounded-3xl overflow-hidden border-2 border-carbon-900 dark:border-transparent"
                   imgClassName='object-cover object-center w-full h-full'
                   sizes="100vw, (min-width: 475px) 50vw, (min-width: 1024px) 33vw, (min-width: 1536px) 25vw"
                 />
@@ -112,7 +111,7 @@ const MediaGrid = async (props: { pageID: number; index: number; pageType: strin
                   width={uploadFile.data?.attributes.width ?? 0}
                   height={uploadFile.data?.attributes.height ?? 0}
                   alt={uploadFile.data?.attributes.alternativeText ?? ''}
-                  className="w-full aspect-square rounded-3xl overflow-hidden border-2 border-carbon-900 dark:border-transparent"
+                  className="w-full aspect-video rounded-3xl overflow-hidden border-2 border-carbon-900 dark:border-transparent"
                   imgClassName='object-cover object-center w-full h-full'
                   sizes="100vw, (min-width: 475px) 50vw, (min-width: 1024px) 33vw, (min-width: 1536px) 25vw"
                 />
@@ -131,7 +130,7 @@ const MediaGrid = async (props: { pageID: number; index: number; pageType: strin
                   muted={true}
                   width={uploadFile.data.attributes.width}
                   height={uploadFile.data.attributes.height}
-                  className='rounded-3xl object-cover object-center w-full aspect-square border-2 border-carbon-900 dark:border-transparent'
+                  className='rounded-3xl object-cover object-center w-full aspect-video border-2 border-carbon-900 dark:border-transparent'
                 >
                   <source
                     src={MediaUrl(uploadFile.data.attributes.url)}
@@ -154,4 +153,4 @@ const MediaGrid = async (props: { pageID: number; index: number; pageType: strin
   )
 }
 
-export default MediaGrid;
+export default MediaGridAlt;
