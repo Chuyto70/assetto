@@ -22,7 +22,7 @@ export function openGraph({
     : undefined;
   const ogDesc = encodeURIComponent(description.trim());
 
-  return `/api/open-graph?siteName=${ogSiteName}&description=${ogDesc}&logo=${ogLogo}${
+  return `${deploymentURL}/api/open-graph?siteName=${ogSiteName}&description=${ogDesc}&logo=${ogLogo}${
     ogTemplateTitle ? `&templateTitle=${ogTemplateTitle}` : ''
   }`;
 }

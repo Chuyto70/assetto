@@ -7,6 +7,7 @@ import { Media } from "@/lib/interfaces";
 import CarouselBtn from "@/components/elements/carousel/CarouselBtn";
 import CarouselItem from "@/components/elements/carousel/CarouselItem";
 import EmblaCarousel from "@/components/elements/carousel/EmblaCarousel";
+import DynamicIcon from "@/components/elements/DynamicIcon";
 import NextImage from "@/components/NextImage";
 
 import { useServer } from "@/store/serverStore";
@@ -106,6 +107,11 @@ const MediaCarousel = async (props: { pageID: number; index: number; pageType: s
                   scroll={false}
                   className="relative z-10 pointer-cursor"
                 >
+                  <DynamicIcon
+                    icon='ph:play-fill'
+                    wrapperClassName="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 drop-shadow-md"
+                    className="w-8 h-8 md:w-10 md:h-10"
+                  />
                   <NextImage
                     className='w-full h-full'
                     imgClassName='rounded-2xl w-full h-full object-cover object-center'
@@ -170,8 +176,13 @@ const MediaCarousel = async (props: { pageID: number; index: number; pageType: s
             <Link href={`/${locale}/media/${slug}`}
               key={media.id}
               scroll={false}
-              className="w-1/2 pointer-cursor"
+              className="w-1/2 pointer-cursor relative"
             >
+              <DynamicIcon
+                icon='ph:play-fill'
+                wrapperClassName="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 drop-shadow-md"
+                className="w-8 h-8 md:w-10 md:h-10"
+              />
               <NextImage
                 className="w-full aspect-video"
                 imgClassName="rounded-2xl object-center object-cover w-full h-full"

@@ -19,11 +19,11 @@ const translations = useServer.getState().translations;
 
 const schema = object({
   email: string()
-    .email(translations.forms.invalid_email)
-    .required(translations.forms.required_email),
-  name: string().required(translations.forms.required_name),
-  subject: string().min(5, translations.forms.min).required(translations.forms.required_subject),
-  message: string().min(5, translations.forms.min).required(translations.forms.required_message),
+    .email(translations.forms?.invalid_email ?? 'invalid email')
+    .required(translations.forms?.required_email ?? 'required email'),
+  name: string().required(translations.forms?.required_name ?? 'required name'),
+  subject: string().min(5, translations.forms?.min ?? 'This should be longer').required(translations.forms?.required_subject ?? 'required subject'),
+  message: string().min(5, translations.forms?.min ?? 'This should be longer').required(translations.forms?.required_message ?? 'required message'),
 }).required();
 
 export type ContactFormType = InferType<typeof schema>;

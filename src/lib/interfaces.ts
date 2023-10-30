@@ -112,6 +112,7 @@ export interface Setting {
     google_tag_id?: string;
     default_currency: string;
     currencies: string[];
+    provide_support_script?: string;
   };
 }
 

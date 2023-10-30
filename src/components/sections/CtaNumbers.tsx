@@ -28,7 +28,7 @@ type dataType = {
       content: {
         text_1: string;
         text_2?: string;
-        cta_btn: {
+        cta_btn?: {
           name: string;
           href: string;
           open_new_tab: boolean;
@@ -71,7 +71,7 @@ const CtaNumbers = async (props: { pageID: number; index: number; pageType: stri
             <h3 className="w-full text-center font-semibold">{text1WithCounter}</h3>
             {text2WithCounter && <h3 className="w-full text-center font-semibold">{text2WithCounter}</h3>}
           </div>
-          <div className="w-full flex justify-center">
+          {cta_btn && <div className="w-full flex justify-center">
             {cta_btn.style === 'button' && <Link
               href={cta_btn.href}
               openNewTab={cta_btn.open_new_tab}
@@ -84,7 +84,7 @@ const CtaNumbers = async (props: { pageID: number; index: number; pageType: stri
             >
               {cta_btn.name}
             </Link>}
-          </div>
+          </div>}
         </div>
       </div>
     </section>
