@@ -35,8 +35,10 @@ const HeaderItem = ({
       display: 'flex',
       opacity: 1,
       transition: {
+        type: 'spring',
+        duration: 0.1,
         when: 'beforeChildren',
-        delayChildren: 0.3,
+        delayChildren: 0.1,
         staggerChildren: 0.05,
       },
     },

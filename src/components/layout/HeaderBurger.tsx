@@ -45,7 +45,7 @@ const HeaderBurger = ({
       opacity: 1,
       transition: {
         when: 'beforeChildren',
-        delayChildren: 0.3,
+        delayChildren: 0.1,
         staggerChildren: 0.05,
       },
     },

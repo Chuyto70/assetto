@@ -1040,7 +1040,7 @@ export const QueryContentComponent = async (
       `,
       queryVariables
     );
-
+  
   return response[type];
 };
 
