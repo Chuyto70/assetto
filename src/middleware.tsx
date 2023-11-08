@@ -89,7 +89,9 @@ export async function middleware(req: NextRequest) {
     pathnameLocale &&
     localeCookie !== pathnameLocale
   ) {
-    const response = NextResponse.next();
+    const response = matchRewrite
+      ? NextResponse.rewrite(new URL(matchRewrite.attributes.newPath, deploymentURL))
+      : NextResponse.next();
     response.cookies.set('preferred_language', pathnameLocale, {
       expires: cookieexpirationDate,
       sameSite: true,
@@ -97,6 +99,8 @@ export async function middleware(req: NextRequest) {
     });
     return response;
   }
+
+  if (matchRewrite) return NextResponse.rewrite(new URL(matchRewrite.attributes.newPath, deploymentURL));
 }
 
 export const config = {
