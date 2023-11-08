@@ -13,6 +13,7 @@ enum Model {
   menu = 'menu',
   media = 'media',
   file = 'file',
+  redirection = 'redirection',
 }
 
 export const POST = async (req: NextRequest) => {

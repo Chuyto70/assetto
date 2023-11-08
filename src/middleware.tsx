@@ -3,6 +3,8 @@ import Negotiator, { Headers } from 'negotiator';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { Queryi18NLocales } from '@/lib/graphql';
+import { getAllRedirections } from '@/lib/helper';
+import { REDIRECTIONS } from '@/lib/interfaces';
 
 import { deploymentURL } from '@/constant/env';
 
@@ -37,8 +39,11 @@ export async function middleware(req: NextRequest) {
     Date.now() + 6 * 30 * 24 * 60 * 60 * 1000
   ); // 6 mois
 
-  // Check if there is any supported locale in the pathname
   const pathname = req.nextUrl.pathname;
+  const redirections = await getAllRedirections();
+  const matchRewrite = redirections.find((r) => r.attributes.oldPath === pathname && r.attributes.type === REDIRECTIONS.rewrite);
+
+  // Check if there is any supported locale in the pathname
   const pathnameIsMissingLocale = locales.every(
     (locale) => !pathname.startsWith(`/${locale}`) && pathname !== `/${locale}`
   );
@@ -55,9 +60,9 @@ export async function middleware(req: NextRequest) {
 
     // e.g. incoming request is /products
     // The new URL is now /fr/products
-    const response = NextResponse.redirect(
-      new URL(`/${locale}${pathname}`, deploymentURL)
-    );
+    const response = matchRewrite
+      ? NextResponse.rewrite(new URL(`/${locale}${matchRewrite.attributes.newPath}`, deploymentURL))
+      : NextResponse.redirect(new URL(`/${locale}${pathname}`, deploymentURL));
     response.cookies.set('preferred_language', locale, {
       expires: cookieexpirationDate,
       sameSite: true,
@@ -70,7 +75,9 @@ export async function middleware(req: NextRequest) {
     !localeCookieIsMissingLocale
   ) {
     const locale = getLocaleFromCookie(localeCookie);
-    return NextResponse.redirect(new URL(`/${locale}${pathname}`, deploymentURL));
+    return matchRewrite
+      ? NextResponse.rewrite(new URL(`/${locale}${matchRewrite.attributes.newPath}`, deploymentURL))
+      : NextResponse.redirect(new URL(`/${locale}${pathname}`, deploymentURL));
   }
 
   // Rewrite cookie if it doesn't match the current pathname

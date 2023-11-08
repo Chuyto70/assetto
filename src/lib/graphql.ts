@@ -10,6 +10,7 @@ import {
   Page,
   Product,
   QueryMetaProps,
+  Redirection,
   Setting,
   UploadFile,
 } from '@/lib/interfaces';
@@ -1454,6 +1455,57 @@ export const MutationSendContactMail = async (
     gql`
       mutation sendContactMail($locale: I18NLocaleCode!, $data: sendContactMailDataType!) {
         sendContactMail(locale: $locale, data: $data)
+      }
+    `,
+    queryVariables
+  );
+
+  return response;
+};
+
+/**
+ * Query all redirections 
+ * @param page nb of the page to query
+ * @param pageSize size of the page to query
+ * @returns data of order
+ */
+export const QueryRedirections = async (
+  page?: number,
+  pageSize?: number,
+) => {
+  const queryVariables = {
+    page,
+    pageSize,
+  };
+
+
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url, { ...options, next: { tags: ['redirection'] } });
+
+  const response = await StrapiClient.request<{
+    redirections: {
+      data: Redirection[];
+      meta: { pagination: { page: number; pageCount: number; } }
+    }
+  }>(
+    gql`
+      query Redirections($page: Int, $pageSize: Int) {
+        redirections(pagination: { page: $page, pageSize: $pageSize }) {
+          data {
+            attributes {
+              newPath
+              oldPath
+              type
+            }
+          }
+          meta {
+            pagination {
+              page
+              pageCount
+            }
+          }
+        }
       }
     `,
     queryVariables

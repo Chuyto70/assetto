@@ -335,3 +335,17 @@ export enum ENUM_MAX_WIDTH_SCREEN {
   'max_w_screen_xl' = 'max-w-screen-xl',
   'max_w_screen_2xl' = 'max-w-screen-2xl',
 }
+
+export interface Redirection {
+  attributes: {
+    newPath: string;
+    oldPath: string;
+    type: REDIRECTIONS;
+  }
+}
+
+export enum REDIRECTIONS {
+  "permanent_redirect" = "permanent_redirect",
+  "temporary_redirect" = "temporary_redirect",
+  "rewrite" = "rewrite"
+}
