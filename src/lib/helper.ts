@@ -1,5 +1,8 @@
 import { isAfter, isBefore, parseISO } from 'date-fns';
 
+import { QueryRedirections } from '@/lib/graphql';
+import { Redirection } from '@/lib/interfaces';
+
 import { deploymentURL } from '@/constant/env';
 
 type OpenGraphType = {
@@ -116,4 +119,15 @@ export const isOnSale = (
 export function toFixedNumber(num: number, digits: number, base = 10): number {
   const pow = Math.pow(base, digits);
   return Math.round(num * pow) / pow;
+}
+
+export async function getAllRedirections(page = 1): Promise<Redirection[]> {
+  const { redirections } = await QueryRedirections(page);
+  const redirectionData = redirections.data;
+
+  if (redirections.meta.pagination.pageCount <= page) return redirectionData;
+
+  const nextPageRedirections = await getAllRedirections(page + 1);
+
+  return redirectionData.concat(nextPageRedirections);
 }
