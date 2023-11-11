@@ -40,7 +40,7 @@ export default function Count({
     [springValue]
   );
 
-  return <span ref={inViewRef} className={className} {...rest}>
+  return <span ref={inViewRef} className={className} style={{ fontVariantNumeric: 'tabular-nums' }} {...rest}>
     {isInView ? <span ref={ref} /> : children}
   </span>;
 }
