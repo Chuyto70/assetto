@@ -41,11 +41,9 @@ export async function middleware(req: NextRequest) {
 
   const pathname = req.nextUrl.pathname;
   const redirections = await getAllRedirections();
-  const matchRedirect = redirections.find((r) => r.attributes.oldPath === pathname && r.attributes.type === REDIRECTIONS.temporary_redirect);
-  const matchPermanentRedirect = redirections.find((r) => r.attributes.oldPath === pathname && r.attributes.type === REDIRECTIONS.permanent_redirect);
+  const matchRedirect = redirections.find((r) => r.attributes.oldPath === pathname && (r.attributes.type === REDIRECTIONS.temporary_redirect || r.attributes.type === REDIRECTIONS.permanent_redirect));
 
-  if (matchRedirect) return NextResponse.redirect(new URL(matchRedirect.attributes.newPath, deploymentURL), 307);
-  if (matchPermanentRedirect) return NextResponse.redirect(new URL(matchPermanentRedirect.attributes.newPath, deploymentURL), 308);
+  if (matchRedirect) return NextResponse.redirect(new URL(matchRedirect.attributes.newPath, deploymentURL), matchRedirect.attributes.type === REDIRECTIONS.temporary_redirect ? 307 : 308);
 
   const matchRewrite = redirections.find((r) => r.attributes.oldPath === pathname && r.attributes.type === REDIRECTIONS.rewrite);
 
