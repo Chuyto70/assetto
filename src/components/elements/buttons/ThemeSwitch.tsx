@@ -28,7 +28,7 @@ const ThemeSwitch = ({ className }: { className?: string }) => {
       isDark={resolvedTheme !== 'dark' ?? true}
       toggleIsOn={resolvedTheme !== 'dark' ?? true}
       toggle={handleToggle}
-      icon={<NextImage src={resolvedTheme === 'dark' ? "/images/moon-dynamic-color.png" : "/images/sun-dynamic-color.png"} quality={100} width={30} height={30} alt="3d icon of the moon" />}
+      icon={<NextImage src={resolvedTheme === 'dark' ? "/images/night-mode.png" : "/images/day-mode.png"} quality={100} width={30} height={30} alt="3d icon of the moon" />}
     />
   )
 }

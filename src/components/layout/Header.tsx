@@ -74,7 +74,7 @@ export default async function Header() {
           {/* This will be the theme and lang/currency buttons */}
           <div className='h-10 w-20 flex items-center'><ThemeSwitch className='h-full' /></div>
           <SettingsButton className='h-10 rounded-full flex items-center p-1 px-2 gap-1 bg-carbon-200 dark:bg-carbon-900 shadow-carbon-200-inner dark:shadow-carbon-900-inner'>
-            <Image src="/images/setting-dynamic-color.png" quality={100} width={30} height={30} alt="3d settings icon" />
+            <Image src="/images/region.png" quality={100} width={30} height={30} alt="3d settings icon" />
           </SettingsButton>
         </div>
       </div>

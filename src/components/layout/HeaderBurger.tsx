@@ -165,7 +165,7 @@ const HeaderBurger = ({
             >
               <div className='h-10 w-20'><ThemeSwitch /></div>
               <SettingsButton className='h-10 rounded-full flex items-center p-1 px-2 gap-1 bg-carbon-200 dark:bg-carbon-900 shadow-carbon-200-inner dark:shadow-carbon-900-inner'>
-                <NextImage src="/images/setting-dynamic-color.png" quality={100} width={30} height={30} alt="3d settings icon" />
+                <NextImage src="/images/region.png" quality={100} width={30} height={30} alt="3d settings icon" />
               </SettingsButton>
             </MotionLi>
           </MotionUl>

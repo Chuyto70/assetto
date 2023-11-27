@@ -66,7 +66,7 @@ const ContactForm = ({
         notify(
           0,
           <p>
-            {translations.forms.request_sent ?? 'request sent'}
+            {translations.forms?.request_sent ?? 'request sent'}
           </p>
         )
       )
@@ -74,7 +74,7 @@ const ContactForm = ({
         notify(
           1,
           <p>
-            {translations.forms.request_error ?? 'request error'}
+            {translations.forms?.request_error ?? 'request error'}
           </p>
         )
       );
