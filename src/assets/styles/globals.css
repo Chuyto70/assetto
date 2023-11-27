@@ -150,6 +150,9 @@
     @apply hidden;
   }
 
+  .eflsight-fix {
+    @apply w-full;
+  }
   .eflsight-fix [class^='Main__Container'],
   .eflsight-fix [class*=' Main__Container'],
   .eflsight-fix [class^='swiper-wrapper'],
