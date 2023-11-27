@@ -80,14 +80,14 @@ const Carousel = async (props: { pageID: number; index: number; pageType: string
             className="relative w-full h-full"
           >
             <Image
-              className="h-full w-full object-center object-cover brightness-75"
+              className="h-full w-full object-center object-cover"
               width={item.image.data.attributes.width}
               height={item.image.data.attributes.height}
               src={MediaUrl(item.image.data.attributes.url)}
               alt={item.image.data.attributes.alternativeText ?? ''}
               sizes="100vw (min-width: 768px) 70vw"
             />
-            <h3 className="absolute bottom-0 left-0 w-full line-clamp-2 text-center p-3 lg:p-6 text-sm lg:text-base text-primary-600">
+            <h3 className="absolute bottom-3 left-0 w-full line-clamp-1 text-center p-1 lg:p-3 text-sm lg:text-base text-primary-600 bg-black/75">
               {item.title}
             </h3>
           </div>
@@ -117,7 +117,7 @@ const Carousel = async (props: { pageID: number; index: number; pageType: string
               className="relative w-full aspect-square xs:aspect-video rounded-3xl overflow-hidden mr-3 lg:mr-6"
             >
               <Image
-                className="h-full w-full object-center object-cover brightness-75"
+                className="h-full w-full object-center object-cover"
                 width={item.image.data.attributes.width}
                 height={item.image.data.attributes.height}
                 src={MediaUrl(item.image.data.attributes.url)}
@@ -125,7 +125,7 @@ const Carousel = async (props: { pageID: number; index: number; pageType: string
                 sizes="100vw (min-width: 768px) 70vw"
                 priority={index === 0}
               />
-              <div className="absolute bottom-0 left-0 p-3 lg:p-6 text-white no-underline">
+              <div className="absolute w-full bottom-0 left-0 p-3 lg:p-6 text-white no-underline bg-black/75">
                 {item.href ? <Link href={item.href}>
                   <MDXRemote source={item.description} />
                 </Link> : <MDXRemote source={item.description} />}
