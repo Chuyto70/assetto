@@ -32,7 +32,7 @@ async function CheckoutModal({
           <NextImage src="/images/card-dynamic-color.png" quality={100} width={30} height={30} alt="3d icon of a credit card"
             className='inline-block'
           />
-          {translations.checkout.subscribe_to} {product.attributes.title}</h3>
+          {translations.checkout?.subscribe_to} {product.attributes.title}</h3>
 
         <div className='pt-3 md:pt-6 flex flex-col md:flex-row gap-3'>
           <div className='w-full md:w-1/2'>
@@ -45,8 +45,8 @@ async function CheckoutModal({
 
           <div className='w-full md:w-1/2 flex flex-col gap-3 rounded-2xl border-2 border-carbon-300 dark:border-carbon-800 p-3 md:p-6'>
             <div className='flex items-center w-full justify-between text-lg md:text-xl'>
-              <p className='text-carbon-700 dark:text-carbon-400'>{translations.checkout.total_amount}</p>
-              <p className='font-medium'><FormatPrice text={translations.checkout.format_price} prices={product.attributes.prices} /></p>
+              <p className='text-carbon-700 dark:text-carbon-400'>{translations.checkout?.total_amount}</p>
+              <p className='font-medium'><FormatPrice text={translations.checkout?.format_price} prices={product.attributes.prices} /></p>
             </div>
             <hr className='border-t-2 border-carbon-300 dark:border-carbon-800' />
             <PriceDetails
@@ -58,7 +58,7 @@ async function CheckoutModal({
         </div>
 
         <div className='pt-3 md:pt-6 flex justify-between'>
-          <PreviousLink className='text-carbon-700 dark:text-carbon-400 cursor-pointer' dismissBack={true}>{translations.btn.previous}</PreviousLink>
+          <PreviousLink className='text-carbon-700 dark:text-carbon-400 cursor-pointer' dismissBack={true}>{translations.btn?.previous}</PreviousLink>
         </div>
       </div>
     </Modal >
