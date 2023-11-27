@@ -258,7 +258,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
         })()}
         {(() => {
           if (!media_3.data) return null;
-          const { ext_video, thumbnail, slug, media: uploadFile } = media_1.data.attributes;
+          const { ext_video, thumbnail, slug, media: uploadFile } = media_3.data.attributes;
           if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
 
             <NextLink href={`/${locale}/media/${slug}`}
