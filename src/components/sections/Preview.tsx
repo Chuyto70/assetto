@@ -164,7 +164,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
     <section className="w-full px-3 md:px-6 lg:px-12 max-w-screen-2xl flex flex-col lg:flex-row items-center gap-6 md:gap-12">
       <div className="lg:w-1/2 flex flex-col items-center lg:items-start lg:justify-center gap-3 md:gap-6">
         <h2 className="text-center lg:text-left italic">{title}</h2>
-        <p className="text-center lg:text-left">{description}</p>
+        <p className="text-center text-carbon-700 dark:text-carbon-400 lg:text-left">{description}</p>
         <Link
           href={link.href}
           openNewTab={link.open_new_tab}
