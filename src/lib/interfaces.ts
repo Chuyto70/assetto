@@ -88,6 +88,7 @@ export interface Article {
     content: string;
     author: string;
     metadata: SeoMetadata;
+    locale: string;
     updatedAt?: string;
     publishedAt?: string;
     localizations?: {
