@@ -40,7 +40,7 @@ export const QuerySettings = async (locale: string) => {
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['setting'] } });
+    fetch(url as URL, { ...options, next: { tags: ['setting'] } });
 
   const { setting } = await StrapiClient.request<{
     setting: {
@@ -93,7 +93,7 @@ export const QueryStaticTexts = async (locale: string) => {
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['static_texts'] } });
+    fetch(url as URL,{ ...options, next: { tags: ['static_texts'] } });
 
   const { staticText } = await StrapiClient.request<{
     staticText: {
@@ -145,7 +145,7 @@ export const QueryIdFromSlug = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, {
+    fetch(url as URL,{
       ...options,
       next: { tags: ['page', 'product', 'category'] },
     });
@@ -240,7 +240,7 @@ export const QueryAllPaths = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, {
+    fetch(url as URL,{
       ...options,
       next: { tags: ['page', 'product', 'category', 'media'] },
     });
@@ -360,7 +360,7 @@ export const QuerySeo = async (locale: string, slug: string[] | undefined) => {
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, {
+    fetch(url as URL,{
       ...options,
       next: { tags: ['page', 'product', 'category'] },
     });
@@ -486,7 +486,7 @@ export const QueryPageFromSlug = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['page'] } });
+    fetch(url as URL,{ ...options, next: { tags: ['page'] } });
 
   const { pages } = await StrapiClient.request<{ pages: { data: Page[]}}>(
     gql`
@@ -545,7 +545,7 @@ export const QueryCategoryFromSlug = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['category'] } });
+    fetch(url as URL,{ ...options, next: { tags: ['category'] } });
 
   const { categories } = await StrapiClient.request<{ categories: { data: Category[]}}>(
     gql`
@@ -639,7 +639,7 @@ export const QueryArticleFromSlug = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['article'] } });
+    fetch(url as URL,{ ...options, next: { tags: ['article'] } });
 
   const { articles } = await StrapiClient.request<{ articles: { data: Article[]}}>(
     gql`
@@ -705,7 +705,7 @@ export const QueryLatestArticle = async (locale: string, page: number, pageSize:
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, {
+    fetch(url as URL,{
       ...options,
       next: { tags: ['article'] },
     });
@@ -773,7 +773,7 @@ export const QueryProduct = async (id: number, disableCaching = false) => {
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, {
+    fetch(url as URL,{
       ...options,
       next: { tags: ['product'] },
       cache: `${disableCaching ? 'no-store' : 'default'}`,
@@ -874,7 +874,7 @@ export const QueryProductFromSlug = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['product'] } });
+    fetch(url as URL,{ ...options, next: { tags: ['product'] } });
 
   const { products } = await StrapiClient.request<{
     products: { data: Product[] };
@@ -967,7 +967,7 @@ export const QueryMenus = async (locale: string) => {
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['menu'] } });
+    fetch(url as URL,{ ...options, next: { tags: ['menu'] } });
 
   const { menu } = await StrapiClient.request<{
     menu: { data: Menu };
@@ -1088,7 +1088,7 @@ export const QueryContentComponent = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: [...tags] } });
+    fetch(url as URL,{ ...options, next: { tags: [...tags] } });
 
   const response =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1126,7 +1126,7 @@ export const QueryOrderFromPaymentIntent = async (
   };
 
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, cache: 'no-store' });
+    fetch(url as URL,{ ...options, cache: 'no-store' });
 
   const { orders } = await StrapiClient.request<{
     orders: { data: Order[] };
@@ -1162,7 +1162,7 @@ export const MutationCreateOrder = async (input: unknown) => {
   };
 
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, cache: 'no-store' });
+    fetch(url as URL,{ ...options, cache: 'no-store' });
 
   const response = await StrapiClient.request<{ createOrder: { data: Order } }>(
     gql`
@@ -1219,7 +1219,7 @@ export const MutationUpdateOrder = async (
   };
 
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, cache: 'no-store' });
+    fetch(url as URL,{ ...options, cache: 'no-store' });
 
   const response = await StrapiClient.request<{ updateOrder: { data: Order } }>(
     gql`
@@ -1271,7 +1271,7 @@ export const MutationDeleteOrder = async (id: string) => {
   };
 
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, cache: 'no-store' });
+    fetch(url as URL,{ ...options, cache: 'no-store' });
 
   const response = await StrapiClient.request<{ deleteOrder: { data: Order } }>(
     gql`
@@ -1319,7 +1319,7 @@ export const MutationDeleteOrder = async (id: string) => {
 export const Queryi18NLocales = async () => {
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, cache: 'no-store' });
+    fetch(url as URL,{ ...options, cache: 'no-store' });
   
 
   const response =
@@ -1362,7 +1362,7 @@ export const QueryMediaFromSlug = async (locale: string, slug: string[] | undefi
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-  fetch(url, { ...options, next: { tags: ['media'] } });
+  fetch(url as URL,{ ...options, next: { tags: ['media'] } });
 
   const response = await StrapiClient.request<{ medias: { data: Media[] } }>(
     gql`
@@ -1443,7 +1443,7 @@ export const QueryUploadFileFromSrc = async (src: string) => {
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-  fetch(url, { ...options, next: { tags: ['file'] } });
+  fetch(url as URL,{ ...options, next: { tags: ['file'] } });
 
   const response = await StrapiClient.request<{ uploadFiles: { data: UploadFile[] } }>(
     gql`
@@ -1483,7 +1483,7 @@ export const MutationUpsertGameRequest = async (
   };
 
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, cache: 'no-store' });
+    fetch(url as URL,{ ...options, cache: 'no-store' });
 
   const response = await StrapiClient.request<{ upsertGameRequest: { data: unknown } }>(
     gql`
@@ -1517,7 +1517,7 @@ export const MutationSendContactMail = async (
   };
 
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, cache: 'no-store' });
+    fetch(url as URL,{ ...options, cache: 'no-store' });
 
   const response = await StrapiClient.request<{ sendContactMail: { data: null } }>(
     gql`
@@ -1549,7 +1549,7 @@ export const QueryRedirections = async (
 
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
-    fetch(url, { ...options, next: { tags: ['redirection'] } });
+    fetch(url as URL,{ ...options, next: { tags: ['redirection'] } });
 
   const response = await StrapiClient.request<{
     redirections: {
