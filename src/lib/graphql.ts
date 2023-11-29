@@ -212,12 +212,15 @@ export const QueryIdFromSlug = async (
 type graphQLPathsProps = {
   pages: {
     data: Page[];
+    meta: QueryMetaProps;
   };
   products: {
     data: Product[];
+    meta: QueryMetaProps;
   };
   categories: {
     data: Category[];
+    meta: QueryMetaProps;
   };
 };
 
@@ -225,48 +228,113 @@ type graphQLPathsProps = {
  * Query all paths from Strapi
  * @returns list of paths including languages
  */
-export const QueryAllPaths = async () => {
+export const QueryAllPaths = async (
+  page?: number,
+  pageSize = 50,
+) => {
+
+  const queryVariables = {
+    page,
+    pageSize,
+  };
+
   //Add revalidate Tags to next.js fetch
   StrapiClient.requestConfig.fetch = (url, options) =>
     fetch(url, {
       ...options,
-      next: { tags: ['page', 'product', 'category'] },
+      next: { tags: ['page', 'product', 'category', 'media'] },
     });
 
   const data = await StrapiClient.request<graphQLPathsProps>(
     gql`
-      query Paths {
-        pages(publicationState: LIVE, locale: "all") {
+      query Paths($page: Int, $pageSize: Int) {
+        pages(publicationState: LIVE, locale: "all", pagination: { page: $page, pageSize: $pageSize }) {
           data {
             id
             attributes {
               locale
               slug
+              updatedAt
+            }
+          }
+          meta {
+            pagination {
+              page
+              pageCount
             }
           }
         }
-
-        products(publicationState: LIVE, locale: "all") {
+      
+        products(publicationState: LIVE, locale: "all", pagination: { page: $page, pageSize: $pageSize }) {
           data {
             id
             attributes {
               locale
               slug
+              updatedAt
+            }
+          }
+          meta {
+            pagination {
+              page
+              pageCount
             }
           }
         }
-
-        categories(locale: "all") {
+      
+        categories(locale: "all", pagination: { page: $page, pageSize: $pageSize }) {
           data {
             id
             attributes {
               locale
               slug
+              updatedAt
+            }
+          }
+          meta {
+            pagination {
+              page
+              pageCount
             }
           }
         }
-      }
-    `
+        
+        articles(locale: "all", publicationState: LIVE, pagination: { page: $page, pageSize: $pageSize }) {
+          data {
+            id
+            attributes {
+              locale
+              slug
+              updatedAt
+            }
+          }
+          meta {
+            pagination {
+              page
+              pageCount
+            }
+          }
+        }
+      
+        medias(locale: "all", publicationState: LIVE, pagination: { page: $page, pageSize: $pageSize }) {
+          data {
+            id
+            attributes {
+              locale
+              slug
+              updatedAt
+            }
+          }
+          meta {
+            pagination {
+              page
+              pageCount
+            }
+          }
+        }
+      }    
+    `,
+    queryVariables
   );
 
   return data;
@@ -1471,7 +1539,7 @@ export const MutationSendContactMail = async (
  */
 export const QueryRedirections = async (
   page?: number,
-  pageSize?: number,
+  pageSize = 50,
 ) => {
   const queryVariables = {
     page,
