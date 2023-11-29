@@ -258,6 +258,7 @@ export interface Media {
       url: string;
     };
     metadata: SeoMetadata;
+    locale: string;
     updatedAt: string;
     localizations: {
       data: Localizations[];
@@ -266,7 +267,7 @@ export interface Media {
 }
 
 export interface QueryMetaProps {
-  pagination?: {
+  pagination: {
     page: number;
     pageCount: number;
   }

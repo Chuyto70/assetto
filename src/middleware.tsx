@@ -109,7 +109,16 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    // Skip all internal paths (_next, images, fonts, api)
-    '/((?!_next|images|fonts|api).*)',
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next (static files)
+     * - images (image optimization files)
+     * - fonts (font files)
+     * - api (API routes)
+     * - favicon.ico (favicon file)
+     * - robots.txt (SEO file)
+     * - sitemap.xml (SEO file)
+     */
+    '/((?!_next|images|fonts|api|favicon.ico|robots.txt|sitemap.xml).*)',
   ],
 };

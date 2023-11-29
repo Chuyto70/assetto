@@ -1,7 +1,7 @@
 import { isAfter, isBefore, parseISO } from 'date-fns';
 
 import { QueryRedirections } from '@/lib/graphql';
-import { Redirection } from '@/lib/interfaces';
+import { QueryMetaProps, Redirection } from '@/lib/interfaces';
 
 import { deploymentURL } from '@/constant/env';
 
@@ -130,4 +130,38 @@ export async function getAllRedirections(page = 1): Promise<Redirection[]> {
   const nextPageRedirections = await getAllRedirections(page + 1);
 
   return redirectionData.concat(nextPageRedirections);
+}
+
+interface QueryResult {
+  [key: string]: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data: any[];
+    meta: QueryMetaProps;
+  };
+}
+
+export async function paginateQuery(query: (page: number) => Promise<QueryResult>, page = 1, ): Promise<QueryResult> {
+  const data = await query(page);
+
+  // Check if all keys have reached the limit
+  const allKeysReachedLimit = Object.keys(data).every(key => data[key].meta.pagination.pageCount <= page);
+
+  if (allKeysReachedLimit) {
+    return data;
+  }
+
+  // Get data from next page
+  const nextPageData = await paginateQuery(query, page + 1);
+
+  // Combine data from current and next page
+  const combinedData: QueryResult = {};
+
+  Object.keys(data).forEach(key => {
+    combinedData[key] = {
+      data: data[key].data.concat(nextPageData[key].data),
+      meta: data[key].meta,
+    };
+  });
+
+  return combinedData;
 }
