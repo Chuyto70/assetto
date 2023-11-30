@@ -222,6 +222,14 @@ type graphQLPathsProps = {
     data: Category[];
     meta: QueryMetaProps;
   };
+  articles: {
+    data: Article[];
+    meta: QueryMetaProps;
+  };
+  medias: {
+    data: Media[];
+    meta: QueryMetaProps;
+  };
 };
 
 /**

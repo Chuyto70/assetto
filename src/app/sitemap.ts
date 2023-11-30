@@ -2,13 +2,12 @@ import { MetadataRoute } from 'next';
 
 import { QueryAllPaths } from '@/lib/graphql';
 import { paginateQuery } from '@/lib/helper';
-import { Category, Media, Page, Product } from '@/lib/interfaces';
- 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+import { Article, Category, Media, Page, Product } from '@/lib/interfaces';
 
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const data = await paginateQuery(QueryAllPaths);
   
-  function mapData(dataArray: (Product | Category | Page | Media)[], changeFrequency?: "weekly" | "yearly" | "always" | "hourly" | "daily" | "monthly" | "never", priority = 0.5, staticPath?: string ) {
+  function mapData(dataArray: (Product | Category | Page | Media | Article)[], changeFrequency?: "weekly" | "yearly" | "always" | "hourly" | "daily" | "monthly" | "never", priority = 0.5, staticPath?: string ) {
     return dataArray.map(({ attributes: { slug, locale, updatedAt } }) => {
       slug = slug === "/" ? "" : slug;
       return {
@@ -27,3 +26,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...mapData(data.medias.data, "monthly", 0.5, "media"),
   ]
 }
+
+export const runtime = 'edge';
