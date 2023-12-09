@@ -8,17 +8,22 @@ import { REDIRECTIONS } from '@/lib/interfaces';
 
 import { deploymentURL } from '@/constant/env';
 
-const defaultLocale = global.process.env.NEXT_PUBLIC_DEFAULT_LOCALE || 'fr';
+const defaultLocale = global.process.env.NEXT_PUBLIC_DEFAULT_LOCALE || 'en';
 
 let locales: string[] = [defaultLocale];
 
 function getLocaleFromReq(req: Request) {
   const headersObj = Object.fromEntries(req.headers.entries());
+  // console.log(headersObj);
   const headers = Object.keys(headersObj).reduce<Headers>((obj, key) => {
     obj[key.toLowerCase()] = headersObj[key];
     return obj;
   }, {});
+  // console.log(headers);
   const languages = new Negotiator({ headers }).languages();
+  if (!languages.length || languages[0] === '*') {
+    return defaultLocale;
+  }
   return match(languages, locales, defaultLocale); // -> 'fr'
 }
 

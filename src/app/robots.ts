@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/api', '/_next'],
+      disallow: ['/api', '/_next', '/checkout'],
     },
     sitemap: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/sitemap.xml`,
   }
