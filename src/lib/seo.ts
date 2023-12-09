@@ -48,10 +48,10 @@ export const seo = (props?: SeoProps): Metadata => {
 
   meta['title'] = props?.templateTitle
     ? props.titleSuffix
-      ? `${props.templateTitle} • ${props.titleSuffix}`
-      : `${props.templateTitle} • ${meta.siteName}`
+      ? `${props.templateTitle} – ${props.titleSuffix}`
+      : `${props.templateTitle} – ${meta.siteName}`
     : props?.title && props.siteName
-    ? `${props.title} • ${props.siteName}`
+    ? `${props.title} – ${props.siteName}`
     : meta.title;
 
   meta['metadataBase'] = meta.lang
@@ -63,7 +63,7 @@ export const seo = (props?: SeoProps): Metadata => {
     description: meta.description ? meta.description : defaultMeta.description,
     siteName: meta.siteName ?? meta.title,
     templateTitle: props?.templateTitle
-    ? `${props.templateTitle} | ${meta.siteName}`
+    ? `${props.templateTitle} – ${meta.siteName}`
     : meta.title,
   });
   // ADD LOGO to og
