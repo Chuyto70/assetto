@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 import { gql, QueryContentComponent } from "@/lib/graphql";
-import { MediaUrl } from "@/lib/helper";
+import { includeLocaleLink, MediaUrl } from "@/lib/helper";
 import { Media } from "@/lib/interfaces";
 
 import DynamicIcon from "@/components/elements/DynamicIcon";
@@ -77,7 +77,7 @@ const MediaGridAlt = async (props: { pageID: number; index: number; pageType: st
 
           if ((ext_video || uploadFile.data?.attributes.mime.startsWith('video/')) && thumbnail.data) return (
             <li key={media.id}>
-              <Link href={`/${locale}/media/${slug}`}
+              <Link href={includeLocaleLink(`/media/${slug}`)}
                 scroll={false}
                 className="relative"
               >
@@ -102,7 +102,7 @@ const MediaGridAlt = async (props: { pageID: number; index: number; pageType: st
 
           else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
             <li key={media.id}>
-              <Link href={`/${locale}/media/${slug}`}
+              <Link href={includeLocaleLink(`/media/${slug}`)}
                 scroll={false}
               >
                 <NextImage
@@ -121,7 +121,7 @@ const MediaGridAlt = async (props: { pageID: number; index: number; pageType: st
 
           else if (uploadFile.data?.attributes.mime.startsWith('video/') && !thumbnail.data) return (
             <li key={media.id}>
-              <Link href={`/${locale}/media/${slug}`}
+              <Link href={includeLocaleLink(`/media/${slug}`)}
                 scroll={false}
               >
                 <video

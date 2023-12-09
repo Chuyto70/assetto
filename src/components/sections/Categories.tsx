@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { gql, QueryContentComponent } from "@/lib/graphql";
-import { MediaUrl } from "@/lib/helper";
+import { includeLocaleLink, MediaUrl } from "@/lib/helper";
 import { Product, UploadFile } from "@/lib/interfaces";
 
 import FormatPrice from "@/components/elements/texts/FormatPrice";
@@ -90,7 +90,7 @@ const Categories = async (props: { pageID: number; index: number; pageType: stri
           <li key={category.id}
             className="block h-fit text-center"
           >
-            <Link href={`/${locale}/${category.attributes.slug}`}
+            <Link href={includeLocaleLink(category.attributes.slug)}
               className="flex flex-col gap-3"
             >
               <Image className="h-full w-full object-center object-cover rounded-2xl transition-colors duration-300 border-2 border-transparent hover:border-primary-600"

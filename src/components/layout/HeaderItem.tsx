@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import clsxm from '@/lib/clsxm';
+import { includeLocaleLink } from '@/lib/helper';
 import { LinkInterface } from '@/lib/interfaces';
 
 import Link from '@/components/elements/links';
@@ -110,7 +111,7 @@ const HeaderItem = ({
             {sublinks.map((item) => (
               <MotionLi key={item.id} variants={itemVariants}>
                 <Link
-                  href={item.href}
+                  href={includeLocaleLink(item.href)}
                   style={item.style}
                   icon={item.icon}
                   variant={item.variant}

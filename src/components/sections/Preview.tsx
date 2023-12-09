@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 
 import { gql, QueryContentComponent } from "@/lib/graphql";
-import { MediaUrl } from "@/lib/helper";
+import { includeLocaleLink, MediaUrl } from "@/lib/helper";
 import { LinkInterface, Media } from "@/lib/interfaces";
 
 import Link from "@/components/elements/links";
@@ -166,7 +166,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
         <h2 className="text-center lg:text-left italic">{title}</h2>
         <p className="text-center text-carbon-700 dark:text-carbon-400 lg:text-left">{description}</p>
         <Link
-          href={link.href}
+          href={includeLocaleLink(link.href)}
           openNewTab={link.open_new_tab}
           style={link.style}
           variant={link.variant}
@@ -181,7 +181,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
           const { ext_video, thumbnail, slug, media: uploadFile } = media_1.data.attributes;
           if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
 
-            <NextLink href={`/${locale}/media/${slug}`}
+            <NextLink href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-1 row-start-1 col-span-2 row-span-2 w-full"
             >
@@ -200,7 +200,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
 
           else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
 
-            <NextLink href={`/${locale}/media/${slug}`}
+            <NextLink href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-1 row-start-1 col-span-2 row-span-2 w-full"
             >
@@ -221,7 +221,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
           const { ext_video, thumbnail, slug, media: uploadFile } = media_2.data.attributes;
           if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
 
-            <NextLink href={`/${locale}/media/${slug}`}
+            <NextLink href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-3 row-start-1 col-span-2 row-span-2 w-full"
             >
@@ -240,7 +240,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
 
           else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
 
-            <NextLink href={`/${locale}/media/${slug}`}
+            <NextLink href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-3 row-start-1 col-span-2 row-span-2 w-full"
             >
@@ -261,7 +261,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
           const { ext_video, thumbnail, slug, media: uploadFile } = media_3.data.attributes;
           if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
 
-            <NextLink href={`/${locale}/media/${slug}`}
+            <NextLink href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-2 row-start-2 col-span-2 row-span-2 w-full"
             >
@@ -280,7 +280,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
 
           else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
 
-            <NextLink href={`/${locale}/media/${slug}`}
+            <NextLink href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-2 row-start-2 col-span-2 row-span-2 w-full"
             >

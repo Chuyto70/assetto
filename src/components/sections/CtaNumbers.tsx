@@ -1,4 +1,5 @@
 import { gql, QueryContentComponent } from "@/lib/graphql";
+import { includeLocaleLink } from "@/lib/helper";
 import { ENUM_ELEMENTS_LINK_DIRECTION, ENUM_ELEMENTS_LINK_STYLE, ENUM_ELEMENTS_LINK_VARIANT } from "@/lib/interfaces";
 
 import Link from "@/components/elements/links";
@@ -73,7 +74,7 @@ const CtaNumbers = async (props: { pageID: number; index: number; pageType: stri
           </div>
           {cta_btn && <div className="w-full flex justify-center">
             {cta_btn.style === 'button' && <Link
-              href={cta_btn.href}
+              href={includeLocaleLink(cta_btn.href)}
               openNewTab={cta_btn.open_new_tab}
               style={cta_btn.style}
               variant={cta_btn.variant}

@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 
+import { includeLocaleLink } from '@/lib/helper';
 import { HeaderItem } from '@/lib/interfaces';
 
 import ThemeSwitch from '@/components/elements/buttons/ThemeSwitch';
@@ -119,7 +120,7 @@ const HeaderBurger = ({
               >
                 <span className='inline-flex items-center gap-1'>
                   <Link
-                    href={item.link.href}
+                    href={includeLocaleLink(item.link.href)}
                     style={item.link.style}
                     icon={item.link.icon}
                     variant={item.link.variant}
@@ -142,7 +143,7 @@ const HeaderBurger = ({
                     {item.sublinks.map((subItem) => (
                       <li key={subItem.id} className='flex justify-center'>
                         <Link
-                          href={subItem.href}
+                          href={includeLocaleLink(subItem.href)}
                           style={subItem.style}
                           icon={subItem.icon}
                           openNewTab={item.link.open_new_tab}

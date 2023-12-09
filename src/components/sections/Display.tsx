@@ -2,7 +2,7 @@ import NextLink from "next/link";
 
 import clsxm from "@/lib/clsxm";
 import { gql, QueryContentComponent } from "@/lib/graphql";
-import { MediaUrl } from "@/lib/helper";
+import { includeLocaleLink, MediaUrl } from "@/lib/helper";
 import { LinkInterface, Media } from "@/lib/interfaces";
 
 import FramerInfinite from "@/components/elements/carousel/FramerInfinite";
@@ -102,7 +102,7 @@ const Display = async (props: { pageID: number; index: number; pageType: string;
             medias.data.length > 4 && 'lg:text-right'
           )}>{description}</p>}
           {link && <Link
-            href={link.href}
+            href={includeLocaleLink(link.href)}
             openNewTab={link.open_new_tab}
             style={link.style}
             variant={link.variant}
@@ -120,7 +120,7 @@ const Display = async (props: { pageID: number; index: number; pageType: string;
 
           if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
 
-            <NextLink href={`/${locale}/media/${slug}`}
+            <NextLink href={includeLocaleLink(`/media/${slug}`)}
               key={media.id}
               scroll={false}
               className="w-1/2 h-fit p-3"
@@ -140,7 +140,7 @@ const Display = async (props: { pageID: number; index: number; pageType: string;
 
           else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
 
-            <NextLink href={`/${locale}/media/${slug}`}
+            <NextLink href={includeLocaleLink(`/media/${slug}`)}
               key={media.id}
               scroll={false}
               className="w-1/2 h-fit p-3"
@@ -168,7 +168,7 @@ const Display = async (props: { pageID: number; index: number; pageType: string;
 
             if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
 
-              <NextLink href={`/${locale}/media/${slug}`}
+              <NextLink href={includeLocaleLink(`/media/${slug}`)}
                 key={media.id}
                 scroll={false}
                 className="shrink-0 grow-0 w-60 md:w-96 h-fit p-3"
@@ -188,7 +188,7 @@ const Display = async (props: { pageID: number; index: number; pageType: string;
 
             else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
 
-              <NextLink href={`/${locale}/media/${slug}`}
+              <NextLink href={includeLocaleLink(`/media/${slug}`)}
                 key={media.id}
                 scroll={false}
                 className="shrink-0 grow-0 w-60 md:w-96 h-fit p-3"
@@ -212,7 +212,7 @@ const Display = async (props: { pageID: number; index: number; pageType: string;
 
             if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
 
-              <NextLink href={`/${locale}/media/${slug}`}
+              <NextLink href={includeLocaleLink(`/media/${slug}`)}
                 key={media.id}
                 scroll={false}
                 className="shrink-0 grow-0 w-60 md:w-96 h-fit p-3"
@@ -232,7 +232,7 @@ const Display = async (props: { pageID: number; index: number; pageType: string;
 
             else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
 
-              <NextLink href={`/${locale}/media/${slug}`}
+              <NextLink href={includeLocaleLink(`/media/${slug}`)}
                 key={media.id}
                 scroll={false}
                 className="shrink-0 grow-0 w-60 md:w-96 h-fit p-3"
