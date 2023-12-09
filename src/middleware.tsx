@@ -8,7 +8,7 @@ import { REDIRECTIONS } from '@/lib/interfaces';
 
 import { deploymentURL } from '@/constant/env';
 
-const defaultLocale = global.process.env.NEXT_PUBLIC_DEFAULT_LOCALE || 'fr';
+const defaultLocale = global.process.env.NEXT_PUBLIC_DEFAULT_LOCALE || 'en';
 
 let locales: string[] = [defaultLocale];
 
