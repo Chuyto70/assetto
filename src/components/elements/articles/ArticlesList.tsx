@@ -3,7 +3,7 @@
 import { format, parseISO } from 'date-fns';
 import React, { useState } from 'react'
 
-import { MediaUrl } from '@/lib/helper';
+import { includeLocaleLink, MediaUrl } from '@/lib/helper';
 import { Article } from '@/lib/interfaces';
 
 import Button from '@/components/elements/buttons/Button';
@@ -66,7 +66,7 @@ const ArticlesList = ({ articles, pageSize = 3, pageCount = 1, page = 1, loadMor
                 </div>
                 <h3 className='w-full'>{el.attributes.title}</h3>
                 <p className='w-full line-clamp-3'>{el.attributes.short_description}</p>
-                <ButtonLink href={`/${locale}/article/${el.attributes.slug}`}
+                <ButtonLink title={el.attributes.title} href={includeLocaleLink(`/article/${el.attributes.slug}`)}
                   scroll={false}
                   variant='dark'
                   className='w-fit'

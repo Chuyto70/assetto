@@ -3,6 +3,8 @@ import { isAfter, isBefore, parseISO } from 'date-fns';
 import { QueryRedirections } from '@/lib/graphql';
 import { QueryMetaProps, Redirection } from '@/lib/interfaces';
 
+import { useServer } from '@/store/serverStore';
+
 import { deploymentURL } from '@/constant/env';
 
 type OpenGraphType = {
@@ -115,6 +117,17 @@ export const isOnSale = (
   }
   return false;
 };
+
+export const includeLocaleLink = (url: string) => {
+  const locale = useServer.getState().locale;
+  if (url.startsWith('http') || url.startsWith('https') || url.startsWith('mailto')) {
+    return url;
+  } else if (locale && url.startsWith('/')) {
+    return `/${locale}${url}`;
+  }
+  return url;
+};
+
 
 export function toFixedNumber(num: number, digits: number, base = 10): number {
   const pow = Math.pow(base, digits);

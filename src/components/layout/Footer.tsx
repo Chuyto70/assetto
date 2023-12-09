@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 
 import { QueryMenus } from '@/lib/graphql';
-import { MediaUrl } from '@/lib/helper';
+import { includeLocaleLink, MediaUrl } from '@/lib/helper';
 
 import Link from '@/components/elements/links';
 
@@ -50,7 +50,8 @@ const Footer = async () => {
                     {column.socials.map((social) => (
                       <Link
                         key={social.id}
-                        href={social.href}
+                        title={social.name}
+                        href={includeLocaleLink(social.href)}
                         icon={social.icon}
                         openNewTab={social.open_new_tab}
                         style={social.style}
@@ -68,7 +69,8 @@ const Footer = async () => {
                     {column.links.map((item) => (
                       <li key={item.id}>
                         <Link
-                          href={item.href}
+                          title={item.name}
+                          href={includeLocaleLink(item.href)}
                           icon={item.icon}
                           openNewTab={item.open_new_tab}
                           style={item.style}

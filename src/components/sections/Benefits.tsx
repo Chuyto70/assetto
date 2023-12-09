@@ -1,7 +1,7 @@
 
 import clsxm from "@/lib/clsxm";
 import { gql, QueryContentComponent } from "@/lib/graphql";
-import { MediaUrl } from "@/lib/helper";
+import { includeLocaleLink, MediaUrl } from "@/lib/helper";
 import { LinkInterface, UploadFile } from "@/lib/interfaces";
 
 import Link from "@/components/elements/links";
@@ -93,7 +93,8 @@ const Benefits = async (props: { pageID: number; index: number; pageType: string
             </div>
 
             {benefit.link && <Link
-              href={benefit.link.href}
+              title={benefit.link.name}
+              href={includeLocaleLink(benefit.link.href)}
               openNewTab={benefit.link.open_new_tab}
               style={benefit.link.style}
               variant={benefit.link.variant}

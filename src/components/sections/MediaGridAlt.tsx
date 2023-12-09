@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 import { gql, QueryContentComponent } from "@/lib/graphql";
-import { MediaUrl } from "@/lib/helper";
+import { includeLocaleLink, MediaUrl } from "@/lib/helper";
 import { Media } from "@/lib/interfaces";
 
 import DynamicIcon from "@/components/elements/DynamicIcon";
@@ -16,6 +16,7 @@ const ComponentSectionsMediaGridAlt = gql`
       data {
         id
         attributes {
+          name
           slug
           media {
             data {
@@ -73,11 +74,11 @@ const MediaGridAlt = async (props: { pageID: number; index: number; pageType: st
     <section className="w-full max-w-screen-3xl px-3 md:px-6 lg:px-12">
       <ul className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-6">
         {medias.data.map((media) => {
-          const { ext_video, thumbnail, slug, media: uploadFile } = media.attributes;
+          const { ext_video, thumbnail, slug, media: uploadFile, name } = media.attributes;
 
           if ((ext_video || uploadFile.data?.attributes.mime.startsWith('video/')) && thumbnail.data) return (
             <li key={media.id}>
-              <Link href={`/${locale}/media/${slug}`}
+              <Link title={name} href={includeLocaleLink(`/media/${slug}`)}
                 scroll={false}
                 className="relative"
               >
@@ -102,7 +103,7 @@ const MediaGridAlt = async (props: { pageID: number; index: number; pageType: st
 
           else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
             <li key={media.id}>
-              <Link href={`/${locale}/media/${slug}`}
+              <Link title={name} href={includeLocaleLink(`/media/${slug}`)}
                 scroll={false}
               >
                 <NextImage
@@ -121,7 +122,7 @@ const MediaGridAlt = async (props: { pageID: number; index: number; pageType: st
 
           else if (uploadFile.data?.attributes.mime.startsWith('video/') && !thumbnail.data) return (
             <li key={media.id}>
-              <Link href={`/${locale}/media/${slug}`}
+              <Link title={name} href={includeLocaleLink(`/media/${slug}`)}
                 scroll={false}
               >
                 <video
