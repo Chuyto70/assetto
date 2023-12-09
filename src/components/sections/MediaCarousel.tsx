@@ -103,7 +103,7 @@ const MediaCarousel = async (props: { pageID: number; index: number; pageType: s
                 nxSelectedClassNames="scale-100 [&>a]:after:bg-transparent"
                 nX={0}
               >
-                <Link href={includeLocaleLink(`/media/${slug}`)}
+                <Link title={name} href={includeLocaleLink(`/media/${slug}`)}
                   scroll={false}
                   className="relative z-10 pointer-cursor"
                 >
@@ -139,7 +139,7 @@ const MediaCarousel = async (props: { pageID: number; index: number; pageType: s
                 nxSelectedClassNames="scale-100 [&>a]:after:bg-transparent"
                 nX={0}
               >
-                <Link href={includeLocaleLink(`/media/${slug}`)}
+                <Link title={name} href={includeLocaleLink(`/media/${slug}`)}
                   scroll={false}
                   className="relative z-10 pointer-cursor"
                 >
@@ -173,7 +173,7 @@ const MediaCarousel = async (props: { pageID: number; index: number; pageType: s
           const { ext_video, thumbnail, slug, media: uploadFile, name } = media.attributes;
 
           if ((ext_video && thumbnail.data) || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
-            <Link href={includeLocaleLink(`/media/${slug}`)}
+            <Link title={name} href={includeLocaleLink(`/media/${slug}`)}
               key={media.id}
               scroll={false}
               className="w-1/2 pointer-cursor relative"
@@ -197,7 +197,7 @@ const MediaCarousel = async (props: { pageID: number; index: number; pageType: s
           );
 
           else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
-            <Link href={includeLocaleLink(`/media/${slug}`)}
+            <Link title={name} href={includeLocaleLink(`/media/${slug}`)}
               key={media.id}
               scroll={false}
               className="w-1/2 pointer-cursor"

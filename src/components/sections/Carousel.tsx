@@ -126,7 +126,7 @@ const Carousel = async (props: { pageID: number; index: number; pageType: string
                 priority={index === 0}
               />
               <div className="absolute w-full bottom-0 left-0 p-3 lg:p-6 text-white no-underline bg-black/75">
-                {item.href ? <Link href={includeLocaleLink(item.href)}>
+                {item.href ? <Link title={item.title} href={includeLocaleLink(item.href)}>
                   <MDXRemote source={item.description} />
                 </Link> : <MDXRemote source={item.description} />}
               </div>

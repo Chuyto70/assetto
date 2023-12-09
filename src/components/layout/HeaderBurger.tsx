@@ -120,6 +120,7 @@ const HeaderBurger = ({
               >
                 <span className='inline-flex items-center gap-1'>
                   <Link
+                    title={item.link.name}
                     href={includeLocaleLink(item.link.href)}
                     style={item.link.style}
                     icon={item.link.icon}
@@ -143,6 +144,7 @@ const HeaderBurger = ({
                     {item.sublinks.map((subItem) => (
                       <li key={subItem.id} className='flex justify-center'>
                         <Link
+                          title={subItem.name}
                           href={includeLocaleLink(subItem.href)}
                           style={subItem.style}
                           icon={subItem.icon}

@@ -74,6 +74,7 @@ const CtaNumbers = async (props: { pageID: number; index: number; pageType: stri
           </div>
           {cta_btn && <div className="w-full flex justify-center">
             {cta_btn.style === 'button' && <Link
+              title={cta_btn.name}
               href={includeLocaleLink(cta_btn.href)}
               openNewTab={cta_btn.open_new_tab}
               style={cta_btn.style}

@@ -93,6 +93,7 @@ const Benefits = async (props: { pageID: number; index: number; pageType: string
             </div>
 
             {benefit.link && <Link
+              title={benefit.link.name}
               href={includeLocaleLink(benefit.link.href)}
               openNewTab={benefit.link.open_new_tab}
               style={benefit.link.style}

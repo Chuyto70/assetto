@@ -26,6 +26,7 @@ const ComponentSectionsPreview = gql`
       data {
         id
         attributes {
+          name
           slug
           media {
             data {
@@ -62,6 +63,7 @@ const ComponentSectionsPreview = gql`
       data {
         id
         attributes {
+          name
           slug
           media {
             data {
@@ -98,6 +100,7 @@ const ComponentSectionsPreview = gql`
       data {
         id
         attributes {
+          name
           slug
           media {
             data {
@@ -166,6 +169,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
         <h2 className="text-center lg:text-left italic">{title}</h2>
         <p className="text-center text-carbon-700 dark:text-carbon-400 lg:text-left">{description}</p>
         <Link
+          title={link.name}
           href={includeLocaleLink(link.href)}
           openNewTab={link.open_new_tab}
           style={link.style}
@@ -178,10 +182,10 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
       <div className="xs:w-4/5 lg:w-1/2 grid grid-cols-4 grid-rows-3 gap-3 md:gap-6">
         {(() => {
           if (!media_1.data) return null;
-          const { ext_video, thumbnail, slug, media: uploadFile } = media_1.data.attributes;
+          const { ext_video, thumbnail, slug, media: uploadFile, name } = media_1.data.attributes;
           if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
 
-            <NextLink href={includeLocaleLink(`/media/${slug}`)}
+            <NextLink title={name} href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-1 row-start-1 col-span-2 row-span-2 w-full"
             >
@@ -200,7 +204,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
 
           else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
 
-            <NextLink href={includeLocaleLink(`/media/${slug}`)}
+            <NextLink title={name} href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-1 row-start-1 col-span-2 row-span-2 w-full"
             >
@@ -218,10 +222,10 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
         })()}
         {(() => {
           if (!media_2.data) return null;
-          const { ext_video, thumbnail, slug, media: uploadFile } = media_2.data.attributes;
+          const { ext_video, thumbnail, slug, media: uploadFile, name } = media_2.data.attributes;
           if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
 
-            <NextLink href={includeLocaleLink(`/media/${slug}`)}
+            <NextLink title={name} href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-3 row-start-1 col-span-2 row-span-2 w-full"
             >
@@ -240,7 +244,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
 
           else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
 
-            <NextLink href={includeLocaleLink(`/media/${slug}`)}
+            <NextLink title={name} href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-3 row-start-1 col-span-2 row-span-2 w-full"
             >
@@ -258,10 +262,10 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
         })()}
         {(() => {
           if (!media_3.data) return null;
-          const { ext_video, thumbnail, slug, media: uploadFile } = media_3.data.attributes;
+          const { ext_video, thumbnail, slug, media: uploadFile, name } = media_3.data.attributes;
           if (ext_video || (uploadFile.data?.attributes.mime.startsWith('video/') && thumbnail.data)) return (
 
-            <NextLink href={includeLocaleLink(`/media/${slug}`)}
+            <NextLink title={name} href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-2 row-start-2 col-span-2 row-span-2 w-full"
             >
@@ -280,7 +284,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
 
           else if (uploadFile.data?.attributes.mime.startsWith('image/')) return (
 
-            <NextLink href={includeLocaleLink(`/media/${slug}`)}
+            <NextLink title={name} href={includeLocaleLink(`/media/${slug}`)}
               scroll={false}
               className="col-start-2 row-start-2 col-span-2 row-span-2 w-full"
             >

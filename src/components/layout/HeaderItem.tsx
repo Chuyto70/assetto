@@ -111,6 +111,7 @@ const HeaderItem = ({
             {sublinks.map((item) => (
               <MotionLi key={item.id} variants={itemVariants}>
                 <Link
+                  title={item.name}
                   href={includeLocaleLink(item.href)}
                   style={item.style}
                   icon={item.icon}

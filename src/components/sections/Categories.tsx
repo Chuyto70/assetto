@@ -90,7 +90,7 @@ const Categories = async (props: { pageID: number; index: number; pageType: stri
           <li key={category.id}
             className="block h-fit text-center"
           >
-            <Link href={includeLocaleLink(category.attributes.slug)}
+            <Link title={category.attributes.title} href={includeLocaleLink(category.attributes.slug)}
               className="flex flex-col gap-3"
             >
               <Image className="h-full w-full object-center object-cover rounded-2xl transition-colors duration-300 border-2 border-transparent hover:border-primary-600"

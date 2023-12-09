@@ -50,6 +50,7 @@ const Footer = async () => {
                     {column.socials.map((social) => (
                       <Link
                         key={social.id}
+                        title={social.name}
                         href={includeLocaleLink(social.href)}
                         icon={social.icon}
                         openNewTab={social.open_new_tab}
@@ -68,6 +69,7 @@ const Footer = async () => {
                     {column.links.map((item) => (
                       <li key={item.id}>
                         <Link
+                          title={item.name}
                           href={includeLocaleLink(item.href)}
                           icon={item.icon}
                           openNewTab={item.open_new_tab}
