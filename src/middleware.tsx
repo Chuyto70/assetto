@@ -48,7 +48,7 @@ export async function middleware(req: NextRequest) {
   const redirections = await getAllRedirections();
   const matchRedirect = redirections.find((r) => r.attributes.oldPath === pathname && (r.attributes.type === REDIRECTIONS.temporary_redirect || r.attributes.type === REDIRECTIONS.permanent_redirect));
 
-  if (matchRedirect) return NextResponse.redirect(new URL(matchRedirect.attributes.newPath, deploymentURL), matchRedirect.attributes.type === REDIRECTIONS.temporary_redirect ? 307 : 308);
+  if (matchRedirect) return NextResponse.redirect(new URL(matchRedirect.attributes.newPath, deploymentURL), matchRedirect.attributes.type === REDIRECTIONS.temporary_redirect ? 302 : 301);
 
   const matchRewrite = redirections.find((r) => r.attributes.oldPath === pathname && r.attributes.type === REDIRECTIONS.rewrite);
 
@@ -71,7 +71,7 @@ export async function middleware(req: NextRequest) {
     // The new URL is now /fr/products
     const response = matchRewrite
       ? NextResponse.rewrite(new URL(`/${locale}${matchRewrite.attributes.newPath}`, deploymentURL))
-      : NextResponse.redirect(new URL(`/${locale}${pathname}`, deploymentURL));
+      : NextResponse.redirect(new URL(`/${locale}${pathname}`, deploymentURL), 301);
     response.cookies.set('preferred_language', locale, {
       expires: cookieexpirationDate,
       sameSite: true,
@@ -86,7 +86,7 @@ export async function middleware(req: NextRequest) {
     const locale = getLocaleFromCookie(localeCookie);
     return matchRewrite
       ? NextResponse.rewrite(new URL(`/${locale}${matchRewrite.attributes.newPath}`, deploymentURL))
-      : NextResponse.redirect(new URL(`/${locale}${pathname}`, deploymentURL));
+      : NextResponse.redirect(new URL(`/${locale}${pathname}`, deploymentURL), 301);
   }
 
   // Rewrite cookie if it doesn't match the current pathname
