@@ -85,7 +85,7 @@ export const seo = (props?: SeoProps): Metadata => {
   meta['alternates'] = {
     canonical:
       meta.metadataBase +
-      (meta.path.startsWith('/') ? meta.path : `/${meta.path}`),
+      (meta.path.startsWith('/') ? meta.path : `/${meta.path}`).replace(/\/$/, ''),
   };
 
   if (props?.localizations?.data) {
@@ -95,7 +95,7 @@ export const seo = (props?: SeoProps): Metadata => {
       const slug = localization.attributes.slug;
       languages[lang] = `${meta.url}/${lang}${
         slug.startsWith('/') ? '' : '/'
-      }${slug}`;
+      }${slug}`.replace(/\/$/, '');
     });
     meta['alternates'] = {
       ...meta['alternates'],

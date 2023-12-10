@@ -11,7 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return dataArray.map(({ attributes: { slug, locale, updatedAt } }) => {
       slug = slug === "/" ? "" : slug;
       return {
-        url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/${locale}${staticPath ? `/${staticPath}` : ''}/${slug}`,
+        url: `${process.env.NEXT_PUBLIC_DEPLOYMENT_URL}/${locale}${staticPath ? `/${staticPath}` : ''}/${slug}`.replace(/\/$/, ''),
         lastModified: updatedAt,
         changeFrequency,
         priority,
