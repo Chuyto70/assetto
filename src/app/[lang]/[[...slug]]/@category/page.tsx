@@ -1,6 +1,6 @@
 import clsxm from "@/lib/clsxm";
 import { QueryCategoryFromSlug } from "@/lib/graphql";
-import { MediaUrl } from "@/lib/helper";
+import { includeLocaleLink, MediaUrl } from "@/lib/helper";
 
 import CarouselItem from "@/components/elements/carousel/CarouselItem";
 import EmblaCarousel from "@/components/elements/carousel/EmblaCarousel";
@@ -83,7 +83,7 @@ const CategoryPage = async ({
                   <RemoteMDX source={product.attributes.description} />
                 </div>
                 <div className="w-full flex justify-center">
-                  <ButtonLink scroll={false} className="md:text-lg font-semibold px-6" href={`/checkout/${product.attributes.slug}`}>{btn_text}</ButtonLink>
+                  <ButtonLink scroll={false} className="md:text-lg font-semibold px-6" title={product.attributes.title} href={includeLocaleLink(`/checkout/${product.attributes.slug}`)}>{btn_text}</ButtonLink>
                 </div>
               </div>
             </div>
