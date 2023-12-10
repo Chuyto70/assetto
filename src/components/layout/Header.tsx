@@ -46,7 +46,7 @@ export default async function Header() {
         />
 
         {/* Desktop links */}
-        <ul className='hidden md:flex shrink-1 gap-3 lg:gap-6'>
+        <ul className='hidden md:flex md:items-center shrink-1 gap-3 lg:gap-6'>
           {header.items.map((item) => (
             <HeaderItem
               key={item.id}
