@@ -102,7 +102,7 @@ const HeaderItem = ({
             initial={false}
             animate={isOpen ? 'open' : 'closed'}
             variants={navVariants}
-            className='hidden absolute -z-10 top-full -left-1/3 rounded-xl bg-carbon-200 dark:bg-carbon-900 mt-2 border-2 border-carbon-900 dark:border-carbon-200 before:absolute before:top-0 before:-translate-y-full before:left-1/2 before:-translate-x-1/2 before:border-l-8 before:border-r-8 before:border-b-8 before:border-b-carbon-900 dark:before:border-b-carbon-200 before:border-l-transparent before:border-r-transparent'
+            className='hidden absolute -z-10 top-full -left-3/4 rounded-xl bg-carbon-200 dark:bg-carbon-900 mt-2 border-2 border-carbon-900 dark:border-carbon-200 before:absolute before:top-0 before:-translate-y-full before:left-1/2 before:-translate-x-1/2 before:border-l-8 before:border-r-8 before:border-b-8 before:border-b-carbon-900 dark:before:border-b-carbon-200 before:border-l-transparent before:border-r-transparent'
           >
             <span className='w-full h-full overflow-hidden p-6 flex-col gap-2'>
               {name && <h2 className='text-6xl uppercase pb-4'>{name}</h2>}
