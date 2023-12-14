@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
 import dynamic from 'next/dynamic';
 import { Inter } from 'next/font/google';
+import { cookies } from 'next/headers'
 import { ReactNode } from 'react';
 
 import '@/assets/styles/globals.css';
@@ -22,7 +23,7 @@ import ProvideSupport from '@/components/ProvideSupport';
 import ThemesProvider from '@/components/ThemesProvider';
 import { ZustandProvider } from '@/components/ZustandProvider';
 
-import { useServer } from '@/store/serverStore';
+import { ServerState, useServer } from '@/store/serverStore';
 
 const GoogleTag = dynamic(() => import('@/components/GoogleTag'), { ssr: false });
 
@@ -67,11 +68,17 @@ export default async function BaseLayout(props: {
   const { google_tag_id, provide_support_script } = await QuerySettings(props.params.lang);
   const { translations } = await QueryStaticTexts(props.params.lang);
   const { i18NLocales } = await Queryi18NLocales();
-  useServer.setState({
+  const currency = cookies().get('preferred_currency')?.value;
+
+  const state: Partial<ServerState> = {
     locale: props.params.lang,
     locales: i18NLocales.data,
     translations: translations,
-  });
+  };
+
+  if (currency) state.currency = currency.toUpperCase();
+
+  useServer.setState(state);
 
   return (
     <html
