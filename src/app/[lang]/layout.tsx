@@ -88,8 +88,8 @@ export default async function BaseLayout(props: {
     >
       <body className='relative bg-white dark:bg-carbon-900 text-carbon-900 min-h-screen flex flex-col'>
         <span className='-z-10 absolute w-full h-screen overflow-hidden'>
-          <span className='absolute top-10 left-0 -translate-x-1/2 -translate-y-1/2 w-[1024px] lg:w-[2048px] h-[1024px] lg:h-[2048px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-violet.png)" }}></span>
-          <span className='absolute bottom-1/2 right-0 translate-x-1/2 translate-y-1/2 w-[1024px] lg:w-[1500px] h-[1024px] lg:h-[1500px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-orange.png)" }}></span>
+          <span className='absolute top-10 left-0 -translate-x-1/2 -translate-y-1/2 w-[1024px] lg:w-[2048px] h-[1024px] lg:h-[2048px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-violet.avif)" }}></span>
+          <span className='absolute bottom-1/2 right-0 translate-x-1/2 translate-y-1/2 w-[1024px] lg:w-[1500px] h-[1024px] lg:h-[1500px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-orange.avif)" }}></span>
         </span>
         {provide_support_script && <ProvideSupport script={provide_support_script} />}
         {google_tag_id && <GoogleTag gtmId={google_tag_id} />}

@@ -65,7 +65,7 @@ const CtaNumbers = async (props: { pageID: number; index: number; pageType: stri
 
   return (
     <section className="relative w-full overflow-hidden border-y-2 border-carbon-900 dark:border-white bg-white dark:bg-carbon-900">
-      <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1024px] h-[1024px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-violet.png)" }}></span>
+      <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1024px] h-[1024px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-violet.avif)" }}></span>
       <div className="relative w-full flex justify-center bg-carbon-200/40 dark:bg-carbon-600/40">
         <div className="w-full lg:max-w-screen-2xl p-3 md:p-6 lg:px-12 flex flex-col gap-6">
           <div className="w-full flex flex-col xs:flex-row items-center justify-between gap-3">
