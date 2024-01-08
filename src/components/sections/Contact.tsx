@@ -48,8 +48,8 @@ const Contact = async (props: { pageID: number; index: number; pageType: string;
   return (
     <section className="w-full max-w-screen-xl px-3 md:px-6 lg:px-12">
       <div className="relative w-full bg-white dark:bg-carbon-900 overflow-hidden rounded-3xl">
-        <span className='absolute top-0 left-1/2 -translate-x-1/2 rounded-full bg-secondary-600 w-60 h-60'></span>
-        <div className="w-full flex flex-col items-center justify-center gap-3 md:gap-6 p-3 md:p-6 rounded-3xl border-2 border-carbon-900 dark:border-carbon-200 bg-carbon-200/40 dark:bg-carbon-600/40 backdrop-blur-200">
+        <span className='absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1024px] h-[1024px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-violet.png)" }}></span>
+        <div className="relative w-full flex flex-col items-center justify-center gap-3 md:gap-6 p-3 md:p-6 rounded-3xl border-2 border-carbon-900 dark:border-carbon-200 bg-carbon-200/40 dark:bg-carbon-600/40">
           {title && <h2 className="max-w-screen-md italic">{title}</h2>}
           {description && <p className="max-w-screen-md text-carbon-700 dark:text-carbon-400 text-center">{description}</p>}
           <ContactForm

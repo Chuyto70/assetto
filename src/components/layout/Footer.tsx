@@ -16,7 +16,6 @@ const Footer = async () => {
 
   return (
     <footer className='relative w-full bg-carbon-200 dark:bg-carbon-900 text-carbon-900 dark:text-white font-normal dark:font-light overflow-hidden border-t-2 border-carbon-900 dark:border-white'>
-      {/* <span className='absolute -bottom-10 -right-10 rounded-full bg-primary-600 w-60 h-60'></span> */}
       <span className='absolute right-0 bottom-0 translate-x-1/2 translate-y-1/2 w-[1500px] h-[1500px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-orange.png)" }}></span>
       <div className='relative w-full bg-carbon-200/40 dark:bg-carbon-900/70'>
         <div className='layout flex flex-col gap-6 p-3 py-6 md:px-6 lg:px-12'>
