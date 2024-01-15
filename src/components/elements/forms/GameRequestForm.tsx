@@ -14,7 +14,7 @@ import { useToaster } from '@/store/toasterStore';
 
 import { requestGame } from '@/actions/strapi/game-request';
 
-const translations = useServer.getState().translations;
+let translations = useServer.getState().translations;
 
 const schema = object({
   email: string()
@@ -40,6 +40,7 @@ const GameRequestForm = ({
   buttonClassName?: string;
 }) => {
   const notify = useToaster((state) => state.notify);
+  translations = useServer((state) => state.translations);
 
   const { formState: { errors }, handleSubmit, register } = useForm<GameRequestFormType>({
     resolver: yupResolver(schema),
@@ -53,7 +54,7 @@ const GameRequestForm = ({
         notify(
           0,
           <p>
-            {translations.forms.request_sent}
+            {translations.forms?.request_sent ?? 'Your request has been taken into account, thank you'}
           </p>
         )
       )
@@ -61,7 +62,7 @@ const GameRequestForm = ({
         notify(
           1,
           <p>
-            {translations.forms.request_error}
+            {translations.forms?.request_error ?? 'Oops, there was a problem with your request, please try again later'}
           </p>
         )
       );
