@@ -36,7 +36,7 @@ const ArticlesList = ({ articles, pageSize = 3, pageCount = 1, page = 1, loadMor
         notify(
           1,
           <p>
-            {translations.errors.internal_server_error}
+            {translations.errors?.internal_server_error ?? 'Looks like something went wrong, please try again later'}
           </p>
         );
       })
