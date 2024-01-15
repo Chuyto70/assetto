@@ -82,14 +82,14 @@ export default async function BaseLayout(props: {
 
   return (
     <html
-      lang={props.params.lang ?? 'fr'}
+      lang={props.params.lang ?? 'en'}
       className={`${inter.variable}`}
       suppressHydrationWarning
     >
       <body className='relative bg-white dark:bg-carbon-900 text-carbon-900 min-h-screen flex flex-col'>
         <span className='-z-10 absolute w-full h-screen overflow-hidden'>
-          <span className='absolute top-0 -left-10 rounded-full bg-secondary-600 w-60 h-60'></span>
-          <span className='absolute bottom-1/4 -right-10 rounded-full bg-primary-600 w-60 h-60'></span>
+          <span className='absolute top-10 left-0 -translate-x-1/2 -translate-y-1/2 w-[1024px] lg:w-[2048px] h-[1024px] lg:h-[2048px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-violet.avif)" }}></span>
+          <span className='absolute bottom-1/2 right-0 translate-x-1/2 translate-y-1/2 w-[1024px] lg:w-[1500px] h-[1024px] lg:h-[1500px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-orange.avif)" }}></span>
         </span>
         {provide_support_script && <ProvideSupport script={provide_support_script} />}
         {google_tag_id && <GoogleTag gtmId={google_tag_id} />}
@@ -97,7 +97,7 @@ export default async function BaseLayout(props: {
         <ThemesProvider>
           <Header />
           <Toasts />
-          <main className='flex flex-col flex-auto items-center py-12 gap-12 md:gap-24 bg-white/40 dark:bg-carbon-900/60 backdrop-blur-200 text-carbon-900 dark:text-white'>{props.children}</main>
+          <main className='flex flex-col flex-auto items-center py-12 gap-12 md:gap-24 bg-white/40 dark:bg-carbon-900/70 text-carbon-900 dark:text-white'>{props.children}</main>
           <Footer />
         </ThemesProvider>
         {props.modal}
