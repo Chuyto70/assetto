@@ -38,9 +38,9 @@ const nextConfig = {
     serverActions: {
       allowedOrigins: [
         'localhost',
-        'localhost:3000'
-        `${process.env.DEPLOYMENT_PORT ? process.env.DEPLOYMENT_HOST+`:${process.env.DEPLOYMENT_PORT}` : process.env.DEPLOYMENT_HOST}`,
-        `*.${process.env.DEPLOYMENT_PORT ? process.env.DEPLOYMENT_HOST+`:${process.env.DEPLOYMENT_PORT}` : process.env.DEPLOYMENT_HOST}`,
+        'localhost:3000',
+        `${process.env.DEPLOYMENT_PORT ? `${process.env.DEPLOYMENT_HOST}:${process.env.DEPLOYMENT_PORT}` : process.env.DEPLOYMENT_HOST}`,
+        `*.${process.env.DEPLOYMENT_PORT ? `${process.env.DEPLOYMENT_HOST}:${process.env.DEPLOYMENT_PORT}` : process.env.DEPLOYMENT_HOST}`,
       ]
     },
   },
