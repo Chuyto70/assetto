@@ -11,11 +11,7 @@ const nextConfig = {
 
   // Domain whitelist
   images: {
-    remotePatterns: process.env.IMAGES_DOMAINS?.split(',').map((domain) => {
-      return {
-        hostname: domain
-      }
-    }),
+    domains: process.env.IMAGES_DOMAINS?.split(','),
     deviceSizes: [475, 640, 750, 828, 1080, 1200, 1920, 2048, 3840],
   },
 

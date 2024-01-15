@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
-import { ImageResponse } from 'next/og';
-import { NextRequest } from 'next/server';
+import { ImageResponse, NextRequest } from 'next/server';
 
 import { deploymentURL } from '@/constant/env';
 
