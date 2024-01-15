@@ -14,6 +14,7 @@ import {
 } from '@/lib/graphql';
 import { MediaUrl } from '@/lib/helper';
 import { PAYMENT_PROVIDER } from '@/lib/interfaces';
+import logger from '@/lib/logger';
 import { seo } from '@/lib/seo';
 
 import Toasts from '@/components/elements/toaster/Toasts';
@@ -64,7 +65,7 @@ export default async function BaseLayout(props: {
   modal: ReactNode,
   params: { lang: string },
 }) {
-
+  logger(props.params.lang, 'lang');
   const { google_tag_id, provide_support_script } = await QuerySettings(props.params.lang);
   const { translations } = await QueryStaticTexts(props.params.lang);
   const { i18NLocales } = await Queryi18NLocales();
