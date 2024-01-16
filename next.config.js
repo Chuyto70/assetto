@@ -36,6 +36,15 @@ const nextConfig = {
 
   experimental: {
     serverActions: true,
+    // for next 14
+    // serverActions: {
+    //   allowedOrigins: [
+    //     'localhost',
+    //     'localhost:3000',
+    //     `${process.env.DEPLOYMENT_PORT ? `${process.env.DEPLOYMENT_HOST}:${process.env.DEPLOYMENT_PORT}` : process.env.DEPLOYMENT_HOST}`,
+    //     `*.${process.env.DEPLOYMENT_PORT ? `${process.env.DEPLOYMENT_HOST}:${process.env.DEPLOYMENT_PORT}` : process.env.DEPLOYMENT_HOST}`,
+    //   ]
+    // },
   },
 
   output: 'standalone',
