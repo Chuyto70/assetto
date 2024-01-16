@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Queryi18NLocales } from '@/lib/graphql';
 import { getAllRedirections } from '@/lib/helper';
 import { REDIRECTIONS } from '@/lib/interfaces';
+import logger from '@/lib/logger';
 
 import { deploymentURL } from '@/constant/env';
 
@@ -33,6 +34,11 @@ function getLocaleFromCookie(cookie: string) {
 }
 
 export async function middleware(req: NextRequest) {
+
+  logger(req.headers.get('host'), 'host');
+  logger(req.headers.get('x-forwarded-host'), 'x-forwarded-host');
+  logger(req.headers.get('origin'), 'origin');
+
   const { i18NLocales } = await Queryi18NLocales();
 
   const allLocales = locales.concat(
