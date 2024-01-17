@@ -1,6 +1,7 @@
 import SectionLink from "@/components/elements/links/SectionLink";
 import Benefits from "@/components/sections/Benefits";
 import Carousel from "@/components/sections/Carousel";
+import CarouselAlt from "@/components/sections/CarouselAlt";
 import Categories from "@/components/sections/Categories";
 import Contact from "@/components/sections/Contact";
 import CtaNumbers from "@/components/sections/CtaNumbers";
@@ -27,6 +28,7 @@ const sectionComponents = {
   ComponentSectionsTypedTitle: TypedTitle,
   ComponentSectionsMdxBlock: MdxBlock,
   ComponentSectionsCarousel: Carousel,
+  ComponentSectionsCarouselAlt: CarouselAlt,
   ComponentSectionsServices: Services,
   ComponentSectionsCtaNumbers: CtaNumbers,
   ComponentSectionsFaq: Faq,

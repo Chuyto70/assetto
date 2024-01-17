@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MDXRemote } from "next-mdx-remote/rsc";
 
 import { gql, QueryContentComponent } from "@/lib/graphql";
 import { includeLocaleLink, MediaUrl } from "@/lib/helper";
@@ -10,6 +9,7 @@ import CarouselBtn from "@/components/elements/carousel/CarouselBtn";
 import CarouselItem from "@/components/elements/carousel/CarouselItem";
 import CarouselThumbs from "@/components/elements/carousel/CarouselThumbs";
 import EmblaCarousel from "@/components/elements/carousel/EmblaCarousel";
+import RemoteMDX from "@/components/elements/texts/RemoteMDX";
 
 import { useServer } from "@/store/serverStore";
 
@@ -127,8 +127,8 @@ const Carousel = async (props: { pageID: number; index: number; pageType: string
               />
               <div className="absolute w-full bottom-0 left-0 p-3 lg:p-6 text-white no-underline bg-black/75">
                 {item.href ? <Link title={item.title} href={includeLocaleLink(item.href)}>
-                  <MDXRemote source={item.description} />
-                </Link> : <MDXRemote source={item.description} />}
+                  <RemoteMDX source={item.description} />
+                </Link> : <RemoteMDX source={item.description} />}
               </div>
             </CarouselItem>
           ))}
