@@ -108,7 +108,7 @@ const CarouselAlt = async (props: { pageID: number; index: number; pageType: str
               src={MediaUrl(item.thumb_image.data.attributes.url)}
               alt={item.thumb_image.data.attributes.alternativeText ?? ''}
               title={item.title ?? ''}
-            // sizes="100vw (min-width: 768px) 70vw"
+              sizes="70vw (min-width: 768px) 40vw"
             />
             <div className="hidden xs:flex flex-col items-start flex-1 gap-2 lg:gap-3">
               {item.featured &&
@@ -133,7 +133,7 @@ const CarouselAlt = async (props: { pageID: number; index: number; pageType: str
           className="w-full md:w-3/4 shrink-0 rounded-tr-3xl rounded-tl-3xl md:rounded-tr-none md:rounded-l-3xl overflow-hidden"
           containerClassName="w-full"
           options={{ loop: true, containScroll: 'trimSnaps', watchDrag: false }}
-          autoplay={false} //temp false
+          autoplay={true}
           autoplayOptions={{
             delay: 5000,
             stopOnInteraction: false,
