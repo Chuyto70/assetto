@@ -15,10 +15,6 @@ const CookieProvider = ({ cookies }: { cookies: CookiesSetting }) => {
       : Object.fromEntries(cookieList.map((cookie) => [cookie.name, cookie.default]))
     : Object.fromEntries(cookieList.map((cookie) => [cookie.name, cookie.default]));
 
-  // const consent = localConsent
-  //   ? JSON.parse(localConsent)
-  //   : Object.fromEntries(cookieList.map((cookie) => [cookie.name, cookie.default]));
-
   if (!localConsent) {
     localStorage.setItem('consent', JSON.stringify(consent));
     gtag('consent', 'default', consent);
