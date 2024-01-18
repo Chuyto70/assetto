@@ -1,4 +1,5 @@
 import { isAfter, isBefore, parseISO } from 'date-fns';
+import TagManager from 'react-gtm-module';
 
 import { QueryRedirections } from '@/lib/graphql';
 import { QueryMetaProps, Redirection } from '@/lib/interfaces';
@@ -177,4 +178,9 @@ export async function paginateQuery(query: (page: number) => Promise<QueryResult
   });
 
   return combinedData;
+}
+
+export function gtag(..._args: unknown[]) {
+  // eslint-disable-next-line prefer-rest-params
+  TagManager.dataLayer({ dataLayer: arguments });
 }
