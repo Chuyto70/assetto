@@ -115,6 +115,7 @@ const HeaderItem = ({
                       style={item.style}
                       icon={item.icon}
                       variant={item.variant}
+                      rel={item.relationship}
                       size='xl'
                       className='whitespace-nowrap font-semibold dark:font-semibold'
                     >

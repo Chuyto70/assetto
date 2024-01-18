@@ -29,6 +29,7 @@ const ComponentSectionsMap = gql`
         style
         direction
         variant
+        relationship
       }
     }
   }

@@ -61,6 +61,7 @@ const ComponentSectionsDisplay = gql`
       style
       direction
       variant
+      relationship
     }
   }
 `;
@@ -108,6 +109,7 @@ const Display = async (props: { pageID: number; index: number; pageType: string;
             openNewTab={link.open_new_tab}
             style={link.style}
             variant={link.variant}
+            rel={link.relationship}
             icon={link.icon}
             direction={link.direction}
             size="lg"

@@ -87,6 +87,7 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
               variant={popupInfo.link.variant}
               icon={popupInfo.link.icon}
               direction={popupInfo.link.direction}
+              rel={popupInfo.link.relationship}
             >{popupInfo.link.name}</Link>}
           </Popup>
         )}

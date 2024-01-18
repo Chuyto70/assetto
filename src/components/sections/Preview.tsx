@@ -21,6 +21,7 @@ const ComponentSectionsPreview = gql`
       style
       direction
       variant
+      relationship
     }
     media_1 {
       data {
@@ -174,6 +175,7 @@ const Preview = async (props: { pageID: number; index: number; pageType: string;
           openNewTab={link.open_new_tab}
           style={link.style}
           variant={link.variant}
+          rel={link.relationship}
           icon={link.icon}
           direction={link.direction}
           size="lg"
