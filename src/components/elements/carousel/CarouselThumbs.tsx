@@ -55,8 +55,8 @@ const CarouselThumbs = (props: {
                 key={index}
                 className={clsxm(
                   'flex-shrink-0 flex-grow-0',
-                  selectedIndex === index && props.activeClassName,
-                  props.thumbClassName
+                  props.thumbClassName,
+                  selectedIndex === index && props.activeClassName
                 )}
                 onClick={() => onThumbClick(index)}
               >
