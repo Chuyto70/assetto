@@ -155,7 +155,7 @@ const CarouselAlt = async (props: { pageID: number; index: number; pageType: str
                 priority={index === 0}
               />
               <div className="absolute inset-0 text-white no-underline"> {/*  bg-gradient-to-tr from-carbon-900/50 to-80% to-transparent */}
-                {item.featured && <p className="p-2 px-3 absolute bg-primary-600 top-0 inset-x-0 line-clamp-2">{item.featured_text}</p>}
+                {item.featured && <p className="p-2 px-3 lg:px-6 absolute bg-primary-600 top-0 inset-x-0 line-clamp-2">{item.featured_text}</p>}
                 <span className="absolute bottom-0 inset-x-0 p-3 lg:p-6">
                   <RemoteMDX source={item.description} />
                 </span>
