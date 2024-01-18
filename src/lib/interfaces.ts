@@ -117,6 +117,15 @@ export interface Setting {
   };
 }
 
+export interface CookiesSetting {
+  cookies: {
+    name: string;
+    description: string;
+    mandatory: boolean;
+    default: string;
+  }[];
+}
+
 export interface Menu {
   attributes: {
     header: Header;

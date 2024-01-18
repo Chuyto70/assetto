@@ -14,13 +14,18 @@ type SwitchProps = {
   toggleIsOn?: boolean;
   toggle?: (isOn: boolean) => void;
   toggleClassName?: string;
+  toggleIsOnClassName?: string;
+  isOnClassName?: string;
+  isDisabled?: boolean;
   icon?: React.ReactNode;
 } & React.ComponentPropsWithRef<'div'>;
 
 const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
-  ({ className, isDark = false, toggleIsOn = false, toggle, toggleClassName, icon, ...rest }, ref) => {
+  ({ className, isDark = false, toggleIsOn = false, toggle, toggleClassName, toggleIsOnClassName, isOnClassName, isDisabled = false, icon, ...rest }, ref) => {
     const [isOn, setIsOn] = useState(toggleIsOn);
+
     const toggleSwitch = () => {
+      if (isDisabled) return;
       if (toggle !== undefined) toggle(!isOn);
       setIsOn(!isOn);
     };
@@ -42,7 +47,8 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
           isDark ? 'bg-carbon-800/40' : 'bg-carbon-200/40',
           'flex items-center cursor-pointer justify-start rounded-full p-[0.1em] transition-colors duration-300 w-[2em] h-[1em]',
           isOn && 'justify-end',
-          className
+          className,
+          isOn && isOnClassName,
         )}
         onClick={toggleSwitch}
         {...rest}
@@ -51,7 +57,8 @@ const Switch = React.forwardRef<HTMLDivElement, SwitchProps>(
           className={clsxm(
             isDark ? 'bg-white' : 'bg-carbon-900',
             'rounded-full w-[0.8em] h-[0.8em] flex justify-center items-center',
-            toggleClassName
+            toggleClassName,
+            isOn && toggleIsOnClassName,
           )}
           layout
           transition={spring}
