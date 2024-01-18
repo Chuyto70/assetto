@@ -31,7 +31,7 @@ const IconLink = React.forwardRef<HTMLAnchorElement, IconLinkProps>(
         ref={ref}
         type='button'
         className={clsxm(
-          'inline-flex items-center justify-center rounded font-medium',
+          'inline-flex items-center justify-center rounded-full font-medium',
           'focus-visible:ring-primary-500 focus:outline-none focus-visible:ring',
           'shadow-sm',
           'transition-colors duration-75',
@@ -39,11 +39,10 @@ const IconLink = React.forwardRef<HTMLAnchorElement, IconLinkProps>(
           //#region  //*=========== Variants ===========
           [
             variant === 'primary' && [
-              'bg-primary-200 text-dark',
-              'border-primary-300 border',
-              'hover:bg-primary-300 hover:text-dark',
-              'active:bg-primary-400',
-              'disabled:bg-primary-400',
+              'bg-primary-600 text-white',
+              'hover:bg-primary-700',
+              'active:bg-primary-600',
+              'disabled:bg-primary-500',
             ],
             variant === 'outline' && [
               'text-primary-200',
