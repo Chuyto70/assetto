@@ -38,6 +38,7 @@ const ComponentSectionsBenefits = gql`
         style
         direction
         variant
+        relationship
       }
     }
   }
@@ -100,6 +101,7 @@ const Benefits = async (props: { pageID: number; index: number; pageType: string
               variant={benefit.link.variant}
               icon={benefit.link.icon}
               direction={benefit.link.direction}
+              rel={benefit.link.relationship}
             >{benefit.link.name}</Link>}
           </div>
         ))}

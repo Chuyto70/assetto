@@ -3,6 +3,7 @@ import { gql, GraphQLClient } from 'graphql-request';
 import {
   Article,
   Category,
+  CookiesSetting,
   localeProps,
   Media,
   Menu,
@@ -71,6 +72,48 @@ export const QuerySettings = async (locale: string) => {
               paypal_client_id
               google_tag_id
               provide_support_script
+            }
+          }
+        }
+      }
+    `,
+    queryVariables
+  );
+
+  return setting.data.attributes;
+};
+
+/**
+ * Query cookies in settings from Strapi
+ * @returns cookies settings data
+ */
+export const QueryCookiesSettings = async (locale: string) => {
+  const queryVariables = {
+    locale: locale,
+  };
+
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+    fetch(url as URL, { ...options, next: { tags: ['setting'] } });
+
+  const { setting } = await StrapiClient.request<{
+    setting: {
+      data: {
+        attributes: CookiesSetting;
+      };
+    };
+  }>(
+    gql`
+      query CookiesSettings($locale: I18NLocaleCode!) {
+        setting(locale: $locale) {
+          data {
+            attributes {
+              cookies {
+                name
+                description
+                mandatory
+                default
+              }
             }
           }
         }
@@ -1008,6 +1051,7 @@ export const QueryMenus = async (locale: string) => {
                     style
                     direction
                     variant
+                    relationship
                   }
                   sublinks {
                     id
@@ -1017,6 +1061,7 @@ export const QueryMenus = async (locale: string) => {
                     style
                     direction
                     variant
+                    relationship
                   }
                 }
               }
@@ -1047,6 +1092,7 @@ export const QueryMenus = async (locale: string) => {
                     style
                     direction
                     variant
+                    relationship
                   }
                   links {
                     id
@@ -1056,6 +1102,7 @@ export const QueryMenus = async (locale: string) => {
                     style
                     direction
                     variant
+                    relationship
                   }
                 }
                 copyright

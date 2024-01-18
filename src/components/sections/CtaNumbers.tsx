@@ -1,6 +1,6 @@
 import { gql, QueryContentComponent } from "@/lib/graphql";
 import { includeLocaleLink } from "@/lib/helper";
-import { ENUM_ELEMENTS_LINK_DIRECTION, ENUM_ELEMENTS_LINK_STYLE, ENUM_ELEMENTS_LINK_VARIANT } from "@/lib/interfaces";
+import { LinkInterface } from "@/lib/interfaces";
 
 import Link from "@/components/elements/links";
 import Count from "@/components/elements/texts/Count";
@@ -19,6 +19,7 @@ const ComponentSectionsCtaNumbers = gql`
       style
       direction
       variant
+      relationship
     }
   }
 `;
@@ -29,15 +30,7 @@ type dataType = {
       content: {
         text_1: string;
         text_2?: string;
-        cta_btn?: {
-          name: string;
-          href: string;
-          open_new_tab: boolean;
-          icon?: string;
-          style: ENUM_ELEMENTS_LINK_STYLE;
-          direction: ENUM_ELEMENTS_LINK_DIRECTION;
-          variant: ENUM_ELEMENTS_LINK_VARIANT;
-        }
+        cta_btn?: LinkInterface;
       }[];
     };
   };
@@ -65,8 +58,8 @@ const CtaNumbers = async (props: { pageID: number; index: number; pageType: stri
 
   return (
     <section className="relative w-full overflow-hidden border-y-2 border-carbon-900 dark:border-white bg-white dark:bg-carbon-900">
-      <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-secondary-600 w-60 h-60'></span>
-      <div className="w-full flex justify-center bg-carbon-200/40 dark:bg-carbon-600/40 backdrop-blur-200">
+      <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1024px] h-[1024px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-violet.avif)" }}></span>
+      <div className="relative w-full flex justify-center bg-carbon-200/40 dark:bg-carbon-600/40">
         <div className="w-full lg:max-w-screen-2xl p-3 md:p-6 lg:px-12 flex flex-col gap-6">
           <div className="w-full flex flex-col xs:flex-row items-center justify-between gap-3">
             <h3 className="w-full text-center font-semibold">{text1WithCounter}</h3>
@@ -79,6 +72,7 @@ const CtaNumbers = async (props: { pageID: number; index: number; pageType: stri
               openNewTab={cta_btn.open_new_tab}
               style={cta_btn.style}
               variant={cta_btn.variant}
+              rel={cta_btn.relationship}
               icon={cta_btn.icon}
               direction={cta_btn.direction}
               className="bg-primary-600 text-white font-semibold text-lg md:text-2xl"

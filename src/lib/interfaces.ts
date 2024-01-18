@@ -117,6 +117,15 @@ export interface Setting {
   };
 }
 
+export interface CookiesSetting {
+  cookies: {
+    name: string;
+    description: string;
+    mandatory: boolean;
+    default: string;
+  }[];
+}
+
 export interface Menu {
   attributes: {
     header: Header;
@@ -165,6 +174,7 @@ export interface LinkInterface {
   style: ENUM_ELEMENTS_LINK_STYLE;
   direction: ENUM_ELEMENTS_LINK_DIRECTION;
   variant: ENUM_ELEMENTS_LINK_VARIANT;
+  relationship?: string;
 }
 
 export interface Order {

@@ -16,6 +16,7 @@ const ComponentElementsLink = gql`
     style
     direction
     variant
+    relationship
   }
 `;
 
@@ -31,7 +32,7 @@ type dataType = {
 const SectionLink = async (props: { pageID: number; index: number; pageType: string; }) => {
   const locale = useServer.getState().locale;
   const { data: { attributes: { content } } }: dataType = await QueryContentComponent(locale, props.pageID, props.pageType, [props.pageType], ComponentElementsLink, 'elementsLink');
-  const { href, open_new_tab, style, variant, icon, direction, name } = content[props.index];
+  const { href, open_new_tab, style, variant, icon, direction, name, relationship } = content[props.index];
 
 
   return (
@@ -42,6 +43,7 @@ const SectionLink = async (props: { pageID: number; index: number; pageType: str
       variant={variant}
       icon={icon}
       direction={direction}
+      rel={relationship}
     >{name}</Link>
   )
 }

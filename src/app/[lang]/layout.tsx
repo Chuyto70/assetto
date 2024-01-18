@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Icon } from 'next/dist/lib/metadata/types/metadata-types';
 import dynamic from 'next/dynamic';
 import { Inter } from 'next/font/google';
+import { cookies } from 'next/headers'
 import { ReactNode } from 'react';
 
 import '@/assets/styles/globals.css';
@@ -19,10 +20,11 @@ import Toasts from '@/components/elements/toaster/Toasts';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import ProvideSupport from '@/components/ProvideSupport';
+import Cookies from '@/components/sections/Cookies';
 import ThemesProvider from '@/components/ThemesProvider';
 import { ZustandProvider } from '@/components/ZustandProvider';
 
-import { useServer } from '@/store/serverStore';
+import { ServerState, useServer } from '@/store/serverStore';
 
 const GoogleTag = dynamic(() => import('@/components/GoogleTag'), { ssr: false });
 
@@ -63,34 +65,42 @@ export default async function BaseLayout(props: {
   modal: ReactNode,
   params: { lang: string },
 }) {
-
   const { google_tag_id, provide_support_script } = await QuerySettings(props.params.lang);
   const { translations } = await QueryStaticTexts(props.params.lang);
   const { i18NLocales } = await Queryi18NLocales();
-  useServer.setState({
+  const currency = cookies().get('preferred_currency')?.value;
+
+  const state: Partial<ServerState> = {
     locale: props.params.lang,
     locales: i18NLocales.data,
     translations: translations,
-  });
+  };
+
+  if (currency) state.currency = currency.toUpperCase();
+
+  useServer.setState(state);
 
   return (
     <html
-      lang={props.params.lang ?? 'fr'}
+      lang={props.params.lang ?? 'en'}
       className={`${inter.variable}`}
       suppressHydrationWarning
     >
       <body className='relative bg-white dark:bg-carbon-900 text-carbon-900 min-h-screen flex flex-col'>
         <span className='-z-10 absolute w-full h-screen overflow-hidden'>
-          <span className='absolute top-0 -left-10 rounded-full bg-secondary-600 w-60 h-60'></span>
-          <span className='absolute bottom-1/4 -right-10 rounded-full bg-primary-600 w-60 h-60'></span>
+          <span className='absolute top-10 left-0 -translate-x-1/2 -translate-y-1/2 w-[1024px] lg:w-[2048px] h-[1024px] lg:h-[2048px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-violet.avif)" }}></span>
+          <span className='absolute bottom-1/2 right-0 translate-x-1/2 translate-y-1/2 w-[1024px] lg:w-[1500px] h-[1024px] lg:h-[1500px] bg-no-repeat bg-center bg-contain' style={{ backgroundImage: "url(/images/rond-orange.avif)" }}></span>
         </span>
         {provide_support_script && <ProvideSupport script={provide_support_script} />}
-        {google_tag_id && <GoogleTag gtmId={google_tag_id} />}
+        {google_tag_id && <GoogleTag gtmId={google_tag_id}>
+          <Cookies lang={props.params.lang} />
+        </GoogleTag>
+        }
         <ZustandProvider serverState={useServer.getState()} />
         <ThemesProvider>
           <Header />
           <Toasts />
-          <main className='flex flex-col flex-auto items-center py-12 gap-12 md:gap-24 bg-white/40 dark:bg-carbon-900/60 backdrop-blur-200 text-carbon-900 dark:text-white'>{props.children}</main>
+          <main className='flex flex-col flex-auto items-center py-12 gap-12 md:gap-24 bg-white/40 dark:bg-carbon-900/70 text-carbon-900 dark:text-white'>{props.children}</main>
           <Footer />
         </ThemesProvider>
         {props.modal}

@@ -60,6 +60,7 @@ export default async function Header() {
                 icon={item.link.icon}
                 openNewTab={item.link.open_new_tab}
                 variant={item.link.variant}
+                rel={item.link.relationship}
                 className='font-bold dark:font-bold'
               >
                 {item.link.name}
