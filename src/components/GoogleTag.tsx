@@ -19,12 +19,14 @@ const GoogleTag = ({ gtmId }: { gtmId: string }) => {
       security_storage: 'granted',
     };
 
+    gtag('consent', 'default', consent);
+
     if (!localConsent) {
       //set default consent to local storage
       localStorage.setItem('consent', JSON.stringify(consent));
       //then open consent modal
+
     }
-    gtag('consent', 'default', consent);
 
     TagManager.initialize({
       gtmId,

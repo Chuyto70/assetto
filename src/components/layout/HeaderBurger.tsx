@@ -125,6 +125,7 @@ const HeaderBurger = ({
                     style={item.link.style}
                     icon={item.link.icon}
                     variant={item.link.variant}
+                    rel={item.link.relationship}
                     openNewTab={item.link.open_new_tab}
                     className='flex w-full justify-center font-bold dark:font-bold'
                     onClick={() => setIsOpen((state) => !state)}
@@ -150,6 +151,7 @@ const HeaderBurger = ({
                           icon={subItem.icon}
                           openNewTab={item.link.open_new_tab}
                           variant={subItem.variant}
+                          rel={subItem.relationship}
                           className='font-semibold dark:font-semibold'
                           onClick={() => setIsOpen((state) => !state)}
                         >

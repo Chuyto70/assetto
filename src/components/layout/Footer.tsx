@@ -56,6 +56,7 @@ const Footer = async () => {
                         openNewTab={social.open_new_tab}
                         style={social.style}
                         variant={social.variant}
+                        rel={social.relationship}
                         aria-label={social.name}
                         className='text-xl lg:text-2xl xl:text-3xl text-carbon-900 dark:text-white hover:text-primary-600 active:text-primary-600 focus:text-primary-600'
                       >
@@ -75,6 +76,7 @@ const Footer = async () => {
                           openNewTab={item.open_new_tab}
                           style={item.style}
                           variant={item.variant}
+                          rel={item.relationship}
                           aria-label={item.name}
                         >
                           {item.name}

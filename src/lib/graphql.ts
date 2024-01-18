@@ -1008,6 +1008,7 @@ export const QueryMenus = async (locale: string) => {
                     style
                     direction
                     variant
+                    relationship
                   }
                   sublinks {
                     id
@@ -1017,6 +1018,7 @@ export const QueryMenus = async (locale: string) => {
                     style
                     direction
                     variant
+                    relationship
                   }
                 }
               }
@@ -1047,6 +1049,7 @@ export const QueryMenus = async (locale: string) => {
                     style
                     direction
                     variant
+                    relationship
                   }
                   links {
                     id
@@ -1056,6 +1059,7 @@ export const QueryMenus = async (locale: string) => {
                     style
                     direction
                     variant
+                    relationship
                   }
                 }
                 copyright
