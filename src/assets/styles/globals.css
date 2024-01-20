@@ -159,4 +159,29 @@
   .eflsight-fix [class*=' swiper-wrapper'] {
     @apply h-auto !important;
   }
+
+  /* Conic backgroud animation */
+  @property --bg-conic-animation-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+  }
+
+  .bg-conic-animation-primary-600 {
+    background: conic-gradient(
+      var(--color-primary-600) var(--bg-conic-animation-angle),
+      transparent calc(var(--bg-conic-animation-angle))
+    );
+    animation: conic-effect 5s ease-in-out forwards;
+  }
+
+  @keyframes conic-effect {
+    0% {
+      --bg-conic-animation-angle: -1deg;
+    }
+
+    100% {
+      --bg-conic-animation-angle: 360deg;
+    }
+  }
 }

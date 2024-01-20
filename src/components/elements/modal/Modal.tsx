@@ -24,7 +24,18 @@ export const useModalContext = () => {
   return context;
 };
 
-export default function Modal({ children, className, dismissBack = false, dismissAction, openModal = true }: { children: React.ReactNode; className?: string, dismissBack?: boolean; dismissAction?: () => void; openModal?: boolean }) {
+type ModalProps = {
+  children: React.ReactNode;
+  className?: string;
+  divClassName?: string;
+  overlayClassName?: string;
+  inWrapperClassName?: string;
+  dismissBack?: boolean;
+  dismissAction?: () => void;
+  openModal?: boolean;
+};
+
+export default function Modal({ children, className, divClassName, overlayClassName, inWrapperClassName, dismissBack = false, dismissAction, openModal = true }: ModalProps) {
   const overlay = useRef(null);
   const wrapper = useRef(null);
   const router = useRouter();
@@ -99,25 +110,34 @@ export default function Modal({ children, className, dismissBack = false, dismis
           initial={overlayVariants.closed}
           animate={overlayVariants.open}
           exit={overlayVariants.closed}
-          className="fixed z-50 left-0 right-0 top-0 bottom-0 mx-auto bg-carbon-900/60"
+          className={clsxm(
+            "fixed z-50 inset-0 mx-auto bg-carbon-900/60",
+            divClassName
+          )}
         >
           <div
             ref={overlay}
             onClick={onClick}
-            className='w-full h-full'
+            className={clsxm(
+              'w-full h-full',
+              overlayClassName
+            )}
           >
 
             <div
               ref={wrapper}
               className={clsxm("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-                "w-full sm:w-10/12 max-w-screen-lg max-h-screen",
+                "w-full sm:w-10/12 max-w-screen-lg max-h-[100dvh]",
                 "overflow-y-scroll no-scrollbar p-6", className)}
             >
               <MotionDiv
                 initial={wrapperVariants.closed}
                 animate={wrapperVariants.open}
                 exit={wrapperVariants.closed}
-                className='h-full w-full'
+                className={clsxm(
+                  'h-full w-full',
+                  inWrapperClassName
+                )}
               >
                 {children}
               </MotionDiv>

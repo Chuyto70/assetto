@@ -18,7 +18,7 @@ const CookiesAllButton = ({ cookies, accept = false, }: { cookies: CookiesSettin
       return [cookie.name, cookie.mandatory ? 'granted' : accept ? 'granted' : 'denied'];
     }));
     localStorage.setItem('consent', JSON.stringify(consent));
-    gtag('consent', 'default', consent);
+    gtag('consent', 'update', consent);
     setIsOpen && setIsOpen(false);
   }
 

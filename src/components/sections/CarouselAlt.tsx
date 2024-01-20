@@ -83,11 +83,15 @@ const CarouselAlt = async (props: { pageID: number; index: number; pageType: str
         className="relative md:w-full md:h-full"
         containerClassName="grid auto-cols-fr grid-flow-col md:grid-flow-row md:auto-rows-fr md:h-full" //md:flex-col
         thumbClassName={clsxm(
-          'relative overflow-hidden bg-carbon-200 dark:bg-carbon-900',
+          'relative overflow-hidden bg-carbon-50 dark:bg-carbon-950',
           'first:rounded-bl-3xl first:before:rounded-bl-3xl last:rounded-br-3xl last:before:rounded-br-3xl',
-          'md:first:rounded-bl-none md:first:before:rounded-bl-none md:first:rounded-tr-3xl md:first:before:rounded-tr-3xl'
+          'md:first:rounded-bl-none md:first:before:rounded-bl-none md:first:rounded-tr-3xl md:first:before:rounded-tr-3xl',
         )}
-        activeClassName="before:absolute before:inset-0 before:border-2 before:border-primary-600"
+        activeClassName={clsxm(
+          '[&>*]:md:first:rounded-tr-[1.3rem] [&>*]:md:last:rounded-br-[1.3rem]',
+          "[&>*]:bg-carbon-200 [&>*]:dark:bg-carbon-800 before:absolute before:inset-0 before:hidden before:md:block",
+          'before:bg-conic-animation-primary-600'
+        )}
         options={{
           dragFree: false,
           watchDrag: false,
@@ -98,11 +102,11 @@ const CarouselAlt = async (props: { pageID: number; index: number; pageType: str
       >
         {items.map((item) => (
           <div key={item.id}
-            className="w-full h-full xs:p-2 lg:p-3 flex flex-row gap-2 lg:gap-3 items-center"
+            className="h-full w-full md:w-auto md:h-auto md:absolute md:inset-1 md:max-h-full xs:p-2 lg:p-3 flex flex-row gap-2 lg:gap-3 items-center"
           >
             <NextImage
-              className="h-full w-full xs:w-1/3 shrink-0 flex items-center justify-center"
-              imgClassName="w-full h-full xs:h-fit md:h-full md:w-fit xs:aspect-[2/3] object-cover object-center xs:rounded-lg"
+              className="h-full w-full md:w-1/3 shrink-0 flex items-center justify-center"
+              imgClassName="w-full h-full md:h-full md:w-fit xs:aspect-[2/3] object-cover object-center xs:rounded-lg"
               width={item.thumb_image.data.attributes.width}
               height={item.thumb_image.data.attributes.height}
               src={MediaUrl(item.thumb_image.data.attributes.url)}
@@ -110,13 +114,13 @@ const CarouselAlt = async (props: { pageID: number; index: number; pageType: str
               title={item.title ?? ''}
               sizes="70vw, (min-width: 768px) 40vw"
             />
-            <div className="hidden xs:flex flex-col items-start flex-1 gap-2 lg:gap-3">
+            <div className="hidden md:flex flex-col items-start flex-1 gap-2 lg:gap-3">
               {item.featured &&
                 <span className="w-fit max-w-full bg-primary-600 text-white rounded-full px-2 py-1 truncate">
                   {item.featured_tag_text}
                 </span>
               }
-              <h3 className="line-clamp-3 text-sm text-left lg:text-base text-primary-600">
+              <h3 className="line-clamp-2 text-sm text-left lg:text-base text-primary-600">
                 {item.title}
               </h3>
             </div>
