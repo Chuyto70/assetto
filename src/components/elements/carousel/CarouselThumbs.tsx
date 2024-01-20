@@ -24,6 +24,15 @@ const CarouselThumbs = (props: {
   const onThumbClick = useCallback(
     (index: number) => {
       if (!emblaApi || !emblaThumbsApi) return;
+
+      const autoplayPlugin = emblaApi.plugins().autoplay as unknown as {
+        reset: () => void;
+      };
+
+      if (autoplayPlugin) {
+        autoplayPlugin.reset();
+      }
+
       emblaApi.scrollTo(index);
     },
     [emblaApi, emblaThumbsApi]
