@@ -99,7 +99,7 @@ export default function Modal({ children, className, dismissBack = false, dismis
           initial={overlayVariants.closed}
           animate={overlayVariants.open}
           exit={overlayVariants.closed}
-          className="fixed z-50 left-0 right-0 top-0 bottom-0 mx-auto bg-carbon-900/60"
+          className="fixed z-50 inset-0 mx-auto bg-carbon-900/60"
         >
           <div
             ref={overlay}
@@ -110,7 +110,7 @@ export default function Modal({ children, className, dismissBack = false, dismis
             <div
               ref={wrapper}
               className={clsxm("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-                "w-full sm:w-10/12 max-w-screen-lg max-h-screen",
+                "w-full sm:w-10/12 max-w-screen-lg max-h-[100dvh]",
                 "overflow-y-scroll no-scrollbar p-6", className)}
             >
               <MotionDiv
