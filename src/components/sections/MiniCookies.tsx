@@ -21,7 +21,7 @@ const MiniCookies = async (props: {
       <CookieProvider cookies={cookies} />
       <p>{translations.settings?.cookie_consent ?? 'Cookie consent :'}</p>
       <div className="flex flex-wrap gap-3">
-        <ButtonLink href={includeLocaleLink("/cookies")} rel="nofollow" variant="dark">{translations.btn?.details ?? 'details'}</ButtonLink>
+        <ButtonLink href={includeLocaleLink("/cookies")} rel="nofollow" className="bg-carbon-400 hover:bg-carbon-500 dark:bg-carbon-800 dark:hover:bg-carbon-700 text-carbon-900 dark:text-white">{translations.btn?.details ?? 'details'}</ButtonLink>
         <CookiesAllButton cookies={cookies} />
         <CookiesAllButton cookies={cookies} accept />
       </div>
