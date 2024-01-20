@@ -83,11 +83,11 @@ const CarouselAlt = async (props: { pageID: number; index: number; pageType: str
         className="relative md:w-full md:h-full"
         containerClassName="grid auto-cols-fr grid-flow-col md:grid-flow-row md:auto-rows-fr md:h-full" //md:flex-col
         thumbClassName={clsxm(
-          'relative overflow-hidden bg-carbon-200 dark:bg-carbon-900',
+          'relative overflow-hidden bg-carbon-50 dark:bg-carbon-950',
           'first:rounded-bl-3xl first:before:rounded-bl-3xl last:rounded-br-3xl last:before:rounded-br-3xl',
           'md:first:rounded-bl-none md:first:before:rounded-bl-none md:first:rounded-tr-3xl md:first:before:rounded-tr-3xl'
         )}
-        activeClassName="before:absolute before:inset-0 before:border-2 before:border-primary-600"
+        activeClassName="bg-carbon-200 dark:bg-carbon-800 before:absolute before:inset-0 before:border-2 before:border-primary-600"
         options={{
           dragFree: false,
           watchDrag: false,
