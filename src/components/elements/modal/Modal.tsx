@@ -24,7 +24,18 @@ export const useModalContext = () => {
   return context;
 };
 
-export default function Modal({ children, className, dismissBack = false, dismissAction, openModal = true }: { children: React.ReactNode; className?: string, dismissBack?: boolean; dismissAction?: () => void; openModal?: boolean }) {
+type ModalProps = {
+  children: React.ReactNode;
+  className?: string;
+  divClassName?: string;
+  overlayClassName?: string;
+  inWrapperClassName?: string;
+  dismissBack?: boolean;
+  dismissAction?: () => void;
+  openModal?: boolean;
+};
+
+export default function Modal({ children, className, divClassName, overlayClassName, inWrapperClassName, dismissBack = false, dismissAction, openModal = true }: ModalProps) {
   const overlay = useRef(null);
   const wrapper = useRef(null);
   const router = useRouter();
@@ -99,12 +110,18 @@ export default function Modal({ children, className, dismissBack = false, dismis
           initial={overlayVariants.closed}
           animate={overlayVariants.open}
           exit={overlayVariants.closed}
-          className="fixed z-50 inset-0 mx-auto bg-carbon-900/60"
+          className={clsxm(
+            "fixed z-50 inset-0 mx-auto bg-carbon-900/60",
+            divClassName
+          )}
         >
           <div
             ref={overlay}
             onClick={onClick}
-            className='w-full h-full'
+            className={clsxm(
+              'w-full h-full',
+              overlayClassName
+            )}
           >
 
             <div
@@ -117,7 +134,10 @@ export default function Modal({ children, className, dismissBack = false, dismis
                 initial={wrapperVariants.closed}
                 animate={wrapperVariants.open}
                 exit={wrapperVariants.closed}
-                className='h-full w-full'
+                className={clsxm(
+                  'h-full w-full',
+                  inWrapperClassName
+                )}
               >
                 {children}
               </MotionDiv>
