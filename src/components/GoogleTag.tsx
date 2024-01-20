@@ -28,7 +28,7 @@ const GoogleTag = ({ gtmId, children }: { gtmId: string; children: ReactNode }) 
   }, [gtmId]);
 
   return <>
-    {gtmId && cookiesModalOpen && <Modal dismissAction={() => setCookiesModalOpen(false)} className="max-w-screen-lg">
+    {gtmId && cookiesModalOpen && <Modal dismissAction={() => setCookiesModalOpen(false)} className="top-full left-0 translate-x-0 -translate-y-full" divClassName="bg-transparent" inWrapperClassName="w-fit max-w-full">
       {children}
     </Modal>}
   </>;

@@ -20,7 +20,7 @@ import Toasts from '@/components/elements/toaster/Toasts';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import ProvideSupport from '@/components/ProvideSupport';
-import Cookies from '@/components/sections/Cookies';
+import MiniCookies from '@/components/sections/MiniCookies';
 import ThemesProvider from '@/components/ThemesProvider';
 import { ZustandProvider } from '@/components/ZustandProvider';
 
@@ -93,7 +93,7 @@ export default async function BaseLayout(props: {
         </span>
         {provide_support_script && <ProvideSupport script={provide_support_script} />}
         {google_tag_id && <GoogleTag gtmId={google_tag_id}>
-          <Cookies lang={props.params.lang} />
+          <MiniCookies lang={props.params.lang} />
         </GoogleTag>
         }
         <ZustandProvider serverState={useServer.getState()} />
