@@ -29,7 +29,7 @@ export async function pingToServers(destinationIp: string) {
   const startTime = performance.now();
 
   try {
-    const response = await fetch(`http://${url}/${Math.random()}`);
+    const response = await fetch(`https://${url}/${Math.random()}`);
     const endTime = performance.now();
     const latency = endTime - startTime;
 

@@ -1,12 +1,4 @@
 {
-  "images": {
-    "remotePatterns": [
-      {
-        "protocol": "http"
-        
-      }
-    ]
-  },
   "headers": [
     {
       "source": "/fonts/inter-var-latin.woff2",
