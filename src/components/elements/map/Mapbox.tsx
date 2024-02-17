@@ -44,7 +44,7 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
 }) => {
   
   const [popupInfo, setPopupInfo] = useState<MarkerTypeWithPing | null>(null);
-  const [pinged, setPinged] = useState<null | string>(null)
+  const [pinged, setPinged] = useState<null | number>(null)
   const pins = useMemo(
     () =>
       markers?.map((marker) => (
@@ -54,22 +54,27 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
           latitude={marker.latitude}
           style={{ display: 'flex' }}
           onClick={e => {
-            console.log('HOLAAAA')
-            console.log(marker)
             setPinged(null)
             // If we let the click event propagates to the map, it will immediately close the popup
             // with `closeOnClick: true`
             e.originalEvent.stopPropagation();
             setPopupInfo(marker)
-            pingToServers(marker.name)
-              .then((datafetched:any) =>{
-                marker.ping = datafetched.medianPingTime
-                setPinged(datafetched.medianPingTime)         
+            pingToServers(marker)
+              .then((res) => {
+                setPinged(res.medianPingTime)
               })
               .catch(err => {
                 console.log(err)
-                setPinged('9999')
+                setPinged(9999)
               })
+              // .then((datafetched:any) =>{
+              //   marker.ping = datafetched.medianPingTime
+              //   setPinged(datafetched.medianPingTime)         
+              // })
+              // .catch(err => {
+              //   console.log(err)
+              //   setPinged('9999')
+              // })
             
           }}
         >
