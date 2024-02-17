@@ -8,7 +8,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import clsxm from "@/lib/clsxm";
 import { LinkInterface } from "@/lib/interfaces";
 
-import Link from '@/components/elements/links';
 import { pingToServers } from '@/components/elements/map/Pingdata';
 
 
@@ -55,6 +54,8 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
           latitude={marker.latitude}
           style={{ display: 'flex' }}
           onClick={e => {
+            console.log('HOLAAAA')
+            console.log(marker)
             setPinged(null)
             // If we let the click event propagates to the map, it will immediately close the popup
             // with `closeOnClick: true`
@@ -107,7 +108,7 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
             className='[&>.mapboxgl-popup-content]:rounded-lg [&>.mapboxgl-popup-content]:bg-carbon-200 [&>.mapboxgl-popup-content]:p-3 [&>.mapboxgl-popup-tip]:!border-t-carbon-200 font-primary text-base text-carbon-900'
           >
             <p>{popupInfo.name}</p>
-              
+{/*               
               {popupInfo.link && <Link
                 href={popupInfo.link.href}
                 openNewTab={popupInfo.link.open_new_tab}
@@ -116,7 +117,7 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
                 icon={popupInfo.link.icon}
                 direction={popupInfo.link.direction}
                 rel={popupInfo.link.relationship}
-              >{popupInfo.link.name}</Link>}
+              >{popupInfo.link.name}</Link>} */}
               {pinged
                 ? <p>Ping: {pinged}ms</p>
                 : <p>Ping:  Loading...</p>
