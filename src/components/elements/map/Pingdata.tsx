@@ -33,6 +33,12 @@ export async function pingToServers(name:string) {
 
       exec(command, (error, stdout, stderr) => {
         if (error) {
+          console.log('ERROR PRIMER IF')
+          console.log(error)
+          console.log('STDOUT')
+          console.log(stdout)
+          console.log('STDERR')
+          console.log(stderr)
           resolve({ medianPingTime: '9999' });
         }
         const match = stdout.match(/Media = (\d+)ms/);
@@ -40,6 +46,8 @@ export async function pingToServers(name:string) {
           const medianPingTime = match[1];
           resolve({ medianPingTime });
         } else {
+          console.log('ERROR SEGUNDO IF')
+          console.log(match)
           resolve({ medianPingTime: '9999' });
         }
 
