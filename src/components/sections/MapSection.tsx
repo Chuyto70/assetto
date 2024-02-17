@@ -52,6 +52,7 @@ type dataType = {
           longitude: number;
           color: string;
           link?: LinkInterface;
+          ping: string | null
         }[];
       }[];
     };

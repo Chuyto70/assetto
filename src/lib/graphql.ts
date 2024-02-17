@@ -751,7 +751,8 @@ export const QueryLatestArticle = async (locale: string, page: number, pageSize:
   const queryVariables = {
     locale,
     page,
-    pageSize
+    pageSize,
+    joinSlug: 'tutorial/'
   };
 
   //Add revalidate Tags to next.js fetch
@@ -765,8 +766,9 @@ export const QueryLatestArticle = async (locale: string, page: number, pageSize:
     articles: { data: Article[], meta: QueryMetaProps };
   }>(
     gql`
-      query latestArticles($locale: I18NLocaleCode!, $page: Int!, $pageSize: Int!) {
+      query latestArticles($locale: I18NLocaleCode!, $page: Int!, $pageSize: Int!, $joinSlug : String!) {
         articles(
+          filters: { slug: { notContains: $joinSlug } }
           locale: $locale
           publicationState: LIVE
           sort: "createdAt:desc"
@@ -809,6 +811,130 @@ export const QueryLatestArticle = async (locale: string, page: number, pageSize:
   );
 
   return articles;
+};
+
+export const QueryLatestTutorials = async (locale: string, prefix?: string | undefined) => {
+  const joinedSlug = prefix ? `${prefix}` : 'tutorial';
+
+  const queryVariables = {
+    locale: locale,
+    joinedSlug: joinedSlug,
+  };
+
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+  fetch(url as URL,{ ...options, next: { tags: ['media'] } });
+
+  const response = await StrapiClient.request<{
+    articles: { data: Article[], meta: QueryMetaProps };
+  }>(
+  gql`
+      query latestArticles($locale: I18NLocaleCode!, $joinedSlug: String!) {
+        articles(
+          filters: { slug: { contains: $joinedSlug } }
+          locale: $locale
+          publicationState: LIVE
+        ) {
+          data {
+            id
+            attributes {
+              title
+              slug
+              short_description
+              thumbnail {
+                data {
+                  id
+                  attributes {
+                    name
+                    alternativeText
+                    caption
+                    width
+                    height
+                    url
+                    mime
+                  }
+                }
+              }
+              author
+              publishedAt
+            }
+          }
+          meta {
+            pagination {
+              page
+              pageCount
+            }
+          }
+        }
+      }
+    `,
+  queryVariables
+  );
+
+  return response;
+};
+
+export const QueryOneTutorial = async (locale: string, prefix?: string | undefined) => {
+  const joinedSlug = prefix ? `${prefix}` : 'tutorial';
+
+  const queryVariables = {
+    locale: locale,
+    joinedSlug: joinedSlug,
+  };
+
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+  fetch(url as URL,{ ...options, next: { tags: ['media'] } });
+
+  const response = await StrapiClient.request<{
+    articles: { data: Article[], meta: QueryMetaProps };
+  }>(
+  gql`
+      query latestArticles($locale: I18NLocaleCode!, $joinedSlug: String!) {
+        articles(
+          filters: { slug: { contains: $joinedSlug } }
+          locale: $locale
+          publicationState: LIVE
+          sort: "createdAt:desc"
+        ) {
+          data {
+            id
+            attributes {
+              title
+              slug
+              short_description
+              thumbnail {
+                data {
+                  id
+                  attributes {
+                    name
+                    alternativeText
+                    caption
+                    width
+                    height
+                    url
+                    mime
+                  }
+                }
+              }
+              author
+              publishedAt
+              content
+            }
+          }
+          meta {
+            pagination {
+              page
+              pageCount
+            }
+          }
+        }
+      }
+    `,
+  queryVariables
+  );
+
+  return response;
 };
 
 /**
@@ -1483,6 +1609,10 @@ export const QueryMediaFromSlug = async (locale: string, slug: string[] | undefi
 
   return response;
 };
+
+
+
+
 
 /**
  * Query Media from slug

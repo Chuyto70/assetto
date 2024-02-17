@@ -9,6 +9,8 @@ import clsxm from "@/lib/clsxm";
 import { LinkInterface } from "@/lib/interfaces";
 
 import Link from '@/components/elements/links';
+import { pingToServers } from '@/components/elements/map/Pingdata';
+
 
 type MarkerType = {
   id: number;
@@ -17,6 +19,15 @@ type MarkerType = {
   longitude: number;
   color: string;
   link?: LinkInterface;
+};
+type MarkerTypeWithPing = {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  color: string;
+  link?: LinkInterface;
+  ping: string | null;
 };
 
 const Map = dynamic(() => import('react-map-gl').then((mod) => mod.Map));
@@ -30,31 +41,43 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
   longitude: number;
   zoom: number;
   style: string;
-  markers?: MarkerType[];
+  markers?: MarkerTypeWithPing[];
 }) => {
-
-  const [popupInfo, setPopupInfo] = useState<MarkerType | null>(null);
-
+  
+  const [popupInfo, setPopupInfo] = useState<MarkerTypeWithPing | null>(null);
+  const [pinged, setPinged] = useState<null | string>(null)
   const pins = useMemo(
     () =>
       markers?.map((marker) => (
         <Marker
-          key={`marker-${marker.id}`}
+          key={`marker-${marker.id}-${marker.name}`}
           longitude={marker.longitude}
           latitude={marker.latitude}
           style={{ display: 'flex' }}
           onClick={e => {
+            setPinged(null)
             // If we let the click event propagates to the map, it will immediately close the popup
             // with `closeOnClick: true`
             e.originalEvent.stopPropagation();
-            setPopupInfo(marker);
+            setPopupInfo(marker)
+            pingToServers(marker.name)
+              .then((datafetched:any) =>{
+                marker.ping = datafetched.medianPingTime
+                setPinged(datafetched.medianPingTime)         
+              })
+              .catch(err => {
+                console.log(err)
+                setPinged('9999')
+              })
+            
           }}
         >
-          <span className="w-3 h-3 rounded-full" style={{ backgroundColor: marker.color }} ></span>
+          <span className="w-3 h-3 rounded-full cursor-pointer" style={{ backgroundColor: marker.color }} ></span>
         </Marker>
       )),
     [markers]
   );
+  
 
   return (
     <div className={clsxm(className)}>
@@ -67,7 +90,8 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
         }}
         style={{ width: '100%', height: '100%' }}
         mapStyle={style}
-        cooperativeGestures
+        interactive={false}
+        // cooperativeGestures
       >
         {pins}
 
@@ -75,20 +99,29 @@ const Mapbox = ({ className, mapbox_public_key, latitude, longitude, zoom, style
           <Popup
             longitude={Number(popupInfo.longitude)}
             latitude={Number(popupInfo.latitude)}
-            onClose={() => setPopupInfo(null)}
+            onClose={() => {
+              setPopupInfo(null)
+              setPinged(null)
+            }}
             closeButton={false}
             className='[&>.mapboxgl-popup-content]:rounded-lg [&>.mapboxgl-popup-content]:bg-carbon-200 [&>.mapboxgl-popup-content]:p-3 [&>.mapboxgl-popup-tip]:!border-t-carbon-200 font-primary text-base text-carbon-900'
           >
             <p>{popupInfo.name}</p>
-            {popupInfo.link && <Link
-              href={popupInfo.link.href}
-              openNewTab={popupInfo.link.open_new_tab}
-              style={popupInfo.link.style}
-              variant={popupInfo.link.variant}
-              icon={popupInfo.link.icon}
-              direction={popupInfo.link.direction}
-              rel={popupInfo.link.relationship}
-            >{popupInfo.link.name}</Link>}
+              
+              {popupInfo.link && <Link
+                href={popupInfo.link.href}
+                openNewTab={popupInfo.link.open_new_tab}
+                style={popupInfo.link.style}
+                variant={popupInfo.link.variant}
+                icon={popupInfo.link.icon}
+                direction={popupInfo.link.direction}
+                rel={popupInfo.link.relationship}
+              >{popupInfo.link.name}</Link>}
+              {pinged
+                ? <p>Ping: {pinged}ms</p>
+                : <p>Ping:  Loading...</p>
+              }
+            
           </Popup>
         )}
       </Map>
