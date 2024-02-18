@@ -95,14 +95,17 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
           {
             recomended_tutorials.map(el => (
-            <Link href={`/${el.attributes.slug}`} key={el.attributes.slug} className="h-full max-h-[15rem] bg-[#292929] rounded-md flex flex-col text-white w-full max-w-[16rem] p-2">
-                <div className='min-w-min'>
-                        <img src={`https://strapi.assettohosting.com/${el.attributes.thumbnail.data.attributes.url}`} className='w-full min-w-[12rem] h-full overflow-hidden object-cover rounded-tl-md rounded-bl-md' alt="Image from assetto"/>
-                </div>
-                <div className='p-4 flex flex-col justify-between'>
-                  <p className='text-lg font-bold text-[#fd9500]'>{el.attributes.title}</p>
-                </div>
-              </Link>
+              <div key={el.attributes.slug}>
+
+              <Link href={`/${el.attributes.slug}`} key={el.attributes.slug} className="h-full max-h-[15rem] bg-[#292929] rounded-md flex flex-col text-white w-full max-w-[16rem] p-2">
+                  <div className='min-w-min'>
+                          <img src={`https://strapi.assettohosting.com/${el.attributes.thumbnail.data.attributes.url}`} className='w-full min-w-[12rem] h-full overflow-hidden object-cover rounded-tl-md rounded-bl-md' alt="Image from assetto"/>
+                  </div>
+                  <div className='p-4 flex flex-col justify-between'>
+                    <p className='text-lg font-bold text-[#fd9500]'>{el.attributes.title}</p>
+                  </div>
+                </Link>
+              </div>
             ))
           }
           </div>
