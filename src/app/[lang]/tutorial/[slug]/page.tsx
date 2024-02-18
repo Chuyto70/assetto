@@ -5,31 +5,50 @@ import { Suspense } from "react";
 
 import { QueryByTagsTutorials, QueryOneTutorial } from "@/lib/graphql";
 import { MediaUrl } from "@/lib/helper";
+import { Article, QueryMetaProps } from "@/lib/interfaces";
 
+import { Buttonback } from "@/components/elements/buttons/Buttonback";
 import RemoteMDX from "@/components/elements/texts/RemoteMDX";
 import NextImage from "@/components/NextImage";
 
-const recomended_tutorials = [1,2]
+
+
+async function fetchingRelatedTutorials(tutorial: Article[]) {
+    const matches = tutorial[0].attributes.metadata.meta_description?.match(/#\w+\b/g);
+    let relatedTutorials: Article[] = [];
+
+    if (matches) {
+        const relatedPromises = matches.map(async (tag) => {
+            if (relatedTutorials.length <= 6) {
+                try {
+                    const tutorialRelated = await QueryByTagsTutorials('en', tag);
+                    
+                    const filtredTutorials = tutorialRelated.articles.data.filter(
+                        (el) => el.id !== tutorial[0].id
+                    );
+
+                    const uniqueTutorials = new Set(filtredTutorials);
+                    const uniqueTutorialsArray = [...uniqueTutorials];
+                    relatedTutorials = [...relatedTutorials, ...uniqueTutorialsArray]
+                } catch (error) {
+                    console.error('Error fetching related tutorials:', error);
+                }
+            }
+        });
+
+        await Promise.all(relatedPromises);
+    }
+    const hash: any = {};
+    relatedTutorials = relatedTutorials.filter(o => hash[o.id] ? false : hash[o.id] = true);
+
+    return relatedTutorials;
+}
+
 export default async function Page({ params }: { params: { slug: string } }) {
-  const { articles } = await QueryOneTutorial('en', `tutorial/${params.slug}`)
-
-  articles.data[0].attributes.metadata
-  const {title, cover, author, publishedAt, content, short_description} = articles.data[0].attributes
+  const { articles }: {articles: {data: Article[], meta: QueryMetaProps} } = await QueryOneTutorial('en', `tutorial/${params.slug}`)
+  const recomended_tutorials = await fetchingRelatedTutorials(articles.data)
+  const {title, cover, author, publishedAt, content, short_description, metadata} = articles.data[0].attributes
   
-  const matches = short_description.match(/#\w+\b/g);
-  console.log('MATCHES')
-  console.log(matches)
-  console.log(short_description)
-  if(matches){
-    matches.map(async (tag)=> {
-      const tutorialRelated = await QueryByTagsTutorials('en', tag)
-      console.log('tutorialRelated')
-      console.log(tutorialRelated)
-    })
-    const randomTag = matches[Math.floor(Math.random() * matches?.length)]
-    console.log(randomTag)
-  }
-
 
   return (
     <Suspense fallback={<h1 className="text-white">Loading DATA</h1>}>
@@ -52,7 +71,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </div>
 
           <div className='w-full flex justify-center gap-1 text-carbon-700 dark:text-carbon-400 font-semibold relative'>
-            <Link href="javascript:history.back()" className="text-[#fd9500] text-lg absolute left-6">Go back</Link>
+            <Buttonback />
             <address rel="author">{author}</address>
             <span>-</span>
             <time dateTime={publishedAt}>{format(parseISO(publishedAt ?? '1970-01-01'), 'dd/MM/yyyy')}</time>
@@ -68,12 +87,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
           {
             recomended_tutorials.map(el => (
-            <Link href="#" key={el} className="h-full max-h-[15rem] bg-[#292929] rounded-md flex flex-col text-white w-full max-w-[16rem] p-2">
+            <Link href={`/${el.attributes.slug}`} key={el.attributes.slug} className="h-full max-h-[15rem] bg-[#292929] rounded-md flex flex-col text-white w-full max-w-[16rem] p-2">
                 <div className='min-w-min'>
-                        <img src="https://strapi.assettohosting.com/uploads/thumbnail_ACC_LARGE_2bca6f5e77.png?2024-01-19T02:01:12.429Z" className='w-full min-w-[12rem] h-full overflow-hidden object-cover rounded-tl-md rounded-bl-md' alt="Image from assetto"/>
+                        <img src={`https://strapi.assettohosting.com/${el.attributes.thumbnail.data.attributes.url}`} className='w-full min-w-[12rem] h-full overflow-hidden object-cover rounded-tl-md rounded-bl-md' alt="Image from assetto"/>
                 </div>
                 <div className='p-4 flex flex-col justify-between'>
-                  <p className='text-lg font-bold'>Lorem ipsum dolor sit amet</p>
+                  <p className='text-lg font-bold text-[#fd9500]'>{el.attributes.title}</p>
                 </div>
               </Link>
             ))

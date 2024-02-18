@@ -36,9 +36,6 @@ const SwiperElement = ( props : tutorials) => {
     
        <Swiper
         modules={[Grid, Navigation]}
-        grid={{
-          rows: 2,
-        }}
         loop={true}
         navigation={true}
         autoplay={{
@@ -68,10 +65,7 @@ const SwiperElement = ( props : tutorials) => {
             },
             1024: {
               spaceBetween: 30,
-              slidesPerView: 1,
-              grid:{ 
-                rows: 2
-              }
+              slidesPerView: 2,
             },
             1280: {
               spaceBetween: 60,
@@ -87,10 +81,10 @@ const SwiperElement = ( props : tutorials) => {
           props.articles.data.map(element => (
 
             <SwiperSlide key={element.id} className='bg-[#292929] rounded-md flex  text-white'>
-              <Link href={element.attributes.slug} className='flex h-full w-full flex-col md:flex-row'>
+              <Link href={element.attributes.slug} className='flex h-full w-full flex-col lg:flex-row'>
 
-                <div className='min-w-min'>
-                  <img src={`https://strapi.assettohosting.com/${element.attributes.thumbnail.data.attributes.url}`} className='w-full min-w-[12rem] md:w-48 h-full overflow-hidden object-cover rounded-tl-md md:rounded-bl-md rounded-tr-md md:rounded-tr-none'/>
+                <div className='min-w-min max-h-[11rem] lg:max-h-full'>
+                  <img src={`https://strapi.assettohosting.com/${element.attributes.thumbnail.data.attributes.url}`} className='w-full min-w-[12rem] lg:w-48 h-full overflow-hidden object-cover rounded-tl-md lg:rounded-bl-md rounded-tr-md lg:rounded-tr-none'/>
                 </div>
                 <div className='p-4 flex flex-col justify-between'>
                   <p className='text-lg font-bold'>{element.attributes.title}</p>

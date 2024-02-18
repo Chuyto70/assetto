@@ -814,11 +814,11 @@ export const QueryLatestArticle = async (locale: string, page: number, pageSize:
 };
 
 export const QueryLatestTutorials = async (locale: string, prefix?: string | undefined, page?: number | undefined, pageSize?: number | undefined ) => {
-  // const joinedSlug = prefix ? `${prefix}` : 'tutorial';
+  const joinedSlug = prefix ? `${prefix}` : 'tutorial';
 
   const queryVariables = {
     locale: locale,
-    // joinedSlug: joinedSlug,
+    joinedSlug: joinedSlug,
     page: page ? page : 1,
     pageSize: pageSize ? pageSize : 6
   };
@@ -832,8 +832,9 @@ export const QueryLatestTutorials = async (locale: string, prefix?: string | und
   }>(
     // $joinedSlug: String! AGREGAR ESTO
   gql`
-      query latestArticles($locale: I18NLocaleCode!, , $page: Int!, $pageSize: Int!) {
+      query latestArticles($locale: I18NLocaleCode!, , $page: Int!, $pageSize: Int!, $joinedSlug: String!) {
         articles(
+          filters: { slug: { contains: $joinedSlug } }
           locale: $locale
           publicationState: LIVE
           pagination: { page: $page, pageSize: $pageSize }
@@ -900,7 +901,6 @@ export const QueryByTagsTutorials = async (locale: string, tag?: string) => {
           filters: { slug: { contains: $joinedSlug },  short_description: { contains: $tag } }
           locale: $locale
           publicationState: LIVE
-          pagination: { page: $page, pageSize: $pageSize }
 
         ) {
           data {

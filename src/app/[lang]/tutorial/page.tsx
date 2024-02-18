@@ -1,14 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
-import { format, parseISO } from "date-fns";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { includeLocaleLink,MediaUrl } from "@/lib/helper";
+import { includeLocaleLink, MediaUrl } from "@/lib/helper";
 import { Article } from "@/lib/interfaces";
 
 import Button from "@/components/elements/buttons/Button";
-import ButtonLink from "@/components/elements/links/ButtonLink";
 import NextImage from "@/components/NextImage";
 import Skeleton from "@/components/Skeleton";
 
@@ -30,6 +29,7 @@ export default function Page() {
     setLoading(true);
     loadMoreTutorials(currentPage, 3)
       .then((res) => {
+        console.log(res)
         setPageCount(res.articles.meta.pagination.pageCount)
         setCurrentPage((state) => state + 1)
         setListArticles((state) => [...state, ...res.articles.data]);
@@ -53,10 +53,32 @@ export default function Page() {
    return (
     <div className='flex flex-col items-center gap-6 md:gap-12 w-full max-w-screen-xl px-3 md:px-6 lg:px-12'>
       <h2 className="italic">Look out our tutorials</h2>
-      <ul className='w-full grid auto-rows-fr gap-6 md:gap-12'>
+      <ul className='w-full flex flex-wrap justify-center gap-6'>
         {listArticles?.map((el) => (
-          <li key={el.id} className='w-full h-full'>
-            <article className='grid grid-cols-1 xs:grid-cols-5 gap-3 md:gap-6 w-full h-full' >
+          <li key={el.id} className='w-auto max-w-[18rem] min-w-[18rem] md:h-64 xl:h-96 h-48'>
+            <Link href={includeLocaleLink(`/${el.attributes.slug}`)} className="group relative flex h-48 flex-col overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-64 xl:h-96">
+       
+              <NextImage
+                className='absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110'
+                imgClassName='w-full h-full object-cover object-center rounded-lg'
+                useSkeleton
+                width={el.attributes.thumbnail.data.attributes.width}
+                height={el.attributes.thumbnail.data.attributes.height}
+                src={MediaUrl(el.attributes.thumbnail.data.attributes.url)}
+                alt={el.attributes.thumbnail.data.attributes.alternativeText ?? ''}
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 to-transparent"></div>
+
+              <div className="relative mt-auto p-4">
+                {/* <span className="block text-sm text-gray-200">
+                  <time dateTime={el.attributes.publishedAt}>{format(parseISO(el.attributes.publishedAt ?? '1970-01-01'), 'dd/MM/yyyy')}</time>
+                  </span> */}
+                <h2 className="mb-2 text-xl font-semibold text-white transition duration-100">{el.attributes.title}</h2>
+
+                <span className="font-semibold text-indigo-300">Read more</span>
+              </div>
+            </Link>
+            {/* <article className='grid grid-cols-1 xs:grid-cols-5 gap-3 md:gap-6 w-full h-full' >
               <NextImage
                 className='w-full h-fit xs:h-full xs:col-span-2 lg:col-span-1'
                 imgClassName='w-full h-full object-cover object-center rounded-lg'
@@ -82,30 +104,26 @@ export default function Page() {
                   iconClassName='w-6 h-6 md:w-8 md:h-8'
                 >Read more</ButtonLink>
               </div>
-            </article>
+            </article> */}
           </li>
         ))}
 
-        {/* Loading skeletton */}
+        {/* Loading skeletton flex-wrap justify-center gap-6 */}
         {loading && (
-          <>
+          <div className="w-full flex flex-wrap justify-center gap-6"> 
             {Array.from({ length: 3 }).map((_, index) => (
-              <li key={`skeleton-${index}`} className='hidden xs:block w-full h-full'>
+              <li key={`skeleton-${index}`} className='hidden xs:block w-auto max-w-[18rem] min-w-[18rem] md:h-64 xl:h-96 h-48'>
                 <article className='grid grid-cols-1 xs:grid-cols-5 gap-3 md:gap-6 w-full h-full'>
-                  <Skeleton className='w-full h-full xs:col-span-2 lg:col-span-1 rounded-lg' />
-                  <div className='xs:col-span-3 lg:col-span-4 flex flex-col items-center xs:items-start gap-3 md:gap-6'>
+                  {/* <Skeleton className='w-full h-full xs:col-span-2 lg:col-span-1 rounded-lg' /> */}
+                  <Skeleton className='max-w-[18rem] min-w-[18rem] h-44 rounded-lg md:h-64 xl:h-96' />
+                  {/* <div className='xs:col-span-3 lg:col-span-4 flex flex-col items-center xs:items-start gap-3 md:gap-6'>
                     <Skeleton className='max-w-full w-44 h-4 rounded-full' />
-                    <Skeleton className='max-w-full w-64 h-6 rounded-full' />
-                    <div className='w-full flex flex-col gap-2'>
-                      <Skeleton className='w-full h-4 rounded-full' />
-                      <Skeleton className='w-4/5 h-4 rounded-full' />
-                      <Skeleton className='w-3/5 h-4 rounded-full' />
-                    </div>
-                  </div>
+                   
+                  </div> */}
                 </article>
               </li>
             ))}
-          </>
+          </div>
         )}
       </ul>
       {pageCount >= 1 && <Button disabled={currentPage >= pageCount} isLoading={loading} onClick={handleLoadMore}

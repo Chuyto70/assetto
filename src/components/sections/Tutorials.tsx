@@ -17,7 +17,7 @@ const Tutorials = async() => {
     const { articles } = await QueryLatestTutorials('en', 'tutorial')
 
     return (
-      articles.data.length < 5
+      articles.data.length < 1
         ? <p></p>
         : <section id='tutorial' className="w-full px-3 md:px-6 lg:px-12 max-w-screen-2xl flex flex-col items-center gap-6 md:gap-12">
             <h2 className="italic text-center">Our Tutorials</h2>
