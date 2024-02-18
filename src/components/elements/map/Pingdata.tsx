@@ -68,7 +68,7 @@ export function pingToServers(marker: MarkerTypeWithPing): Promise<{ medianPingT
         reject(error);
       }
     );
-    }, 500)
+    }, 2000)
     
   });
 }

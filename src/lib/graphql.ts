@@ -813,12 +813,14 @@ export const QueryLatestArticle = async (locale: string, page: number, pageSize:
   return articles;
 };
 
-export const QueryLatestTutorials = async (locale: string, prefix?: string | undefined) => {
-  const joinedSlug = prefix ? `${prefix}` : 'tutorial';
+export const QueryLatestTutorials = async (locale: string, prefix?: string | undefined, page?: number | undefined, pageSize?: number | undefined ) => {
+  // const joinedSlug = prefix ? `${prefix}` : 'tutorial';
 
   const queryVariables = {
     locale: locale,
-    joinedSlug: joinedSlug,
+    // joinedSlug: joinedSlug,
+    page: page ? page : 1,
+    pageSize: pageSize ? pageSize : 6
   };
 
   //Add revalidate Tags to next.js fetch
@@ -828,12 +830,14 @@ export const QueryLatestTutorials = async (locale: string, prefix?: string | und
   const response = await StrapiClient.request<{
     articles: { data: Article[], meta: QueryMetaProps };
   }>(
+    // $joinedSlug: String! AGREGAR ESTO
   gql`
-      query latestArticles($locale: I18NLocaleCode!, $joinedSlug: String!) {
+      query latestArticles($locale: I18NLocaleCode!, , $page: Int!, $pageSize: Int!) {
         articles(
-          filters: { slug: { contains: $joinedSlug } }
           locale: $locale
           publicationState: LIVE
+          pagination: { page: $page, pageSize: $pageSize }
+
         ) {
           data {
             id
@@ -874,6 +878,72 @@ export const QueryLatestTutorials = async (locale: string, prefix?: string | und
   return response;
 };
 
+export const QueryByTagsTutorials = async (locale: string, tag?: string) => {
+  const joinedSlug = 'tutorial';
+
+  const queryVariables = {
+    locale: locale,
+    joinedSlug: joinedSlug,
+    tag: tag
+  };
+
+  //Add revalidate Tags to next.js fetch
+  StrapiClient.requestConfig.fetch = (url, options) =>
+  fetch(url as URL,{ ...options, next: { tags: ['media'] } });
+
+  const response = await StrapiClient.request<{
+    articles: { data: Article[], meta: QueryMetaProps };
+  }>(
+  gql`
+      query latestArticles($locale: I18NLocaleCode!, $joinedSlug: String!, $tag: String!) {
+        articles(
+          filters: { slug: { contains: $joinedSlug },  short_description: { contains: $tag } }
+          locale: $locale
+          publicationState: LIVE
+          pagination: { page: $page, pageSize: $pageSize }
+
+        ) {
+          data {
+            id
+            attributes {
+              title
+              slug
+              short_description
+              thumbnail {
+                data {
+                  id
+                  attributes {
+                    name
+                    alternativeText
+                    caption
+                    width
+                    height
+                    url
+                    mime
+                  }
+                }
+              }
+              author
+              publishedAt
+            }
+          }
+          meta {
+            pagination {
+              page
+              pageCount
+            }
+          }
+        }
+      }
+    `,
+  queryVariables
+  );
+
+  return response;
+};
+
+
+
 export const QueryOneTutorial = async (locale: string, prefix?: string | undefined) => {
   const joinedSlug = prefix ? `${prefix}` : 'tutorial';
 
@@ -903,6 +973,16 @@ export const QueryOneTutorial = async (locale: string, prefix?: string | undefin
               title
               slug
               short_description
+              cover {
+                data {
+                  id
+                  attributes {
+                    url
+                    width
+                    height
+                  }
+                }
+              }
               thumbnail {
                 data {
                   id
@@ -916,6 +996,9 @@ export const QueryOneTutorial = async (locale: string, prefix?: string | undefin
                     mime
                   }
                 }
+              }
+              metadata {
+                meta_description
               }
               author
               publishedAt

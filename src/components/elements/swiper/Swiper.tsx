@@ -1,11 +1,15 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
 import Link from 'next/link';
-import  { Autoplay,Pagination } from 'swiper/modules';
+import  {Grid,Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import 'swiper/css/pagination';
+import 'swiper/css/grid';
+import 'swiper/css/navigation';
+
+import './style.css'
 
 import { Article, QueryMetaProps } from '@/lib/interfaces';
 
@@ -16,16 +20,27 @@ type tutorials = {
     meta: QueryMetaProps 
   }
 }
+const elementos = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+]
 const SwiperElement = ( props : tutorials) => {
 
   return (
     
        <Swiper
-        modules={[Pagination, Autoplay]}
-        pagination={{
-          dynamicBullets: true,
+        modules={[Grid, Navigation]}
+        grid={{
+          rows: 2,
         }}
         loop={true}
+        navigation={true}
         autoplay={{
             delay: 3000,
             stopOnLastSlide: false,
@@ -34,29 +49,60 @@ const SwiperElement = ( props : tutorials) => {
           centeredSlides={false}
         breakpoints={{
             0: {
-              spaceBetween: 10,
+              spaceBetween: 20,
               slidesPerView: 1,
+              grid:{ 
+                rows: 1
+              }
             },
             468: {
-              spaceBetween: 10,
+              spaceBetween: 20,
               slidesPerView: 2,
+              grid:{ 
+                rows: 1
+              }
             },
             768: {
-              spaceBetween: 15,
-              slidesPerView: 3,
+              spaceBetween: 30,
+              slidesPerView: 2
             },
             1024: {
-              spaceBetween: 15,
-              slidesPerView: 4,
+              spaceBetween: 30,
+              slidesPerView: 1,
+              grid:{ 
+                rows: 2
+              }
             },
             1280: {
-              spaceBetween: 30,
-              slidesPerView: 5,
+              spaceBetween: 60,
+              slidesPerView: 2,
+              grid:{ 
+                rows: 2
+              }
             },
           }}
         className="mySwiper max-w-full w-full h-80 lg:h-96 breakpoint"
       >
-       {props.articles.data.map((element) => {
+        {
+          props.articles.data.map(element => (
+
+            <SwiperSlide key={element.id} className='bg-[#292929] rounded-md flex  text-white'>
+              <Link href={element.attributes.slug} className='flex h-full w-full flex-col md:flex-row'>
+
+                <div className='min-w-min'>
+                  <img src={`https://strapi.assettohosting.com/${element.attributes.thumbnail.data.attributes.url}`} className='w-full min-w-[12rem] md:w-48 h-full overflow-hidden object-cover rounded-tl-md md:rounded-bl-md rounded-tr-md md:rounded-tr-none'/>
+                </div>
+                <div className='p-4 flex flex-col justify-between'>
+                  <p className='text-lg font-bold'>{element.attributes.title}</p>
+                  <p className='max-w-[20rem] overflow-ellipsis leading-6 text-sm'>{element.attributes.short_description.length > 50 ? element.attributes.short_description.substring(0, 80) + '...' : element.attributes.short_description}</p>
+                  <p className='font-extrabold text-lg'>Check Tutorial</p>
+                </div>
+              </Link>
+            </SwiperSlide>
+          ))
+        }
+        
+       {/* {props.articles.data.map((element) => {
             return (
               <SwiperSlide key={element.id} className=''>
                 <div className='h-[300px] mb-6'>
@@ -81,7 +127,7 @@ const SwiperElement = ( props : tutorials) => {
 
               </SwiperSlide>
             );
-          })}
+          })} */}
       </Swiper>
   )
 }
