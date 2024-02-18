@@ -48,7 +48,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const { articles }: {articles: {data: Article[], meta: QueryMetaProps} } = await QueryOneTutorial('en', `tutorial/${params.slug}`)
   const recomended_tutorials = await fetchingRelatedTutorials(articles.data)
   const {title, cover, author, publishedAt, content, short_description, metadata} = articles.data[0].attributes
-  
+  console.log('RECOMENDED')
+  console.log(recomended_tutorials)
 
   return (
     <Suspense fallback={<h1 className="text-white">Loading DATA</h1>}>
