@@ -51,6 +51,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
   console.log('RECOMENDED')
   console.log(recomended_tutorials)
 
+  console.log('ARTICLE')
+  console.log(articles)
+
   return (
     <Suspense fallback={<h1 className="text-white">Loading DATA</h1>}>
       <div className="flex md:flex-row flex-col relative max-w-6xl gap-3">
