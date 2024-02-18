@@ -87,7 +87,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <RemoteMDX source={content} />
           </div>
         </div>
-        <div className="flex flex-col gap-4 md:mt-[-3rem] mt-12">
+        {
+          recomended_tutorials.length >= 1 &&
+        <div className="flex flex-col items-center gap-4 md:mt-[-3rem] mt-12">
           <p className="font-bold text-lg text-[#fd9500] pl-3 ">Related tutorials</p>
           <div className="flex flex-wrap justify-center gap-3">
 
@@ -106,6 +108,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </div>
           
         </div>
+        }
       </div>
     </Suspense>
   );
