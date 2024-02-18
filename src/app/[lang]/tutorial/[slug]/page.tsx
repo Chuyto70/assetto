@@ -14,8 +14,10 @@ import NextImage from "@/components/NextImage";
 
 
 async function fetchingRelatedTutorials(tutorial: Article[]) {
-    const matches = tutorial[0].attributes.metadata.meta_description?.match(/#\w+\b/g);
+    const matches = tutorial[0].attributes.short_description.match(/#\w+\b/g);
     let relatedTutorials: Article[] = [];
+    console.log('MATCHES')
+    console.log(matches)
 
     if (matches) {
         const relatedPromises = matches.map(async (tag) => {
