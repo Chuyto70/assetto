@@ -52,7 +52,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   console.log(recomended_tutorials)
 
   console.log('ARTICLE')
-  console.log(articles)
+  console.log(articles.data[0].attributes)
 
   return (
     <Suspense fallback={<h1 className="text-white">Loading DATA</h1>}>
