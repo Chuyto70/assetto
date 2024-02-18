@@ -57,7 +57,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   console.log(articles.data[0].attributes)
 
   return (
-    <Suspense fallback={<h1 className="text-white">Loading DATA</h1>}>
+    <Suspense key={params.slug} fallback={<h1 className="text-white">Loading DATA</h1>}>
       <div className="flex md:flex-row flex-col relative max-w-6xl gap-3">
       
         <div
