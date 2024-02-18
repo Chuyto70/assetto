@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { format, parseISO } from "date-fns";
 import Link from "next/link";
-import { Suspense } from "react";
+import { cache, Suspense } from "react";
 
 import { QueryByTagsTutorials, QueryOneTutorial } from "@/lib/graphql";
 import { MediaUrl } from "@/lib/helper";
@@ -11,13 +11,11 @@ import { Buttonback } from "@/components/elements/buttons/Buttonback";
 import RemoteMDX from "@/components/elements/texts/RemoteMDX";
 import NextImage from "@/components/NextImage";
 
+export const revalidate = 0
 
-
-async function fetchingRelatedTutorials(tutorial: Article[]) {
+const fetchingRelatedTutorials = cache(async (tutorial: Article[]) =>{
     const matches = tutorial[0].attributes.short_description.match(/#\w+\b/g);
     let relatedTutorials: Article[] = [];
-    console.log('MATCHES')
-    console.log(matches)
 
     if (matches) {
         const relatedPromises = matches.map(async (tag) => {
@@ -43,21 +41,16 @@ async function fetchingRelatedTutorials(tutorial: Article[]) {
     const hash: any = {};
     relatedTutorials = relatedTutorials.filter(o => hash[o.id] ? false : hash[o.id] = true);
 
-    return relatedTutorials;
-}
+    return relatedTutorials.slice(0, 6);
+})
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const { articles }: {articles: {data: Article[], meta: QueryMetaProps} } = await QueryOneTutorial('en', `tutorial/${params.slug}`)
   const recomended_tutorials = await fetchingRelatedTutorials(articles.data)
   const {title, cover, author, publishedAt, content, short_description, metadata} = articles.data[0].attributes
-  console.log('RECOMENDED')
-  console.log(recomended_tutorials)
-
-  console.log('ARTICLE')
-  console.log(articles.data[0].attributes)
 
   return (
-    <Suspense key={params.slug} fallback={<h1 className="text-white">Loading DATA</h1>}>
+    <Suspense key={params.slug}>
       <div className="flex md:flex-row flex-col relative max-w-6xl gap-3">
       
         <div

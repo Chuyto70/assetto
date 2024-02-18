@@ -838,7 +838,7 @@ export const QueryLatestTutorials = async (locale: string, prefix?: string | und
           locale: $locale
           publicationState: LIVE
           pagination: { page: $page, pageSize: $pageSize }
-
+          sort: "createdAt:desc"
         ) {
           data {
             id
