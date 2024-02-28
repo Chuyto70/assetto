@@ -30,9 +30,9 @@ export default function Page() {
     loadMoreTutorials(currentPage, 3)
       .then((res) => {
         console.log(res)
-        setPageCount(res.articles.meta.pagination.pageCount)
+        setPageCount(res.tutorials.meta.pagination.pageCount)
         setCurrentPage((state) => state + 1)
-        setListArticles((state) => [...state, ...res.articles.data]);
+        setListArticles((state) => [...state, ...res.tutorials.data]);
       })
       .catch(() => {
         notify(

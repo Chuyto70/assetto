@@ -4,8 +4,8 @@ import Link from "next/link";
 import { cache, Suspense } from "react";
 
 import { QueryByTagsTutorials, QueryOneTutorial } from "@/lib/graphql";
-import { MediaUrl } from "@/lib/helper";
-import { Article, QueryMetaProps } from "@/lib/interfaces";
+import { includeLocaleLink, MediaUrl } from "@/lib/helper";
+import { Tutorial } from "@/lib/interfaces";
 
 import { Buttonback } from "@/components/elements/buttons/Buttonback";
 import RemoteMDX from "@/components/elements/texts/RemoteMDX";
@@ -13,9 +13,9 @@ import NextImage from "@/components/NextImage";
 
 export const revalidate = 0
 
-const fetchingRelatedTutorials = cache(async (tutorial: Article[]) =>{
-    const matches = tutorial[0].attributes.short_description.match(/#\w+\b/g);
-    let relatedTutorials: Article[] = [];
+const fetchingRelatedTutorials = cache(async (tutorial: Tutorial[]) =>{
+    const matches = tutorial[0].attributes.tags.match(/#\w+\b/g);
+    let relatedTutorials: Tutorial[] = [];
 
     if (matches) {
         const relatedPromises = matches.map(async (tag) => {
@@ -23,7 +23,7 @@ const fetchingRelatedTutorials = cache(async (tutorial: Article[]) =>{
                 try {
                     const tutorialRelated = await QueryByTagsTutorials('en', tag);
                     
-                    const filtredTutorials = tutorialRelated.articles.data.filter(
+                    const filtredTutorials = tutorialRelated.tutorials.data.filter(
                         (el) => el.id !== tutorial[0].id
                     );
 
@@ -45,9 +45,9 @@ const fetchingRelatedTutorials = cache(async (tutorial: Article[]) =>{
 })
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const { articles }: {articles: {data: Article[], meta: QueryMetaProps} } = await QueryOneTutorial('en', `tutorial/${params.slug}`)
-  const recomended_tutorials = await fetchingRelatedTutorials(articles.data)
-  const {title, cover, author, publishedAt, content, short_description, metadata} = articles.data[0].attributes
+  const { tutorials }: {tutorials: {data: Tutorial[]} } = await QueryOneTutorial('en', `${params.slug}`)
+  const recomended_tutorials = await fetchingRelatedTutorials(tutorials.data)
+  const {title, cover, author, publishedAt, content, short_description, metadata} = tutorials.data[0].attributes
 
   return (
     <Suspense key={params.slug}>
@@ -82,23 +82,38 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </div>
         {
           recomended_tutorials.length >= 1 &&
-        <div className="flex flex-col items-center gap-4 md:mt-[-3rem] mt-12">
-          <p className="font-bold text-lg text-[#fd9500] pl-3 ">Related tutorials</p>
+        <div className="flex flex-col items-center gap-4 md:mt-[-3rem] mt-12 max-w-md">
+          <img src="https://assettohosting.com/_next/image?url=https%3A%2F%2Fstrapi.assettohosting.com%2Fuploads%2Flogo_2228c8bbfb.png&w=750&q=100" alt="" />
+          <p className="font-bold text-xl text-[#fd9500] pl-3 italic">Related tutorials</p>
           <div className="flex flex-wrap justify-center gap-3">
 
           {
             recomended_tutorials.map(el => (
-              <div key={el.attributes.slug}>
+                <div key={el.id} className='h-[15rem] bg-[#292929] rounded-md flex flex-col text-white w-52'>
+                 <Link href={includeLocaleLink(`/${el.attributes.slug}`)} className="group relative flex h-48 flex-col overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-64 xl:h-96">
+       
+              <NextImage
+                className='absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110'
+                imgClassName='w-full h-full object-cover object-center rounded-lg'
+                useSkeleton
+                width={el.attributes.thumbnail.data.attributes.width}
+                height={el.attributes.thumbnail.data.attributes.height}
+                src={MediaUrl(el.attributes.thumbnail.data.attributes.url)}
+                alt={el.attributes.thumbnail.data.attributes.alternativeText ?? ''}
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 to-transparent"></div>
 
-              <Link href={`/${el.attributes.slug}`} key={el.attributes.slug} className="h-full max-h-[15rem] bg-[#292929] rounded-md flex flex-col text-white w-full max-w-[16rem] p-2">
-                  <div className='min-w-min'>
-                          <img src={`https://strapi.assettohosting.com/${el.attributes.thumbnail.data.attributes.url}`} className='w-full min-w-[12rem] h-full overflow-hidden object-cover rounded-tl-md rounded-bl-md' alt="Image from assetto"/>
-                  </div>
-                  <div className='p-4 flex flex-col justify-between'>
-                    <p className='text-lg font-bold text-[#fd9500]'>{el.attributes.title}</p>
-                  </div>
-                </Link>
+              <div className="relative mt-auto p-4">
+                {/* <span className="block text-sm text-gray-200">
+                  <time dateTime={el.attributes.publishedAt}>{format(parseISO(el.attributes.publishedAt ?? '1970-01-01'), 'dd/MM/yyyy')}</time>
+                  </span> */}
+                <h2 className="mb-2 text-xl font-semibold text-white transition duration-100">{ el.attributes.title.length > 50 ? el.attributes.title.substring(0, 50) + '...' : el.attributes.title}</h2>
+
+                <span className="font-semibold text-indigo-300">Read more</span>
               </div>
+            </Link>
+           
+          </div>
             ))
           }
           </div>

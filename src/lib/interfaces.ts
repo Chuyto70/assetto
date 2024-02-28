@@ -97,6 +97,30 @@ export interface Article {
   }
 }
 
+export interface Tutorial {
+  id: number;
+  attributes: {
+    title: string;
+    slug: string;
+    short_description: string;
+    thumbnail: {
+      data: UploadFile
+    };
+    cover: {
+      data?: UploadFile
+    };
+    content: string;
+    author: string;
+    metadata: SeoMetadata;
+    locale: string;
+    tags: string;
+    updatedAt?: string;
+    publishedAt?: string;
+    localizations?: {
+      data: Localizations[];
+    };
+  }
+}
 export interface Setting {
   attributes: {
     favicons: {

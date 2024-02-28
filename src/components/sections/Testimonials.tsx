@@ -5,7 +5,7 @@ import { gql, QueryContentComponent } from "@/lib/graphql";
 import ElfsightWrapper from "@/components/elements/ElfsightWrapper";
 
 import { useServer } from "@/store/serverStore";
-import Tutorials from "./Tutorials";
+
 
 const ComponentSectionsTestimonials = gql`
   fragment sectionTestimonials on ComponentSectionsTestimonials {
@@ -35,7 +35,6 @@ const Testimonials = async (props: { pageID: number; index: number; pageType: st
 
   return (
     <>
-    <Tutorials />
     <section suppressHydrationWarning className="w-full px-3 md:px-6 lg:px-12 max-w-screen-2xl flex flex-col items-center gap-6 md:gap-12">
       {title && <h2 className="italic text-center">{title}</h2>}
       <div className="no-eflsight-title eflsight-fix">

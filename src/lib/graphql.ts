@@ -13,6 +13,7 @@ import {
   QueryMetaProps,
   Redirection,
   Setting,
+  Tutorial,
   UploadFile,
 } from '@/lib/interfaces';
 
@@ -814,11 +815,9 @@ export const QueryLatestArticle = async (locale: string, page: number, pageSize:
 };
 
 export const QueryLatestTutorials = async (locale: string, prefix?: string | undefined, page?: number | undefined, pageSize?: number | undefined ) => {
-  const joinedSlug = prefix ? `${prefix}` : 'tutorial';
 
   const queryVariables = {
     locale: locale,
-    joinedSlug: joinedSlug,
     page: page ? page : 1,
     pageSize: pageSize ? pageSize : 6
   };
@@ -828,13 +827,12 @@ export const QueryLatestTutorials = async (locale: string, prefix?: string | und
   fetch(url as URL,{ ...options, next: { tags: ['media'] } });
 
   const response = await StrapiClient.request<{
-    articles: { data: Article[], meta: QueryMetaProps };
+    tutorials: { data: Tutorial[], meta: QueryMetaProps };
   }>(
     // $joinedSlug: String! AGREGAR ESTO
   gql`
-      query latestArticles($locale: I18NLocaleCode!, , $page: Int!, $pageSize: Int!, $joinedSlug: String!) {
-        articles(
-          filters: { slug: { contains: $joinedSlug } }
+      query latestTutorials($locale: I18NLocaleCode!, , $page: Int!, $pageSize: Int!, ) {
+        tutorials(
           locale: $locale
           publicationState: LIVE
           pagination: { page: $page, pageSize: $pageSize }
@@ -860,7 +858,22 @@ export const QueryLatestTutorials = async (locale: string, prefix?: string | und
                   }
                 }
               }
+              cover {
+                data {
+                  id
+                  attributes {
+                    name
+                    alternativeText
+                    caption
+                    width
+                    height
+                    url
+                    mime
+                  }
+                }
+              }
               author
+              tags
               publishedAt
             }
           }
@@ -880,11 +893,9 @@ export const QueryLatestTutorials = async (locale: string, prefix?: string | und
 };
 
 export const QueryByTagsTutorials = async (locale: string, tag?: string) => {
-  const joinedSlug = 'tutorial';
 
   const queryVariables = {
     locale: locale,
-    joinedSlug: joinedSlug,
     tag: tag
   };
 
@@ -893,12 +904,12 @@ export const QueryByTagsTutorials = async (locale: string, tag?: string) => {
   fetch(url as URL,{ ...options, next: { tags: ['media'] } });
 
   const response = await StrapiClient.request<{
-    articles: { data: Article[], meta: QueryMetaProps };
+    tutorials: { data: Tutorial[] };
   }>(
   gql`
-      query latestArticles($locale: I18NLocaleCode!, $joinedSlug: String!, $tag: String!) {
-        articles(
-          filters: { slug: { contains: $joinedSlug },  short_description: { contains: $tag } }
+      query latestArticles($locale: I18NLocaleCode!, $tag: String!) {
+        tutorials(
+          filters: { tags: { contains: $tag } }
           locale: $locale
           publicationState: LIVE
 
@@ -944,12 +955,11 @@ export const QueryByTagsTutorials = async (locale: string, tag?: string) => {
 
 
 
-export const QueryOneTutorial = async (locale: string, prefix?: string | undefined) => {
-  const joinedSlug = prefix ? `${prefix}` : 'tutorial';
+export const QueryOneTutorial = async (locale: string, slug: string) => {
 
   const queryVariables = {
     locale: locale,
-    joinedSlug: joinedSlug,
+    slug:`tutorial/${slug}`,
   };
 
   //Add revalidate Tags to next.js fetch
@@ -957,12 +967,12 @@ export const QueryOneTutorial = async (locale: string, prefix?: string | undefin
   fetch(url as URL,{ ...options, next: { tags: ['media'] } });
 
   const response = await StrapiClient.request<{
-    articles: { data: Article[], meta: QueryMetaProps };
+    tutorials: { data: Tutorial[] };
   }>(
   gql`
-      query latestArticles($locale: I18NLocaleCode!, $joinedSlug: String!) {
-        articles(
-          filters: { slug: { contains: $joinedSlug } }
+      query latestTutorial($locale: I18NLocaleCode!, $slug: String!) {
+        tutorials(
+          filters: { slug: { eq: $slug } }
           locale: $locale
           publicationState: LIVE
           sort: "createdAt:desc"
@@ -971,20 +981,10 @@ export const QueryOneTutorial = async (locale: string, prefix?: string | undefin
             id
             attributes {
               title
-              slug
-              short_description
-              cover {
-                data {
-                  id
-                  attributes {
-                    url
-                    width
-                    height
-                  }
-                }
-              }
-              thumbnail {
-                data {
+            slug
+            short_description
+            thumbnail {
+              data {
                   id
                   attributes {
                     name
@@ -995,14 +995,31 @@ export const QueryOneTutorial = async (locale: string, prefix?: string | undefin
                     url
                     mime
                   }
-                }
-              }
-              metadata {
-                meta_description
-              }
-              author
-              publishedAt
-              content
+               }
+            }
+            cover {
+              data {
+                  id
+                  attributes {
+                    name
+                    alternativeText
+                    caption
+                    width
+                    height
+                    url
+                    mime
+                  }
+               }
+            }
+            content
+            author
+            metadata {
+              meta_description
+            }
+            locale
+            tags
+            updatedAt
+            publishedAt
             }
           }
           meta {

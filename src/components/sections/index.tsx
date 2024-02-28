@@ -9,6 +9,7 @@ import Display from "@/components/sections/Display";
 import Faq from "@/components/sections/Faq";
 import GameRequest from "@/components/sections/GameRequest";
 import LatestArticles from "@/components/sections/LatestArticles";
+import LatestTutorials from "@/components/sections/LatestTutorials";
 import MapSection from "@/components/sections/MapSection";
 import MdxBlock from "@/components/sections/MdxBlock";
 import MediaCarousel from "@/components/sections/MediaCarousel";
@@ -17,6 +18,7 @@ import MediaGridAlt from "@/components/sections/MediaGridAlt";
 import Preview from "@/components/sections/Preview";
 import Services from "@/components/sections/Services";
 import Testimonials from "@/components/sections/Testimonials";
+import Tutorials from "@/components/sections/Tutorials";
 import TypedTitle from "@/components/sections/TypedTitle";
 
 export type sectionTypeProps = {
@@ -43,8 +45,9 @@ const sectionComponents = {
   ComponentSectionsPreview: Preview,
   ComponentSectionsBenefits: Benefits,
   ComponentSectionsDisplay: Display,
+  ComponentSectionsTutorials: Tutorials,
   ComponentSectionsTestimonials: Testimonials,
-
+  ComponentSectionsLatestTutorials: LatestTutorials,
   // Elements
   ComponentElementsLink: SectionLink,
 };
@@ -56,6 +59,7 @@ const Section = (props: {
   index: number;
   pageID: number;
 }) => {
+
   // Prepare the component
   const SectionComponent = sectionComponents[props.sectionType.__typename];
 
