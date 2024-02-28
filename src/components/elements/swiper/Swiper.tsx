@@ -13,6 +13,8 @@ import './style.css'
 import { includeLocaleLink,MediaUrl } from '@/lib/helper';
 import { Tutorial } from '@/lib/interfaces';
 
+import NextImage from '@/components/NextImage';
+
 import {
   NextButton,
   PrevButton,
@@ -46,7 +48,20 @@ const SwiperElement = ( props : tutorials) => {
         <div className="embla__container gap-3">
           {props.articles.data.map((element) => (
             <Link href={includeLocaleLink(element.attributes.slug)} key={element.attributes.slug} className="flex-shrink-0 basis-4/4 sm:basis-2/4 lg:basis-1/4  w-[250px] bg-white shadow-lg rounded-lg">
-              <img
+              <NextImage
+              className='h-36 w-full object-cover rounded-t-lg'
+              imgClassName='h-36 w-full object-cover rounded-t-lg'
+              useSkeleton
+              width="250"
+              height="150"
+              src={MediaUrl(element.attributes.thumbnail.data.attributes.url)}
+              alt={element.attributes.thumbnail.data.attributes.alternativeText ?? ''}
+              style={{
+                  aspectRatio: "250/150",
+                  objectFit: "cover",
+                }}
+            />
+              {/* <img
                 alt="Tutorial thumbnail"
                 className="h-36 w-full object-cover rounded-t-lg"
                 height="150"
@@ -56,7 +71,7 @@ const SwiperElement = ( props : tutorials) => {
                   objectFit: "cover",
                 }}
                 width="250"
-              />
+              /> */}
               <div className='p-4 bg-[#292929] text-white'>
                 <h3 className="text-xl font-bold mb-1">{element.attributes.title.length > 25 ? element.attributes.title.substring(0, 23) + '...' : element.attributes.title}</h3>
                 <p className="text-gray-300 text-sm mb-4">

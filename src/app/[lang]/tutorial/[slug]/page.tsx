@@ -89,7 +89,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
           {
             recomended_tutorials.map(el => (
-                <div key={el.id} className='h-[15rem] bg-[#292929] rounded-md flex flex-col text-white w-52'>
+                <div key={el.id} className='h-44 bg-[#292929] rounded-md flex flex-col text-white w-48'>
                  <Link href={includeLocaleLink(`/${el.attributes.slug}`)} className="group relative flex h-48 flex-col overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-64 xl:h-96">
        
               <NextImage
